@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NYj-ah-caq">
+                                <rect key="frame" x="0.0" y="175" width="414" height="687"/>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qDM-I4-a1C">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="175"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZZ-F8-1la">
+                                        <rect key="frame" x="16" y="70" width="382" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="27"/>
+                                        <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="九州行" image="down-arrow12x">
+                                            <color key="titleColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                        </state>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XLa-nT-ELX" customClass="ScrollSelectionView" customModule="ShareTogether" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="113" width="382" height="56"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="56" id="3bv-SS-l11"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="175" id="8OW-aY-yEw"/>
+                                    <constraint firstItem="XLa-nT-ELX" firstAttribute="leading" secondItem="qDM-I4-a1C" secondAttribute="leading" constant="16" id="8uo-yo-1Pp"/>
+                                    <constraint firstItem="FZZ-F8-1la" firstAttribute="leading" secondItem="qDM-I4-a1C" secondAttribute="leading" constant="16" id="QXD-PP-rtz"/>
+                                    <constraint firstAttribute="trailing" secondItem="XLa-nT-ELX" secondAttribute="trailing" constant="16" id="TRe-QR-gYX"/>
+                                    <constraint firstItem="XLa-nT-ELX" firstAttribute="top" secondItem="FZZ-F8-1la" secondAttribute="bottom" constant="10" id="hXv-Fd-FAr"/>
+                                    <constraint firstItem="FZZ-F8-1la" firstAttribute="top" secondItem="qDM-I4-a1C" secondAttribute="top" constant="70" id="jaE-F3-qrD"/>
+                                    <constraint firstAttribute="trailing" secondItem="FZZ-F8-1la" secondAttribute="trailing" constant="16" id="lCB-e9-jBa"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="qDM-I4-a1C" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="2Ux-CU-h8Y"/>
+                            <constraint firstItem="qDM-I4-a1C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Acc-lQ-wrH"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qDM-I4-a1C" secondAttribute="trailing" id="Dsb-Yf-xDJ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NYj-ah-caq" secondAttribute="trailing" id="GfE-D6-de3"/>
+                            <constraint firstItem="NYj-ah-caq" firstAttribute="top" secondItem="qDM-I4-a1C" secondAttribute="bottom" id="NBb-eu-zmN"/>
+                            <constraint firstItem="NYj-ah-caq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="YnT-La-g3f"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="NYj-ah-caq" secondAttribute="bottom" id="qfu-9O-sLt"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="bannerView" destination="qDM-I4-a1C" id="njv-oq-T9y"/>
+                        <outlet property="infoContainer" destination="NYj-ah-caq" id="Mg7-Q4-AzI"/>
+                        <outlet property="infoTypeSelectionView" destination="XLa-nT-ELX" id="HO3-w7-GjB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="down-arrow12x" width="12" height="12"/>
+    </resources>
+</document>

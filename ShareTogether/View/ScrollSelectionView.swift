@@ -9,8 +9,15 @@
 import UIKit
 
 protocol ScrollSelectionViewDataSource: AnyObject {
-    func numberOfItems(infinitiScrollSelectionView: ScrollSelectionView) -> Int
-    func titleForItem(infinitiScrollSelectionView: ScrollSelectionView, index: Int) -> String
+    func numberOfItems(scrollSelectionView: ScrollSelectionView) -> Int
+    func titleForItem(scrollSelectionView: ScrollSelectionView, index: Int) -> String
+    func titleFontForItem(scrollSelectionView: ScrollSelectionView) -> UIFont
+}
+
+extension ScrollSelectionViewDataSource {
+    func titleFontForItem(scrollSelectionView: ScrollSelectionView) -> UIFont {
+        return .systemFont(ofSize: 15)
+    }
 }
 
 @objc protocol ScrollSelectionViewDelegate {
@@ -53,21 +60,9 @@ class ScrollSelectionView: UIView {
     
     var buttons = [UIButton]()
     
-    var currentSelect: (index: Int, button: UIButton)?
+    var selectIndex = 0
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        setupUI()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupUI()
-        //fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupUI() {
+    private func setupBase() {
         
         self.addSubview(scrollView)
         scrollView.addSubview(stackView)
@@ -86,40 +81,34 @@ class ScrollSelectionView: UIView {
 
     }
     
-    func setupItem() {
+    private func setupItem() {
         guard let dataSource = dataSource else { return }
         
-        for index in 0..<dataSource.numberOfItems(infinitiScrollSelectionView: self) {
+        for index in 0..<dataSource.numberOfItems(scrollSelectionView: self) {
             let button = UIButton()
             button.translatesAutoresizingMaskIntoConstraints = false
-            let string = dataSource.titleForItem(infinitiScrollSelectionView: self, index: index)
-            button.widthAnchor.constraint(equalToConstant: getSizeFromString(string: string).width + 20).isActive = true
+            let string = dataSource.titleForItem(scrollSelectionView: self, index: index)
+            button.widthAnchor.constraint(equalToConstant: string.getSizeFromString().width + 10).isActive = true
             button.setTitle(string, for: .normal)
             button.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
+            button.titleLabel?.font = dataSource.titleFontForItem(scrollSelectionView: self)
             button.tag = index
             buttons.append(button)
-            
-            if index == 0 {
-                currentSelect = (index: index, button: button)
-            }
             
             stackView.addArrangedSubview(button)
         }
     }
     
-    func getSizeFromString(string: String, withFont font: UIFont = .systemFont(ofSize: 15)) -> CGSize {
-        let textSize = NSString(string: string).size(withAttributes: [NSAttributedString.Key.font: font])
-        return textSize
-    }
-    
-    func updateSelectedItem(button: UIButton) {
-        indicator.center.x = button.center.x
-    }
-    
-    @objc func tapButton(_ button: UIButton) {
+    @objc private func tapButton(_ button: UIButton) {
         
+        selectIndex = button.tag
         delegate?.scrollSelectionView(scrollSelectionView: self, didSelectIndexAt: button.tag)
+        switchIndicatorAt(index: button.tag)
         
+    }
+    
+    func switchIndicatorAt(index: Int) {
+        selectIndex = index
         UIView.animate(withDuration: 0.5) { [weak self] in
             
             guard let strongSelf = self else { return }
@@ -128,9 +117,21 @@ class ScrollSelectionView: UIView {
                 button.setTitleColor(.STGray, for: .normal)
             }
             
-            self?.updateSelectedItem(button: button)
-            button.setTitleColor(.STBlack, for: .normal)
+            strongSelf.buttons[index].setTitleColor(.STBlack, for: .normal)
+            strongSelf.indicator.center.x = strongSelf.buttons[index].center.x
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupBase()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupBase()
+        //fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
@@ -140,12 +141,10 @@ class ScrollSelectionView: UIView {
         
         scrollView.layoutIfNeeded()
         
-        guard let currentSelect = currentSelect else { return }
-        
         indicator.frame = CGRect(x: 0, y: scrollView.center.y + 18, width: dotSize, height: dotSize)
         scrollView.addSubview(indicator)
         
-        tapButton(currentSelect.button)
+        switchIndicatorAt(index: buttons[selectIndex].tag)
     }
     
 }

@@ -1,5 +1,5 @@
 //
-//  ExpenseRecodeTableViewCell.swift
+//  ExpenseTableViewCell.swift
 //  ShareTogether
 //
 //  Created by littlema on 2019/8/28.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-class ExpenseRecodeTableViewCell: UITableViewCell {
+class ExpenseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var insetContentView: UIView! {
         didSet {
             insetContentView.layer.cornerRadius = 10
-            insetContentView.layer.shadowOpacity = 0.8
-            insetContentView.layer.shadowRadius = 5
-            insetContentView.layer.shadowOffset = .zero
-            insetContentView.layer.shadowColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).cgColor
+//            insetContentView.layer.shadowOpacity = 0.8
+//            insetContentView.layer.shadowRadius = 5
+//            insetContentView.layer.shadowOffset = .zero
+//            insetContentView.layer.shadowColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).cgColor
         }
     }
 

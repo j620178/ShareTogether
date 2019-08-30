@@ -9,14 +9,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShareTogether/Controller/MainViewController.swift"
-            timestampString = "588692106.585489"
+            filePath = "ShareTogether/View/ScrollSelectionView.swift"
+            timestampString = "588843752.745963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
-            landmarkName = "scrollSelectionView(scrollSelectionView:didSelectIndexAt:)"
-            landmarkType = "7">
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "ScrollSelectionView"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

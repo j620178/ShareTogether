@@ -7,10 +7,9 @@
 //
 
 import Foundation
+import UIKit
 
-class ExpenseRecodeViewModel {
-    let itemsString = ["交易紀錄", "金額統計", "結算結果", "地圖", "活動紀錄"]
-    
+class ExpenseRecodeViewModel: NSObject {    
     private var expenseRecodes = [ExpenseRecode]()
     
     private var cellViewModels: [ExpenseRecodeCellViewModel] = [ExpenseRecodeCellViewModel]() {
@@ -49,6 +48,46 @@ class ExpenseRecodeViewModel {
         }
         self.cellViewModels = vms
     }
+
+}
+
+extension ExpenseRecodeViewModel: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 0 ? "今天" : "8月27日"
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return section == 0 ? 5 : 7
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseTableViewCell.identifer, for: indexPath)
+        
+        guard let recodeCell = cell as? ExpenseTableViewCell else { return cell }
+        return recodeCell
+    }
+    
+}
+
+extension ExpenseRecodeViewModel: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as? UITableViewHeaderFooterView
+        header?.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+        UIView.animate(withDuration: 0.5) {
+            cell.alpha = 1
+        }
+    }
+    
 }
 
 struct ExpenseRecodeCellViewModel {

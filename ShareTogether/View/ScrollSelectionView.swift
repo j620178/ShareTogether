@@ -21,7 +21,7 @@ extension ScrollSelectionViewDataSource {
 }
 
 @objc protocol ScrollSelectionViewDelegate {
-    @objc func scrollSelectionView(
+    @objc optional func scrollSelectionView(
         scrollSelectionView: ScrollSelectionView,
         didSelectIndexAt index: Int)
 }
@@ -97,12 +97,17 @@ class ScrollSelectionView: UIView {
             
             stackView.addArrangedSubview(button)
         }
+        
+        scrollView.addSubview(indicator)
+        indicator.layer.cornerRadius = dotSize / 2
+        indicator.frame = CGRect(x: 0, y: self.frame.height - dotSize, width: dotSize, height: dotSize)
+       
     }
     
     @objc private func tapButton(_ button: UIButton) {
         
         selectIndex = button.tag
-        delegate?.scrollSelectionView(scrollSelectionView: self, didSelectIndexAt: button.tag)
+        delegate?.scrollSelectionView?(scrollSelectionView: self, didSelectIndexAt: button.tag)
         switchIndicatorAt(index: button.tag)
         
     }
@@ -137,12 +142,7 @@ class ScrollSelectionView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        indicator.layer.cornerRadius = dotSize / 2
-        
         scrollView.layoutIfNeeded()
-        
-        indicator.frame = CGRect(x: 0, y: scrollView.center.y + 18, width: dotSize, height: dotSize)
-        scrollView.addSubview(indicator)
         
         switchIndicatorAt(index: buttons[selectIndex].tag)
     }

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Add Expense View Controller-->
+        <scene sceneID="WQk-IJ-xn4">
+            <objects>
+                <viewController storyboardIdentifier="AddExpenseViewController" id="Yx9-0r-fCF" customClass="AddExpenseViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yuv-rT-0Ps">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SBQ-NT-Q19">
+                                <rect key="frame" x="16" y="60" width="382" height="448"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="請輸入消費金額" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qZy-2W-Zrp">
+                                        <rect key="frame" x="16" y="84.5" width="350" height="60"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="uTy-OH-fda"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="請輸入消費說明" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SuD-iW-Drg">
+                                        <rect key="frame" x="16" y="164.5" width="350" height="60"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="UmZ-zP-Iac"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新增消費" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hX7-qe-G36">
+                                        <rect key="frame" x="16" y="16" width="350" height="38.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="32"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOP-js-ohV">
+                                        <rect key="frame" x="16" y="387" width="100" height="45"/>
+                                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="YFI-mR-Vrj"/>
+                                            <constraint firstAttribute="height" constant="45" id="hhp-cj-FQ0"/>
+                                        </constraints>
+                                        <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="15" maxY="10"/>
+                                        <state key="normal" title="取消" image="search">
+                                            <color key="titleColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="clickCancelButton:" destination="Yx9-0r-fCF" eventType="touchUpInside" id="aLB-I5-ukB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="maj-8H-pxQ">
+                                        <rect key="frame" x="246" y="387" width="120" height="45"/>
+                                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="L1W-Ei-Cio"/>
+                                            <constraint firstAttribute="width" constant="120" id="WAw-GN-iov"/>
+                                        </constraints>
+                                        <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="15" maxY="10"/>
+                                        <state key="normal" title="Button" image="plus">
+                                            <color key="titleColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="hX7-qe-G36" firstAttribute="top" secondItem="SBQ-NT-Q19" secondAttribute="top" constant="16" id="0v3-Ev-5d9"/>
+                                    <constraint firstAttribute="bottom" secondItem="maj-8H-pxQ" secondAttribute="bottom" constant="16" id="4d3-jK-vAr"/>
+                                    <constraint firstAttribute="trailing" secondItem="hX7-qe-G36" secondAttribute="trailing" constant="16" id="8ed-D2-q3P"/>
+                                    <constraint firstItem="hX7-qe-G36" firstAttribute="leading" secondItem="SBQ-NT-Q19" secondAttribute="leading" constant="16" id="9AF-QH-ASV"/>
+                                    <constraint firstItem="dOP-js-ohV" firstAttribute="leading" secondItem="SBQ-NT-Q19" secondAttribute="leading" constant="16" id="DuO-K1-mUh"/>
+                                    <constraint firstItem="SuD-iW-Drg" firstAttribute="leading" secondItem="SBQ-NT-Q19" secondAttribute="leading" constant="16" id="RKf-HA-978"/>
+                                    <constraint firstAttribute="bottom" secondItem="dOP-js-ohV" secondAttribute="bottom" constant="16" id="ZQF-jz-a3V"/>
+                                    <constraint firstAttribute="trailing" secondItem="SuD-iW-Drg" secondAttribute="trailing" constant="16" id="br6-1W-5Fq"/>
+                                    <constraint firstAttribute="trailing" secondItem="qZy-2W-Zrp" secondAttribute="trailing" constant="16" id="ewx-pI-ys7"/>
+                                    <constraint firstAttribute="trailing" secondItem="maj-8H-pxQ" secondAttribute="trailing" constant="16" id="fTM-SK-shA"/>
+                                    <constraint firstItem="SuD-iW-Drg" firstAttribute="top" secondItem="qZy-2W-Zrp" secondAttribute="bottom" constant="20" id="iMZ-eQ-s9h"/>
+                                    <constraint firstItem="qZy-2W-Zrp" firstAttribute="top" secondItem="hX7-qe-G36" secondAttribute="bottom" constant="30" id="x5c-CY-9aE"/>
+                                    <constraint firstItem="qZy-2W-Zrp" firstAttribute="leading" secondItem="SBQ-NT-Q19" secondAttribute="leading" constant="16" id="xcK-aK-vw1"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="SBQ-NT-Q19" firstAttribute="leading" secondItem="7mv-nd-5Qb" secondAttribute="leading" constant="16" id="1OJ-jH-StI"/>
+                            <constraint firstItem="SBQ-NT-Q19" firstAttribute="height" secondItem="yuv-rT-0Ps" secondAttribute="height" multiplier="1:2" id="SCn-a8-USj"/>
+                            <constraint firstItem="7mv-nd-5Qb" firstAttribute="trailing" secondItem="SBQ-NT-Q19" secondAttribute="trailing" constant="16" id="dc6-ry-93f"/>
+                            <constraint firstItem="SBQ-NT-Q19" firstAttribute="top" secondItem="7mv-nd-5Qb" secondAttribute="top" constant="16" id="giz-m2-cYX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="7mv-nd-5Qb"/>
+                    </view>
+                    <connections>
+                        <outlet property="addExpense" destination="maj-8H-pxQ" id="NKw-lj-FRJ"/>
+                        <outlet property="amountTextfield" destination="qZy-2W-Zrp" id="PhK-eD-o30"/>
+                        <outlet property="cancelButton" destination="dOP-js-ohV" id="JUK-PZ-rEx"/>
+                        <outlet property="containerView" destination="SBQ-NT-Q19" id="c1a-Vi-2xJ"/>
+                        <outlet property="descTextfield" destination="SuD-iW-Drg" id="juE-J3-TLn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UJH-xm-Rlq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-109" y="-53"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="plus" width="30" height="30"/>
+        <image name="search" width="30" height="30"/>
+    </resources>
+</document>

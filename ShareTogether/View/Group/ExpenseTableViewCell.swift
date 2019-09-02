@@ -12,7 +12,7 @@ class ExpenseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var insetContentView: UIView! {
         didSet {
-            insetContentView.layer.cornerRadius = 10
+            //insetContentView.layer.cornerRadius = 10
 //            insetContentView.layer.shadowOpacity = 0.8
 //            insetContentView.layer.shadowRadius = 5
 //            insetContentView.layer.shadowOffset = .zero

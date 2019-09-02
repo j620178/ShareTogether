@@ -11,6 +11,7 @@
 		743D0C012318D466006DB3CA /* AddExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743D0C002318D466006DB3CA /* AddExpenseViewController.swift */; };
 		744BBFA52315FF0500434D7A /* ScrollSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744BBFA42315FF0500434D7A /* ScrollSelectionView.swift */; };
 		744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744BBFA723162B1900434D7A /* UIColor+Extension.swift */; };
+		74525B0C231C9B2500670D6E /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */; };
 		745CACBF231670290055A60C /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACBD231670290055A60C /* ExpenseTableViewCell.swift */; };
 		745CACC0231670290055A60C /* ExpenseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 745CACBE231670290055A60C /* ExpenseTableViewCell.xib */; };
 		745CACC2231672810055A60C /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC1231672810055A60C /* UITableView+Extension.swift */; };
@@ -26,6 +27,11 @@
 		745CACDB2317C82A0055A60C /* ActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACD92317C82A0055A60C /* ActiveTableViewCell.swift */; };
 		745CACDC2317C82A0055A60C /* ActiveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 745CACDA2317C82A0055A60C /* ActiveTableViewCell.xib */; };
 		745CACDE2317C9D60055A60C /* ActiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACDD2317C9D60055A60C /* ActiveViewModel.swift */; };
+		748701BE231C926600D5437E /* Group.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748701BD231C926600D5437E /* Group.storyboard */; };
+		748701C1231C92DB00D5437E /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748701C0231C92DB00D5437E /* GroupViewController.swift */; };
+		748701C4231C97D900D5437E /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748701C3231C97D900D5437E /* GroupCollectionViewCell.swift */; };
+		748A84F62319216B00EE00A0 /* Expense.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748A84F52319216B00EE00A0 /* Expense.storyboard */; };
+		748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */; };
 		749206792317DDA10049357B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749206782317DDA10049357B /* SearchViewController.swift */; };
 		74960EA323150834006BF12C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74960EA223150834006BF12C /* AppDelegate.swift */; };
 		74960EA523150834006BF12C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74960EA423150834006BF12C /* MainViewController.swift */; };
@@ -42,6 +48,7 @@
 		743D0C002318D466006DB3CA /* AddExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseViewController.swift; sourceTree = "<group>"; };
 		744BBFA42315FF0500434D7A /* ScrollSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSelectionView.swift; sourceTree = "<group>"; };
 		744BBFA723162B1900434D7A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		745CACBD231670290055A60C /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 		745CACBE231670290055A60C /* ExpenseTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpenseTableViewCell.xib; sourceTree = "<group>"; };
 		745CACC1231672810055A60C /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
@@ -57,6 +64,11 @@
 		745CACD92317C82A0055A60C /* ActiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTableViewCell.swift; sourceTree = "<group>"; };
 		745CACDA2317C82A0055A60C /* ActiveTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActiveTableViewCell.xib; sourceTree = "<group>"; };
 		745CACDD2317C9D60055A60C /* ActiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveViewModel.swift; sourceTree = "<group>"; };
+		748701BD231C926600D5437E /* Group.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Group.storyboard; sourceTree = "<group>"; };
+		748701C0231C92DB00D5437E /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
+		748701C3231C97D900D5437E /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
+		748A84F52319216B00EE00A0 /* Expense.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Expense.storyboard; sourceTree = "<group>"; };
+		748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		749206782317DDA10049357B /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		74960E9F23150834006BF12C /* ShareTogether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareTogether.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74960EA223150834006BF12C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +106,7 @@
 			children = (
 				744BBFA12315F7A000434D7A /* Controller */,
 				744BBFA42315FF0500434D7A /* ScrollSelectionView.swift */,
+				748701C3231C97D900D5437E /* GroupCollectionViewCell.swift */,
 				743D0BFE2318CCA7006DB3CA /* STTabView.swift */,
 				745CACCB2317B3830055A60C /* Group */,
 			);
@@ -106,6 +119,7 @@
 				749206782317DDA10049357B /* SearchViewController.swift */,
 				743D0C002318D466006DB3CA /* AddExpenseViewController.swift */,
 				74960EA423150834006BF12C /* MainViewController.swift */,
+				748701C0231C92DB00D5437E /* GroupViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -115,6 +129,8 @@
 			children = (
 				744BBFA723162B1900434D7A /* UIColor+Extension.swift */,
 				745CACC1231672810055A60C /* UITableView+Extension.swift */,
+				74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */,
+				748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */,
 				745CACC9231784DF0055A60C /* String+Extension.swift */,
 			);
 			path = Extension;
@@ -181,6 +197,8 @@
 				744BBFA623162ADB00434D7A /* Extension */,
 				744BBF9E2315F73100434D7A /* View */,
 				74960EA623150834006BF12C /* Main.storyboard */,
+				748701BD231C926600D5437E /* Group.storyboard */,
+				748A84F52319216B00EE00A0 /* Expense.storyboard */,
 				74960EA923150838006BF12C /* Assets.xcassets */,
 				74960EAB23150838006BF12C /* LaunchScreen.storyboard */,
 				74960EAE23150838006BF12C /* Info.plist */,
@@ -257,10 +275,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				745CACC0231670290055A60C /* ExpenseTableViewCell.xib in Resources */,
+				748A84F62319216B00EE00A0 /* Expense.storyboard in Resources */,
 				74960EAD23150838006BF12C /* LaunchScreen.storyboard in Resources */,
 				745CACD52317C2AB0055A60C /* ResultTableViewCell.xib in Resources */,
 				74960EAA23150838006BF12C /* Assets.xcassets in Resources */,
 				74960EA823150834006BF12C /* Main.storyboard in Resources */,
+				748701BE231C926600D5437E /* Group.storyboard in Resources */,
 				745CACCF2317B42D0055A60C /* StatisticsTableViewCell.xib in Resources */,
 				745CACDC2317C82A0055A60C /* ActiveTableViewCell.xib in Resources */,
 			);
@@ -319,6 +339,7 @@
 				745CACDB2317C82A0055A60C /* ActiveTableViewCell.swift in Sources */,
 				745CACC823169FD30055A60C /* ExpenseRecode.swift in Sources */,
 				745CACCA231784DF0055A60C /* String+Extension.swift in Sources */,
+				748701C1231C92DB00D5437E /* GroupViewController.swift in Sources */,
 				743D0BFF2318CCA7006DB3CA /* STTabView.swift in Sources */,
 				74960EA523150834006BF12C /* MainViewController.swift in Sources */,
 				745CACD12317BE630055A60C /* StatisticsViewModel.swift in Sources */,
@@ -326,9 +347,12 @@
 				744BBFA52315FF0500434D7A /* ScrollSelectionView.swift in Sources */,
 				74960EA323150834006BF12C /* AppDelegate.swift in Sources */,
 				745CACC423169E530055A60C /* ExpenseRecodeViewModel.swift in Sources */,
+				74525B0C231C9B2500670D6E /* UICollectionView+Extension.swift in Sources */,
 				749206792317DDA10049357B /* SearchViewController.swift in Sources */,
 				744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */,
 				743D0C012318D466006DB3CA /* AddExpenseViewController.swift in Sources */,
+				748701C4231C97D900D5437E /* GroupCollectionViewCell.swift in Sources */,
+				748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */,
 				745CACD42317C2AB0055A60C /* ResultTableViewCell.swift in Sources */,
 				745CACC2231672810055A60C /* UITableView+Extension.swift in Sources */,
 				745CACDE2317C9D60055A60C /* ActiveViewModel.swift in Sources */,

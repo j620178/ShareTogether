@@ -4,18 +4,22 @@
 //
 //  Created by littlema on 2019/8/30.
 //  Copyright © 2019 littema. All rights reserved.
-//
 
 import UIKit
 
 protocol STTabViewDataSource: AnyObject {
     func numberOfItems(STTabView: STTabView) -> Int
     func imageForItem(STTabView: STTabView, index: Int) -> String
+    func heightOfContent(STTabView: STTabView) -> CGFloat
+}
+
+extension STTabViewDataSource {
+    func heightOfContent(tabView: STTabView) -> Int { return 50 }
 }
 
 @objc protocol STTabViewDelegate: AnyObject {
-    @objc func STTabView(
-        STTabView: STTabView,
+    @objc optional func tabView(
+        tabView: STTabView,
         didSelectIndexAt index: Int)
 }
 
@@ -28,17 +32,18 @@ class STTabView: UIView {
         return stackView
     }()
     
-    weak var dataSource: STTabViewDataSource? {
-        didSet {
-            setupBase()
-        }
-    }
+    weak var dataSource: STTabViewDataSource?
+//        {
+//        didSet {
+//            setupBase()
+//        }
+//    }
+    
+    weak var delegate: STTabViewDelegate?
     
     var buttons = [UIButton]()
     
     var constraint: NSLayoutConstraint?
-    
-    weak var delegate: STTabViewDelegate?
     
     private func setupBase() {
         
@@ -53,16 +58,16 @@ class STTabView: UIView {
         
         self.addSubview(stackView)
         
+        constraint = NSLayoutConstraint(item: layoutMarginsGuide, attribute: .bottom, relatedBy: .equal,
+                                        toItem: stackView, attribute: .bottom, multiplier: 1, constant: 0)
+        
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.heightAnchor.constraint(equalToConstant: 60)
+            stackView.heightAnchor.constraint(equalToConstant: 60),
+            constraint!
         ])
-        
-        constraint = NSLayoutConstraint(item: layoutMarginsGuide, attribute: .bottom, relatedBy: .equal, toItem: stackView, attribute: .bottom, multiplier: 1, constant: -60)
-        
-        self.addConstraint(constraint!)
-        
+    
         setupItem()
     }
     
@@ -75,13 +80,32 @@ class STTabView: UIView {
             let string = "123"
             button.setTitle(string, for: .normal)
             button.setTitleColor(.STBlack, for: .normal)
-            //button.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
             //button.titleLabel?.font = dataSource.titleFontForItem(scrollSelectionView: self)
             button.tag = index
             buttons.append(button)
             
             stackView.addArrangedSubview(button)
         }
+    }
+    
+    func showSelf(duration: TimeInterval, delay: TimeInterval) {
+        constraint?.isActive = false
+        constraint?.constant = -60
+        constraint?.isActive = true
+        superview?.layoutIfNeeded()
+        UIView.animate(withDuration: duration, delay: delay, options: [], animations: { [weak self] in
+            self?.constraint?.isActive = false
+            self?.constraint?.constant = 0
+            self?.constraint?.isActive = true
+            self?.superview?.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    @objc private func tapButton(_ button: UIButton) {
+        
+        delegate?.tabView?(tabView: self, didSelectIndexAt: button.tag)
+        
     }
     
     override init(frame: CGRect) {

@@ -18,49 +18,62 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYj-ah-caq">
-                                <rect key="frame" x="0.0" y="213" width="414" height="649"/>
-                            </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qDM-I4-a1C">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="147"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XLa-nT-ELX" customClass="ScrollSelectionView" customModule="ShareTogether" customModuleProvider="target">
-                                <rect key="frame" x="16" y="147" width="382" height="56"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="161"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZZ-F8-1la">
+                                        <rect key="frame" x="16" y="52" width="382" height="33"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="33" id="FI8-Ue-V7R"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="27"/>
+                                        <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="九州行" image="down-arrow12x">
+                                            <color key="titleColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="clickGroupButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="X1X-4b-MFK"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XLa-nT-ELX" customClass="ScrollSelectionView" customModule="ShareTogether" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="95" width="382" height="56"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="56" id="3bv-SS-l11"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="3bv-SS-l11"/>
+                                    <constraint firstAttribute="trailing" secondItem="XLa-nT-ELX" secondAttribute="trailing" constant="16" id="04m-yD-GyY"/>
+                                    <constraint firstItem="FZZ-F8-1la" firstAttribute="top" secondItem="qDM-I4-a1C" secondAttribute="topMargin" id="5Q3-XK-jBi"/>
+                                    <constraint firstAttribute="trailing" secondItem="FZZ-F8-1la" secondAttribute="trailing" constant="16" id="7w6-7v-hxO"/>
+                                    <constraint firstAttribute="bottom" secondItem="XLa-nT-ELX" secondAttribute="bottom" constant="10" id="Le2-B2-6gr"/>
+                                    <constraint firstItem="XLa-nT-ELX" firstAttribute="leading" secondItem="qDM-I4-a1C" secondAttribute="leading" constant="16" id="Oeq-gQ-orW"/>
+                                    <constraint firstItem="XLa-nT-ELX" firstAttribute="top" secondItem="FZZ-F8-1la" secondAttribute="bottom" constant="10" id="aGn-NX-ZRL"/>
+                                    <constraint firstItem="FZZ-F8-1la" firstAttribute="leading" secondItem="qDM-I4-a1C" secondAttribute="leading" constant="16" id="yRQ-Wg-aNg"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZZ-F8-1la">
-                                <rect key="frame" x="16" y="84" width="382" height="33"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="27"/>
-                                <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="九州行" image="down-arrow12x">
-                                    <color key="titleColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                </state>
-                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYj-ah-caq">
+                                <rect key="frame" x="0.0" y="161" width="414" height="701"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="qDM-I4-a1C" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="2Ux-CU-h8Y"/>
-                            <constraint firstItem="qDM-I4-a1C" firstAttribute="bottom" secondItem="FZZ-F8-1la" secondAttribute="bottom" constant="30" id="3S7-Xi-Bbu"/>
-                            <constraint firstItem="FZZ-F8-1la" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="4Vg-Qa-ZSk"/>
                             <constraint firstItem="qDM-I4-a1C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Acc-lQ-wrH"/>
-                            <constraint firstItem="FZZ-F8-1la" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="Bjm-nO-s9f"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qDM-I4-a1C" secondAttribute="trailing" id="Dsb-Yf-xDJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NYj-ah-caq" secondAttribute="trailing" id="GfE-D6-de3"/>
-                            <constraint firstItem="XLa-nT-ELX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="J2f-Zv-rTZ"/>
-                            <constraint firstItem="XLa-nT-ELX" firstAttribute="top" secondItem="qDM-I4-a1C" secondAttribute="bottom" id="SiT-48-Tbn"/>
+                            <constraint firstItem="NYj-ah-caq" firstAttribute="top" secondItem="qDM-I4-a1C" secondAttribute="bottom" id="Q7d-7J-KIF"/>
                             <constraint firstItem="NYj-ah-caq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="YnT-La-g3f"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="NYj-ah-caq" secondAttribute="bottom" id="qfu-9O-sLt"/>
-                            <constraint firstItem="NYj-ah-caq" firstAttribute="top" secondItem="XLa-nT-ELX" secondAttribute="bottom" constant="10" id="rhk-jk-vzk"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XLa-nT-ELX" secondAttribute="trailing" constant="16" id="u0n-Wr-tIW"/>
-                            <constraint firstAttribute="trailing" secondItem="FZZ-F8-1la" secondAttribute="trailing" constant="16" id="yfc-xy-IbZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="bannerTopConstraint" destination="5Q3-XK-jBi" id="j3I-nZ-DLd"/>
                         <outlet property="bannerView" destination="qDM-I4-a1C" id="njv-oq-T9y"/>
+                        <outlet property="groupNameButton" destination="FZZ-F8-1la" id="HoO-X6-sbu"/>
                         <outlet property="infoContainer" destination="NYj-ah-caq" id="Mg7-Q4-AzI"/>
                         <outlet property="infoTypeSelectionView" destination="XLa-nT-ELX" id="HO3-w7-GjB"/>
                     </connections>

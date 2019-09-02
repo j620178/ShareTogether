@@ -14,7 +14,6 @@ class MainViewController: UIViewController {
         case expense = "交易紀錄"
         case statistics = "金額統計"
         case result = "結算結果"
-        //case map = "交易地圖"
         case active = "活動紀錄"
     }
     
@@ -37,6 +36,10 @@ class MainViewController: UIViewController {
     }()
 
     @IBOutlet weak var bannerView: UIView!
+        
+    @IBOutlet weak var groupNameButton: UIButton!
+    
+    @IBOutlet weak var bannerTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var infoTypeSelectionView: ScrollSelectionView! {
         didSet {
@@ -50,7 +53,14 @@ class MainViewController: UIViewController {
             infoContainer.delegate = self
         }
     }
-
+    
+    @IBAction func clickGroupButton(_ sender: UIButton) {
+        
+        let nextVC = UIStoryboard.group.instantiateViewController(
+            withIdentifier: String(describing: GroupViewController.self))
+        present(nextVC, animated: true, completion: nil)
+    }
+    
     @IBAction func clickTapView(_ sender: UIButton) {
         
         switch sender.tag {
@@ -96,24 +106,18 @@ class MainViewController: UIViewController {
         return tableView
     }()
     
-    let tabView = STTabView()
+    //let tabView = STTabView(frame: .zero)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-        bannerView.layer.cornerRadius = 30.0
-        bannerView.layer.maskedCorners = [CACornerMask.layerMaxXMaxYCorner, CACornerMask.layerMinXMaxYCorner]
-        setupInfoContainerView()
         
-        view.addSubview(tabView)
-        tabView.translatesAutoresizingMaskIntoConstraints = false
-    
-        NSLayoutConstraint.activate([
-            tabView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tabView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tabView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabView.topAnchor.constraint(equalTo: tabView.stackView.topAnchor)
-        ])
+        view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        
+        //bannerView.layer.cornerRadius = 30.0
+        //bannerView.layer.maskedCorners = [CACornerMask.layerMaxXMaxYCorner, CACornerMask.layerMinXMaxYCorner]
+        
+        setupInfoContainerView()
+        //setupTabView()
 
         preparePage(currnetIndex: infoTypeSelectionView.selectIndex)
     }
@@ -121,13 +125,11 @@ class MainViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
  
-        UIView.animate(withDuration: 1.0, delay: 0.5, options: [], animations: { [weak self] in
-            self?.tabView.constraint?.isActive = false
-            self?.tabView.constraint?.constant = 0
-            self?.tabView.constraint?.isActive = true
-            self?.view.layoutIfNeeded()
-        }, completion: nil)
-
+        //tabView.showSelf(duration: 1.0, delay: 0.5)
+    }
+    
+    deinit {
+        print("MVC deinit")
     }
     
     func setupInfoContainerView() {
@@ -145,6 +147,19 @@ class MainViewController: UIViewController {
         
     }
     
+//    func setupTabView() {
+//        view.addSubview(tabView)
+//        tabView.delegate = self
+//        tabView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        NSLayoutConstraint.activate([
+//            tabView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+//            tabView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            tabView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            tabView.topAnchor.constraint(equalTo: tabView.stackView.topAnchor)
+//        ])
+//    }
+    
     func preparePage(currnetIndex: Int) {
         
         if currnetIndex == 0 {
@@ -154,6 +169,12 @@ class MainViewController: UIViewController {
             expenseTableView.delegate = expenseListViewModel
             expenseTableView.separatorStyle = .none
             expenseTableView.backgroundColor = .clear
+            expenseListViewModel.passOffset = { [weak self] offsetY in
+                let offset = min(max(offsetY, 0), 65)
+                self?.groupNameButton.alpha = 1 - (offset / 65)
+                self?.bannerTopConstraint.constant = 0 - offset
+                self?.view.layoutIfNeeded()
+            }
         }
         
         let targetIndex = currnetIndex + 1
@@ -177,16 +198,6 @@ class MainViewController: UIViewController {
             resultTableView.delegate = resultViewModel
             resultTableView.separatorStyle = .none
             resultTableView.backgroundColor = .clear
-//        case .map:
-//            stackView.addArrangedSubview(expenseMapView)
-//            expenseMapView.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
-//            let latDelta = 0.25
-//            let longDelta = 0.25
-//            let currentLocationSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)
-//
-//            let center = CLLocation(latitude: 25.047342, longitude: 121.549285)
-//            let currentRegion = MKCoordinateRegion(center: center.coordinate, span: currentLocationSpan)
-//            expenseMapView.setRegion(currentRegion, animated: true)
         case .active:
             stackView.addArrangedSubview(activeTableView)
             activeTableView.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
@@ -212,7 +223,7 @@ extension MainViewController: UIScrollViewDelegate {
             } else if screenPage < infoTypeSelectionView.selectIndex {
                 infoTypeSelectionView.switchIndicatorAt(index: screenPage)
             }
-        }
+        } 
         
     }
 }
@@ -235,5 +246,13 @@ extension MainViewController: ScrollSelectionViewDelegate {
         if (index + 1) >= stackView.subviews.count {
             preparePage(currnetIndex: index)
         }
+    }
+}
+
+extension MainViewController: STTabViewDelegate {
+    func tabView(tabView: STTabView, didSelectIndexAt index: Int) {
+        let nextVC = UIStoryboard.expense.instantiateViewController(
+            withIdentifier: String(describing: AddExpenseViewController.self))
+        present(nextVC, animated: true, completion: nil)
     }
 }

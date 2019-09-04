@@ -1,5 +1,5 @@
 //
-//  STTabView.swift
+//  TabView.swift
 //  ShareTogether
 //
 //  Created by littlema on 2019/8/30.
@@ -7,23 +7,24 @@
 
 import UIKit
 
-protocol STTabViewDataSource: AnyObject {
-    func numberOfItems(STTabView: STTabView) -> Int
-    func imageForItem(STTabView: STTabView, index: Int) -> String
-    func heightOfContent(STTabView: STTabView) -> CGFloat
+protocol TabViewDataSource: AnyObject {
+//    func numberOfItems(tabView: TabView) -> Int
+//    func imageForItem(tabView: TabView, index: Int) -> String
+    func heightOfTabView(tabView: TabView) -> CGFloat
+    //func contentOfTabView(tabView: TabView) -> UIView
 }
 
-extension STTabViewDataSource {
-    func heightOfContent(tabView: STTabView) -> Int { return 50 }
+extension TabViewDataSource {
+    func heightOfTabView(tabView: TabView) -> CGFloat { return 60 }
 }
 
-@objc protocol STTabViewDelegate: AnyObject {
+@objc protocol TabViewDelegate: AnyObject {
     @objc optional func tabView(
-        tabView: STTabView,
+        tabView: TabView,
         didSelectIndexAt index: Int)
 }
 
-class STTabView: UIView {
+class TabView: UIView {
     
     let stackView: UIStackView = {
         let stackView = UIStackView()
@@ -32,14 +33,9 @@ class STTabView: UIView {
         return stackView
     }()
     
-    weak var dataSource: STTabViewDataSource?
-//        {
-//        didSet {
-//            setupBase()
-//        }
-//    }
+    weak var dataSource: TabViewDataSource?
     
-    weak var delegate: STTabViewDelegate?
+    weak var delegate: TabViewDelegate?
     
     var buttons = [UIButton]()
     
@@ -56,17 +52,17 @@ class STTabView: UIView {
         self.layer.shadowOffset = .zero
         self.layer.shadowColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).cgColor
         
-        self.addSubview(stackView)
-        
-        constraint = NSLayoutConstraint(item: layoutMarginsGuide, attribute: .bottom, relatedBy: .equal,
-                                        toItem: stackView, attribute: .bottom, multiplier: 1, constant: 0)
-        
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.heightAnchor.constraint(equalToConstant: 60),
-            constraint!
-        ])
+//        self.addSubview(stackView)
+//
+//        constraint = NSLayoutConstraint(item: layoutMarginsGuide, attribute: .bottom, relatedBy: .equal,
+//                                        toItem: stackView, attribute: .bottom, multiplier: 1, constant: 0)
+//
+//        NSLayoutConstraint.activate([
+//            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+//            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+//            stackView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 2),
+//            constraint!
+//        ])
     
         setupItem()
     }
@@ -74,19 +70,19 @@ class STTabView: UIView {
     private func setupItem() {
         //guard let dataSource = dataSource else { return }
         
-        for index in 0..<3 {
-            let button = UIButton()
-            button.translatesAutoresizingMaskIntoConstraints = false
-            let string = "123"
-            button.setTitle(string, for: .normal)
-            button.setTitleColor(.STBlack, for: .normal)
-            button.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
-            //button.titleLabel?.font = dataSource.titleFontForItem(scrollSelectionView: self)
-            button.tag = index
-            buttons.append(button)
-            
-            stackView.addArrangedSubview(button)
-        }
+//        for index in 0..<3 {
+//            let button = UIButton()
+//            button.translatesAutoresizingMaskIntoConstraints = false
+//            let string = "123"
+//            button.setTitle(string, for: .normal)
+//            button.setTitleColor(.STBlack, for: .normal)
+//            button.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
+//            //button.titleLabel?.font = dataSource.titleFontForItem(scrollSelectionView: self)
+//            button.tag = index
+//            buttons.append(button)
+//
+//            stackView.addArrangedSubview(button)
+//        }
     }
     
     func showSelf(duration: TimeInterval, delay: TimeInterval) {

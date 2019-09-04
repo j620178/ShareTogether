@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import SwiftIconFont
 
-class GroupViewController: UIViewController {
+class GroupViewController: STBaseViewController {
+    
+    override var isHideNavigationBar: Bool {
+        return true
+    }
     
     @IBOutlet weak var collection: UICollectionView! {
         didSet {
             collection.dataSource = self
+            collection.delegate = self
             let flowLayout = UICollectionViewFlowLayout()
             flowLayout.itemSize = CGSize(width: (UIScreen.main.bounds.width - 10 - 16 * 2) / 2, height: 140)
             flowLayout.minimumInteritemSpacing = 10
@@ -21,31 +27,21 @@ class GroupViewController: UIViewController {
         }
     }
     
-    let tabView = STTabView(frame: .zero)
-
+    @IBOutlet weak var backButton: UIButton! {
+        didSet {
+            backButton.setImage(.getIcon(code: "ios-close", color: .STGray, size: 40), for: .normal)
+            backButton.backgroundColor = .backgroundLightGray
+            backButton.layer.cornerRadius = 20
+        }
+    }
+    
+    @IBAction func clickBackButton(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupTabView()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print(collection.frame)
-    }
-    
-    func setupTabView() {
-        view.addSubview(tabView)
-        tabView.delegate = self
-        tabView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            tabView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tabView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tabView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabView.topAnchor.constraint(equalTo: tabView.stackView.topAnchor)
-            ])
+
     }
 
 }
@@ -60,22 +56,40 @@ extension GroupViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: GroupCollectionViewCell.identifer, for: indexPath)
-        
-        guard let groupCell = cell as? GroupCollectionViewCell else { return cell }
-        
-        groupCell.layer.cornerRadius = 10
-        
-        groupCell.groupImage.image = UIImage(named: "aso")
-        
-        print(groupCell.frame)
-        
-        return groupCell
+        if indexPath.row == 0 {
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: NewGroupCollectionViewCell.identifer, for: indexPath)
+            
+            guard let newGroupCell = cell as? NewGroupCollectionViewCell else { return cell }
+            
+            return newGroupCell
+            
+        } else {
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: GroupCollectionViewCell.identifer, for: indexPath)
+            
+            guard let groupCell = cell as? GroupCollectionViewCell else { return cell }
+            
+            groupCell.layer.cornerRadius = 10
+            
+            groupCell.selectedImageView.setIcon(code: "ios-checkmark", color: .white)
+            
+            groupCell.groupImage.image = UIImage(named: "aso")
+            
+            return groupCell
+        }
+    
     }
     
 }
 
-extension GroupViewController: STTabViewDelegate {
-    
+extension GroupViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            let nextVC = UIStoryboard.group.instantiateViewController(withIdentifier: String(describing: AddGroupViewController.self))
+            show(nextVC, sender: nil)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+    }
 }

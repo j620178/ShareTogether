@@ -145,6 +145,7 @@ class ScrollSelectionView: UIView {
         scrollView.layoutIfNeeded()
         
         switchIndicatorAt(index: buttons[selectIndex].tag)
+    
     }
     
 }

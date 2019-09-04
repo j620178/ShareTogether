@@ -36,7 +36,7 @@ class ExpenseTableViewCell: UITableViewCell {
         if selected {
             let tempColor = self.insetContentView.backgroundColor
             UIView.animate(withDuration: 0.5) {
-                self.insetContentView.backgroundColor = UIColor.lightGray
+                self.insetContentView.backgroundColor = UIColor.backgroundLightGray
                 self.insetContentView.backgroundColor = tempColor
             }
         }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class HomeViewController: STBaseViewController {
     
     enum InfoType: String {
         case expense = "交易紀錄"
@@ -34,10 +34,8 @@ class MainViewController: UIViewController {
     lazy var activeViewModel: ActiveViewModel = {
         return ActiveViewModel()
     }()
-
+    
     @IBOutlet weak var bannerView: UIView!
-        
-    @IBOutlet weak var groupNameButton: UIButton!
     
     @IBOutlet weak var bannerTopConstraint: NSLayoutConstraint!
     
@@ -45,6 +43,23 @@ class MainViewController: UIViewController {
         didSet {
             infoTypeSelectionView.dataSource = self
             infoTypeSelectionView.delegate = self
+        }
+    }
+    
+    @IBOutlet weak var groupNameButton: UIButton! {
+        didSet {
+            groupNameButton.setImage(
+                .getIcon(code: "ios-arrow-down", color: .STBlack, size: 25),
+                for: .normal
+            )
+        }
+    }
+    
+    @IBOutlet weak var groupEditButton: UIButton! {
+        didSet {
+            groupEditButton.setImage(
+                .getIcon(from: .materialIcon, code: "more.vert", color: .STBlack, size: 30),
+                for: .normal)
         }
     }
     
@@ -56,9 +71,9 @@ class MainViewController: UIViewController {
     
     @IBAction func clickGroupButton(_ sender: UIButton) {
         
-        let nextVC = UIStoryboard.group.instantiateViewController(
-            withIdentifier: String(describing: GroupViewController.self))
+        let nextVC = UIStoryboard.group.instantiateInitialViewController()!
         present(nextVC, animated: true, completion: nil)
+        
     }
     
     @IBAction func clickTapView(_ sender: UIButton) {
@@ -106,30 +121,19 @@ class MainViewController: UIViewController {
         return tableView
     }()
     
-    //let tabView = STTabView(frame: .zero)
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
-        
-        //bannerView.layer.cornerRadius = 30.0
-        //bannerView.layer.maskedCorners = [CACornerMask.layerMaxXMaxYCorner, CACornerMask.layerMinXMaxYCorner]
-        
+
         setupInfoContainerView()
-        //setupTabView()
 
         preparePage(currnetIndex: infoTypeSelectionView.selectIndex)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
- 
-        //tabView.showSelf(duration: 1.0, delay: 0.5)
+        
     }
     
     deinit {
-        print("MVC deinit")
+        print("Home deinit")
     }
     
     func setupInfoContainerView() {
@@ -147,19 +151,6 @@ class MainViewController: UIViewController {
         
     }
     
-//    func setupTabView() {
-//        view.addSubview(tabView)
-//        tabView.delegate = self
-//        tabView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        NSLayoutConstraint.activate([
-//            tabView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//            tabView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            tabView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            tabView.topAnchor.constraint(equalTo: tabView.stackView.topAnchor)
-//        ])
-//    }
-    
     func preparePage(currnetIndex: Int) {
         
         if currnetIndex == 0 {
@@ -172,7 +163,8 @@ class MainViewController: UIViewController {
             expenseListViewModel.passOffset = { [weak self] offsetY in
                 let offset = min(max(offsetY, 0), 65)
                 self?.groupNameButton.alpha = 1 - (offset / 65)
-                self?.bannerTopConstraint.constant = 0 - offset
+                self?.groupEditButton.alpha = 1 - (offset / 65)
+                self?.bannerTopConstraint.constant = 20 - offset
                 self?.view.layoutIfNeeded()
             }
         }
@@ -211,7 +203,7 @@ class MainViewController: UIViewController {
     
 }
 
-extension MainViewController: UIScrollViewDelegate {
+extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if scrollView == infoContainer {
@@ -228,7 +220,7 @@ extension MainViewController: UIScrollViewDelegate {
     }
 }
 
-extension MainViewController: ScrollSelectionViewDataSource {
+extension HomeViewController: ScrollSelectionViewDataSource {
     func numberOfItems(scrollSelectionView: ScrollSelectionView) -> Int {
         return infoItems.count
     }
@@ -239,20 +231,12 @@ extension MainViewController: ScrollSelectionViewDataSource {
     
 }
 
-extension MainViewController: ScrollSelectionViewDelegate {
+extension HomeViewController: ScrollSelectionViewDelegate {
     func scrollSelectionView(scrollSelectionView: ScrollSelectionView, didSelectIndexAt index: Int) {
         let index = infoTypeSelectionView.selectIndex
         infoContainer.setContentOffset(CGPoint(x: index * Int(UIScreen.main.bounds.width), y: 0), animated: true)
         if (index + 1) >= stackView.subviews.count {
             preparePage(currnetIndex: index)
         }
-    }
-}
-
-extension MainViewController: STTabViewDelegate {
-    func tabView(tabView: STTabView, didSelectIndexAt index: Int) {
-        let nextVC = UIStoryboard.expense.instantiateViewController(
-            withIdentifier: String(describing: AddExpenseViewController.self))
-        present(nextVC, animated: true, completion: nil)
     }
 }

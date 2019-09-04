@@ -9,9 +9,13 @@
 import UIKit
 import MapKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: STBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    deinit {
+        print("Search deinit")
     }
 }

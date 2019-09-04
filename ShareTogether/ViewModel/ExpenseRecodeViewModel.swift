@@ -26,14 +26,6 @@ class ExpenseRecodeViewModel: NSObject {
     
     var passOffset: ((CGFloat) -> Void)?
     
-//    func initFetch() {
-//        let data = [ExpenseRecode(userId: "j620178", userImg: "12", userName: "littlema", time: "2018/10/02", title: "早餐", amount: 20),
-//                    ExpenseRecode(userId: "j620178", userImg: "12", userName: "littlema", time: "2018/10/02", title: "早餐", amount: 20),
-//                    ExpenseRecode(userId: "j620178", userImg: "12", userName: "littlema", time: "2018/10/02", title: "早餐", amount: 20),
-//                    ExpenseRecode(userId: "j620178", userImg: "12", userName: "littlema", time: "2018/10/02", title: "早餐", amount: 20)]
-//        return data
-//    }
-//    
     func createCellViewModel(expenseRecode: ExpenseRecode) -> ExpenseRecodeCellViewModel {
     
         return ExpenseRecodeCellViewModel( titleText: expenseRecode.title,
@@ -110,14 +102,6 @@ extension ExpenseRecodeViewModel: UITableViewDelegate {
         
         passOffset?(scrollView.contentOffset.y)
         
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == 1 ? 120 : 10
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return section == 1 ? UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 120)) : nil
     }
     
 }

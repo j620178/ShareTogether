@@ -86,7 +86,7 @@ extension GroupViewController: UICollectionViewDataSource {
 extension GroupViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            let nextVC = UIStoryboard.group.instantiateViewController(withIdentifier: String(describing: AddGroupViewController.self))
+            let nextVC = UIStoryboard.group.instantiateViewController(withIdentifier: AddGroupViewController.identifier)
             show(nextVC, sender: nil)
         } else {
             dismiss(animated: true, completion: nil)

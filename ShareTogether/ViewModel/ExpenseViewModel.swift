@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ExpenseRecodeViewModel: NSObject {    
+class ExpenseViewModel: NSObject {
     private var expenseRecodes = [ExpenseRecode]()
     
     private var cellViewModels: [ExpenseRecodeCellViewModel] = [ExpenseRecodeCellViewModel]() {
@@ -45,7 +45,7 @@ class ExpenseRecodeViewModel: NSObject {
 
 }
 
-extension ExpenseRecodeViewModel: UITableViewDataSource {
+extension ExpenseViewModel: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -84,7 +84,7 @@ extension ExpenseRecodeViewModel: UITableViewDataSource {
     
 }
 
-extension ExpenseRecodeViewModel: UITableViewDelegate {
+extension ExpenseViewModel: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView

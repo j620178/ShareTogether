@@ -14,13 +14,13 @@ class HomeViewController: STBaseViewController {
         case expense = "交易紀錄"
         case statistics = "金額統計"
         case result = "結算結果"
-        case active = "活動紀錄"
+        case notebook = "記事本"
     }
     
-    let infoItems = [InfoType.expense, InfoType.statistics, InfoType.result, InfoType.active]
+    let infoItems = [InfoType.expense, InfoType.statistics, InfoType.result, InfoType.notebook]
     
-    lazy var expenseListViewModel: ExpenseRecodeViewModel = {
-        return ExpenseRecodeViewModel()
+    lazy var expenseListViewModel: ExpenseViewModel = {
+        return ExpenseViewModel()
     }()
     
     lazy var statisticsViewModel: StatisticsViewModel = {
@@ -31,8 +31,8 @@ class HomeViewController: STBaseViewController {
         return ResultViewModel()
     }()
     
-    lazy var activeViewModel: ActiveViewModel = {
-        return ActiveViewModel()
+    lazy var notebookViewModel: NotebookViewModel = {
+        return NotebookViewModel()
     }()
     
     @IBOutlet weak var bannerView: UIView!
@@ -114,10 +114,10 @@ class HomeViewController: STBaseViewController {
         return tableView
     }()
     
-    lazy var activeTableView: UITableView = {
+    lazy var notebookTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.registerWithNib(indentifer: ActiveTableViewCell.identifer, bundle: nil)
+        tableView.registerWithNib(indentifer: NotebookTableViewCell.identifer, bundle: nil)
         return tableView
     }()
     
@@ -190,13 +190,13 @@ class HomeViewController: STBaseViewController {
             resultTableView.delegate = resultViewModel
             resultTableView.separatorStyle = .none
             resultTableView.backgroundColor = .clear
-        case .active:
-            stackView.addArrangedSubview(activeTableView)
-            activeTableView.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
-            activeTableView.dataSource = activeViewModel
-            activeTableView.delegate = activeViewModel
-            activeTableView.separatorStyle = .none
-            activeTableView.backgroundColor = .clear
+        case .notebook:
+            stackView.addArrangedSubview(notebookTableView)
+            notebookTableView.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
+            notebookTableView.dataSource = notebookViewModel
+            notebookTableView.delegate = notebookViewModel
+            notebookTableView.separatorStyle = .none
+            notebookTableView.backgroundColor = .clear
         }
         
     }

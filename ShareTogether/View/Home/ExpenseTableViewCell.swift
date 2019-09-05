@@ -10,21 +10,9 @@ import UIKit
 
 class ExpenseTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var insetContentView: UIView! {
-        didSet {
-            //insetContentView.layer.cornerRadius = 10
-//            insetContentView.layer.shadowOpacity = 0.8
-//            insetContentView.layer.shadowRadius = 5
-//            insetContentView.layer.shadowOffset = .zero
-//            insetContentView.layer.shadowColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).cgColor
-        }
-    }
+    @IBOutlet weak var insetContentView: UIView!
 
-    @IBOutlet weak var userImageView: UIImageView! {
-        didSet {
-            userImageView.layer.cornerRadius = 10
-        }
-    }
+    @IBOutlet weak var userImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -44,5 +32,7 @@ class ExpenseTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        userImageView.layer.cornerRadius = userImageView.frame.height / 2
     }
 }

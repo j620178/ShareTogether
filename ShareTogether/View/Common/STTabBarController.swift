@@ -12,13 +12,9 @@ private enum Tab {
     
     case home
     
-    case search
-    
     case expense
     
-    case active
-    
-    case setting
+    case activity
     
     func controller() -> UIViewController {
         
@@ -28,13 +24,9 @@ private enum Tab {
             
         case .home: controller = UIStoryboard.home.instantiateInitialViewController()!
             
-        case .search: controller = UIStoryboard.search.instantiateInitialViewController()!
-            
         case .expense: controller = UIStoryboard.expense.instantiateInitialViewController()!
             
-        case .active: controller = UIStoryboard.search.instantiateInitialViewController()!
-        
-        case .setting: controller = UIStoryboard.search.instantiateInitialViewController()!
+        case .activity: controller = UIStoryboard.activity.instantiateInitialViewController()!
             
         }
         
@@ -58,13 +50,6 @@ private enum Tab {
             item.image?.withRenderingMode(.alwaysOriginal)
             return item
             
-        case .search:
-            return UITabBarItem(
-                title: nil,
-                image: .search,
-                selectedImage: .search
-            )
-            
         case .expense:
             return UITabBarItem(
                 title: nil,
@@ -72,18 +57,11 @@ private enum Tab {
                 selectedImage: .add
             )
             
-        case .active:
+        case .activity:
             return UITabBarItem(
                 title: nil,
                 image: .notifications,
                 selectedImage: .notifications
-            )
-
-        case .setting:
-            return UITabBarItem(
-                title: nil,
-                image: .settings,
-                selectedImage: .settings
             )
         }
         
@@ -92,7 +70,7 @@ private enum Tab {
 
 class STTabBarController: UITabBarController {
     
-    private let tabs: [Tab] = [.home, .search, .expense, .active, .setting]
+    private let tabs: [Tab] = [.home, .expense, .activity] //, .search, .setting
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,11 +97,11 @@ extension STTabBarController: UITabBarControllerDelegate {
         
         if viewController.isKind(of: UINavigationController.self) {
             
-            let nextVC = UIStoryboard.expense.instantiateInitialViewController()! //as? AddExpenseViewController else { return false }
-            
+            let nextVC = UIStoryboard.expense.instantiateInitialViewController()!
             nextVC.modalPresentationStyle = .overFullScreen
             self.present(nextVC, animated: true, completion: nil)
             return false
+            
         }
         
         return true

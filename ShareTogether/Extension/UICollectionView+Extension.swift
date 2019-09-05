@@ -9,6 +9,13 @@
 import Foundation
 import UIKit
 
+extension UICollectionView {
+    func registerWithNib(indentifer: String, bundle: Bundle?) {
+        let nib = UINib(nibName: indentifer, bundle: bundle)
+        register(nib, forCellWithReuseIdentifier: indentifer)
+    }
+}
+
 extension UICollectionViewCell {
     static var identifer: String {
         return String(describing: self)

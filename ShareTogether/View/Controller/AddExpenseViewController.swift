@@ -8,94 +8,80 @@
 
 import UIKit
 import AVFoundation
+import MapKit
 
 class AddExpenseViewController: STBaseViewController {
+    
+    enum AddExpenseTableContent {
+        case type
+        case expense
+        case payer
+        case split
+    }
     
     override var isHideNavigationBar: Bool {
         return true
     }
     
-    enum CategoryType: String {
-        case usd = "logo-usd"
-        case car = "ios-car"
-        case subway = "ios-subway"
-        case bicycle = "ios-bicycle"
-        case gasStation = "local.gas.station"
-        case parking = "local.parking"
-        case bed = "ios-bed"
-        case bus = "ios-bus"
-        case gift = "ios-gift"
-        case shirt = "ios-shirt"
-        case restaurant = "ios-restaurant"
-        case wine = "ios-wine"
-    }
+    let locationManager = CLLocationManager()
     
-    var categoryData: [CategoryType] = [.usd, .car, .subway, .bicycle, .bed, .bus, .gift, .shirt, .restaurant, .wine]
-    var selectedCategory = [true, false, false, false, false, false, false, false, false, false]
+    let titleString = ["類型", "消費", "付款", "對象", "日期"]
+    
+    let textfieldPlaceHolder = ["請輸入消費金額", "請輸入消費說明"]
+    
+    var isSplit = [true, true, true, true, true]
+    
+    @IBOutlet weak var mapView: MKMapView!
     
     @IBOutlet weak var containerView: UIView!
     
-    @IBOutlet weak var amountTextfield: UITextField!
-    
-    @IBOutlet weak var descTextfield: UITextField!
-    
-    @IBOutlet weak var splitButton: UIButton! {
+    @IBOutlet weak var tableView: UITableView! {
         didSet {
-            splitButton.setImage(.getIcon(code: "ios-pie", color: .whiteAlphaOf(0.75), size: 30), for: .normal)
+            tableView.registerWithNib(indentifer: SelectionTableViewCell.identifer, bundle: nil)
+            tableView.registerWithNib(indentifer: TextFieldTableViewCell.identifer, bundle: nil)
+            tableView.registerWithNib(indentifer: CheckBoxTableViewCell.identifer, bundle: nil)
+            tableView.registerWithNib(indentifer: SplitTableViewCell.identifer, bundle: nil)
+            tableView.register(ExpenseTableViewCell.self, forCellReuseIdentifier: ExpenseTableViewCell.identifer)
+            tableView.dataSource = self
+            tableView.delegate = self
         }
     }
     
-    @IBOutlet weak var scannerButton: UIButton! {
-        didSet {
-            scannerButton.setImage(.getIcon(code: "ios-barcode", color: .whiteAlphaOf(0.75), size: 30), for: .normal)
-        }
-    }
-
-    @IBOutlet weak var categoryCollectionView: UICollectionView! {
-        didSet {
-            categoryCollectionView.dataSource = self
-            categoryCollectionView.delegate = self
-            let flowLayout = UICollectionViewFlowLayout()
-            flowLayout.scrollDirection = .horizontal
-            flowLayout.itemSize = CGSize(width: 60, height: 60)
-            flowLayout.minimumInteritemSpacing = 5
-            flowLayout.minimumLineSpacing = 5
-            categoryCollectionView.collectionViewLayout = flowLayout
-        }
-    }
+    @IBOutlet weak var mapHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var cancelButton: UIButton! {
         didSet {
             cancelButton.setImage(.getIcon(code: "ios-close", color: .STBlack, size: 40), for: .normal)
-            cancelButton.backgroundColor = .white
+            cancelButton.backgroundColor = .blackAlphaOf(0.2)
         }
     }
 
     @IBOutlet weak var nextButton: UIButton! {
         didSet {
-            nextButton.setImage(.getIcon(code: "ios-arrow-round-forward", color: .STBlack, size: 40), for: .normal)
-            nextButton.backgroundColor = .white
+            nextButton.setImage(.getIcon(code: "ios-checkmark", color: .STBlack, size: 40), for: .normal)
+            nextButton.backgroundColor = .blackAlphaOf(0.2)
         }
     }
     
     @IBAction func clickCancelButton(_ sender: UIButton) {
-        if amountTextfield.isFirstResponder {
-            amountTextfield.resignFirstResponder()
-        } else {
-            descTextfield.resignFirstResponder()
-        }
 
         dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func clickScannerButton(_ sender: UIButton) {
-
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupBase()
+        
+        setupMap()
+
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(checkAction))
+        gesture.direction = .up
+        let gesture2 = UISwipeGestureRecognizer(target: self, action: #selector(checkAction))
+        gesture2.direction = .down
+
+        self.containerView.addGestureRecognizer(gesture)
+        self.containerView.addGestureRecognizer(gesture2)
     }
     
     override func viewWillLayoutSubviews() {
@@ -109,16 +95,6 @@ class AddExpenseViewController: STBaseViewController {
     }
     
     func setupBase() {
-        amountTextfield.layer.cornerRadius = 10.0
-        amountTextfield.clipsToBounds = true
-        amountTextfield.becomeFirstResponder()
-        amountTextfield.leftViewMode = .always
-        amountTextfield.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        
-        descTextfield.layer.cornerRadius = 10.0
-        descTextfield.clipsToBounds = true
-        descTextfield.leftViewMode = .always
-        descTextfield.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         
         containerView.backgroundColor = .STBlue
         containerView.layer.cornerRadius = 20.0
@@ -126,49 +102,176 @@ class AddExpenseViewController: STBaseViewController {
         containerView.layer.shadowRadius = 5
         containerView.layer.shadowOffset = .zero
         containerView.layer.shadowColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).cgColor
-    }
-}
+        containerView.layer.maskedCorners = [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMaxXMinYCorner]
 
-extension AddExpenseViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return categoryData.count
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func setupMap() {
         
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CategoryCollectionViewCell.identifer,
-            for: indexPath)
+        locationManager.delegate = self
+        locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
-        guard let categoryCell = cell as? CategoryCollectionViewCell else { return cell }
-
-        if selectedCategory[indexPath.row] {
-            categoryCell.setupImage(image:
-                .getIcon(code: categoryData[indexPath.row].rawValue, color: .STBlack, width: 60, height: 60),
-                color: .STBlack)
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .follow
+        
+//        let latDelta = 0.25
+//        let longDelta = 0.25
+//        let currentLocationSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)
+//
+//        let center = CLLocation(latitude: 25.047342, longitude: 121.549285)
+//        let currentRegion = MKCoordinateRegion(center: center.coordinate, span: currentLocationSpan)
+//        mapView.setRegion(currentRegion, animated: true)
+        let annotation = MKPointAnnotation()
+        annotation.title = "Test"
+        annotation.coordinate = CLLocationCoordinate2D(latitude: 25.047342, longitude: 121.549285)
+        mapView.showAnnotations([annotation], animated: true)
+    }
+    
+    @objc func checkAction(_ sender: UISwipeGestureRecognizer) {
+        
+        if sender.direction == .up {
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                self?.mapHeightConstraint.constant = 16
+                self?.view.layoutIfNeeded()
+            }
+            tableView.isScrollEnabled = true
         } else {
-            categoryCell.setupImage(image:
-                .getIcon(code: categoryData[indexPath.row].rawValue, color: .white, width: 60, height: 60),
-                color: .white)
-        }
-        
-        return categoryCell
-    }
-    
-}
-
-extension AddExpenseViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        for index in selectedCategory.indices {
-            selectedCategory[index] = false
-            if index == indexPath.row {
-                selectedCategory[index] = true
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                self?.mapHeightConstraint.constant = UIScreen.main.bounds.height / 2
+                self?.view.layoutIfNeeded()
             }
         }
-        collectionView.reloadData()
         
     }
+    
+}
+
+extension AddExpenseViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return titleString.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return titleString[section]
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.textColor = .white
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        } else if section == 1 {
+            return 2
+        } else if section == 2 {
+            return 1
+        } else if section == 3 {
+            return isSplit.count
+        } else {
+            return 1
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: SelectionTableViewCell.identifer, for: indexPath)
+            
+            guard let categoryCell = cell as? SelectionTableViewCell else { return cell }
+            
+            categoryCell.type = .image
+            
+            categoryCell.collectionView.reloadData()
+            
+            return categoryCell
+        } else if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifer, for: indexPath)
+            
+            guard let textfieldCell = cell as? TextFieldTableViewCell else { return cell }
+            
+            if indexPath.row == 0 {
+                textfieldCell.textField.becomeFirstResponder()
+            }
+            textfieldCell.textField.placeholder = textfieldPlaceHolder[indexPath.row]
+            
+            return textfieldCell
+        } else if indexPath.section == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: SplitTableViewCell.identifer, for: indexPath)
+            
+            guard let splitCell = cell as? SplitTableViewCell else { return cell }
+            
+            splitCell.updateLabelText(title: "littlema", type: "均分")
+            
+            return splitCell
+        } else if indexPath.section == 3 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CheckBoxTableViewCell.identifer, for: indexPath)
+            
+            guard let checkBoxCell = cell as? CheckBoxTableViewCell else { return cell }
+            
+            checkBoxCell.updateCheckBoxImage(isSelectd: isSplit[indexPath.row])
+            
+            return checkBoxCell
+        } else if indexPath.section == 4 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: SelectionTableViewCell.identifer, for: indexPath)
+            
+            guard let selectionCell = cell as? SelectionTableViewCell else { return cell }
+            
+            selectionCell.type = .text
+            
+            selectionCell.collectionView.reloadData()
+            
+            return selectionCell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifer, for: indexPath)
+            
+            guard let textfieldCell = cell as? TextFieldTableViewCell else { return cell }
+            
+            return textfieldCell
+        }
+
+    }
+
+}
+
+extension AddExpenseViewController: UITableViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if scrollView.contentOffset.y < 0 {
+            scrollView.isScrollEnabled = false
+        }
+        
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+        if scrollView.contentOffset.y == 0 {
+            scrollView.isScrollEnabled = false
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let cell = tableView.cellForRow(at: indexPath),
+            let checkBoxCell = cell as? CheckBoxTableViewCell else { return }
+        
+        isSplit[indexPath.row] = !isSplit[indexPath.row]
+        
+        checkBoxCell.updateCheckBoxImage(isSelectd: isSplit[indexPath.row])
+        
+    }
+    
+}
+
+extension AddExpenseViewController: CLLocationManagerDelegate {
+    
+}
+
+extension AddExpenseViewController: MKMapViewDelegate {
+    
 }

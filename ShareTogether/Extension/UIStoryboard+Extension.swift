@@ -17,7 +17,7 @@ private struct StoryboardCategory {
     
     static let group = "Group"
     
-    static let search = "Search"
+    static let activity = "Activity"
 
 }
 
@@ -29,7 +29,7 @@ extension UIStoryboard {
     
     static var group: UIStoryboard { return getStoryboard(name: StoryboardCategory.group) }
     
-    static var search: UIStoryboard { return getStoryboard(name: StoryboardCategory.search) }
+    static var activity: UIStoryboard { return getStoryboard(name: StoryboardCategory.activity) }
     
     private static func getStoryboard(name: String) -> UIStoryboard {
         

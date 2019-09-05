@@ -9,26 +9,26 @@
 import Foundation
 import UIKit
 
-class ActiveViewModel: NSObject {
+class NotebookViewModel: NSObject {
     
 }
 
-extension ActiveViewModel: UITableViewDataSource {
+extension NotebookViewModel: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ActiveTableViewCell.identifer, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: NotebookTableViewCell.identifer, for: indexPath)
         
-        guard let resultCell = cell as? ActiveTableViewCell else { return cell }
-        return resultCell
+        guard let notebookCell = cell as? NotebookTableViewCell else { return cell }
+        return notebookCell
     }
     
 }
 
-extension ActiveViewModel: UITableViewDelegate {
+extension NotebookViewModel: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.alpha = 0

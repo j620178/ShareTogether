@@ -59,8 +59,9 @@ class HomeViewController: STBaseViewController {
     @IBOutlet weak var groupEditButton: UIButton! {
         didSet {
             groupEditButton.setImage(
-                .getIcon(from: .materialIcon, code: "more.vert", color: .STYellow, size: 30),
+                .getIcon(from: .materialIcon, code: "more.vert", color: .white, size: 30),
                 for: .normal)
+            groupEditButton.backgroundColor = UIColor.white.withAlphaComponent(0.2)
         }
     }
     
@@ -111,7 +112,7 @@ class HomeViewController: STBaseViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .backgroundLightGray
-        bannerView.backgroundColor = .STArmyGreen
+        bannerView.backgroundColor = .STTintColor
 
         setupInfoContainerView()
 
@@ -120,6 +121,11 @@ class HomeViewController: STBaseViewController {
         preparePage(currnetIndex: 1)
         preparePage(currnetIndex: 2)
         preparePage(currnetIndex: 3)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        groupEditButton.layer.cornerRadius = groupEditButton.frame.height / 2
     }
     
     deinit {

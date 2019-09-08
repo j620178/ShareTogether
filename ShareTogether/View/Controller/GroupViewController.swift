@@ -60,27 +60,16 @@ extension GroupViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if indexPath.row == 0 {
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: NewGroupCollectionViewCell.identifer, for: indexPath)
-            
-            guard let newGroupCell = cell as? NewGroupCollectionViewCell else { return cell }
-            
-            return newGroupCell
-            
-        } else {
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: GroupCollectionViewCell.identifer, for: indexPath)
-            
-            guard let groupCell = cell as? GroupCollectionViewCell else { return cell }
-                        
-            groupCell.isSelectedImageView.setIcon(code: "ios-checkmark", color: .white)
-            
-            groupCell.groupImage.image = UIImage(named: "aso")
-            
-            return groupCell
-        }
-    
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: GroupCollectionViewCell.identifer, for: indexPath)
+        
+        guard let groupCell = cell as? GroupCollectionViewCell else { return cell }
+        
+        groupCell.isSelectedImageView.setIcon(code: "ios-checkmark", color: .white)
+        
+        groupCell.groupImage.image = UIImage(named: "aso")
+        
+        return groupCell
     }
     
 }

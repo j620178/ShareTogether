@@ -41,15 +41,15 @@ class LoginViewController: STBaseViewController {
         passwordTextField.addLeftSpace()
         passwordTextField.textColor = .STDarkGray
         
-        loginButton.backgroundColor = .STArmyGreen
+        loginButton.backgroundColor = .STTintColor
         loginButton.setTitleColor(.white, for: .normal)
         
-        googleLoginButton.setImage(.getIcon(code: "logo-google", color: .STArmyGreen, size: 20), for: .normal)
-        googleLoginButton.layer.borderColor = UIColor.STArmyGreen.cgColor
+        googleLoginButton.setImage(.getIcon(code: "logo-google", color: .STTintColor, size: 20), for: .normal)
+        googleLoginButton.layer.borderColor = UIColor.STTintColor.cgColor
         googleLoginButton.layer.borderWidth = 1.0
         
-        facebookLoginButton.setImage(.getIcon(code: "logo-facebook", color: .STArmyGreen, size: 20), for: .normal)
-        facebookLoginButton.layer.borderColor = UIColor.STArmyGreen.cgColor
+        facebookLoginButton.setImage(.getIcon(code: "logo-facebook", color: .STTintColor, size: 20), for: .normal)
+        facebookLoginButton.layer.borderColor = UIColor.STTintColor.cgColor
         facebookLoginButton.layer.borderWidth = 1.0
         
         signUpButton.setTitleColor(.STDarkGray, for: .normal)

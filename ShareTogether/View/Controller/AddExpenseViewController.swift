@@ -61,7 +61,7 @@ class AddExpenseViewController: STBaseViewController {
     @IBOutlet weak var nextButton: UIButton! {
         didSet {
             nextButton.setImage(.getIcon(code: "ios-checkmark", color: .white, size: 40), for: .normal)
-            nextButton.backgroundColor = .STBlue
+            nextButton.backgroundColor = .STTintColor
         }
     }
     
@@ -224,8 +224,6 @@ extension AddExpenseViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: SplitTableViewCell.identifer, for: indexPath)
             
             guard let splitCell = cell as? SplitTableViewCell else { return cell }
-            
-            splitCell.tintColor = .STBlue
             
             splitCell.updateLabelText(title: "littlema", type: "均分")
             

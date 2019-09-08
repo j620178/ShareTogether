@@ -8,4 +8,5 @@ target 'ShareTogether' do
   # Pods for ShareTogether
   pod 'SwiftLint'
   pod 'SwiftIconFont'
+  pod 'IQKeyboardManagerSwift'
 end

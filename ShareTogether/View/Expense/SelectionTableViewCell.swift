@@ -99,14 +99,13 @@ extension SelectionTableViewCell: UICollectionViewDataSource {
         switch type {
             
         case .image:
-            categoryCell.tintColor = .STBlue
             if selectedCategory[indexPath.row] {
                 categoryCell.setupImage(image:
                     .getIcon(code: categoryData[indexPath.row].rawValue, color: .white, size: 60),
                                         isSelected: selectedCategory[indexPath.row])
             } else {
                 categoryCell.setupImage(image:
-                    .getIcon(code: categoryData[indexPath.row].rawValue, color: .white, size: 60),
+                    .getIcon(code: categoryData[indexPath.row].rawValue, color: .STTintColor, size: 60),
                                         isSelected: selectedCategory[indexPath.row])
             }
         case .text:

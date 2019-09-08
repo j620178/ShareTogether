@@ -20,6 +20,8 @@ class AddGroupViewController: STBaseViewController {
     
     @IBOutlet weak var textfieldTopConstaint: NSLayoutConstraint!
     
+    @IBOutlet weak var addMemberButton: UIButton!
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -28,13 +30,16 @@ class AddGroupViewController: STBaseViewController {
         }
     }
     
+    @IBAction func clickAddMemberButton(_ sender: UIButton) {
+    }
+    
     var currentOffset: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        groupMemberView.layer.cornerRadius = 20.0
-        groupMemberView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        addMemberButton.setImage(.getIcon(code: "ios-add-circle-outline", color: .STTintColor, size: 20), for: .normal)
+        groupMemberView.addCornerAndShadow(cornerRadius: 10)
         
         groupNameTextField.delegate = self
         groupNameTextField.layer.cornerRadius = 10.0
@@ -58,10 +63,17 @@ class AddGroupViewController: STBaseViewController {
         //self.groupMemberView.addGestureRecognizer(gestureSwipeDown)
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        addMemberButton.layer.cornerRadius = addMemberButton.frame.height / 2
+        
+    }
+    
     func switchLayout(direction: Direction) {
         if direction == .up {
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.textfieldTopConstaint.constant = 66
+                self?.textfieldTopConstaint.constant = 156
                 self?.groupNameTextField.alpha = 1
                 self?.title = ""
                 self?.view.layoutIfNeeded()
@@ -124,6 +136,10 @@ extension AddGroupViewController: UITableViewDelegate {
         if lastVelocityYSign < 0 {
             switchLayout(direction: .down)
         } else if lastVelocityYSign > 0 {
+            //switchLayout(direction: .up)
+        }
+        
+        if scrollView.contentOffset.y < -50 {
             switchLayout(direction: .up)
         }
     }

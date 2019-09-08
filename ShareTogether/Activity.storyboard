@@ -18,34 +18,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="W5Y-N0-8sp">
-                                <rect key="frame" x="0.0" y="111" width="414" height="751"/>
+                                <rect key="frame" x="0.0" y="116" width="414" height="746"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mUG-Bf-iWn">
-                                <rect key="frame" x="16" y="60" width="382" height="35"/>
+                                <rect key="frame" x="16" y="60" width="382" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="QVr-Cf-3it"/>
+                                    <constraint firstAttribute="height" constant="40" id="QVr-Cf-3it"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="搜尋" image="down-arrow12x">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SNx-U4-1uP">
+                                <rect key="frame" x="351" y="65" width="31" height="30"/>
+                                <state key="normal" title="地圖"/>
+                                <connections>
+                                    <action selector="switchType:" destination="blp-u4-MY3" eventType="touchUpInside" id="nFk-kc-HND"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="W5Y-N0-8sp" firstAttribute="top" secondItem="mUG-Bf-iWn" secondAttribute="bottom" constant="16" id="BBN-GC-F9K"/>
+                            <constraint firstItem="8H4-bn-yfw" firstAttribute="trailing" secondItem="SNx-U4-1uP" secondAttribute="trailing" constant="32" id="C7e-Po-POq"/>
                             <constraint firstItem="8H4-bn-yfw" firstAttribute="bottom" secondItem="W5Y-N0-8sp" secondAttribute="bottom" id="Efz-vI-u5Y"/>
                             <constraint firstItem="mUG-Bf-iWn" firstAttribute="top" secondItem="8H4-bn-yfw" secondAttribute="top" constant="16" id="T2v-dR-iE5"/>
                             <constraint firstItem="8H4-bn-yfw" firstAttribute="trailing" secondItem="mUG-Bf-iWn" secondAttribute="trailing" constant="16" id="TdG-XZ-Pxu"/>
                             <constraint firstItem="W5Y-N0-8sp" firstAttribute="leading" secondItem="8H4-bn-yfw" secondAttribute="leading" id="jJI-7X-hzX"/>
                             <constraint firstItem="mUG-Bf-iWn" firstAttribute="leading" secondItem="8H4-bn-yfw" secondAttribute="leading" constant="16" id="lcA-KY-VcD"/>
                             <constraint firstItem="8H4-bn-yfw" firstAttribute="trailing" secondItem="W5Y-N0-8sp" secondAttribute="trailing" id="vxI-tL-Cz9"/>
+                            <constraint firstItem="SNx-U4-1uP" firstAttribute="centerY" secondItem="mUG-Bf-iWn" secondAttribute="centerY" id="zzR-SY-7fp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8H4-bn-yfw"/>
                     </view>
                     <connections>
                         <outlet property="goSearchButton" destination="mUG-Bf-iWn" id="yM8-hc-joB"/>
+                        <outlet property="switchTypeButton" destination="SNx-U4-1uP" id="79D-eg-gPS"/>
                         <outlet property="tableView" destination="W5Y-N0-8sp" id="CcX-W8-GSG"/>
                     </connections>
                 </viewController>

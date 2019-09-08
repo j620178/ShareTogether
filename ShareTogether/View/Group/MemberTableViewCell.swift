@@ -32,7 +32,9 @@ class MemberTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        indicator.setIcon(code: "ios-arrow-forward", color: .white)
+        userNameLabel.textColor = .STDarkGray
+        userNameLabel.textColor = .STDarkGray
+        indicator.setIcon(code: "ios-arrow-forward", color: .STGray)
         userImageView.layer.cornerRadius = userImageView.frame.height / 2
     }
     

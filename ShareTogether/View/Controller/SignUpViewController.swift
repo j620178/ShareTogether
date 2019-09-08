@@ -31,7 +31,7 @@ class SignUpViewController: UIViewController {
         emailTextField.textColor = .STDarkGray
         passwordTextField.textColor = .STDarkGray
         
-        signUpButton.backgroundColor = .STArmyGreen
+        signUpButton.backgroundColor = .STTintColor
         signUpButton.setTitleColor(.white, for: .normal)
         
         userNameTextField.becomeFirstResponder()

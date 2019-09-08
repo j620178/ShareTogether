@@ -16,7 +16,7 @@ class CheckBoxTableViewCell: UITableViewCell {
     
     func updateCheckBoxImage(isSelectd: Bool) {
         if isSelectd {
-            checkBoxImageView.setIcon(code: "ios-checkmark-circle", color: tintColor)
+            checkBoxImageView.setIcon(code: "ios-checkmark-circle", color: .STTintColor)
         } else {
             checkBoxImageView.setIcon(code: "ios-radio-button-off", color: .lightGray)
         }

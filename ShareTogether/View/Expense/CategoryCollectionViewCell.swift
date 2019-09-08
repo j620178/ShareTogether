@@ -26,9 +26,9 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     func setupImage(image: UIImage, isSelected: Bool) {
         categoryImageView.image = image
         if isSelected {
-            contentView.backgroundColor = tintColor
+            contentView.backgroundColor = .STTintColor
         } else {
-            contentView.backgroundColor = tintColor.withAlphaComponent(0.2)
+            contentView.backgroundColor = UIColor.STTintColor.withAlphaComponent(0.25)
         }
         categoryImageView.alpha = 1
         categoryLabel.alpha = 0
@@ -38,11 +38,11 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         categoryLabel.text = text
         
         if isSelected {
-            contentView.backgroundColor = tintColor
+            contentView.backgroundColor = .STTintColor
             categoryLabel.textColor = .white
         } else {
-            contentView.backgroundColor = tintColor.withAlphaComponent(0.2)
-            categoryLabel.textColor = tintColor
+            contentView.backgroundColor = UIColor.STTintColor.withAlphaComponent(0.25)
+            categoryLabel.textColor = .STTintColor
         }
         categoryImageView.alpha = 0
         categoryLabel.alpha = 1

@@ -41,11 +41,11 @@
                                 <rect key="frame" x="0.0" y="138" width="414" height="758"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Dvr-jh-ddu">
-                                        <rect key="frame" x="0.0" y="20" width="414" height="738"/>
+                                        <rect key="frame" x="0.0" y="15" width="414" height="743"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Pi-zL-mnf">
-                                        <rect key="frame" x="157" y="10" width="100" height="5"/>
+                                        <rect key="frame" x="157" y="5" width="100" height="5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.19863013698630136" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="hmv-b5-fKz"/>
@@ -62,7 +62,7 @@
                                 <constraints>
                                     <constraint firstItem="Dvr-jh-ddu" firstAttribute="top" secondItem="7Pi-zL-mnf" secondAttribute="bottom" constant="5" id="AlB-Vt-92b"/>
                                     <constraint firstAttribute="trailing" secondItem="Dvr-jh-ddu" secondAttribute="trailing" id="Bih-s7-MgQ"/>
-                                    <constraint firstItem="7Pi-zL-mnf" firstAttribute="top" secondItem="SBQ-NT-Q19" secondAttribute="top" constant="10" id="SSU-TE-AL2"/>
+                                    <constraint firstItem="7Pi-zL-mnf" firstAttribute="top" secondItem="SBQ-NT-Q19" secondAttribute="top" constant="5" id="SSU-TE-AL2"/>
                                     <constraint firstItem="Dvr-jh-ddu" firstAttribute="leading" secondItem="SBQ-NT-Q19" secondAttribute="leading" id="k02-WH-4Ex"/>
                                     <constraint firstItem="7Pi-zL-mnf" firstAttribute="centerX" secondItem="SBQ-NT-Q19" secondAttribute="centerX" id="sVC-Pg-eUb"/>
                                     <constraint firstAttribute="bottom" secondItem="Dvr-jh-ddu" secondAttribute="bottom" id="vm0-bk-meP"/>

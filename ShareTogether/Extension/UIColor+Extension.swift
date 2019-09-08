@@ -11,6 +11,10 @@ import UIKit
 
 extension UIColor {
     
+    static var STTintColor: UIColor {
+        return .STGreen
+    }
+    
     static var STBlack: UIColor {
         return UIColor(red: 26/255, green: 36/255, blue: 51/255, alpha: 1)
     }
@@ -58,7 +62,8 @@ extension UIColor {
     }
     
     static var STGreen: UIColor {
-        return UIColor(red: 38/255, green: 200/255, blue: 79/255, alpha: 1)
+        return UIColor(red: 85/255, green: 176/255, blue: 116/255, alpha: 1)
+            //UIColor(red: 38/255, green: 200/255, blue: 79/255, alpha: 1)
     }
     
     static var STArmyGreen: UIColor {

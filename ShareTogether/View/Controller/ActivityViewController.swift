@@ -11,6 +11,8 @@ import MapKit
 
 class ActivityViewController: STBaseViewController {
     
+    let locationManager = CLLocationManager()
+    
     @IBOutlet weak var goSearchButton: UIButton!
     
     @IBOutlet weak var tableView: UITableView! {
@@ -20,17 +22,63 @@ class ActivityViewController: STBaseViewController {
         }
     }
     
+    @IBOutlet weak var switchTypeButton: UIButton!
+    
+    var mapView: MKMapView?
+    
+    @IBAction func switchType(_ sender: UIButton) {
+        switchType()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        goSearchButton.addShadow()
+        
+        mapView = MKMapView(frame: view.frame)
+        
+        view.addSubview(mapView!)
+        setupMap()
+        mapView?.isHidden = true
+        view.bringSubviewToFront(goSearchButton)
+        view.bringSubviewToFront(switchTypeButton)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        goSearchButton.layer.cornerRadius = goSearchButton.frame.height / 2
+        goSearchButton.layer.cornerRadius = goSearchButton.frame.height / 4
+        goSearchButton.layer.borderWidth = 1.0
+        goSearchButton.layer.borderColor = UIColor.backgroundLightGray.cgColor
         goSearchButton.clipsToBounds = true
-        goSearchButton.backgroundColor = .backgroundLightGray
+        goSearchButton.backgroundColor = .white
         goSearchButton.setImage(.getIcon(code: "ios-search", color: .darkGray, size: 20), for: .normal)
+    }
+    
+    func setupMap() {
+        
+        locationManager.delegate = self
+        locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        mapView?.delegate = self
+        mapView?.showsUserLocation = true
+        mapView?.userTrackingMode = .follow
+        
+        let annotation = MKPointAnnotation()
+        annotation.title = "Test"
+        annotation.coordinate = CLLocationCoordinate2D(latitude: 25.047342, longitude: 121.549285)
+        mapView?.showAnnotations([annotation], animated: true)
+    }
+    
+    func switchType() {
+        if mapView!.isHidden {
+            mapView?.isHidden = false
+            switchTypeButton.setTitle("列表", for: .normal)
+        } else {
+            mapView?.isHidden = true
+            switchTypeButton.setTitle("地圖", for: .normal)
+        }
     }
 
 }
@@ -47,5 +95,13 @@ extension ActivityViewController: UITableViewDataSource {
         
         return activityCell
     }
+    
+}
+
+extension ActivityViewController: CLLocationManagerDelegate {
+    
+}
+
+extension ActivityViewController: MKMapViewDelegate {
     
 }

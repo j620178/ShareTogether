@@ -1,22 +1,18 @@
 //
-//  ActiveTableViewCell.swift
+//  AddNotebookTableViewCell.swift
 //  ShareTogether
 //
-//  Created by littlema on 2019/8/29.
+//  Created by littlema on 2019/9/10.
 //  Copyright © 2019 littema. All rights reserved.
 //
 
 import UIKit
 
-class ActivityTableViewCell: UITableViewCell {
-    
-    @IBOutlet weak var categoryImageView: UIImageView!
+class AddNotebookTableViewCell: UITableViewCell {
+
+    @IBOutlet weak var insetContentView: UIView!
     
     @IBOutlet weak var userImageView: UIImageView!
-    
-    @IBOutlet weak var timeLabel: UILabel!
-    
-    @IBOutlet weak var contentLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,8 +28,8 @@ class ActivityTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        categoryImageView.layer.cornerRadius = categoryImageView.frame.height / 10
         userImageView.layer.cornerRadius = userImageView.frame.height / 2
+        insetContentView.layer.cornerRadius = insetContentView.frame.height / 4
     }
     
 }

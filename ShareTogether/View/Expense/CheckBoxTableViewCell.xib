@@ -26,7 +26,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5A-4O-WT2">
-                        <rect key="frame" x="84" y="25" width="42" height="21"/>
+                        <rect key="frame" x="92" y="25" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -43,7 +43,7 @@
                     <constraint firstAttribute="trailing" secondItem="xFe-u5-EKH" secondAttribute="trailing" constant="16" id="11h-cx-v8c"/>
                     <constraint firstItem="w5A-4O-WT2" firstAttribute="centerY" secondItem="kxP-Bf-yWz" secondAttribute="centerY" id="Iey-wr-3zu"/>
                     <constraint firstAttribute="bottom" secondItem="kxP-Bf-yWz" secondAttribute="bottom" constant="5" id="Qxi-OW-DUq"/>
-                    <constraint firstItem="w5A-4O-WT2" firstAttribute="leading" secondItem="kxP-Bf-yWz" secondAttribute="trailing" constant="8" id="UiD-fi-xDY"/>
+                    <constraint firstItem="w5A-4O-WT2" firstAttribute="leading" secondItem="kxP-Bf-yWz" secondAttribute="trailing" constant="16" id="UiD-fi-xDY"/>
                     <constraint firstItem="kxP-Bf-yWz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="bqr-vC-lkG"/>
                     <constraint firstItem="kxP-Bf-yWz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="pVh-2E-df4"/>
                     <constraint firstItem="xFe-u5-EKH" firstAttribute="centerY" secondItem="kxP-Bf-yWz" secondAttribute="centerY" id="x3r-xy-qpq"/>
@@ -54,6 +54,7 @@
             <connections>
                 <outlet property="checkBoxImageView" destination="xFe-u5-EKH" id="7Dp-rp-wNK"/>
                 <outlet property="userImageView" destination="kxP-Bf-yWz" id="oUF-oa-Ayp"/>
+                <outlet property="userNameLabel" destination="w5A-4O-WT2" id="Bkl-a2-wvE"/>
             </connections>
             <point key="canvasLocation" x="131.8840579710145" y="162.05357142857142"/>
         </tableViewCell>

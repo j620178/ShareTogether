@@ -76,6 +76,8 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="categoryImageView" destination="9rz-Ye-h3M" id="0w0-DU-iG0"/>
+                <outlet property="contentLabel" destination="I6b-Z2-VXL" id="yQO-Ty-8ag"/>
+                <outlet property="timeLabel" destination="Raf-8s-5ep" id="xAu-dF-37I"/>
                 <outlet property="userImageView" destination="RGd-Bg-wcf" id="2pg-ty-Fdf"/>
             </connections>
             <point key="canvasLocation" x="3" y="39"/>

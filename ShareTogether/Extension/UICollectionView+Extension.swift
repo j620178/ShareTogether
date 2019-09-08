@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UICollectionView {
-    func registerWithNib(indentifer: String, bundle: Bundle?) {
+    func registerWithNib(indentifer: String, bundle: Bundle? = nil) {
         let nib = UINib(nibName: indentifer, bundle: bundle)
         register(nib, forCellWithReuseIdentifier: indentifer)
     }

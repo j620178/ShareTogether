@@ -236,4 +236,3 @@ extension CustomTransitionAnimation {
         sizeAnimator.startAnimation()
     }
 }
-

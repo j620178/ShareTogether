@@ -11,6 +11,8 @@ import MapKit
 
 class ActivityViewController: STBaseViewController {
     
+    let data = ["增加一筆消費", "修改了紀錄", "增加一筆消費", "增加一筆消費", "增加一筆消費", "增加一筆消費", "增加一筆消費", "增加一筆消費"]
+    
     let locationManager = CLLocationManager()
     
     @IBOutlet weak var goSearchButton: UIButton!
@@ -18,7 +20,7 @@ class ActivityViewController: STBaseViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
-            tableView.registerWithNib(indentifer: ActivityTableViewCell.identifer, bundle: nil)
+            tableView.registerWithNib(indentifer: ActivityTableViewCell.identifer)
         }
     }
     
@@ -85,13 +87,16 @@ class ActivityViewController: STBaseViewController {
 
 extension ActivityViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifer, for: indexPath)
         
         guard let activityCell = cell as? ActivityTableViewCell else { return cell }
+        
+        activityCell.contentLabel.text = data[indexPath.row]
+        activityCell.timeLabel.text = "2019/09/02"
         
         return activityCell
     }

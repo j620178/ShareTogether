@@ -53,7 +53,7 @@ extension UIColor {
     }
     
     static var STYellow: UIColor {
-        return UIColor(red: 253/255, green: 185/255, blue: 46/255, alpha: 1)
+        return UIColor(red: 255/255, green: 191/255, blue: 54/255, alpha: 1)
             //UIColor(red: 216/255, green: 161/255, blue: 21/255, alpha: 1)
     }
     

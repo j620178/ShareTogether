@@ -10,7 +10,15 @@ import UIKit
 
 class NotebookTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var insetContentView: UIView!
+    
     @IBOutlet weak var userImage: UIImageView!
+    
+    @IBOutlet weak var userNameLabel: UILabel!
+    
+    @IBOutlet weak var contentLabel: UILabel!
+    
+    @IBOutlet weak var timeLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,6 +34,7 @@ class NotebookTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         userImage.layer.cornerRadius = userImage.frame.height / 2
+        insetContentView.addCornerRadius()
     }
     
 }

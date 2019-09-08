@@ -11,18 +11,24 @@ import UIKit
 
 class ResultViewModel: NSObject {
     
+    let data = ["Kevin", "Nick", "Angle", "Daniel"]
+    let data2 = ["3000", "200", "10000", "20330"]
+    
 }
 
 extension ResultViewModel: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ResultTableViewCell.identifer, for: indexPath)
         
         guard let resultCell = cell as? ResultTableViewCell else { return cell }
+        
+        resultCell.uadateContent(leftUser: data[indexPath.row], rightUser: "Pony", amount: data2[indexPath.row])
+        
         return resultCell
     }
     

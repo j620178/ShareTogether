@@ -1,22 +1,22 @@
 //
-//  ActiveTableViewCell.swift
+//  SplitTextFieldTableViewCell.swift
 //  ShareTogether
 //
-//  Created by littlema on 2019/8/29.
+//  Created by littlema on 2019/9/9.
 //  Copyright © 2019 littema. All rights reserved.
 //
 
 import UIKit
 
-class ActivityTableViewCell: UITableViewCell {
+class SplitTextFieldTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var categoryImageView: UIImageView!
+    @IBOutlet weak var userImage: UIImageView!
     
-    @IBOutlet weak var userImageView: UIImageView!
+    @IBOutlet weak var userNameLabel: UILabel!
     
-    @IBOutlet weak var timeLabel: UILabel!
-    
-    @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var unitLabel: UILabel!
+   
+    @IBOutlet weak var textField: UITextField!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,8 +32,9 @@ class ActivityTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        categoryImageView.layer.cornerRadius = categoryImageView.frame.height / 10
-        userImageView.layer.cornerRadius = userImageView.frame.height / 2
+        userImage.layer.cornerRadius = userImage.frame.height / 2
+        userNameLabel.textColor = .STBlack
+        textField.textColor = .STBlack
     }
     
 }

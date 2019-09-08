@@ -86,7 +86,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7mv-nd-5Qb"/>
                     </view>
-                    <navigationItem key="navigationItem" id="4Uw-Cy-SIw"/>
+                    <navigationItem key="navigationItem" id="4Uw-Cy-SIw">
+                        <barButtonItem key="backBarButtonItem" title=" " id="wvM-h7-9DB"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="cancelButton" destination="Ikq-X8-aB8" id="LCD-YF-lyU"/>
                         <outlet property="containerView" destination="SBQ-NT-Q19" id="c1a-Vi-2xJ"/>
@@ -100,10 +102,51 @@
             </objects>
             <point key="canvasLocation" x="1710.144927536232" y="-53.571428571428569"/>
         </scene>
+        <!--Split View Controller-->
+        <scene sceneID="8VG-iW-hI7">
+            <objects>
+                <viewController storyboardIdentifier="SplitViewController" id="dhS-ET-QGO" customClass="SplitViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2Mb-5F-uYI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R1i-hM-WED" customClass="SelectionView" customModule="ShareTogether" customModuleProvider="target">
+                                <rect key="frame" x="16" y="60" width="382" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="7Q6-De-zio"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DSG-0O-RvV">
+                                <rect key="frame" x="0.0" y="116" width="414" height="746"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="P8f-B5-SSR" firstAttribute="trailing" secondItem="DSG-0O-RvV" secondAttribute="trailing" id="B3g-tv-c0G"/>
+                            <constraint firstItem="DSG-0O-RvV" firstAttribute="leading" secondItem="P8f-B5-SSR" secondAttribute="leading" id="D0i-hO-qyg"/>
+                            <constraint firstItem="P8f-B5-SSR" firstAttribute="bottom" secondItem="DSG-0O-RvV" secondAttribute="bottom" id="JYg-Ed-z3r"/>
+                            <constraint firstItem="DSG-0O-RvV" firstAttribute="top" secondItem="R1i-hM-WED" secondAttribute="bottom" constant="16" id="Jou-ie-6Pe"/>
+                            <constraint firstItem="P8f-B5-SSR" firstAttribute="trailing" secondItem="R1i-hM-WED" secondAttribute="trailing" constant="16" id="NGa-9Z-1kI"/>
+                            <constraint firstItem="R1i-hM-WED" firstAttribute="leading" secondItem="P8f-B5-SSR" secondAttribute="leading" constant="16" id="bhg-Uv-la9"/>
+                            <constraint firstItem="R1i-hM-WED" firstAttribute="top" secondItem="P8f-B5-SSR" secondAttribute="top" constant="16" id="ttl-Xm-R03"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="P8f-B5-SSR"/>
+                    </view>
+                    <connections>
+                        <outlet property="selectionView" destination="R1i-hM-WED" id="tau-4s-3Qa"/>
+                        <outlet property="tableView" destination="DSG-0O-RvV" id="GHE-m3-Ijo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QWR-PP-KeP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2487" y="-54"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="jnp-35-v4t">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6ju-pz-x3M" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6ju-pz-x3M" customClass="STNavigationController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="spZ-Ia-SIA">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

@@ -11,7 +11,7 @@ import UIKit
 
 extension UIView {
     func addCornerAndShadow(
-        cornerRadius: CGFloat,
+        cornerRadius: CGFloat = 10,
         maskedCorners: CACornerMask = [
             .layerMinXMinYCorner,
             .layerMaxXMinYCorner,
@@ -27,16 +27,29 @@ extension UIView {
         layer.maskedCorners = maskedCorners
         
     }
-}
-
-extension UIView {
-    func addShadow(shadowOpacity: Float = 0.25) {
+    
+    func addShadow(shadowOpacity: Float = 0.25, shadowRadius: CGFloat = 3.0) {
         
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = .zero
         layer.shadowOpacity = shadowOpacity
-        layer.shadowRadius = 3.0
+        layer.shadowRadius = shadowRadius
         layer.masksToBounds = false
-    
+        
     }
+    
+    func addCornerRadius(
+        cornerRadius: CGFloat = 10,
+        maskedCorners: CACornerMask = [
+        .layerMinXMinYCorner,
+        .layerMaxXMinYCorner,
+        .layerMaxXMaxYCorner,
+        .layerMinXMaxYCorner
+        ]) {
+        
+        layer.cornerRadius = cornerRadius
+        layer.maskedCorners = maskedCorners
+        
+    }
+    
 }

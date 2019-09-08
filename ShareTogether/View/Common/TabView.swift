@@ -44,26 +44,8 @@ class TabView: UIView {
     private func setupBase() {
         
         self.backgroundColor = .white
-        self.layer.cornerRadius = 20.0
-        self.layer.maskedCorners = [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMaxXMinYCorner]
-        
-        self.layer.shadowOpacity = 0.8
-        self.layer.shadowRadius = 5
-        self.layer.shadowOffset = .zero
-        self.layer.shadowColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).cgColor
-        
-//        self.addSubview(stackView)
-//
-//        constraint = NSLayoutConstraint(item: layoutMarginsGuide, attribute: .bottom, relatedBy: .equal,
-//                                        toItem: stackView, attribute: .bottom, multiplier: 1, constant: 0)
-//
-//        NSLayoutConstraint.activate([
-//            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            stackView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 2),
-//            constraint!
-//        ])
-    
+        self.addCornerAndShadow(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+
         setupItem()
     }
     

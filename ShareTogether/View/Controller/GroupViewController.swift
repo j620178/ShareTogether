@@ -11,6 +11,8 @@ import SwiftIconFont
 
 class GroupViewController: STBaseViewController {
     
+    let data = ["九州行", "日月潭", "室友們", "宜蘭", "密室逃脫", "我寫不完", "UI很麻煩"]
+    
     override var isHideNavigationBar: Bool {
         return true
     }
@@ -31,11 +33,19 @@ class GroupViewController: STBaseViewController {
         }
     }
     
+    @IBOutlet weak var selectButton: UIButton! {
+        didSet {
+            selectButton.setImage(.getIcon(code: "ios-arrow-round-forward", color: .white, size: 40), for: .normal)
+            selectButton.backgroundColor = .STTintColor
+            selectButton.layer.cornerRadius = 10
+        }
+    }
+    
     @IBOutlet weak var backButton: UIButton! {
         didSet {
             backButton.setImage(.getIcon(code: "ios-close", color: .STGray, size: 40), for: .normal)
             backButton.backgroundColor = .backgroundLightGray
-            backButton.layer.cornerRadius = 20
+            backButton.layer.cornerRadius = 10
         }
     }
     
@@ -53,7 +63,7 @@ class GroupViewController: STBaseViewController {
 extension GroupViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return data.count
     }
     
     func collectionView(
@@ -67,7 +77,9 @@ extension GroupViewController: UICollectionViewDataSource {
         
         groupCell.isSelectedImageView.setIcon(code: "ios-checkmark", color: .white)
         
-        groupCell.groupImage.image = UIImage(named: "aso")
+        groupCell.groupNameLabel.text = data[indexPath.row]
+        
+        groupCell.groupImageView.image = UIImage(named: "aso")
         
         return groupCell
     }

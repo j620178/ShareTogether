@@ -10,7 +10,9 @@ import UIKit
 
 class GroupCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var groupImage: UIImageView!
+    @IBOutlet weak var groupImageView: UIImageView!
+    
+    @IBOutlet weak var groupNameLabel: UILabel!
     
     @IBOutlet weak var isSelectedImageView: UIImageView! {
         didSet {

@@ -39,10 +39,10 @@ class AddExpenseViewController: STBaseViewController {
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.registerWithNib(indentifer: SelectionTableViewCell.identifer, bundle: nil)
-            tableView.registerWithNib(indentifer: TextFieldTableViewCell.identifer, bundle: nil)
-            tableView.registerWithNib(indentifer: CheckBoxTableViewCell.identifer, bundle: nil)
-            tableView.registerWithNib(indentifer: SplitTableViewCell.identifer, bundle: nil)
+            tableView.registerWithNib(indentifer: SelectionTableViewCell.identifer)
+            tableView.registerWithNib(indentifer: TextFieldTableViewCell.identifer)
+            tableView.registerWithNib(indentifer: CheckBoxTableViewCell.identifer)
+            tableView.registerWithNib(indentifer: SplitTableViewCell.identifer)
             tableView.register(ExpenseTableViewCell.self, forCellReuseIdentifier: ExpenseTableViewCell.identifer)
             tableView.dataSource = self
             tableView.delegate = self
@@ -281,12 +281,20 @@ extension AddExpenseViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let cell = tableView.cellForRow(at: indexPath),
-            let checkBoxCell = cell as? CheckBoxTableViewCell else { return }
-        
-        isSplit[indexPath.row] = !isSplit[indexPath.row]
-        
-        checkBoxCell.updateCheckBoxImage(isSelectd: isSplit[indexPath.row])
+        if indexPath.section == 2 {
+            
+            guard let nextVC = storyboard?.instantiateViewController(withIdentifier: SplitViewController.identifier) else { return }
+            
+            show(nextVC, sender: nil)
+            
+        } else if indexPath.section == 3 {
+            guard let cell = tableView.cellForRow(at: indexPath),
+                let checkBoxCell = cell as? CheckBoxTableViewCell else { return }
+            
+            isSplit[indexPath.row] = !isSplit[indexPath.row]
+            
+            checkBoxCell.updateCheckBoxImage(isSelectd: isSplit[indexPath.row])
+        }
         
     }
     

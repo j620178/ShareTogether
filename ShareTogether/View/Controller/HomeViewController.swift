@@ -56,12 +56,12 @@ class HomeViewController: STBaseViewController {
         }
     }
     
-    @IBOutlet weak var groupEditButton: UIButton! {
+    @IBOutlet weak var settingButton: UIButton! {
         didSet {
-            groupEditButton.setImage(
+            settingButton.setImage(
                 .getIcon(from: .materialIcon, code: "more.vert", color: .white, size: 30),
                 for: .normal)
-            groupEditButton.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+            settingButton.backgroundColor = UIColor.white.withAlphaComponent(0.2)
         }
     }
     
@@ -78,33 +78,42 @@ class HomeViewController: STBaseViewController {
         
     }
     
+    @IBAction func clickSettingButton(_ sender: UIButton) {
+        
+        guard let nextVC = storyboard?.instantiateViewController(withIdentifier: ModallyMeauViewController.identifier) else { return }
+        nextVC.modalPresentationStyle = .overFullScreen
+        present(nextVC, animated: true, completion: nil)
+        
+    }
+    
     let stackView = UIStackView()
     
     let expenseTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer, bundle: nil)
+        tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
         return tableView
     }()
     
     lazy var resultTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.registerWithNib(indentifer: ResultTableViewCell.identifer, bundle: nil)
+        tableView.registerWithNib(indentifer: ResultTableViewCell.identifer)
         return tableView
     }()
     
     lazy var statisticsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.registerWithNib(indentifer: StatisticsTableViewCell.identifer, bundle: nil)
+        tableView.registerWithNib(indentifer: StatisticsTableViewCell.identifer)
         return tableView
     }()
     
     lazy var notebookTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.registerWithNib(indentifer: NotebookTableViewCell.identifer, bundle: nil)
+        tableView.registerWithNib(indentifer: NotebookTableViewCell.identifer)
+        tableView.registerWithNib(indentifer: AddNotebookTableViewCell.identifer)
         return tableView
     }()
     
@@ -125,7 +134,7 @@ class HomeViewController: STBaseViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        groupEditButton.layer.cornerRadius = groupEditButton.frame.height / 2
+        settingButton.layer.cornerRadius = settingButton.frame.height / 2
     }
     
     deinit {
@@ -161,7 +170,7 @@ class HomeViewController: STBaseViewController {
             expenseListViewModel.passOffset = { [weak self] offsetY in
                 let offset = min(max(offsetY, 0), 65)
                 self?.groupNameButton.alpha = 1 - (offset / 65)
-                self?.groupEditButton.alpha = 1 - (offset / 65)
+                self?.settingButton.alpha = 1 - (offset / 65)
                 self?.bannerTopConstraint.constant = 20 - offset
                 //self?.bannerView.backgroundColor = UIColor.white.withAlphaComponent((offset / 33))
                 //self?.bannerView.addShadow(shadowOpacity: Float(offset / 65 * 0.2))

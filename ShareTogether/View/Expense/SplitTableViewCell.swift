@@ -35,6 +35,8 @@ class SplitTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        titleLabel.textColor = .STDarkGray
+        detailLabel.textColor = .STDarkGray
         self.selectionStyle = .none
         indicatorImageView.setIcon(code: "ios-arrow-forward", color: .STGray)
     }

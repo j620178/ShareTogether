@@ -12,7 +12,15 @@ class ExpenseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var insetContentView: UIView!
 
+    @IBOutlet weak var expenseTypeImageView: UIImageView!
+    
     @IBOutlet weak var userImageView: UIImageView!
+    
+    @IBOutlet weak var expenseTitleLabel: UILabel!
+    
+    @IBOutlet weak var amountLabel: UILabel!
+    
+    @IBOutlet weak var timeLabel: UILabel!
     
     @IBOutlet weak var userImageTopConstraint: NSLayoutConstraint!
     
@@ -21,6 +29,10 @@ class ExpenseTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
+    }
+    
+    func resetLayout() {
+        insetContentView.layer.cornerRadius = 0
     }
     
     func setupFirstCellLayout(cornerRadius: CGFloat = 10) {
@@ -54,6 +66,13 @@ class ExpenseTableViewCell: UITableViewCell {
         ]
         
     }
+    
+    func updateContent(expenseType: UIImage, userImage: UIImage?, title: String, amount: String, time: String) {
+        expenseTypeImageView.image = expenseType
+        expenseTitleLabel.text = title
+        amountLabel.text = amount
+        timeLabel.text = time
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -69,16 +88,8 @@ class ExpenseTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-//        contentView.layer.masksToBounds = true
-//        contentView.layer.cornerRadius = 16
-        
-//        layer.masksToBounds = false
-//        layer.shadowColor = UIColor.black.cgColor
-//        layer.shadowOpacity = 0.25
-//        layer.shadowOffset = CGSize(width: -1, height: 1)
-//        layer.shadowRadius = 8
-//        backgroundColor = .clear
-        
+        expenseTypeImageView.layer.cornerRadius = expenseTypeImageView.frame.height / 4
+        expenseTypeImageView.addShadow(shadowOpacity: 0.2, shadowRadius: 1)
         userImageView.layer.cornerRadius = userImageView.frame.height / 2
     }
     

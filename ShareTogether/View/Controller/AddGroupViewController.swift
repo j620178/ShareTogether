@@ -14,6 +14,8 @@ class AddGroupViewController: STBaseViewController {
     
     var lastVelocityYSign = 0
     
+    @IBOutlet weak var bannerImageView: UIImageView!
+    
     @IBOutlet weak var bannerView: UIView!
     
     @IBOutlet weak var groupMemberView: UIView!
@@ -26,10 +28,8 @@ class AddGroupViewController: STBaseViewController {
     
     @IBOutlet weak var setCoverButton: UIButton! {
         didSet {
-            setCoverButton.setImage(.getIcon(code: "ios-camera", color: .white, size: 45), for: .normal)
+            setCoverButton.setImage(.getIcon(code: "ios-camera", color: .STDarkGray, size: 45), for: .normal)
             setCoverButton.backgroundColor = UIColor.white.withAlphaComponent(0.25)
-//            setCoverButton.layer.borderColor = UIColor.white.cgColor
-//            setCoverButton.layer.borderWidth = 1
         }
     }
     
@@ -37,7 +37,7 @@ class AddGroupViewController: STBaseViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: MemberTableViewCell.identifer, bundle: nil)
+            tableView.registerWithNib(indentifer: MemberTableViewCell.identifer)
         }
     }
     
@@ -49,7 +49,10 @@ class AddGroupViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addMemberButton.setImage(.getIcon(code: "ios-add-circle-outline", color: .STTintColor, size: 20), for: .normal)
+        addMemberButton.setImage(.getIcon(code: "ios-add-circle-outline", color: .STTintColor, size: 30), for: .normal)
+
+        bannerImageView.layer.cornerRadius = 20
+        bannerImageView.layer.maskedCorners = [.layerMaxXMaxYCorner]
         bannerView.addCornerAndShadow(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner])
         
         groupNameTextField.delegate = self
@@ -61,12 +64,13 @@ class AddGroupViewController: STBaseViewController {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         
+        let barItem = UIBarButtonItem(image: .getIcon(code: "ios-add", color: .white, size: 40), style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = barItem
+        
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
-        addMemberButton.layer.cornerRadius = addMemberButton.frame.height / 2
         
         setCoverButton.layer.cornerRadius = setCoverButton.frame.height / 2
     }
@@ -74,7 +78,7 @@ class AddGroupViewController: STBaseViewController {
     func switchLayout(direction: Direction) {
         if direction == .up {
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.bannerViewConstaint.constant = 400
+                self?.bannerViewConstaint.constant = 360
                 self?.groupNameTextField.alpha = 1
                 self?.setCoverButton.alpha = 1
                 self?.title = ""
@@ -84,7 +88,7 @@ class AddGroupViewController: STBaseViewController {
             groupNameTextField.resignFirstResponder()
             
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.bannerViewConstaint.constant = 200
+                self?.bannerViewConstaint.constant = 180
                 self?.groupNameTextField.alpha = 0
                 self?.setCoverButton.alpha = 0
                 self?.title = self?.groupNameTextField.text

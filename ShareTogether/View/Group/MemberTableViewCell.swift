@@ -1,5 +1,5 @@
 //
-//  SplitTableViewCell.swift
+//  MemberTableViewCell.swift
 //  ShareTogether
 //
 //  Created by littlema on 2019/9/5.
@@ -8,18 +8,15 @@
 
 import UIKit
 
-class SplitTableViewCell: UITableViewCell {
+class MemberTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var userImageView: UIImageView!
+    
+    @IBOutlet weak var userNameLabel: UILabel!
     
     @IBOutlet weak var detailLabel: UILabel!
     
-    @IBOutlet weak var indicatorImageView: UIImageView!
-    
-    func updateLabelText(title: String, type: String) {
-        titleLabel.text = title
-        detailLabel.text = type
-    }
+    @IBOutlet weak var indicator: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,8 +32,8 @@ class SplitTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.selectionStyle = .none
-        indicatorImageView.setIcon(code: "ios-arrow-forward", color: .STGray)
+        indicator.setIcon(code: "ios-arrow-forward", color: .white)
+        userImageView.layer.cornerRadius = userImageView.frame.height / 2
     }
-
+    
 }

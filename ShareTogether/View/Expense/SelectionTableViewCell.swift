@@ -69,6 +69,11 @@ class SelectionTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.selectionStyle = .none
+    }
+    
 }
 
 extension SelectionTableViewCell: UICollectionViewDataSource {
@@ -94,20 +99,21 @@ extension SelectionTableViewCell: UICollectionViewDataSource {
         switch type {
             
         case .image:
+            categoryCell.tintColor = .STBlue
             if selectedCategory[indexPath.row] {
                 categoryCell.setupImage(image:
-                    .getIcon(code: categoryData[indexPath.row].rawValue, color: .STBlack, size: 60),
-                                        color: .STBlack)
+                    .getIcon(code: categoryData[indexPath.row].rawValue, color: .white, size: 60),
+                                        isSelected: selectedCategory[indexPath.row])
             } else {
                 categoryCell.setupImage(image:
                     .getIcon(code: categoryData[indexPath.row].rawValue, color: .white, size: 60),
-                                        color: .white)
+                                        isSelected: selectedCategory[indexPath.row])
             }
         case .text:
             if selectedString[indexPath.row] {
-                categoryCell.setupText(text: stringData[indexPath.row], color: .STBlack)
+                categoryCell.setupText(text: stringData[indexPath.row], isSelected: selectedString[indexPath.row])
             } else {
-                categoryCell.setupText(text: stringData[indexPath.row], color: .white)
+                categoryCell.setupText(text: stringData[indexPath.row], isSelected: selectedString[indexPath.row])
             }
 
         }

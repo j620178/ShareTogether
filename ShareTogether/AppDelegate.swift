@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        self.window!.tintColor = .STBlue
+        self.window!.tintColor = .STDarkGray
         
         return true
     }

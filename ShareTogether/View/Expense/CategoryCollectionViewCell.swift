@@ -23,26 +23,26 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    func setupImage(image: UIImage, color: UIColor) {
+    func setupImage(image: UIImage, isSelected: Bool) {
         categoryImageView.image = image
-        if color == .white {
-            contentView.backgroundColor = .whiteAlphaOf(0.2)
+        if isSelected {
+            contentView.backgroundColor = tintColor
         } else {
-            contentView.backgroundColor = .white
+            contentView.backgroundColor = tintColor.withAlphaComponent(0.2)
         }
         categoryImageView.alpha = 1
         categoryLabel.alpha = 0
     }
     
-    func setupText(text: String, color: UIColor) {
+    func setupText(text: String, isSelected: Bool) {
         categoryLabel.text = text
         
-        if color == .white {
-            contentView.backgroundColor = .whiteAlphaOf(0.2)
+        if isSelected {
+            contentView.backgroundColor = tintColor
             categoryLabel.textColor = .white
         } else {
-            contentView.backgroundColor = .white
-            categoryLabel.textColor = .STBlack
+            contentView.backgroundColor = tintColor.withAlphaComponent(0.2)
+            categoryLabel.textColor = tintColor
         }
         categoryImageView.alpha = 0
         categoryLabel.alpha = 1

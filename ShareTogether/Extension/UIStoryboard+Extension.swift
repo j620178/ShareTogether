@@ -11,6 +11,10 @@ import UIKit
 
 private struct StoryboardCategory {
     
+    static let login = "Login"
+    
+    static let main = "Main"
+    
     static let home = "Home"
     
     static let expense = "Expense"
@@ -22,6 +26,10 @@ private struct StoryboardCategory {
 }
 
 extension UIStoryboard {
+    
+    static var main: UIStoryboard { return getStoryboard(name: StoryboardCategory.main) }
+    
+    static var login: UIStoryboard { return getStoryboard(name: StoryboardCategory.login) }
     
     static var home: UIStoryboard { return getStoryboard(name: StoryboardCategory.home) }
     

@@ -31,6 +31,8 @@ class AddExpenseViewController: STBaseViewController {
     
     var isSplit = [true, true, true, true, true]
     
+    var lastVelocityYSign = 0
+    
     @IBOutlet weak var mapView: MKMapView!
     
     @IBOutlet weak var containerView: UIView!
@@ -51,20 +53,25 @@ class AddExpenseViewController: STBaseViewController {
     
     @IBOutlet weak var cancelButton: UIButton! {
         didSet {
-            cancelButton.setImage(.getIcon(code: "ios-close", color: .STBlack, size: 40), for: .normal)
-            cancelButton.backgroundColor = .blackAlphaOf(0.2)
+            cancelButton.setImage(.getIcon(code: "ios-close", color: .STRed, size: 40), for: .normal)
+            cancelButton.backgroundColor = UIColor.white.withAlphaComponent(0.75)
         }
     }
 
     @IBOutlet weak var nextButton: UIButton! {
         didSet {
-            nextButton.setImage(.getIcon(code: "ios-checkmark", color: .STBlack, size: 40), for: .normal)
-            nextButton.backgroundColor = .blackAlphaOf(0.2)
+            nextButton.setImage(.getIcon(code: "ios-checkmark", color: .white, size: 40), for: .normal)
+            nextButton.backgroundColor = .STBlue
         }
     }
     
     @IBAction func clickCancelButton(_ sender: UIButton) {
 
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func clickAddButton(_ sender: UIButton) {
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -75,13 +82,10 @@ class AddExpenseViewController: STBaseViewController {
         
         setupMap()
 
-        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(checkAction))
-        gesture.direction = .up
-        let gesture2 = UISwipeGestureRecognizer(target: self, action: #selector(checkAction))
-        gesture2.direction = .down
+        let gestureUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction))
+        gestureUp.direction = .up
+        self.containerView.addGestureRecognizer(gestureUp)
 
-        self.containerView.addGestureRecognizer(gesture)
-        self.containerView.addGestureRecognizer(gesture2)
     }
     
     override func viewWillLayoutSubviews() {
@@ -96,14 +100,8 @@ class AddExpenseViewController: STBaseViewController {
     
     func setupBase() {
         
-        containerView.backgroundColor = .STBlue
-        containerView.layer.cornerRadius = 20.0
-        containerView.layer.shadowOpacity = 0.8
-        containerView.layer.shadowRadius = 5
-        containerView.layer.shadowOffset = .zero
-        containerView.layer.shadowColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).cgColor
-        containerView.layer.maskedCorners = [CACornerMask.layerMinXMinYCorner, CACornerMask.layerMaxXMinYCorner]
-
+        containerView.addCornerAndShadow(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+    
     }
     
     func setupMap() {
@@ -129,21 +127,39 @@ class AddExpenseViewController: STBaseViewController {
         mapView.showAnnotations([annotation], animated: true)
     }
     
-    @objc func checkAction(_ sender: UISwipeGestureRecognizer) {
+    func switchMapHeight(direction: Direction) {
         
-        if sender.direction == .up {
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)),
+            let textFieldCell = cell as? TextFieldTableViewCell else { return }
+        
+        if direction == .up {
+            
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.mapHeightConstraint.constant = 16
+                self?.mapHeightConstraint.constant = 36
                 self?.view.layoutIfNeeded()
             }
             tableView.isScrollEnabled = true
         } else {
+            
+            if textFieldCell.textField.isFirstResponder {
+                textFieldCell.textField.resignFirstResponder()
+            }
+            
+            tableView.isScrollEnabled = false
+            
             UIView.animate(withDuration: 0.5) { [weak self] in
                 self?.mapHeightConstraint.constant = UIScreen.main.bounds.height / 2
                 self?.view.layoutIfNeeded()
             }
         }
-        
+    }
+    
+    @objc func swipeAction(_ sender: UISwipeGestureRecognizer) {
+ 
+        if sender.direction == .up {
+            switchMapHeight(direction: .up)
+        }
+    
     }
     
 }
@@ -160,7 +176,7 @@ extension AddExpenseViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
-        header.textLabel?.textColor = .white
+        header.textLabel?.textColor = .STGray
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -182,28 +198,34 @@ extension AddExpenseViewController: UITableViewDataSource {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: SelectionTableViewCell.identifer, for: indexPath)
             
-            guard let categoryCell = cell as? SelectionTableViewCell else { return cell }
+            guard let selectionCell = cell as? SelectionTableViewCell else { return cell }
             
-            categoryCell.type = .image
+            selectionCell.type = .image
             
-            categoryCell.collectionView.reloadData()
+            selectionCell.collectionView.reloadData()
             
-            return categoryCell
+            return selectionCell
         } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifer, for: indexPath)
             
             guard let textfieldCell = cell as? TextFieldTableViewCell else { return cell }
             
+            textfieldCell.delegate = self
+    
+            textfieldCell.textField.placeholder = textfieldPlaceHolder[indexPath.row]
+            
             if indexPath.row == 0 {
+                textfieldCell.textField.keyboardType = .numberPad
                 textfieldCell.textField.becomeFirstResponder()
             }
-            textfieldCell.textField.placeholder = textfieldPlaceHolder[indexPath.row]
             
             return textfieldCell
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: SplitTableViewCell.identifer, for: indexPath)
             
             guard let splitCell = cell as? SplitTableViewCell else { return cell }
+            
+            splitCell.tintColor = .STBlue
             
             splitCell.updateLabelText(title: "littlema", type: "均分")
             
@@ -239,20 +261,24 @@ extension AddExpenseViewController: UITableViewDataSource {
 }
 
 extension AddExpenseViewController: UITableViewDelegate {
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        if scrollView.contentOffset.y < 0 {
-            scrollView.isScrollEnabled = false
+        if scrollView.contentOffset.y <= -75 {
+            switchMapHeight(direction: .down)
         }
         
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let currentVelocityY =  scrollView.panGestureRecognizer.velocity(in: scrollView.superview).y
+        let currentVelocityYSign = Int(currentVelocityY).signum()
         
-        if scrollView.contentOffset.y == 0 {
-            scrollView.isScrollEnabled = false
+        if currentVelocityYSign != lastVelocityYSign,
+            currentVelocityYSign != 0 {
+            lastVelocityYSign = currentVelocityYSign
         }
         
+        if lastVelocityYSign < 0 {
+            switchMapHeight(direction: .up)
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -274,4 +300,10 @@ extension AddExpenseViewController: CLLocationManagerDelegate {
 
 extension AddExpenseViewController: MKMapViewDelegate {
     
+}
+
+extension AddExpenseViewController: TextFieldTableViewCellDelegate {
+    func keyboardBeginEditing(tableViewCell: TextFieldTableViewCell) {
+        switchMapHeight(direction: .up)
+    }
 }

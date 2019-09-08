@@ -15,15 +15,19 @@ class GroupViewController: STBaseViewController {
         return true
     }
     
-    @IBOutlet weak var collection: UICollectionView! {
+    fileprivate var selectedCell: UICollectionViewCell?
+    
+    @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
-            collection.dataSource = self
-            collection.delegate = self
+            collectionView.dataSource = self
+            collectionView.delegate = self
             let flowLayout = UICollectionViewFlowLayout()
             flowLayout.itemSize = CGSize(width: (UIScreen.main.bounds.width - 10 - 16 * 2) / 2, height: 140)
             flowLayout.minimumInteritemSpacing = 10
             flowLayout.minimumLineSpacing = 10
-            collection.collectionViewLayout = flowLayout
+            collectionView.collectionViewLayout = flowLayout
+            
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }
     }
     
@@ -69,10 +73,8 @@ extension GroupViewController: UICollectionViewDataSource {
                 withReuseIdentifier: GroupCollectionViewCell.identifer, for: indexPath)
             
             guard let groupCell = cell as? GroupCollectionViewCell else { return cell }
-            
-            groupCell.layer.cornerRadius = 10
-            
-            groupCell.selectedImageView.setIcon(code: "ios-checkmark", color: .white)
+                        
+            groupCell.isSelectedImageView.setIcon(code: "ios-checkmark", color: .white)
             
             groupCell.groupImage.image = UIImage(named: "aso")
             
@@ -85,11 +87,26 @@ extension GroupViewController: UICollectionViewDataSource {
 
 extension GroupViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         if indexPath.row == 0 {
+            
+            self.selectedCell = self.collectionView.cellForItem(at: indexPath)
+            
             let nextVC = UIStoryboard.group.instantiateViewController(withIdentifier: AddGroupViewController.identifier)
-            show(nextVC, sender: nil)
+            
+            self.navigationController?.pushViewController(nextVC, animated: true)
         } else {
             dismiss(animated: true, completion: nil)
         }
+    }
+}
+
+extension GroupViewController: Animatable {
+    var containerView: UIView? {
+        return self.collectionView
+    }
+    
+    var childView: UIView? {
+        return self.selectedCell
     }
 }

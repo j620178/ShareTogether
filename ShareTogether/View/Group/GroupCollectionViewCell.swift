@@ -12,15 +12,24 @@ class GroupCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var groupImage: UIImageView!
     
-    @IBOutlet weak var selectedImageView: UIImageView! {
+    @IBOutlet weak var isSelectedImageView: UIImageView! {
         didSet {
-            selectedImageView.backgroundColor = .blackAlphaOf(0.25)
+            isSelectedImageView.backgroundColor = UIColor.STBlack.withAlphaComponent(0.25)
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        selectedImageView.layer.cornerRadius = selectedImageView.frame.height / 2
+        contentView.layer.masksToBounds = true
+        contentView.layer.cornerRadius = 16
+        
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.25
+        layer.shadowOffset = .init(width: 0, height: 4)
+        layer.shadowRadius = 12
+        backgroundColor = .clear
+
     }
 }

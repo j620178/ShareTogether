@@ -98,6 +98,7 @@ extension UIImage {
         
     }
     
+    // Refactor
     static var home: UIImage {
         return UIImage.getIcon(from: .themify, code: "home", color: nil, size: tabbarIconSize)
     }
@@ -109,7 +110,7 @@ extension UIImage {
     static var add: UIImage {
         return UIImage.getIcon(
             code: "ios-add-circle",
-            color: .STBlue,
+            color: .STYellow,
             size: 50
         )
     }

@@ -19,8 +19,8 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z4o-su-Dod">
-                        <rect key="frame" x="0.0" y="5.5" width="320" height="60"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                        <rect key="frame" x="16" y="5.5" width="288" height="60"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="60" id="gZN-cz-JHF"/>
                         </constraints>
@@ -31,9 +31,9 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="z4o-su-Dod" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="F2Q-Rb-7dR"/>
+                    <constraint firstItem="z4o-su-Dod" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="F2Q-Rb-7dR"/>
                     <constraint firstAttribute="bottom" secondItem="z4o-su-Dod" secondAttribute="bottom" constant="5" id="bTz-nk-LPj"/>
-                    <constraint firstAttribute="trailing" secondItem="z4o-su-Dod" secondAttribute="trailing" id="h4O-bq-Erm"/>
+                    <constraint firstAttribute="trailing" secondItem="z4o-su-Dod" secondAttribute="trailing" constant="16" id="h4O-bq-Erm"/>
                     <constraint firstItem="z4o-su-Dod" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="wIT-eG-0jW"/>
                 </constraints>
             </tableViewCellContentView>

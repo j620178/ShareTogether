@@ -9,7 +9,7 @@
 import UIKit
 
 protocol TextFieldTableViewCellDelegate: AnyObject {
-    func keyboardIsShow(tableViewCell: TextFieldTableViewCell)
+    func keyboardBeginEditing(tableViewCell: TextFieldTableViewCell)
 }
 
 class TextFieldTableViewCell: UITableViewCell {
@@ -18,10 +18,10 @@ class TextFieldTableViewCell: UITableViewCell {
 
     @IBOutlet weak var textField: UITextField! {
         didSet {
+            textField.delegate = self
             textField.layer.cornerRadius = 10.0
             textField.clipsToBounds = true
-            textField.leftViewMode = .always
-            textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+            textField.addLeftSpace()
         }
     }
     
@@ -36,4 +36,15 @@ class TextFieldTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.selectionStyle = .none
+    }
+    
+}
+
+extension TextFieldTableViewCell: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.keyboardBeginEditing(tableViewCell: self)
+    }
 }

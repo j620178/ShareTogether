@@ -80,10 +80,7 @@ class STTabBarController: UITabBarController {
         UITabBar.appearance().backgroundColor = UIColor.white
         
         viewControllers = tabs.map({ $0.controller() })
-        tabBar.layer.shadowOpacity = 0.8
-        tabBar.layer.shadowRadius = 3
-        tabBar.layer.shadowOffset = .zero
-        tabBar.layer.shadowColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1).cgColor
+        tabBar.addShadow()
         
         delegate = self
         

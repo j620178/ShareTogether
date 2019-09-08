@@ -66,17 +66,9 @@ extension ExpenseViewModel: UITableViewDataSource {
         guard let recodeCell = cell as? ExpenseTableViewCell else { return cell }
         recodeCell.insetContentView.layer.cornerRadius = 0
         if indexPath.row == 0 {
-            recodeCell.insetContentView.layer.cornerRadius = 15.0
-            recodeCell.insetContentView.layer.maskedCorners = [
-                CACornerMask.layerMinXMinYCorner,
-                CACornerMask.layerMaxXMinYCorner
-            ]
+            recodeCell.setupFirstCellLayout()
         } else if (indexPath.section == 0 && indexPath.row == 4) || (indexPath.section == 1 && indexPath.row == 6) {
-            recodeCell.insetContentView.layer.cornerRadius = 15.0
-            recodeCell.insetContentView.layer.maskedCorners = [
-                CACornerMask.layerMinXMaxYCorner,
-                CACornerMask.layerMaxXMaxYCorner
-            ]
+            recodeCell.setupLastCellLayout()
         }
         
         return recodeCell

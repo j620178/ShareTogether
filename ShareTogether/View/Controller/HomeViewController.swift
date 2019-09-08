@@ -49,16 +49,17 @@ class HomeViewController: STBaseViewController {
     @IBOutlet weak var groupNameButton: UIButton! {
         didSet {
             groupNameButton.setImage(
-                .getIcon(code: "ios-arrow-down", color: .STBlack, size: 25),
+                .getIcon(code: "ios-arrow-down", color: .white, size: 22),
                 for: .normal
             )
+            groupNameButton.setTitleColor(.white, for: .normal)
         }
     }
     
     @IBOutlet weak var groupEditButton: UIButton! {
         didSet {
             groupEditButton.setImage(
-                .getIcon(from: .materialIcon, code: "more.vert", color: .STBlack, size: 30),
+                .getIcon(from: .materialIcon, code: "more.vert", color: .STYellow, size: 30),
                 for: .normal)
         }
     }
@@ -76,21 +77,6 @@ class HomeViewController: STBaseViewController {
         
     }
     
-    @IBAction func clickTapView(_ sender: UIButton) {
-        
-        switch sender.tag {
-        case 1:
-            print(1)
-        case 2:
-            print(2)
-        case 3:
-            print(3)
-        default:
-            break
-        }
-        
-    }
-
     let stackView = UIStackView()
     
     let expenseTableView: UITableView = {
@@ -124,12 +110,16 @@ class HomeViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        view.backgroundColor = .backgroundLightGray
+        bannerView.backgroundColor = .STArmyGreen
 
         setupInfoContainerView()
 
-        preparePage(currnetIndex: infoTypeSelectionView.selectIndex)
-        
+        // refactor
+        preparePage(currnetIndex: 0)
+        preparePage(currnetIndex: 1)
+        preparePage(currnetIndex: 2)
+        preparePage(currnetIndex: 3)
     }
     
     deinit {
@@ -137,6 +127,8 @@ class HomeViewController: STBaseViewController {
     }
     
     func setupInfoContainerView() {
+        
+        bannerView.addShadow()
         
         infoContainer.addSubview(stackView)
         
@@ -165,6 +157,8 @@ class HomeViewController: STBaseViewController {
                 self?.groupNameButton.alpha = 1 - (offset / 65)
                 self?.groupEditButton.alpha = 1 - (offset / 65)
                 self?.bannerTopConstraint.constant = 20 - offset
+                //self?.bannerView.backgroundColor = UIColor.white.withAlphaComponent((offset / 33))
+                //self?.bannerView.addShadow(shadowOpacity: Float(offset / 65 * 0.2))
                 self?.view.layoutIfNeeded()
             }
         }
@@ -211,7 +205,7 @@ extension HomeViewController: UIScrollViewDelegate {
             
             if screenPage > infoTypeSelectionView.selectIndex {
                 infoTypeSelectionView.switchIndicatorAt(index: screenPage)
-                preparePage(currnetIndex: screenPage)
+                //preparePage(currnetIndex: screenPage)
             } else if screenPage < infoTypeSelectionView.selectIndex {
                 infoTypeSelectionView.switchIndicatorAt(index: screenPage)
             }
@@ -236,7 +230,7 @@ extension HomeViewController: ScrollSelectionViewDelegate {
         let index = infoTypeSelectionView.selectIndex
         infoContainer.setContentOffset(CGPoint(x: index * Int(UIScreen.main.bounds.width), y: 0), animated: true)
         if (index + 1) >= stackView.subviews.count {
-            preparePage(currnetIndex: index)
+            //preparePage(currnetIndex: index)
         }
     }
 }

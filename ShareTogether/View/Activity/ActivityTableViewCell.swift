@@ -1,27 +1,19 @@
 //
-//  RadioBoxTableViewCell.swift
+//  ActiveTableViewCell.swift
 //  ShareTogether
 //
-//  Created by littlema on 2019/9/5.
+//  Created by littlema on 2019/8/29.
 //  Copyright © 2019 littema. All rights reserved.
 //
 
 import UIKit
 
-class CheckBoxTableViewCell: UITableViewCell {
+class ActivityTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var categoryImageView: UIImageView!
     
     @IBOutlet weak var userImageView: UIImageView!
     
-    @IBOutlet weak var checkBoxImageView: UIImageView!
-    
-    func updateCheckBoxImage(isSelectd: Bool) {
-        if isSelectd {
-            checkBoxImageView.setIcon(code: "ios-checkmark-circle", color: tintColor)
-        } else {
-            checkBoxImageView.setIcon(code: "ios-radio-button-off", color: .lightGray)
-        }
-    }
-        
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -35,7 +27,8 @@ class CheckBoxTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.selectionStyle = .none
+        
+        categoryImageView.layer.cornerRadius = categoryImageView.frame.height / 10
         userImageView.layer.cornerRadius = userImageView.frame.height / 2
     }
     

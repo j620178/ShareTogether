@@ -16,7 +16,7 @@ protocol ScrollSelectionViewDataSource: AnyObject {
 
 extension ScrollSelectionViewDataSource {
     func titleFontForItem(scrollSelectionView: ScrollSelectionView) -> UIFont {
-        return .systemFont(ofSize: 15)
+        return .systemFont(ofSize: 14, weight: .medium)
     }
 }
 
@@ -44,7 +44,7 @@ class ScrollSelectionView: UIView {
     
     let indicator: UIView = {
         let view = UIView()
-        view.backgroundColor = .STBlack
+        view.backgroundColor = .white
         return view
     }()
 
@@ -119,10 +119,10 @@ class ScrollSelectionView: UIView {
             guard let strongSelf = self else { return }
             
             for button in strongSelf.buttons {
-                button.setTitleColor(.STGray, for: .normal)
+                button.setTitleColor(UIColor.white.withAlphaComponent(0.25), for: .normal)
             }
             
-            strongSelf.buttons[index].setTitleColor(.STBlack, for: .normal)
+            strongSelf.buttons[index].setTitleColor(.white, for: .normal)
             strongSelf.indicator.center.x = strongSelf.buttons[index].center.x
         }
     }

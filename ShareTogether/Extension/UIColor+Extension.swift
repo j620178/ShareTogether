@@ -12,7 +12,7 @@ import UIKit
 extension UIColor {
     
     static var STTintColor: UIColor {
-        return .STGreen
+        return .STArmyGreen
     }
     
     static var STBlack: UIColor {
@@ -57,6 +57,11 @@ extension UIColor {
             //UIColor(red: 216/255, green: 161/255, blue: 21/255, alpha: 1)
     }
     
+    static var STLightYellow: UIColor {
+        return UIColor(red: 252/255, green: 221/255, blue: 158/255, alpha: 1)
+        //UIColor(red: 216/255, green: 161/255, blue: 21/255, alpha: 1)
+    }
+    
     static var STCyan: UIColor {
         return UIColor(red: 33/255, green: 231/255, blue: 191/255, alpha: 1)
     }
@@ -67,7 +72,7 @@ extension UIColor {
     }
     
     static var STArmyGreen: UIColor {
-        return UIColor(red: 113/255, green: 124/255, blue: 111/255, alpha: 1)
+        return UIColor(red: 108/255, green: 126/255, blue: 112/255, alpha: 1)
     }
 
     static var backgroundLightGray: UIColor {

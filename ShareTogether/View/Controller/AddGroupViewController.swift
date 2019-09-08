@@ -14,13 +14,24 @@ class AddGroupViewController: STBaseViewController {
     
     var lastVelocityYSign = 0
     
+    @IBOutlet weak var bannerView: UIView!
+    
     @IBOutlet weak var groupMemberView: UIView!
     
     @IBOutlet weak var groupNameTextField: UITextField!
     
-    @IBOutlet weak var textfieldTopConstaint: NSLayoutConstraint!
+    @IBOutlet weak var bannerViewConstaint: NSLayoutConstraint!
     
     @IBOutlet weak var addMemberButton: UIButton!
+    
+    @IBOutlet weak var setCoverButton: UIButton! {
+        didSet {
+            setCoverButton.setImage(.getIcon(code: "ios-camera", color: .white, size: 45), for: .normal)
+            setCoverButton.backgroundColor = UIColor.white.withAlphaComponent(0.25)
+//            setCoverButton.layer.borderColor = UIColor.white.cgColor
+//            setCoverButton.layer.borderWidth = 1
+        }
+    }
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -39,28 +50,17 @@ class AddGroupViewController: STBaseViewController {
         super.viewDidLoad()
         
         addMemberButton.setImage(.getIcon(code: "ios-add-circle-outline", color: .STTintColor, size: 20), for: .normal)
-        groupMemberView.addCornerAndShadow(cornerRadius: 10)
+        bannerView.addCornerAndShadow(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner])
         
         groupNameTextField.delegate = self
         groupNameTextField.layer.cornerRadius = 10.0
         groupNameTextField.clipsToBounds = true
         groupNameTextField.becomeFirstResponder()
         groupNameTextField.addLeftSpace()
-        //let gestureTap = UITapGestureRecognizer(target: self, action: #selector(gestureAction))
-        
-        let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: #selector(gestureAction))
-        gestureSwipeUp.direction = .up
-        
-        let gestureSwipeDown = UISwipeGestureRecognizer(target: self, action: #selector(gestureDownAction))
-        gestureSwipeDown.direction = .down
-        
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-    
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
 
-        //self.groupNameView.addGestureRecognizer(gestureTap)
-        //self.groupMemberView.addGestureRecognizer(gestureSwipeUp)
-        //self.groupMemberView.addGestureRecognizer(gestureSwipeDown)
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -68,13 +68,15 @@ class AddGroupViewController: STBaseViewController {
         
         addMemberButton.layer.cornerRadius = addMemberButton.frame.height / 2
         
+        setCoverButton.layer.cornerRadius = setCoverButton.frame.height / 2
     }
     
     func switchLayout(direction: Direction) {
         if direction == .up {
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.textfieldTopConstaint.constant = 156
+                self?.bannerViewConstaint.constant = 400
                 self?.groupNameTextField.alpha = 1
+                self?.setCoverButton.alpha = 1
                 self?.title = ""
                 self?.view.layoutIfNeeded()
             }
@@ -82,8 +84,9 @@ class AddGroupViewController: STBaseViewController {
             groupNameTextField.resignFirstResponder()
             
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.textfieldTopConstaint.constant = 16
+                self?.bannerViewConstaint.constant = 200
                 self?.groupNameTextField.alpha = 0
+                self?.setCoverButton.alpha = 0
                 self?.title = self?.groupNameTextField.text
                 self?.view.layoutIfNeeded()
             }
@@ -101,7 +104,9 @@ class AddGroupViewController: STBaseViewController {
 }
 
 extension AddGroupViewController: UITextFieldDelegate {
-    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print(123)
+    }
 }
 
 extension AddGroupViewController: UITableViewDataSource {

@@ -110,7 +110,7 @@ extension UIImage {
     static var add: UIImage {
         return UIImage.getIcon(
             code: "ios-add-circle",
-            color: .STGreen,
+            color: .STYellow,
             size: 50
         )
     }

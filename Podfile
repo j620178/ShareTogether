@@ -9,4 +9,6 @@ target 'ShareTogether' do
   pod 'SwiftLint'
   pod 'SwiftIconFont'
   pod 'IQKeyboardManagerSwift'
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
 end

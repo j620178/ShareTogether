@@ -64,7 +64,11 @@ class AddGroupViewController: STBaseViewController {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         
-        let barItem = UIBarButtonItem(image: .getIcon(code: "ios-add", color: .white, size: 40), style: .plain, target: self, action: nil)
+        let barItem = UIBarButtonItem(image: .getIcon(code: "ios-add", color: .white, size: 40),
+                                      style: .plain,
+                                      target: self,
+                                      action: nil)
+        
         navigationItem.rightBarButtonItem = barItem
         
     }

@@ -28,14 +28,72 @@ class LoginViewController: STBaseViewController {
     
     @IBAction func clickLoginButton(_ sender: UIButton) {
         
-        let nextVC =  UIStoryboard.main.instantiateInitialViewController()!
-        present(nextVC, animated: true, completion: nil)
+        if emailTextField.text == "" || passwordTextField.text == "" {
+            print("請輸入完整資訊")
+        } else {
+            
+            FirebaseAuth.shared.emailSignIn(email: emailTextField.text!,
+                                            password: passwordTextField.text!) { [weak self] result in
+                
+                if result != nil {
+                    self?.goMainVC()
+                } else {
+                    print(result ?? "error")
+                }
+            }
+            
+        }
+        
+    }
+    
+    func goMainVC() {
+        if presentingViewController != nil {
+            let presentingVC = presentingViewController
+            dismiss(animated: true) {
+                presentingVC?.dismiss(animated: true, completion: nil)
+            }
+        } else {
+            let nextVC = UIStoryboard.main.instantiateInitialViewController()!
+            present(nextVC, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func clickOAuthLogin(_ sender: UIButton) {
+        
+        if sender.tag == 1 {
+            FirebaseAuth.shared.googleSignIn(viewContorller: self) { [weak self] result in
+                switch result {
+                case true:
+                    self?.goMainVC()
+                case false:
+                    print("error")
+                }
+            }
+        } else if sender.tag == 2 {
+            FirebaseAuth.shared.facebookSignIn(viewContorller: self) { [weak self] result in
+                switch result {
+                case true:
+                    self?.goMainVC()
+                case false:
+                    print("error")
+                }
+            }
+        }
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupBase()
+        
+        if FirebaseAuth.shared.isSignIn() {
+            goMainVC()
+        }
+        
+    }
+    
+    func setupBase() {
         emailTextField.addLeftSpace()
         emailTextField.textColor = .STDarkGray
         passwordTextField.addLeftSpace()
@@ -66,6 +124,10 @@ class LoginViewController: STBaseViewController {
         facebookLoginButton.layer.cornerRadius = facebookLoginButton.frame.height / 4
         signUpButton.layer.cornerRadius = signUpButton.frame.height / 4
 
+    }
+    
+    deinit {
+        print("LoginViewController - deinit")
     }
 
 }

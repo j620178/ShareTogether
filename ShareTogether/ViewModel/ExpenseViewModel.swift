@@ -11,7 +11,13 @@ import UIKit
 
 class ExpenseViewModel: NSObject {
     
-    let expense = [["機票","36,000","2018/9/4"],["租車","16,000","2018/8/27"],["門票","2,000","2018/8/27"],["Pass","6,000","2018/8/27"],["地鐵","300","2018/8/27"]]
+    let expense = [
+        ["機票", "36,000", "2018/9/4"],
+        ["租車", "16,000", "2018/8/27"],
+        ["門票", "2,000", "2018/8/27"],
+        ["Pass", "6,000", "2018/8/27"],
+        ["地鐵", "300", "2018/8/27"]
+    ]
     
     private var expenseRecodes = [ExpenseRecode]()
     
@@ -59,7 +65,7 @@ extension ExpenseViewModel: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 3 : 5
+        return section == 0 ? 3 : expense.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -70,7 +76,7 @@ extension ExpenseViewModel: UITableViewDataSource {
         recodeCell.expenseTypeImageView.backgroundColor = .white
         
         recodeCell.updateContent(
-            expenseType: .getIcon(code: "ios-car", color: .STTintColor, size: 60),
+            expenseType: .getIcon(code: "ios-car", color: .STTintColor, size: 45),
             userImage: nil,
             title: expense[indexPath.row][0],
             amount: expense[indexPath.row][1],
@@ -79,7 +85,8 @@ extension ExpenseViewModel: UITableViewDataSource {
         
         if indexPath.row == 0 {
             recodeCell.setupFirstCellLayout()
-        } else if (indexPath.section == 0 && indexPath.row == 4) || (indexPath.section == 1 && indexPath.row == 6) {
+        } else if (indexPath.section == 0 && indexPath.row == 2) ||
+            (indexPath.section == 1 && indexPath.row == expense.count - 1) {
             recodeCell.setupLastCellLayout()
         } else {
             recodeCell.resetLayout()

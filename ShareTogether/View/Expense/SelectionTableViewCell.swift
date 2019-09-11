@@ -51,7 +51,8 @@ class SelectionTableViewCell: UITableViewCell {
             collectionView.collectionViewLayout = flowLayout
             collectionView.dataSource = self
             collectionView.delegate = self
-            
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        
             collectionView.register(
                 CategoryCollectionViewCell.self,
                 forCellWithReuseIdentifier: CategoryCollectionViewCell.identifer)

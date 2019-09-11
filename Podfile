@@ -11,4 +11,7 @@ target 'ShareTogether' do
   pod 'IQKeyboardManagerSwift'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Bolts'
+  pod 'FBSDKLoginKit'
+  pod 'GoogleSignIn'
 end

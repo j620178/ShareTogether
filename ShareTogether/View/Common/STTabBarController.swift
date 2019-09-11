@@ -79,10 +79,11 @@ class STTabBarController: UITabBarController {
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().backgroundColor = UIColor.white
         
-        viewControllers = tabs.map({ $0.controller() })
+        delegate = self
+        
         tabBar.addShadow()
         
-        delegate = self
+        viewControllers = tabs.map({ $0.controller() })
         
     }
 }

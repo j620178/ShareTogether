@@ -80,7 +80,9 @@ class HomeViewController: STBaseViewController {
     
     @IBAction func clickSettingButton(_ sender: UIButton) {
         
-        guard let nextVC = storyboard?.instantiateViewController(withIdentifier: ModallyMeauViewController.identifier) else { return }
+        guard let nextVC = storyboard?.instantiateViewController(withIdentifier: ModallyMeauViewController.identifier)
+        else { return }
+        
         nextVC.modalPresentationStyle = .overFullScreen
         present(nextVC, animated: true, completion: nil)
         

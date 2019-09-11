@@ -283,7 +283,8 @@ extension AddExpenseViewController: UITableViewDelegate {
         
         if indexPath.section == 2 {
             
-            guard let nextVC = storyboard?.instantiateViewController(withIdentifier: SplitViewController.identifier) else { return }
+            guard let nextVC = storyboard?.instantiateViewController(withIdentifier: SplitViewController.identifier)
+            else { return }
             
             show(nextVC, sender: nil)
             

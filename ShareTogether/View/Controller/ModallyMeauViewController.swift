@@ -17,6 +17,7 @@ class ModallyMeauViewController: STBaseViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
+            tableView.delegate = self
         }
     }
     
@@ -51,6 +52,16 @@ extension ModallyMeauViewController: UITableViewDataSource {
         }
 
         return cell
+    }
+    
+}
+
+extension ModallyMeauViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        FirebaseAuth.shared.signOut()
+        let nextVC = UIStoryboard.login.instantiateInitialViewController()!
+        present(nextVC, animated: true)
     }
     
 }

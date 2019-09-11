@@ -134,7 +134,10 @@ class SelectionView: UIView {
             
             button.tag = index
 
-            indicatorContainerView.backgroundColor = dataSource.backgroundColorOfSelectionButtons(selectionView: self, index: index)
+            indicatorContainerView.backgroundColor = dataSource.backgroundColorOfSelectionButtons(
+                selectionView: self,
+                index: index
+            )
             
             button.setTitle(dataSource.titleOfRowAt(selectionView: self, index: index), for: .normal)
             

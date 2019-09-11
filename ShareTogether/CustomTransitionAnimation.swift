@@ -129,7 +129,7 @@ extension CustomTransitionAnimation {
         }
 
         // Put the completion handler on the longest lasting animator
-        if (self.positioningDuration > self.resizingDuration) {
+        if self.positioningDuration > self.resizingDuration {
             positionAnimator.addCompletion(completionHandler)
         } else {
             sizeAnimator.addCompletion(completionHandler)
@@ -225,7 +225,7 @@ extension CustomTransitionAnimation {
         }
 
         // Put the completion handler on the longest lasting animator
-        if (self.positioningDuration > self.resizingDuration) {
+        if self.positioningDuration > self.resizingDuration {
             positionAnimator.addCompletion(completionHandler)
         } else {
             sizeAnimator.addCompletion(completionHandler)

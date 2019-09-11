@@ -11,7 +11,9 @@ import UIKit
 class ExpenseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var insetContentView: UIView!
-
+    
+    @IBOutlet weak var imageContainerView: UIView!
+    
     @IBOutlet weak var expenseTypeImageView: UIImageView!
     
     @IBOutlet weak var userImageView: UIImageView!
@@ -87,10 +89,13 @@ class ExpenseTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        expenseTypeImageView.layer.cornerRadius = expenseTypeImageView.frame.height / 4
-        expenseTypeImageView.addShadow(shadowOpacity: 0.2, shadowRadius: 1)
+
+        imageContainerView.layer.borderWidth = 1
+        imageContainerView.layer.borderColor = UIColor.backgroundLightGray.cgColor
+        imageContainerView.layer.cornerRadius = imageContainerView.frame.height / 4
+
         userImageView.layer.cornerRadius = userImageView.frame.height / 2
+        userImageView.bezierPathBorder(.white, width: 3)
     }
     
 }

@@ -18,6 +18,19 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var signUpButton: UIButton!
     
+    @IBAction func clickSignUpButton(_ sender: UIButton) {
+        if userNameTextField.text == "" ||
+            emailTextField.text == "" ||
+            passwordTextField.text == "" {
+            print("請輸入完整資訊")
+        } else {
+            FirebaseAuth.shared.createNewUser(email: emailTextField.text!,
+                                              password: passwordTextField.text!) { text in
+                print(text)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

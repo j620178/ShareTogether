@@ -126,4 +126,4 @@ extension FirebaseAuth: GIDSignInDelegate {
     
 }
 
-extension LoginViewController: GIDSignInUIDelegate {}
+extension LoginViewController: GIDSignInUIDelegate { }

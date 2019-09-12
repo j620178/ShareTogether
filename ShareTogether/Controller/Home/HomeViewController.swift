@@ -90,7 +90,7 @@ class HomeViewController: STBaseViewController {
     
     let stackView = UIStackView()
     
-    let expenseTableView: UITableView = {
+    lazy var expenseTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
@@ -164,18 +164,16 @@ class HomeViewController: STBaseViewController {
         
         if currnetIndex == 0 {
             stackView.addArrangedSubview(expenseTableView)
-            expenseTableView.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
             expenseTableView.dataSource = expenseListViewModel
             expenseTableView.delegate = expenseListViewModel
             expenseTableView.separatorStyle = .none
             expenseTableView.backgroundColor = .clear
+            expenseTableView.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
             expenseListViewModel.passOffset = { [weak self] offsetY in
                 let offset = min(max(offsetY, 0), 65)
                 self?.groupNameButton.alpha = 1 - (offset / 65)
                 self?.settingButton.alpha = 1 - (offset / 65)
                 self?.bannerTopConstraint.constant = 20 - offset
-                //self?.bannerView.backgroundColor = UIColor.white.withAlphaComponent((offset / 33))
-                //self?.bannerView.addShadow(shadowOpacity: Float(offset / 65 * 0.2))
                 self?.view.layoutIfNeeded()
             }
         }

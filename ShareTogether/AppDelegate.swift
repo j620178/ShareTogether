@@ -30,8 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GIDSignIn.sharedInstance().delegate = FirebaseAuth.shared
         
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         
         self.window?.makeKeyAndVisible()

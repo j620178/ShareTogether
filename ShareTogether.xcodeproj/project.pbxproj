@@ -184,7 +184,6 @@
 		744BBF9E2315F73100434D7A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				74B5C4BE231DE37700EB916D /* Controller */,
 				74B5C4C3231DE3E200EB916D /* Home */,
 				74B5C4ED231E5C8700EB916D /* Expense */,
 				745CC9802321060200426D1A /* Activity */,
@@ -208,11 +207,13 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		744C9C332328F9AD00661252 /* New Group */ = {
+		744C9C332328F9AD00661252 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				747AB9062324DFED00007A32 /* LoginViewController.swift */,
+				747AB90A2324F38A00007A32 /* SignUpViewController.swift */,
 			);
-			path = "New Group";
+			path = Login;
 			sourceTree = "<group>";
 		};
 		745CACC523169FB80055A60C /* Model */ = {
@@ -270,10 +271,11 @@
 				745CC98C232249CD00426D1A /* CustomTransitionAnimation.swift */,
 				745CC98B232249CD00426D1A /* NavigationController.swift */,
 				74960EA223150834006BF12C /* AppDelegate.swift */,
-				745CACC523169FB80055A60C /* Model */,
 				74D611D1231D006700A301E9 /* ThridPratyWrapper */,
-				7492067A2317DDAB0049357B /* ViewModel */,
 				744BBFA623162ADB00434D7A /* Extension */,
+				745CACC523169FB80055A60C /* Model */,
+				7492067A2317DDAB0049357B /* ViewModel */,
+				74B5C4BE231DE37700EB916D /* Controller */,
 				744BBF9E2315F73100434D7A /* View */,
 				74D611CF231CEF7600A301E9 /* Main.storyboard */,
 				74960EA623150834006BF12C /* Home.storyboard */,
@@ -291,17 +293,12 @@
 		74B5C4BE231DE37700EB916D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				747AB9062324DFED00007A32 /* LoginViewController.swift */,
-				744C9C332328F9AD00661252 /* New Group */,
+				74BAAEA22328FA8B008623FF /* Home */,
+				744C9C332328F9AD00661252 /* Login */,
 				7451C46223272B4800EA0AEB /* InviteViewController.swift */,
-				747AB90A2324F38A00007A32 /* SignUpViewController.swift */,
-				7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */,
 				74BA2AE02325D58A0010799E /* SplitViewController.swift */,
-				74B5C4CB231DE47B00EB916D /* HomeViewController.swift */,
 				74B5C4CA231DE47B00EB916D /* GroupViewController.swift */,
 				74B5C4E9231E00B000EB916D /* AddGroupViewController.swift */,
-				74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */,
-				74B5C4CC231DE47B00EB916D /* ActivityViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -363,6 +360,17 @@
 				7455837423265D2E008C1690 /* SplitTextFieldTableViewCell.xib */,
 			);
 			path = Expense;
+			sourceTree = "<group>";
+		};
+		74BAAEA22328FA8B008623FF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				74B5C4CB231DE47B00EB916D /* HomeViewController.swift */,
+				74B5C4CC231DE47B00EB916D /* ActivityViewController.swift */,
+				7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */,
+				74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		74D611D1231D006700A301E9 /* ThridPratyWrapper */ = {

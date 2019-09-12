@@ -16,20 +16,6 @@ class STNavigationController: UINavigationController {
         self.navigationBar.barTintColor = .white
         self.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationBar.shadowImage = UIImage()
-
-//        self.navigationBar.backIndicatorImage = .getIcon(
-//            code: "ios-arrow-back",
-//            color: .STDarkGray,
-//            backgroundColor: .red,
-//            size: 40
-//        )
-        
-//        self.navigationBar.backIndicatorTransitionMaskImage = .getIcon(
-//            code: "ios-arrow-back",
-//            color: .STDarkGray,
-//            backgroundColor: .red,
-//            size: 40
-//        )
     }
 
 }

@@ -85,7 +85,7 @@
                         <outlet property="bannerTopConstraint" destination="5Q3-XK-jBi" id="j3I-nZ-DLd"/>
                         <outlet property="bannerView" destination="qDM-I4-a1C" id="njv-oq-T9y"/>
                         <outlet property="groupNameButton" destination="FZZ-F8-1la" id="HoO-X6-sbu"/>
-                        <outlet property="infoContainer" destination="NYj-ah-caq" id="Mg7-Q4-AzI"/>
+                        <outlet property="infoContainer" destination="NYj-ah-caq" id="FWc-qD-IC2"/>
                         <outlet property="infoTypeSelectionView" destination="XLa-nT-ELX" id="HO3-w7-GjB"/>
                         <outlet property="settingButton" destination="Ig6-5d-D2x" id="P9V-LO-Qzo"/>
                     </connections>

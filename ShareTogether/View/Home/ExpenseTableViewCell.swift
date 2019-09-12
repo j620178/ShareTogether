@@ -33,6 +33,31 @@ class ExpenseTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
+    var viewModel: HomeExpenseCellViewModel? {
+        didSet {
+            
+            guard let viewModel = viewModel else { return }
+            
+            expenseTypeImageView.image = .getIcon(code: viewModel.type,
+                                                  color: .STTintColor,
+                                                  size: 45)
+            expenseTitleLabel.text = viewModel.title
+            amountLabel.text = String(viewModel.amount)
+            timeLabel.text = viewModel.time
+            
+            resetLayout()
+            
+            if viewModel.isFirst {
+                self.setupFirstCellLayout()
+            }
+            
+            if viewModel.isLast {
+                self.setupLastCellLayout()
+            }
+            
+        }
+    }
+    
     func resetLayout() {
         insetContentView.layer.cornerRadius = 0
     }
@@ -68,13 +93,6 @@ class ExpenseTableViewCell: UITableViewCell {
         ]
         
     }
-    
-    func updateContent(expenseType: UIImage, userImage: UIImage?, title: String, amount: String, time: String) {
-        expenseTypeImageView.image = expenseType
-        expenseTitleLabel.text = title
-        amountLabel.text = amount
-        timeLabel.text = time
-    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -93,9 +111,12 @@ class ExpenseTableViewCell: UITableViewCell {
         imageContainerView.layer.borderWidth = 1
         imageContainerView.layer.borderColor = UIColor.backgroundLightGray.cgColor
         imageContainerView.layer.cornerRadius = imageContainerView.frame.height / 4
+        
+        expenseTypeImageView.backgroundColor = .white
 
         userImageView.layer.cornerRadius = userImageView.frame.height / 2
         userImageView.bezierPathBorder(.white, width: 3)
+            
     }
     
 }

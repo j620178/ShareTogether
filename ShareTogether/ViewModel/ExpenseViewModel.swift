@@ -9,119 +9,80 @@
 import Foundation
 import UIKit
 
-class ExpenseViewModel: NSObject {
+class HomeExpenseViewModel: NSObject {
     
-    let expense = [
-        ["機票", "36,000", "2018/9/4"],
-        ["租車", "16,000", "2018/8/27"],
-        ["門票", "2,000", "2018/8/27"],
-        ["Pass", "6,000", "2018/8/27"],
-        ["地鐵", "300", "2018/8/27"]
+    let expenses = [
+        [
+            Expense(title: "門票", time: "2018/8/27", amount: 1200),
+            Expense(title: "租車", time: "2018/8/27", amount: 16000),
+            Expense(title: "地鐵", time: "2018/8/27", amount: 25)
+        ], [
+            Expense(title: "機票", time: "2018/9/4", amount: 36000),
+            Expense(title: "租車", time: "2018/8/27", amount: 16000),
+            Expense(title: "門票", time: "2018/8/27", amount: 1200),
+            Expense(title: "Pass", time: "2018/8/27", amount: 360),
+            Expense(title: "地鐵", time: "2018/8/27", amount: 25)
+        ]
     ]
     
-    private var expenseRecodes = [ExpenseRecode]()
+    private var cellViewModels = [[HomeExpenseCellViewModel]]()
     
-    private var cellViewModels: [ExpenseRecodeCellViewModel] = [ExpenseRecodeCellViewModel]() {
-        didSet {
-            self.reloadTableViewClosure?()
-        }
-    }
+    var reloadTableViewClosure: (() -> Void)?
+    var showAlertClosure: (() -> Void)?
+    var updateLoadingStatus: (() -> Void)?
     
-    var numberOfCells: Int {
+    var numberOfSections: Int {
         return cellViewModels.count
     }
     
-    var reloadTableViewClosure: (() -> Void)?
-    
-    var passOffset: ((CGFloat) -> Void)?
-    
-    func createCellViewModel(expenseRecode: ExpenseRecode) -> ExpenseRecodeCellViewModel {
-    
-        return ExpenseRecodeCellViewModel( titleText: expenseRecode.title,
-                                       timeText: expenseRecode.time,
-                                       imageUrl: expenseRecode.userImg,
-                                       amountText: "\(expenseRecode.amount)")
+    func numberOfCells(section: Int) -> Int {
+        return cellViewModels[section].count
     }
     
-    private func processFetchedRecodes(expenseRecodes: [ExpenseRecode]) {
-        self.expenseRecodes = expenseRecodes // Cache
-        var vms = [ExpenseRecodeCellViewModel]()
-        for recode in expenseRecodes {
-            vms.append(createCellViewModel(expenseRecode: recode) )
-        }
-        self.cellViewModels = vms
-    }
-
-}
-
-extension ExpenseViewModel: UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "今天" : "8月27日"
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 3 : expense.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseTableViewCell.identifer, for: indexPath)
-        
-        guard let recodeCell = cell as? ExpenseTableViewCell else { return cell }
-        recodeCell.expenseTypeImageView.backgroundColor = .white
-        
-        recodeCell.updateContent(
-            expenseType: .getIcon(code: "ios-car", color: .STTintColor, size: 45),
-            userImage: nil,
-            title: expense[indexPath.row][0],
-            amount: expense[indexPath.row][1],
-            time: expense[indexPath.row][2]
-        )
+    func getCellViewModel( at indexPath: IndexPath ) -> HomeExpenseCellViewModel {
         
         if indexPath.row == 0 {
-            recodeCell.setupFirstCellLayout()
-        } else if (indexPath.section == 0 && indexPath.row == 2) ||
-            (indexPath.section == 1 && indexPath.row == expense.count - 1) {
-            recodeCell.setupLastCellLayout()
+            cellViewModels[indexPath.section][indexPath.row].isFirst = true
+            return cellViewModels[indexPath.section][indexPath.row]
         } else {
-            recodeCell.resetLayout()
+            for section in cellViewModels.indices {
+                let lastIndexPath = IndexPath(row: cellViewModels[section].count - 1, section: section)
+                if indexPath == lastIndexPath {
+                    cellViewModels[indexPath.section][indexPath.row].isLast = true
+                    return cellViewModels[indexPath.section][indexPath.row]
+                }
+            }
         }
         
-        return recodeCell
+        return cellViewModels[indexPath.section][indexPath.row]
     }
     
-}
-
-extension ExpenseViewModel: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        let header = view as? UITableViewHeaderFooterView
-        header?.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+    func createCellViewModels(expense: Expense) -> HomeExpenseCellViewModel {
+        
+        return HomeExpenseCellViewModel(type: expense.type,
+                                        title: expense.title,
+                                        userImg: expense.userImg,
+                                        time: expense.time,
+                                        amount: expense.amount,
+                                        isFirst: false,
+                                        isLast: false)
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.alpha = 0
-        UIView.animate(withDuration: 0.5) {
-            cell.alpha = 1
+    func processData() {
+        var cellViewModels = [[HomeExpenseCellViewModel]]()
+        
+        for selection in expenses {
+            
+            var viewModelsInSelection = [HomeExpenseCellViewModel]()
+            
+            for expense in selection {
+                viewModelsInSelection.append(createCellViewModels(expense: expense))
+            }
+            
+            cellViewModels.append(viewModelsInSelection)
         }
+        
+        self.cellViewModels = cellViewModels
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        passOffset?(scrollView.contentOffset.y)
-        
-    }
-    
-}
-
-struct ExpenseRecodeCellViewModel {
-    let titleText: String
-    let timeText: String
-    let imageUrl: String
-    let amountText: String
 }

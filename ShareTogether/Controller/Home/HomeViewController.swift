@@ -17,10 +17,10 @@ class HomeViewController: STBaseViewController {
         case notebook = "記事本"
     }
     
-    let infoItems = [InfoType.expense, InfoType.statistics, InfoType.result, InfoType.notebook]
+    let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
     
-    lazy var expenseListViewModel: ExpenseViewModel = {
-        return ExpenseViewModel()
+    lazy var homeExpenseViewModel: HomeExpenseViewModel = {
+        return HomeExpenseViewModel()
     }()
     
     lazy var statisticsViewModel: StatisticsViewModel = {
@@ -93,27 +93,35 @@ class HomeViewController: STBaseViewController {
     lazy var expenseTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
-        return tableView
-    }()
-    
-    lazy var resultTableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.registerWithNib(indentifer: ResultTableViewCell.identifer)
         return tableView
     }()
     
     lazy var statisticsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        //        tableView.dataSource = self
+        //        tableView.delegate = self
         tableView.registerWithNib(indentifer: StatisticsTableViewCell.identifer)
+        return tableView
+    }()
+    
+    lazy var resultTableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+//        tableView.dataSource = self
+//        tableView.delegate = self
+        tableView.registerWithNib(indentifer: ResultTableViewCell.identifer)
         return tableView
     }()
     
     lazy var notebookTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+//        tableView.dataSource = self
+//        tableView.delegate = self
         tableView.registerWithNib(indentifer: NotebookTableViewCell.identifer)
         tableView.registerWithNib(indentifer: AddNotebookTableViewCell.identifer)
         return tableView
@@ -124,14 +132,15 @@ class HomeViewController: STBaseViewController {
         
         view.backgroundColor = .backgroundLightGray
         bannerView.backgroundColor = .STTintColor
+        
+        homeExpenseViewModel.processData()
 
         setupInfoContainerView()
 
-        // refactor
-        preparePage(currnetIndex: 0)
-        preparePage(currnetIndex: 1)
-        preparePage(currnetIndex: 2)
-        preparePage(currnetIndex: 3)
+        preparePage(index: 0)
+        preparePage(index: 1)
+        preparePage(index: 2)
+        preparePage(index: 3)
     }
     
     override func viewWillLayoutSubviews() {
@@ -160,31 +169,17 @@ class HomeViewController: STBaseViewController {
         
     }
     
-    func preparePage(currnetIndex: Int) {
+    func preparePage(index: Int) {
         
-        if currnetIndex == 0 {
+        guard infoItems.count > (index - 1) else { return }
+        
+        switch infoItems[index] {
+
+        case .expense:
             stackView.addArrangedSubview(expenseTableView)
-            expenseTableView.dataSource = expenseListViewModel
-            expenseTableView.delegate = expenseListViewModel
+            expenseTableView.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
             expenseTableView.separatorStyle = .none
             expenseTableView.backgroundColor = .clear
-            expenseTableView.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
-            expenseListViewModel.passOffset = { [weak self] offsetY in
-                let offset = min(max(offsetY, 0), 65)
-                self?.groupNameButton.alpha = 1 - (offset / 65)
-                self?.settingButton.alpha = 1 - (offset / 65)
-                self?.bannerTopConstraint.constant = 20 - offset
-                self?.view.layoutIfNeeded()
-            }
-        }
-        
-        let targetIndex = currnetIndex + 1
-        
-        guard infoItems.count > targetIndex else { return }
-        
-        switch infoItems[targetIndex] {
-
-        case .expense:  break
         case .statistics:
             stackView.addArrangedSubview(statisticsTableView)
             statisticsTableView.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
@@ -212,20 +207,68 @@ class HomeViewController: STBaseViewController {
     
 }
 
-extension HomeViewController: UIScrollViewDelegate {
+extension HomeViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 0 ? "今天" : "8月27日"
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return homeExpenseViewModel.numberOfCells(section: section)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseTableViewCell.identifer, for: indexPath)
+        
+        if tableView == expenseTableView {
+            
+            guard let recodeCell = cell as? ExpenseTableViewCell else { return cell }
+            
+            recodeCell.viewModel = homeExpenseViewModel.getCellViewModel(at: indexPath)
+            
+            return recodeCell
+        }
+        
+        return cell
+    }
+}
+
+extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as? UITableViewHeaderFooterView
+        header?.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+        UIView.animate(withDuration: 0.5) {
+            cell.alpha = 1
+        }
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if scrollView == infoContainer {
             let screenPage = Int(scrollView.contentOffset.x / UIScreen.main.bounds.width)
-            
+
             if screenPage > infoTypeSelectionView.selectIndex {
                 infoTypeSelectionView.switchIndicatorAt(index: screenPage)
-                //preparePage(currnetIndex: screenPage)
             } else if screenPage < infoTypeSelectionView.selectIndex {
                 infoTypeSelectionView.switchIndicatorAt(index: screenPage)
             }
-        } 
-        
+        } else {
+            let offset = min(max(scrollView.contentOffset.y, 0), 65)
+            
+            groupNameButton.alpha = 1 - (offset / 65)
+            settingButton.alpha = 1 - (offset / 65)
+            bannerTopConstraint.constant = 20 - offset
+            view.layoutIfNeeded()
+        }
+    
     }
 }
 

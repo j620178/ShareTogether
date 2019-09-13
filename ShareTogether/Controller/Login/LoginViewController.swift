@@ -32,7 +32,7 @@ class LoginViewController: STBaseViewController {
             print("請輸入完整資訊")
         } else {
             
-            FirebaseAuth.shared.emailSignIn(email: emailTextField.text!,
+            AuthManger.shared.emailSignIn(email: emailTextField.text!,
                                             password: passwordTextField.text!) { [weak self] result in
                 
                 if result != nil {
@@ -61,7 +61,7 @@ class LoginViewController: STBaseViewController {
     @IBAction func clickOAuthLogin(_ sender: UIButton) {
         
         if sender.tag == 1 {
-            FirebaseAuth.shared.googleSignIn(viewContorller: self) { [weak self] result in
+            AuthManger.shared.googleSignIn(viewContorller: self) { [weak self] result in
                 switch result {
                 case true:
                     self?.goMainVC()
@@ -70,7 +70,7 @@ class LoginViewController: STBaseViewController {
                 }
             }
         } else if sender.tag == 2 {
-            FirebaseAuth.shared.facebookSignIn(viewContorller: self) { [weak self] result in
+            AuthManger.shared.facebookSignIn(viewContorller: self) { [weak self] result in
                 switch result {
                 case true:
                     self?.goMainVC()
@@ -87,7 +87,7 @@ class LoginViewController: STBaseViewController {
         
         setupBase()
         
-        if FirebaseAuth.shared.isSignIn() {
+        if AuthManger.shared.isSignIn() {
             goMainVC()
         }
         

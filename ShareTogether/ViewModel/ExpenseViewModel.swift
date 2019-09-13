@@ -11,21 +11,20 @@ import UIKit
 
 class HomeExpenseViewModel: NSObject {
     
-    let expenses = [
-        [
-            Expense(title: "門票", time: "2018/8/27", amount: 1200),
-            Expense(title: "租車", time: "2018/8/27", amount: 16000),
-            Expense(title: "地鐵", time: "2018/8/27", amount: 25)
-        ], [
-            Expense(title: "機票", time: "2018/9/4", amount: 36000),
-            Expense(title: "租車", time: "2018/8/27", amount: 16000),
-            Expense(title: "門票", time: "2018/8/27", amount: 1200),
-            Expense(title: "Pass", time: "2018/8/27", amount: 360),
-            Expense(title: "地鐵", time: "2018/8/27", amount: 25)
-        ]
+    var  expenses = [
+        Expense(title: "門票", time: "2018/9/4", amount: 1200),
+        Expense(title: "租車", time: "2018/8/27", amount: 16000),
+        Expense(title: "地鐵", time: "2018/8/27", amount: 25),
+        Expense(title: "機票", time: "2018/9/4", amount: 36000),
+        Expense(title: "租車", time: "2018/8/27", amount: 16000),
+        Expense(title: "門票", time: "2018/8/27", amount: 1200),
+        Expense(title: "Pass", time: "2018/8/27", amount: 360),
+        Expense(title: "地鐵", time: "2018/9/4", amount: 25)
     ]
     
     private var cellViewModels = [[HomeExpenseCellViewModel]]()
+    
+    private var titleOfSections = [String]()
     
     var reloadTableViewClosure: (() -> Void)?
     var showAlertClosure: (() -> Void)?
@@ -37,6 +36,10 @@ class HomeExpenseViewModel: NSObject {
     
     func numberOfCells(section: Int) -> Int {
         return cellViewModels[section].count
+    }
+    
+    func titleOfSections(section: Int) -> String {
+        return titleOfSections[section]
     }
     
     func getCellViewModel( at indexPath: IndexPath ) -> HomeExpenseCellViewModel {
@@ -69,20 +72,36 @@ class HomeExpenseViewModel: NSObject {
     }
     
     func processData() {
-        var cellViewModels = [[HomeExpenseCellViewModel]]()
         
-        for selection in expenses {
-            
-            var viewModelsInSelection = [HomeExpenseCellViewModel]()
-            
-            for expense in selection {
-                viewModelsInSelection.append(createCellViewModels(expense: expense))
-            }
-            
-            cellViewModels.append(viewModelsInSelection)
+        guard expenses.count > 1 else { return }
+        
+        expenses.sort { (lhs: Expense, rhs: Expense) -> Bool in
+            return lhs.time < rhs.time
         }
         
-        self.cellViewModels = cellViewModels
+        var viewModels = [[HomeExpenseCellViewModel]]()
+        
+        var viewModelsSection = [HomeExpenseCellViewModel]()
+        
+        var index = 0
+        
+        titleOfSections.append(expenses[0].time)
+        
+        for expense in expenses {
+            
+            if titleOfSections[index] == expense.time {
+                viewModelsSection.append(createCellViewModels(expense: expense))
+            } else {
+                viewModels.append(viewModelsSection)
+                titleOfSections.append(expense.time)
+                viewModelsSection = [HomeExpenseCellViewModel]()
+                viewModelsSection.append(createCellViewModels(expense: expense))
+                index += 1
+            }
+        }
+        viewModels.append(viewModelsSection)
+        
+        self.cellViewModels = viewModels
     }
     
 }

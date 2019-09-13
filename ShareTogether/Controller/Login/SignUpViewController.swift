@@ -24,7 +24,7 @@ class SignUpViewController: UIViewController {
             passwordTextField.text == "" {
             print("請輸入完整資訊")
         } else {
-            FirebaseAuth.shared.createNewUser(email: emailTextField.text!,
+            AuthManger.shared.createNewUser(email: emailTextField.text!,
                                               password: passwordTextField.text!) { text in
                 print(text)
             }

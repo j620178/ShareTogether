@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
-        GIDSignIn.sharedInstance().delegate = FirebaseAuth.shared
+        GIDSignIn.sharedInstance().delegate = AuthManger.shared
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         
@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window!.tintColor = .STTintColor
         
-        if FirebaseAuth.shared.isSignIn() {
+        if AuthManger.shared.isSignIn() {
             self.window?.rootViewController = UIStoryboard.main.instantiateInitialViewController()!
         } else {
             self.window?.rootViewController = UIStoryboard.login.instantiateInitialViewController()!

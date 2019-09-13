@@ -19,7 +19,49 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYj-ah-caq">
                                 <rect key="frame" x="0.0" y="171" width="414" height="691"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LSv-gj-97q">
+                                        <rect key="frame" x="0.0" y="0.0" width="1656" height="691"/>
+                                        <subviews>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sPW-nw-dk6">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="691"/>
+                                                <connections>
+                                                    <segue destination="byE-21-Gk4" kind="embed" id="8b5-6m-Urg"/>
+                                                </connections>
+                                            </containerView>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="04m-sJ-ZN0">
+                                                <rect key="frame" x="414" y="0.0" width="414" height="691"/>
+                                                <connections>
+                                                    <segue destination="rZM-7Q-4Kz" kind="embed" id="wIe-Qc-h3d"/>
+                                                </connections>
+                                            </containerView>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p1r-Xn-hPn">
+                                                <rect key="frame" x="828" y="0.0" width="414" height="691"/>
+                                                <connections>
+                                                    <segue destination="bZt-MY-3tU" kind="embed" id="PUA-jY-ZBt"/>
+                                                </connections>
+                                            </containerView>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wf9-RN-PT7">
+                                                <rect key="frame" x="1242" y="0.0" width="414" height="691"/>
+                                                <connections>
+                                                    <segue destination="czB-Vh-xay" kind="embed" id="DBX-QO-6R7"/>
+                                                </connections>
+                                            </containerView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
                                 <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="LSv-gj-97q" secondAttribute="trailing" id="0yy-Dg-z0N"/>
+                                    <constraint firstItem="LSv-gj-97q" firstAttribute="height" secondItem="NYj-ah-caq" secondAttribute="height" id="6lY-oS-hW5"/>
+                                    <constraint firstItem="LSv-gj-97q" firstAttribute="top" secondItem="NYj-ah-caq" secondAttribute="top" id="HNH-9H-Ird"/>
+                                    <constraint firstItem="p1r-Xn-hPn" firstAttribute="width" secondItem="NYj-ah-caq" secondAttribute="width" id="IhS-7d-DDT"/>
+                                    <constraint firstItem="04m-sJ-ZN0" firstAttribute="width" secondItem="NYj-ah-caq" secondAttribute="width" id="NGE-8x-2CO"/>
+                                    <constraint firstAttribute="bottom" secondItem="LSv-gj-97q" secondAttribute="bottom" id="OVN-d4-NF1"/>
+                                    <constraint firstItem="sPW-nw-dk6" firstAttribute="width" secondItem="NYj-ah-caq" secondAttribute="width" id="SQy-NW-iTX"/>
+                                    <constraint firstItem="LSv-gj-97q" firstAttribute="leading" secondItem="NYj-ah-caq" secondAttribute="leading" id="lpK-Jz-jeu"/>
+                                    <constraint firstItem="Wf9-RN-PT7" firstAttribute="width" secondItem="NYj-ah-caq" secondAttribute="width" id="vq8-Pr-TdP"/>
+                                </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qDM-I4-a1C">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="171"/>
@@ -92,7 +134,79 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="908.69565217391312" y="16.741071428571427"/>
+            <point key="canvasLocation" x="1059" y="17"/>
+        </scene>
+        <!--Expense Table View Controller-->
+        <scene sceneID="Pfy-9O-BY0">
+            <objects>
+                <tableViewController id="byE-21-Gk4" customClass="ExpenseTableViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="O8M-hv-yZd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="691"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="byE-21-Gk4" id="bhz-jv-WLD"/>
+                            <outlet property="delegate" destination="byE-21-Gk4" id="Wxe-NW-aPB"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jNs-mb-dcx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-117" y="764"/>
+        </scene>
+        <!--Statistics Table View Controller-->
+        <scene sceneID="oV1-cL-qd4">
+            <objects>
+                <tableViewController id="rZM-7Q-4Kz" customClass="StatisticsTableViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="r6X-hH-Vqr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="691"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="rZM-7Q-4Kz" id="jG5-Bq-ehD"/>
+                            <outlet property="delegate" destination="rZM-7Q-4Kz" id="wZ2-BB-OTk"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M7g-eS-k5f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="681" y="765"/>
+        </scene>
+        <!--Result Table View Controller-->
+        <scene sceneID="zE7-J5-LSg">
+            <objects>
+                <tableViewController id="bZt-MY-3tU" customClass="ResultTableViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="b3f-GP-vQY">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="691"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="bZt-MY-3tU" id="f7g-d3-6Z4"/>
+                            <outlet property="delegate" destination="bZt-MY-3tU" id="inL-tO-exY"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zn6-H4-gFW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1426" y="765"/>
+        </scene>
+        <!--Notebook Table View Controller-->
+        <scene sceneID="Zaf-7y-iTC">
+            <objects>
+                <tableViewController id="czB-Vh-xay" customClass="NotebookTableViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Gcb-6p-9Y0" customClass="No">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="691"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="czB-Vh-xay" id="McX-N0-CZu"/>
+                            <outlet property="delegate" destination="czB-Vh-xay" id="EIc-Fc-Msx"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5AI-QP-0Kd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2167" y="765"/>
         </scene>
         <!--Modally Meau View Controller-->
         <scene sceneID="HXX-78-Jyb">
@@ -190,7 +304,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mz4-dA-3aK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1708.6956521739132" y="16.741071428571427"/>
+            <point key="canvasLocation" x="1816" y="-684"/>
         </scene>
     </scenes>
     <resources>

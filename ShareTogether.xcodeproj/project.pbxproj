@@ -48,6 +48,10 @@
 		74960EAD23150838006BF12C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74960EAB23150838006BF12C /* LaunchScreen.storyboard */; };
 		74975EB42327764A008FC7B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74975EB32327764A008FC7B0 /* GoogleService-Info.plist */; };
 		74975EB623277A61008FC7B0 /* FireBaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74975EB523277A61008FC7B0 /* FireBaseAuth.swift */; };
+		74A1A0D9232B6728007C717A /* ExpenseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0D8232B6728007C717A /* ExpenseTableViewController.swift */; };
+		74A1A0DB232B6EFF007C717A /* StatisticsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DA232B6EFF007C717A /* StatisticsTableViewController.swift */; };
+		74A1A0DD232B8535007C717A /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DC232B8535007C717A /* ResultTableViewController.swift */; };
+		74A1A0DF232B8675007C717A /* NotebookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */; };
 		74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AEC8F7231FAFF0003A6F01 /* SelectionTableViewCell.swift */; };
 		74AEC8FA231FAFF0003A6F01 /* SelectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74AEC8F8231FAFF0003A6F01 /* SelectionTableViewCell.xib */; };
 		74AEC8FD231FC5E9003A6F01 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AEC8FB231FC5E8003A6F01 /* TextFieldTableViewCell.swift */; };
@@ -127,6 +131,10 @@
 		74960EAE23150838006BF12C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74975EB32327764A008FC7B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		74975EB523277A61008FC7B0 /* FireBaseAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseAuth.swift; sourceTree = "<group>"; };
+		74A1A0D8232B6728007C717A /* ExpenseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewController.swift; sourceTree = "<group>"; };
+		74A1A0DA232B6EFF007C717A /* StatisticsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTableViewController.swift; sourceTree = "<group>"; };
+		74A1A0DC232B8535007C717A /* ResultTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewController.swift; sourceTree = "<group>"; };
+		74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookTableViewController.swift; sourceTree = "<group>"; };
 		74AEC8F7231FAFF0003A6F01 /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
 		74AEC8F8231FAFF0003A6F01 /* SelectionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionTableViewCell.xib; sourceTree = "<group>"; };
 		74AEC8FB231FC5E8003A6F01 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
@@ -366,6 +374,10 @@
 			isa = PBXGroup;
 			children = (
 				74B5C4CB231DE47B00EB916D /* HomeViewController.swift */,
+				74A1A0D8232B6728007C717A /* ExpenseTableViewController.swift */,
+				74A1A0DA232B6EFF007C717A /* StatisticsTableViewController.swift */,
+				74A1A0DC232B8535007C717A /* ResultTableViewController.swift */,
+				74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */,
 				74B5C4CC231DE47B00EB916D /* ActivityViewController.swift */,
 				7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */,
 				74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */,
@@ -559,6 +571,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74A1A0DB232B6EFF007C717A /* StatisticsTableViewController.swift in Sources */,
 				747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */,
 				74B5C4CE231DE47B00EB916D /* GroupViewController.swift in Sources */,
 				745CACC823169FD30055A60C /* ExpenseRecode.swift in Sources */,
@@ -570,6 +583,7 @@
 				74B5C4EC231E044800EB916D /* STBaseViewController.swift in Sources */,
 				745CACD12317BE630055A60C /* StatisticsViewModel.swift in Sources */,
 				74B5C4DF231DE48800EB916D /* StatisticsTableViewCell.swift in Sources */,
+				74A1A0DF232B8675007C717A /* NotebookTableViewController.swift in Sources */,
 				745CC98F232249CE00426D1A /* CustomTransitionAnimation.swift in Sources */,
 				74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */,
 				745CC990232249CE00426D1A /* Animatable.swift in Sources */,
@@ -590,11 +604,13 @@
 				74AEC9012320837C003A6F01 /* CheckBoxTableViewCell.swift in Sources */,
 				74B5C4C8231DE46B00EB916D /* GroupCollectionViewCell.swift in Sources */,
 				74B5C4D0231DE47B00EB916D /* ActivityViewController.swift in Sources */,
+				74A1A0D9232B6728007C717A /* ExpenseTableViewController.swift in Sources */,
 				74D611D3231D008D00A301E9 /* SwiftIconFont.swift in Sources */,
 				74B5C4E4231DE48F00EB916D /* STTabBarController.swift in Sources */,
 				7451C46323272B4800EA0AEB /* InviteViewController.swift in Sources */,
 				745CC98E232249CE00426D1A /* NavigationController.swift in Sources */,
 				74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */,
+				74A1A0DD232B8535007C717A /* ResultTableViewController.swift in Sources */,
 				74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */,
 				7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */,
 				74975EB623277A61008FC7B0 /* FireBaseAuth.swift in Sources */,

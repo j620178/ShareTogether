@@ -59,7 +59,7 @@ extension ModallyMeauViewController: UITableViewDataSource {
 extension ModallyMeauViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        FirebaseAuth.shared.signOut()
+        AuthManger.shared.signOut()
         let nextVC = UIStoryboard.login.instantiateInitialViewController()!
         present(nextVC, animated: true)
     }

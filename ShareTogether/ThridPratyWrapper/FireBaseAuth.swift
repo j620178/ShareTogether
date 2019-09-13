@@ -12,9 +12,9 @@ import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
 
-class FirebaseAuth: NSObject {
+class AuthManger: NSObject {
     
-    static var shared = FirebaseAuth()
+    static var shared = AuthManger()
     
     var googleSignInHandler: ((Bool) -> Void)?
     
@@ -98,7 +98,7 @@ class FirebaseAuth: NSObject {
     
 }
 
-extension FirebaseAuth: GIDSignInDelegate {
+extension AuthManger: GIDSignInDelegate {
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         

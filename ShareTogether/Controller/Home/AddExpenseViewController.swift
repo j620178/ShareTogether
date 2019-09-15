@@ -58,10 +58,10 @@ class AddExpenseViewController: STBaseViewController {
         }
     }
 
-    @IBOutlet weak var nextButton: UIButton! {
+    @IBOutlet weak var addButton: UIButton! {
         didSet {
-            nextButton.setImage(.getIcon(code: "ios-checkmark", color: .white, size: 40), for: .normal)
-            nextButton.backgroundColor = .STTintColor
+            addButton.setImage(.getIcon(code: "ios-checkmark", color: .white, size: 40), for: .normal)
+            addButton.backgroundColor = .STTintColor
         }
     }
     
@@ -71,6 +71,30 @@ class AddExpenseViewController: STBaseViewController {
     }
     
     @IBAction func clickAddButton(_ sender: UIButton) {
+        
+        guard let uid = AuthManager.shared.uid else { return }
+        
+        let expense = Expense(type: 0,
+                              title: "JR Pass",
+                              desc: "北九州3人日pass",
+                              userID: uid,
+                              amount: 5000,
+                              payer: [Payer(userID: uid, value: 5000)],
+                              splitUser: [uid],
+                              lat: 22,
+                              lon: 120,
+                              time: Date()
+        )
+        
+        FirestoreManager.shared.addExpense(expense: expense) { result in
+            switch result {
+                
+            case .success(_):
+                print("success")
+            case .failure(let error):
+                print(error)
+            }
+        }
         
         dismiss(animated: true, completion: nil)
     }
@@ -90,7 +114,7 @@ class AddExpenseViewController: STBaseViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        nextButton.layer.cornerRadius = nextButton.frame.height / 2
+        addButton.layer.cornerRadius = addButton.frame.height / 2
         cancelButton.layer.cornerRadius = cancelButton.frame.height / 2
     }
     
@@ -114,13 +138,6 @@ class AddExpenseViewController: STBaseViewController {
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
         
-//        let latDelta = 0.25
-//        let longDelta = 0.25
-//        let currentLocationSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)
-//
-//        let center = CLLocation(latitude: 25.047342, longitude: 121.549285)
-//        let currentRegion = MKCoordinateRegion(center: center.coordinate, span: currentLocationSpan)
-//        mapView.setRegion(currentRegion, animated: true)
         let annotation = MKPointAnnotation()
         annotation.title = "Test"
         annotation.coordinate = CLLocationCoordinate2D(latitude: 25.047342, longitude: 121.549285)

@@ -19,6 +19,8 @@ class HomeViewController: STBaseViewController {
     
     let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
     
+    var currentGroup: UserGroup?
+    
     lazy var notebookViewModel: NotebookViewModel = {
         return NotebookViewModel()
     }()
@@ -78,16 +80,16 @@ class HomeViewController: STBaseViewController {
         
         infoTypeSelectionView.dataSource = self
         infoTypeSelectionView.delegate = self
-
+        
+        currentGroup = UserInfoManager.shaered.currentGroup
+        
+        groupNameButton.setTitle(currentGroup?.name, for: .normal)
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         settingButton.layer.cornerRadius = settingButton.frame.height / 2
-    }
-    
-    deinit {
-        print("Home deinit")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -10,9 +10,7 @@ import UIKit
 
 class LoginViewController: STBaseViewController {
     
-    override var isHideNavigationBar: Bool {
-        return true
-    }
+    override var isHideNavigationBar: Bool { return true }
     
     @IBOutlet weak var emailTextField: UITextField!
     
@@ -32,11 +30,11 @@ class LoginViewController: STBaseViewController {
             print("請輸入完整資訊")
         } else {
             
-            AuthManger.shared.emailSignIn(email: emailTextField.text!,
+            AuthManager.shared.emailSignIn(email: emailTextField.text!,
                                             password: passwordTextField.text!) { [weak self] result in
                 
                 if result != nil {
-                    self?.goMainVC()
+                    
                 } else {
                     print(result ?? "error")
                 }
@@ -46,7 +44,39 @@ class LoginViewController: STBaseViewController {
         
     }
     
+    func checkUserGroup() {
+        
+        FirestoreManager.shared.getUserInfo { [weak self] result in
+            switch result {
+                
+            case .success(let userInfo):
+                print(userInfo)
+                if UserInfoManager.shaered.currentGroup != nil {
+                    self?.goMainVC()
+                } else {
+                    
+                    if let groups = userInfo.groups, !groups.isEmpty {
+                        for group in groups {
+                            group.id == "r2faZu22KX4ZbG7Fv86A" ? UserInfoManager.shaered.setCurrentGroup(group) : nil
+                        }
+
+                        self?.goMainVC()
+                    } else {
+                        self?.goMainVC()
+                    }
+                    
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+            
+        }
+        
+    }
+    
     func goMainVC() {
+        
         if presentingViewController != nil {
             let presentingVC = presentingViewController
             dismiss(animated: true) {
@@ -61,19 +91,19 @@ class LoginViewController: STBaseViewController {
     @IBAction func clickOAuthLogin(_ sender: UIButton) {
         
         if sender.tag == 1 {
-            AuthManger.shared.googleSignIn(viewContorller: self) { [weak self] result in
+            AuthManager.shared.googleSignIn(viewContorller: self) { [weak self] result in
                 switch result {
                 case true:
-                    self?.goMainVC()
+                    self?.checkUserGroup()
                 case false:
                     print("error")
                 }
             }
         } else if sender.tag == 2 {
-            AuthManger.shared.facebookSignIn(viewContorller: self) { [weak self] result in
+            AuthManager.shared.facebookSignIn(viewContorller: self) { [weak self] result in
                 switch result {
                 case true:
-                    self?.goMainVC()
+                    self?.checkUserGroup()
                 case false:
                     print("error")
                 }
@@ -86,11 +116,6 @@ class LoginViewController: STBaseViewController {
         super.viewDidLoad()
         
         setupBase()
-        
-        if AuthManger.shared.isSignIn() {
-            goMainVC()
-        }
-        
     }
     
     func setupBase() {

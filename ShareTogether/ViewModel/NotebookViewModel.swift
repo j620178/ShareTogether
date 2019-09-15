@@ -13,5 +13,5 @@ class NotebookViewModel: NSObject {
     
     let data = ["Pony", "Kevin", "Nick", "Angel", "Daniel"]
     let data2 = ["Me", "恩～～～～", "我是天才!!!!", "你長大就知道了🚬", "等等就去買電池"]
+    
 }
-

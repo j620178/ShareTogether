@@ -9,9 +9,10 @@
 import UIKit
 import IQKeyboardManagerSwift
 import Firebase
+import FirebaseFirestore
+import GoogleSignIn
 import FBSDKLoginKit
 import FBSDKCoreKit
-import GoogleSignIn
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,9 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
+        Firestore.firestore()
+        
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
-        GIDSignIn.sharedInstance().delegate = AuthManger.shared
+        GIDSignIn.sharedInstance().delegate = AuthManager.shared
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         
@@ -36,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window!.tintColor = .STTintColor
         
-        if AuthManger.shared.isSignIn() {
+        if AuthManager.shared.isSignIn {
             self.window?.rootViewController = UIStoryboard.main.instantiateInitialViewController()!
         } else {
             self.window?.rootViewController = UIStoryboard.login.instantiateInitialViewController()!

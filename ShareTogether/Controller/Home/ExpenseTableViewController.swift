@@ -25,9 +25,13 @@ class ExpenseTableViewController: UITableViewController {
         
         tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
         
-        viewModel.processData()
+        viewModel.reloadTableViewClosure = { [weak self] in
+            self?.tableView.reloadData()
+        }
+        
+        viewModel.fectchData()
     }
-
+    
 }
 
 // MARK: - Table view data source

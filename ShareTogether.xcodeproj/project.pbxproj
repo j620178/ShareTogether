@@ -47,11 +47,15 @@
 		74960EAA23150838006BF12C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74960EA923150838006BF12C /* Assets.xcassets */; };
 		74960EAD23150838006BF12C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74960EAB23150838006BF12C /* LaunchScreen.storyboard */; };
 		74975EB42327764A008FC7B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74975EB32327764A008FC7B0 /* GoogleService-Info.plist */; };
-		74975EB623277A61008FC7B0 /* FireBaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74975EB523277A61008FC7B0 /* FireBaseAuth.swift */; };
+		74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74975EB523277A61008FC7B0 /* AuthManager.swift */; };
 		74A1A0D9232B6728007C717A /* ExpenseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0D8232B6728007C717A /* ExpenseTableViewController.swift */; };
 		74A1A0DB232B6EFF007C717A /* StatisticsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DA232B6EFF007C717A /* StatisticsTableViewController.swift */; };
 		74A1A0DD232B8535007C717A /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DC232B8535007C717A /* ResultTableViewController.swift */; };
 		74A1A0DF232B8675007C717A /* NotebookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */; };
+		74A1A0E1232B8F6E007C717A /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */; };
+		74A1A0E3232CD5F8007C717A /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */; };
+		74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E4232D8C76007C717A /* Date+Extension.swift */; };
+		74A1A0E7232D93C6007C717A /* ExpenseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E6232D93C6007C717A /* ExpenseType.swift */; };
 		74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AEC8F7231FAFF0003A6F01 /* SelectionTableViewCell.swift */; };
 		74AEC8FA231FAFF0003A6F01 /* SelectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74AEC8F8231FAFF0003A6F01 /* SelectionTableViewCell.xib */; };
 		74AEC8FD231FC5E9003A6F01 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AEC8FB231FC5E8003A6F01 /* TextFieldTableViewCell.swift */; };
@@ -130,11 +134,15 @@
 		74960EAC23150838006BF12C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		74960EAE23150838006BF12C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74975EB32327764A008FC7B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		74975EB523277A61008FC7B0 /* FireBaseAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseAuth.swift; sourceTree = "<group>"; };
+		74975EB523277A61008FC7B0 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		74A1A0D8232B6728007C717A /* ExpenseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewController.swift; sourceTree = "<group>"; };
 		74A1A0DA232B6EFF007C717A /* StatisticsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTableViewController.swift; sourceTree = "<group>"; };
 		74A1A0DC232B8535007C717A /* ResultTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewController.swift; sourceTree = "<group>"; };
 		74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookTableViewController.swift; sourceTree = "<group>"; };
+		74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
+		74A1A0E4232D8C76007C717A /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		74A1A0E6232D93C6007C717A /* ExpenseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseType.swift; sourceTree = "<group>"; };
 		74AEC8F7231FAFF0003A6F01 /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
 		74AEC8F8231FAFF0003A6F01 /* SelectionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionTableViewCell.xib; sourceTree = "<group>"; };
 		74AEC8FB231FC5E8003A6F01 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
@@ -209,6 +217,7 @@
 				745CACC1231672810055A60C /* UITableView+Extension.swift */,
 				747AB9082324EC7500007A32 /* UITexField+Extension.swift */,
 				74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */,
+				74A1A0E4232D8C76007C717A /* Date+Extension.swift */,
 				748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */,
 				745CACC9231784DF0055A60C /* String+Extension.swift */,
 			);
@@ -227,6 +236,10 @@
 		745CACC523169FB80055A60C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				74975EB523277A61008FC7B0 /* AuthManager.swift */,
+				74A1A0E6232D93C6007C717A /* ExpenseType.swift */,
+				74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */,
+				74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */,
 				745CACC723169FD30055A60C /* ExpenseRecode.swift */,
 				745CC9852321164E00426D1A /* Direction.swift */,
 			);
@@ -389,7 +402,6 @@
 			isa = PBXGroup;
 			children = (
 				74D611D2231D008D00A301E9 /* SwiftIconFont.swift */,
-				74975EB523277A61008FC7B0 /* FireBaseAuth.swift */,
 			);
 			path = ThridPratyWrapper;
 			sourceTree = "<group>";
@@ -585,13 +597,16 @@
 				74B5C4DF231DE48800EB916D /* StatisticsTableViewCell.swift in Sources */,
 				74A1A0DF232B8675007C717A /* NotebookTableViewController.swift in Sources */,
 				745CC98F232249CE00426D1A /* CustomTransitionAnimation.swift in Sources */,
+				74A1A0E3232CD5F8007C717A /* UserInfoManager.swift in Sources */,
 				74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */,
 				745CC990232249CE00426D1A /* Animatable.swift in Sources */,
+				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
 				74BA2AE32326517E0010799E /* SelectionView.swift in Sources */,
 				74B5C4EA231E00B000EB916D /* AddGroupViewController.swift in Sources */,
 				74960EA323150834006BF12C /* AppDelegate.swift in Sources */,
 				745CACC423169E530055A60C /* ExpenseViewModel.swift in Sources */,
 				74B5C4DA231DE48800EB916D /* ExpenseTableViewCell.swift in Sources */,
+				74A1A0E1232B8F6E007C717A /* FirestoreManager.swift in Sources */,
 				74525B0C231C9B2500670D6E /* UICollectionView+Extension.swift in Sources */,
 				74B5C4EF231E5CB600EB916D /* CategoryCollectionViewCell.swift in Sources */,
 				74B5C4CF231DE47B00EB916D /* HomeViewController.swift in Sources */,
@@ -599,6 +614,7 @@
 				745CC9942322863500426D1A /* UIView+Extension.swift in Sources */,
 				7455837523265D2E008C1690 /* SplitTextFieldTableViewCell.swift in Sources */,
 				744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */,
+				74A1A0E7232D93C6007C717A /* ExpenseType.swift in Sources */,
 				74B5C4CD231DE47B00EB916D /* AddExpenseViewController.swift in Sources */,
 				748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */,
 				74AEC9012320837C003A6F01 /* CheckBoxTableViewCell.swift in Sources */,
@@ -613,7 +629,7 @@
 				74A1A0DD232B8535007C717A /* ResultTableViewController.swift in Sources */,
 				74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */,
 				7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */,
-				74975EB623277A61008FC7B0 /* FireBaseAuth.swift in Sources */,
+				74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */,
 				74B5C4E6231DE48F00EB916D /* ScrollSelectionView.swift in Sources */,
 				745CACC2231672810055A60C /* UITableView+Extension.swift in Sources */,
 				74BA2AE12325D58A0010799E /* SplitViewController.swift in Sources */,

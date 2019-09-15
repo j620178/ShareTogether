@@ -24,10 +24,6 @@ class ExpenseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     
-    @IBOutlet weak var userImageTopConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var userImageBottomConstraint: NSLayoutConstraint!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
@@ -38,9 +34,7 @@ class ExpenseTableViewCell: UITableViewCell {
             
             guard let viewModel = viewModel else { return }
             
-            expenseTypeImageView.image = .getIcon(code: viewModel.type,
-                                                  color: .STTintColor,
-                                                  size: 45)
+            expenseTypeImageView.image = viewModel.type.getImage(color: .STTintColor)
             expenseTitleLabel.text = viewModel.title
             amountLabel.text = String(viewModel.amount)
             timeLabel.text = viewModel.time

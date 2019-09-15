@@ -15,4 +15,3 @@ class ResultViewModel: NSObject {
     let data2 = ["3000", "200", "10000", "20330"]
     
 }
-

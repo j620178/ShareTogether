@@ -17,28 +17,21 @@ class SelectionTableViewCell: UITableViewCell {
     
     var type = DataType.image
     
-    enum CategoryType: String {
-        case usd = "logo-usd"
-        case car = "ios-car"
-        case subway = "ios-subway"
-        case bicycle = "ios-bicycle"
-        case gasStation = "local.gas.station"
-        case parking = "local.parking"
-        case bed = "ios-bed"
-        case bus = "ios-bus"
-        case gift = "ios-gift"
-        case shirt = "ios-shirt"
-        case restaurant = "ios-restaurant"
-        case wine = "ios-wine"
-    }
+    var expenseTypeData: [(data: ExpenseType, isSelect: Bool)] = [
+        (.null, true),
+        (.car, false),
+        (.subway, false),
+        (.bicycle, false),
+        (.gasStation, false),
+        (.parking, false),
+        (.hotel, false),
+        (.bus, false),
+        (.gift, false),
+        (.restaurant, false),
+        (.wine, false)
+    ]
     
-    var categoryData: [CategoryType] = [.usd, .car, .subway, .bicycle, .bed, .bus, .gift, .shirt, .restaurant, .wine]
-    
-    var stringData: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    
-    var selectedCategory = [true, false, false, false, false, false, false, false, false, false]
-    
-    var selectedString = [true, false, false, false, false, false, false, false, false]
+    var weekDaysData = [(day: Int, weekday: Int, isSelect: Bool)]()
 
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
@@ -62,6 +55,8 @@ class SelectionTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+
+        createDayOfWeek()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -75,6 +70,22 @@ class SelectionTableViewCell: UITableViewCell {
         self.selectionStyle = .none
     }
     
+    func createDayOfWeek() {
+        let cal = Calendar.current
+        var days = [(Int, Int, Bool)]()
+        
+        for index in -3...3 {
+            var date = cal.startOfDay(for: Date())
+            date = cal.date(byAdding: .day, value: index, to: date)!
+            let day = cal.component(.day, from: date)
+            let weekday = cal.component(.weekday, from: date)
+            
+            index == 0 ? days.append((day, weekday, true)) : days.append((day, weekday, false))
+        }
+        
+        weekDaysData = days
+    }
+    
 }
 
 extension SelectionTableViewCell: UICollectionViewDataSource {
@@ -82,9 +93,9 @@ extension SelectionTableViewCell: UICollectionViewDataSource {
         
         switch type {
         case .image:
-            return categoryData.count
+            return expenseTypeData.count
         case .text:
-            return stringData.count
+            return weekDaysData.count
         }
     }
     
@@ -100,20 +111,18 @@ extension SelectionTableViewCell: UICollectionViewDataSource {
         switch type {
             
         case .image:
-            if selectedCategory[indexPath.row] {
-                categoryCell.setupImage(image:
-                    .getIcon(code: categoryData[indexPath.row].rawValue, color: .white, size: 60),
-                                        isSelected: selectedCategory[indexPath.row])
+            if expenseTypeData[indexPath.row].isSelect {
+                categoryCell.setupImage(image: expenseTypeData[indexPath.row].data.getImage(color: .white),
+                                        isSelected: expenseTypeData[indexPath.row].isSelect)
             } else {
-                categoryCell.setupImage(image:
-                    .getIcon(code: categoryData[indexPath.row].rawValue, color: .STTintColor, size: 60),
-                                        isSelected: selectedCategory[indexPath.row])
+                categoryCell.setupImage(image: expenseTypeData[indexPath.row].data.getImage(color: .STTintColor),
+                                        isSelected: expenseTypeData[indexPath.row].isSelect)
             }
         case .text:
-            if selectedString[indexPath.row] {
-                categoryCell.setupText(text: stringData[indexPath.row], isSelected: selectedString[indexPath.row])
+            if weekDaysData[indexPath.row].isSelect {
+                categoryCell.setupText(text: "\(weekDaysData[indexPath.row].day)", isSelected: weekDaysData[indexPath.row].isSelect)
             } else {
-                categoryCell.setupText(text: stringData[indexPath.row], isSelected: selectedString[indexPath.row])
+                categoryCell.setupText(text: "\(weekDaysData[indexPath.row].day)", isSelected: weekDaysData[indexPath.row].isSelect)
             }
 
         }
@@ -130,18 +139,18 @@ extension SelectionTableViewCell: UICollectionViewDelegate {
         switch type {
    
         case .image:
-            for index in selectedCategory.indices {
-                selectedCategory[index] = false
+            for index in expenseTypeData.indices {
+                expenseTypeData[index].isSelect = false
                 if index == indexPath.row {
-                    selectedCategory[index] = true
+                    expenseTypeData[index].isSelect = true
                 }
             }
             collectionView.reloadData()
         case .text:
-            for index in selectedString.indices {
-                selectedString[index] = false
+            for index in weekDaysData.indices {
+                weekDaysData[index].isSelect = false
                 if index == indexPath.row {
-                    selectedString[index] = true
+                    weekDaysData[index].isSelect = true
                 }
             }
             collectionView.reloadData()

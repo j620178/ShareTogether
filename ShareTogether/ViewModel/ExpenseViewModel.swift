@@ -11,18 +11,13 @@ import UIKit
 
 class HomeExpenseViewModel: NSObject {
     
-    var  expenses = [
-        Expense(title: "門票", time: "2018/9/4", amount: 1200),
-        Expense(title: "租車", time: "2018/8/27", amount: 16000),
-        Expense(title: "地鐵", time: "2018/8/27", amount: 25),
-        Expense(title: "機票", time: "2018/9/4", amount: 36000),
-        Expense(title: "租車", time: "2018/8/27", amount: 16000),
-        Expense(title: "門票", time: "2018/8/27", amount: 1200),
-        Expense(title: "Pass", time: "2018/8/27", amount: 360),
-        Expense(title: "地鐵", time: "2018/9/4", amount: 25)
-    ]
+    var expenses = [Expense]()
     
-    private var cellViewModels = [[HomeExpenseCellViewModel]]()
+    private var cellViewModels = [[HomeExpenseCellViewModel]]() {
+        didSet {
+            reloadTableViewClosure?()
+        }
+    }
     
     private var titleOfSections = [String]()
     
@@ -45,13 +40,13 @@ class HomeExpenseViewModel: NSObject {
     func getCellViewModel( at indexPath: IndexPath ) -> HomeExpenseCellViewModel {
         
         if indexPath.row == 0 {
-            cellViewModels[indexPath.section][indexPath.row].isFirst = true
+            //cellViewModels[indexPath.section][indexPath.row].isFirst = true
             return cellViewModels[indexPath.section][indexPath.row]
         } else {
             for section in cellViewModels.indices {
                 let lastIndexPath = IndexPath(row: cellViewModels[section].count - 1, section: section)
                 if indexPath == lastIndexPath {
-                    cellViewModels[indexPath.section][indexPath.row].isLast = true
+                    //cellViewModels[indexPath.section][indexPath.row].isLast = true
                     return cellViewModels[indexPath.section][indexPath.row]
                 }
             }
@@ -62,22 +57,31 @@ class HomeExpenseViewModel: NSObject {
     
     func createCellViewModels(expense: Expense) -> HomeExpenseCellViewModel {
         
-        return HomeExpenseCellViewModel(type: expense.type,
+        return HomeExpenseCellViewModel(type: ExpenseType(rawValue: expense.type)!,
                                         title: expense.title,
-                                        userImg: expense.userImg,
-                                        time: expense.time,
+                                        userImg: "123",
+                                        time: expense.time.toFullFormat(),
                                         amount: expense.amount,
                                         isFirst: false,
                                         isLast: false)
     }
     
+    func fectchData() {
+        FirestoreManager.shared.getExpenses { [weak self] result in
+            switch result {
+                
+            case .success(let expenses):
+                self?.expenses = expenses
+                self?.processData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     func processData() {
         
         guard expenses.count > 1 else { return }
-        
-        expenses.sort { (lhs: Expense, rhs: Expense) -> Bool in
-            return lhs.time < rhs.time
-        }
         
         var viewModels = [[HomeExpenseCellViewModel]]()
         
@@ -85,23 +89,26 @@ class HomeExpenseViewModel: NSObject {
         
         var index = 0
         
-        titleOfSections.append(expenses[0].time)
+        titleOfSections.append(expenses[0].time.toSimpleFormat())
         
         for expense in expenses {
             
-            if titleOfSections[index] == expense.time {
+            if titleOfSections[index] == expense.time.toSimpleFormat() {
                 viewModelsSection.append(createCellViewModels(expense: expense))
             } else {
                 viewModels.append(viewModelsSection)
-                titleOfSections.append(expense.time)
+                titleOfSections.append(expense.time.toSimpleFormat())
                 viewModelsSection = [HomeExpenseCellViewModel]()
                 viewModelsSection.append(createCellViewModels(expense: expense))
                 index += 1
             }
+            
         }
+        
         viewModels.append(viewModelsSection)
         
         self.cellViewModels = viewModels
+        
     }
     
 }

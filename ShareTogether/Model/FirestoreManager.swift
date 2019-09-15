@@ -19,6 +19,7 @@ struct Collection {
     
     struct User {
         static let groups = "groups"
+        static let activity = "activity"
     }
     
     struct Group {
@@ -182,6 +183,18 @@ class FirestoreManager {
         
     }
     
+    func addActivity(groupID: String? = UserInfoManager.shaered.currentGroup?.id,
+                     userIDs: [String],
+                     expense: Expense) {
+        
+        guard let groupID = groupID else { return }
+        
+        for userID in userIDs {
+            //firestore.collection(Collection.user).document(userID).collection(Collection.User.activity).addDocument(data: <#T##[String : Any]#>)
+        }
+        
+        
+    }
 }
 
 extension Timestamp {

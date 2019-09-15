@@ -41,18 +41,17 @@ class HomeViewController: STBaseViewController {
         }
     }
     
-    @IBOutlet weak var settingButton: UIButton! {
+    @IBOutlet weak var settingButton: UIButton!
+    
+    @IBOutlet weak var editGroupButton: UIButton! {
         didSet {
-            settingButton.setImage(
-                .getIcon(from: .materialIcon, code: "more.vert", color: .white, size: 30),
-                for: .normal)
-            settingButton.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+            editGroupButton.setImage(.getIcon(code: "md-create", color: .white, size: 30), for: .normal)
         }
     }
-        
+    
     @IBOutlet weak var infoContainer: UIScrollView!
     
-    @IBAction func clickGroupButton(_ sender: UIButton) {
+    @IBAction func clickGroupNameButton(_ sender: UIButton) {
         
         let nextVC = UIStoryboard.group.instantiateInitialViewController()!
         present(nextVC, animated: true, completion: nil)
@@ -89,7 +88,8 @@ class HomeViewController: STBaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        settingButton.layer.cornerRadius = settingButton.frame.height / 2
+        
+        settingButton.imageView?.layer.cornerRadius = settingButton.frame.height / 2
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -142,6 +142,7 @@ extension HomeViewController: TableViewControllerDelegate {
     
         groupNameButton.alpha = 1 - (offset / 65)
         settingButton.alpha = 1 - (offset / 65)
+        editGroupButton.alpha = 1 - (offset / 65)
         bannerTopConstraint.constant = 20 - offset
         view.layoutIfNeeded()
     }

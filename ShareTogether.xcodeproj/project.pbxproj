@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		741E2B96232E361700350F42 /* SelectionGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E2B95232E361700350F42 /* SelectionGroupViewModel.swift */; };
 		744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744BBFA723162B1900434D7A /* UIColor+Extension.swift */; };
 		7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */; };
 		7451C46023271AB200EA0AEB /* AddNotebookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C45E23271AB200EA0AEB /* AddNotebookTableViewCell.swift */; };
@@ -92,6 +93,7 @@
 /* Begin PBXFileReference section */
 		35E2FFF816BE8EA55FE2021B /* Pods-ShareTogether.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.debug.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.debug.xcconfig"; sourceTree = "<group>"; };
 		6EE45046B2151DE911C1D99A /* Pods-ShareTogether.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.release.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.release.xcconfig"; sourceTree = "<group>"; };
+		741E2B95232E361700350F42 /* SelectionGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SelectionGroupViewModel.swift; path = ../Model/SelectionGroupViewModel.swift; sourceTree = "<group>"; };
 		744BBFA723162B1900434D7A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModallyMeauViewController.swift; sourceTree = "<group>"; };
 		7451C45E23271AB200EA0AEB /* AddNotebookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNotebookTableViewCell.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 		7492067A2317DDAB0049357B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				741E2B95232E361700350F42 /* SelectionGroupViewModel.swift */,
 				745CACC323169E530055A60C /* ExpenseViewModel.swift */,
 				745CACD02317BE630055A60C /* StatisticsViewModel.swift */,
 				745CACD62317C6950055A60C /* ResultViewModel.swift */,
@@ -599,6 +602,7 @@
 				745CC98F232249CE00426D1A /* CustomTransitionAnimation.swift in Sources */,
 				74A1A0E3232CD5F8007C717A /* UserInfoManager.swift in Sources */,
 				74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */,
+				741E2B96232E361700350F42 /* SelectionGroupViewModel.swift in Sources */,
 				745CC990232249CE00426D1A /* Animatable.swift in Sources */,
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
 				74BA2AE32326517E0010799E /* SelectionView.swift in Sources */,

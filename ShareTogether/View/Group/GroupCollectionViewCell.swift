@@ -8,6 +8,12 @@
 
 import UIKit
 
+struct GroupCellViewModel {
+    let name: String
+    let groupID: String
+    let isCurrent: Bool
+}
+
 class GroupCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var groupImageView: UIImageView!
@@ -17,6 +23,14 @@ class GroupCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var isSelectedImageView: UIImageView! {
         didSet {
             isSelectedImageView.backgroundColor = UIColor.STBlack.withAlphaComponent(0.25)
+        }
+    }
+    
+    var cellViewModel: GroupCellViewModel? {
+        didSet {
+            //groupImageView = groupID
+            groupNameLabel.text = cellViewModel?.name
+            //isSelectedImageView =
         }
     }
     

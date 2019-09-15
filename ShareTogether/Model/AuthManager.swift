@@ -51,7 +51,6 @@ class AuthManager: NSObject {
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: viewContorller) { (result, error) in
             
             if error != nil {
-                print("Failed to login: \(error?.localizedDescription)")
                 return
             }
             
@@ -59,8 +58,6 @@ class AuthManager: NSObject {
                 print("Failed to get access token")
                 return
             }
-            
-            print("tokenString: \(AccessToken.current?.tokenString)")
             
             let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
             
@@ -106,7 +103,6 @@ extension AuthManager: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         
         if error != nil {
-            print(error)
             return
         }
         
@@ -121,7 +117,6 @@ extension AuthManager: GIDSignInDelegate {
                 print(error)
                 return
             }
-            print(user?.user.displayName)
             self.googleSignInHandler?(true)
         }
         

@@ -15,15 +15,15 @@ class HomeExpenseViewModel: NSObject {
     
     private var cellViewModels = [[HomeExpenseCellViewModel]]() {
         didSet {
-            reloadTableViewClosure?()
+            reloadTableViewHandler?()
         }
     }
     
     private var titleOfSections = [String]()
     
-    var reloadTableViewClosure: (() -> Void)?
-    var showAlertClosure: (() -> Void)?
-    var updateLoadingStatus: (() -> Void)?
+    var reloadTableViewHandler: (() -> Void)?
+    var showAlertHandler: (() -> Void)?
+    var updateLoadingStatusHandler: (() -> Void)?
     
     var numberOfSections: Int {
         return cellViewModels.count

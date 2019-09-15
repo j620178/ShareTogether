@@ -10,7 +10,7 @@ import UIKit
 
 class ModallyMeauViewController: STBaseViewController {
     
-    let itemString = ["圖示順序", "通知", "登出"]
+    let itemString = ["圖示順序", "通知", "已封存群組", "登出"]
     
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     

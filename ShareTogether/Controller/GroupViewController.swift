@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import SwiftIconFont
 
 class GroupViewController: STBaseViewController {
     
-    let data = ["九州行", "日月潭", "室友們", "宜蘭", "密室逃脫", "我寫不完", "UI很麻煩"]
+    var viewModel = SelectionGroupViewModel()
     
     override var isHideNavigationBar: Bool {
         return true
@@ -55,7 +54,8 @@ class GroupViewController: STBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        viewModel.fetchDate()
     }
 
 }
@@ -63,7 +63,7 @@ class GroupViewController: STBaseViewController {
 extension GroupViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data.count
+        return viewModel.numberOfCells
     }
     
     func collectionView(
@@ -75,11 +75,14 @@ extension GroupViewController: UICollectionViewDataSource {
         
         guard let groupCell = cell as? GroupCollectionViewCell else { return cell }
         
+        userGroups[indexPath.row]
+        
         groupCell.isSelectedImageView.setIcon(code: "ios-checkmark", color: .white)
         
-        groupCell.groupNameLabel.text = data[indexPath.row]
+        groupCell.groupNameLabel.text = groupData[indexPath.row]
         
         groupCell.groupImageView.image = UIImage(named: "aso")
+        
         
         return groupCell
     }

@@ -37,7 +37,7 @@ class HomeExpenseViewModel: NSObject {
         return titleOfSections[section]
     }
     
-    func getCellViewModel( at indexPath: IndexPath ) -> HomeExpenseCellViewModel {
+    func getCellViewModel(at indexPath: IndexPath) -> HomeExpenseCellViewModel {
         
         if indexPath.row == 0 {
             //cellViewModels[indexPath.section][indexPath.row].isFirst = true
@@ -67,16 +67,25 @@ class HomeExpenseViewModel: NSObject {
     }
     
     func fectchData() {
+        
         FirestoreManager.shared.getExpenses { [weak self] result in
             switch result {
                 
             case .success(let expenses):
-                self?.expenses = expenses
-                self?.processData()
+                
+                if expenses.isEmpty {
+                    self?.expenses = [Expense]()
+                    self?.cellViewModels = [[HomeExpenseCellViewModel]]()
+                } else {
+                    self?.expenses = expenses
+                    self?.processData()
+                }
+
             case .failure(let error):
                 print(error)
             }
         }
+        
     }
     
     func processData() {

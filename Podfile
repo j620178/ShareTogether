@@ -13,8 +13,10 @@ target 'ShareTogether' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
   pod 'Bolts'
   pod 'FBSDKLoginKit'
   pod 'GoogleSignIn'
   pod 'CodableFirebase'
+  pod 'Kingfisher', '~> 5.0'
 end

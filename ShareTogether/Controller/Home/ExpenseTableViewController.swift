@@ -14,6 +14,14 @@ protocol TableViewControllerDelegate: AnyObject {
 
 class ExpenseTableViewController: UITableViewController {
     
+    var currentGroup: UserGroup? {
+        didSet {
+            if oldValue?.id != currentGroup?.id {
+                viewModel.fectchData()
+            }
+        }
+    }
+    
     weak var delegate: TableViewControllerDelegate?
     
     lazy var viewModel: HomeExpenseViewModel = {
@@ -25,13 +33,18 @@ class ExpenseTableViewController: UITableViewController {
         
         tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
         
-        viewModel.reloadTableViewClosure = { [weak self] in
+        viewModel.reloadTableViewHandler = { [weak self] in
             self?.tableView.reloadData()
         }
         
         viewModel.fectchData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        currentGroup = UserInfoManager.shaered.currentGroup
+    }
 }
 
 // MARK: - Table view data source

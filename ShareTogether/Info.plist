@@ -35,6 +35,10 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>DemoGroupCoverURL</key>
+	<string>https://firebasestorage.googleapis.com/v0/b/sharetogether-4c747.appspot.com/o/GroupCover%2FZRQnLb9NtwoHNCxO5N5O.jpg?alt=media&amp;token=21f8c10a-7ab6-4984-b0e4-abc3e1b44208</string>
+	<key>DemoGroupID</key>
+	<string>ZRQnLb9NtwoHNCxO5N5O</string>
 	<key>FacebookAppID</key>
 	<string>517301969083851</string>
 	<key>FacebookDisplayName</key>
@@ -49,7 +53,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>照片上傳</string>
+	<string>請允許使用相機進行 QRcode 掃描</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>請允許使用相簿以上傳相片</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

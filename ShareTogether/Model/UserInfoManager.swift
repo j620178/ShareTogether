@@ -10,6 +10,7 @@ import Foundation
 
 struct UserInfoConstant {
     static let currentGroup = "currentGroup"
+    static let currentUserInfo = "currentUserInfo"
 }
 
 class UserInfoManager {
@@ -18,21 +19,32 @@ class UserInfoManager {
     
     let userDefault = UserDefaults.standard
     
+    var currentUserInfo: UserInfo? {
+        if let data = userDefault.value(forKey: UserInfoConstant.currentUserInfo) as? Data,
+            let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
+            return userInfo
+        }
+        return nil
+    }
+    
+    func setCurrentUserInfo(_ userInfo: UserInfo) {
+        if let data = try? JSONEncoder().encode(userInfo) {
+            UserDefaults.standard.set(data, forKey: UserInfoConstant.currentUserInfo)
+        }
+    }
+    
     var currentGroup: UserGroup? {
-        guard let currentGroupDic = userDefault.value(forKey: UserInfoConstant.currentGroup) as? [String] else { return nil }
-        return userGroupTrans(userInfo: currentGroupDic)
+        if let data = userDefault.value(forKey: UserInfoConstant.currentGroup) as? Data,
+            let userGroup = try? JSONDecoder().decode(UserGroup.self, from: data) {
+            return userGroup
+        }
+        return nil
     }
     
     func setCurrentGroup(_ group: UserGroup) {
-        userDefault.set(userGroupTrans(userGroup: group), forKey: UserInfoConstant.currentGroup)
-    }
-    
-    func userGroupTrans(userInfo: [String]) -> UserGroup {
-        return UserGroup(id: userInfo[0], name: userInfo[1], status: userInfo[2])
-    }
-    
-    func userGroupTrans(userGroup: UserGroup) -> [String] {
-        return [userGroup.id, userGroup.name, userGroup.status]
+        if let data = try? JSONEncoder().encode(group) {
+            UserDefaults.standard.set(data, forKey: UserInfoConstant.currentGroup)
+        }
     }
     
 }

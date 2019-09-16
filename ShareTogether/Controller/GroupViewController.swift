@@ -15,9 +15,7 @@ class GroupViewController: STBaseViewController {
     override var isHideNavigationBar: Bool {
         return true
     }
-    
-    fileprivate var selectedCell: UICollectionViewCell?
-    
+        
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.dataSource = self
@@ -32,11 +30,11 @@ class GroupViewController: STBaseViewController {
         }
     }
     
-    @IBOutlet weak var selectButton: UIButton! {
+    @IBOutlet weak var newGroupButton: UIButton! {
         didSet {
-            selectButton.setImage(.getIcon(code: "ios-arrow-round-forward", color: .white, size: 40), for: .normal)
-            selectButton.backgroundColor = .STTintColor
-            selectButton.layer.cornerRadius = 10
+            newGroupButton.setImage(.getIcon(code: "ios-add", color: .white, size: 40), for: .normal)
+            newGroupButton.backgroundColor = .STTintColor
+            newGroupButton.layer.cornerRadius = 10
         }
     }
     
@@ -48,6 +46,12 @@ class GroupViewController: STBaseViewController {
         }
     }
     
+    @IBAction func clickNewGroupButton(_ sender: UIButton) {
+        let nextVC = UIStoryboard.group.instantiateViewController(withIdentifier: AddGroupViewController.identifier)
+        
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
     @IBAction func clickBackButton(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
@@ -55,6 +59,9 @@ class GroupViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel.reloadDataHandler = { [weak self] in
+            self?.collectionView.reloadData()
+        }
         viewModel.fetchDate()
     }
 
@@ -75,14 +82,7 @@ extension GroupViewController: UICollectionViewDataSource {
         
         guard let groupCell = cell as? GroupCollectionViewCell else { return cell }
         
-        userGroups[indexPath.row]
-        
-        groupCell.isSelectedImageView.setIcon(code: "ios-checkmark", color: .white)
-        
-        groupCell.groupNameLabel.text = groupData[indexPath.row]
-        
-        groupCell.groupImageView.image = UIImage(named: "aso")
-        
+        groupCell.cellViewModel = viewModel.getCellViewModel(at: indexPath.row)
         
         return groupCell
     }
@@ -91,26 +91,9 @@ extension GroupViewController: UICollectionViewDataSource {
 
 extension GroupViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if indexPath.row == 0 {
-            
-            self.selectedCell = self.collectionView.cellForItem(at: indexPath)
-            
-            let nextVC = UIStoryboard.group.instantiateViewController(withIdentifier: AddGroupViewController.identifier)
-            
-            self.navigationController?.pushViewController(nextVC, animated: true)
-        } else {
-            dismiss(animated: true, completion: nil)
-        }
-    }
-}
+        let userGroup = viewModel.getUserGroup(at: indexPath.row)
+        UserInfoManager.shaered.setCurrentGroup(userGroup)
 
-extension GroupViewController: Animatable {
-    var containerView: UIView? {
-        return self.collectionView
-    }
-    
-    var childView: UIView? {
-        return self.selectedCell
+        dismiss(animated: true, completion: nil)
     }
 }

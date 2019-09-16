@@ -40,6 +40,7 @@
 		747AB9072324DFED00007A32 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AB9062324DFED00007A32 /* LoginViewController.swift */; };
 		747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AB9082324EC7500007A32 /* UITexField+Extension.swift */; };
 		747AB90B2324F38A00007A32 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AB90A2324F38A00007A32 /* SignUpViewController.swift */; };
+		747AE9A7232E3C50007D855B /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AE9A6232E3C50007D855B /* Kingfisher.swift */; };
 		748701BE231C926600D5437E /* Group.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748701BD231C926600D5437E /* Group.storyboard */; };
 		748A84F62319216B00EE00A0 /* Expense.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748A84F52319216B00EE00A0 /* Expense.storyboard */; };
 		748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */; };
@@ -126,6 +127,7 @@
 		747AB9062324DFED00007A32 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		747AB9082324EC7500007A32 /* UITexField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITexField+Extension.swift"; sourceTree = "<group>"; };
 		747AB90A2324F38A00007A32 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		747AE9A6232E3C50007D855B /* Kingfisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
 		748701BD231C926600D5437E /* Group.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Group.storyboard; sourceTree = "<group>"; };
 		748A84F52319216B00EE00A0 /* Expense.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Expense.storyboard; sourceTree = "<group>"; };
 		748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				74D611D2231D008D00A301E9 /* SwiftIconFont.swift */,
+				747AE9A6232E3C50007D855B /* Kingfisher.swift */,
 			);
 			path = ThridPratyWrapper;
 			sourceTree = "<group>";
@@ -631,6 +634,7 @@
 				745CC98E232249CE00426D1A /* NavigationController.swift in Sources */,
 				74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */,
 				74A1A0DD232B8535007C717A /* ResultTableViewController.swift in Sources */,
+				747AE9A7232E3C50007D855B /* Kingfisher.swift in Sources */,
 				74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */,
 				7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */,
 				74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */,

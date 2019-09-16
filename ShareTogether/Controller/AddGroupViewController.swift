@@ -44,6 +44,17 @@ class AddGroupViewController: STBaseViewController {
     @IBAction func clickAddMemberButton(_ sender: UIButton) {
     }
     
+    @IBAction func clickSetCoverButton(_ sender: UIButton) {
+        let picker: UIImagePickerController = UIImagePickerController()
+        
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
+            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+            picker.allowsEditing = true
+            picker.delegate = self
+            self.present(picker, animated: true, completion: nil)
+        }
+    }
+
     var currentOffset: CGFloat = 0
     
     override func viewDidLoad() {
@@ -73,8 +84,8 @@ class AddGroupViewController: STBaseViewController {
         
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
         setCoverButton.layer.cornerRadius = setCoverButton.frame.height / 2
     }
@@ -159,75 +170,16 @@ extension AddGroupViewController: UITableViewDelegate {
 
 }
 
-//extension AddGroupViewController: Animatable {
-//    var containerView: UIView? {
-//        return self.view
-//    }
-//
-//    var childView: UIView? {
-//        return self.commonView
-//    }
-//
-//    func presentingView(
-//        sizeAnimator: UIViewPropertyAnimator,
-//        positionAnimator: UIViewPropertyAnimator,
-//        fromFrame: CGRect,
-//        toFrame: CGRect
-//        ) {
-//        // Make the common view the same size as the initial frame
-//        self.heightConstraint.constant = fromFrame.height
-//
-//        // Show the close button
-//        self.closeButton.alpha = 1
-//
-//        // Make the view look like a card
-//        self.asCard(true)
-//
-//        // Redraw the view to update the previous changes
-//        self.view.layoutIfNeeded()
-//
-//        // Animate the common view to a height of 500 points
-//        self.heightConstraint.constant = 500
-//        sizeAnimator.addAnimations {
-//            self.view.layoutIfNeeded()
-//        }
-//
-//        // Animate the view to not look like a card
-//        positionAnimator.addAnimations {
-//            self.asCard(false)
-//        }
-//    }
-//
-//    func dismissingView(
-//        sizeAnimator: UIViewPropertyAnimator,
-//        positionAnimator: UIViewPropertyAnimator,
-//        fromFrame: CGRect,
-//        toFrame: CGRect
-//        ) {
-//        // If the user has scrolled down in the content, force the common view to go to the top of the screen.
-//        self.topConstraint.isActive = true
-//
-//        // If the top card is completely off screen, we move it to be JUST off screen.
-//        // This makes for a cleaner looking animation.
-//        if scrollView.contentOffset.y > commonView.frame.height {
-//            self.topConstraint.constant = -commonView.frame.height
-//            self.view.layoutIfNeeded()
-//
-//            // Still want to animate the common view getting pinned to the top of the view
-//            self.topConstraint.constant = 0
-//        }
-//
-//        // Animate the height of the common view to be the same size as the TO frame.
-//        // Also animate hiding the close button
-//        self.heightConstraint.constant = toFrame.height
-//        sizeAnimator.addAnimations {
-//            self.closeButton.alpha = 0
-//            self.view.layoutIfNeeded()
-//        }
-//
-//        // Animate the view to look like a card
-//        positionAnimator.addAnimations {
-//            self.asCard(true)
-//        }
-//    }
-//}
+extension AddGroupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil) // 關掉
+        self.bannerImageView.image = info[.originalImage] as? UIImage // 從Dictionary取出原始圖檔
+    }
+    
+    // 圖片picker控制器任務結束回呼
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+}

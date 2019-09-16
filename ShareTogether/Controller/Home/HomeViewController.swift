@@ -19,7 +19,14 @@ class HomeViewController: STBaseViewController {
     
     let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
     
-    var currentGroup: UserGroup?
+    var currentGroup: UserGroup? {
+        didSet {
+            if oldValue?.id != currentGroup?.id {
+                groupNameButton.setTitle(currentGroup?.name, for: .normal)
+                editGroupButton.setImage(.getIcon(code: "md-create", color: .white, size: 30), for: .normal)
+            }
+        }
+    }
     
     lazy var notebookViewModel: NotebookViewModel = {
         return NotebookViewModel()
@@ -80,10 +87,16 @@ class HomeViewController: STBaseViewController {
         infoTypeSelectionView.dataSource = self
         infoTypeSelectionView.delegate = self
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         currentGroup = UserInfoManager.shaered.currentGroup
         
-        groupNameButton.setTitle(currentGroup?.name, for: .normal)
+        guard let userInfo = UserInfoManager.shaered.currentUserInfo else { return }
         
+        settingButton.setUrlImage(userInfo.photoURL, for: .normal)
     }
     
     override func viewDidLayoutSubviews() {

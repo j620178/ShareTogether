@@ -11,6 +11,7 @@ import UIKit
 struct GroupCellViewModel {
     let name: String
     let groupID: String
+    let coverURL: String
     let isCurrent: Bool
 }
 
@@ -28,8 +29,9 @@ class GroupCollectionViewCell: UICollectionViewCell {
     
     var cellViewModel: GroupCellViewModel? {
         didSet {
-            //groupImageView = groupID
-            groupNameLabel.text = cellViewModel?.name
+            guard let cellViewModel = cellViewModel else { return }
+            groupImageView.setUrlImage(cellViewModel.coverURL)
+            groupNameLabel.text = cellViewModel.name
             //isSelectedImageView =
         }
     }

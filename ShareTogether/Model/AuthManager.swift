@@ -12,11 +12,16 @@ import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
 
+enum AuthManagerError: Error {
+    case loginFailed
+    case getAccessTokenFailed
+}
+
 class AuthManager: NSObject {
     
     static var shared = AuthManager()
     
-    var googleSignInHandler: ((Bool) -> Void)?
+    var googleSignInHandler: ((Result<UserInfo, Error>) -> Void)?
     
     var uid: String? {
         return Auth.auth().currentUser?.uid
@@ -45,17 +50,18 @@ class AuthManager: NSObject {
         }
     }
     
-    func facebookSignIn(viewContorller: UIViewController, completion: @escaping (Bool) -> Void) {
+    func facebookSignIn(viewContorller: UIViewController, completion: @escaping (Result<UserInfo, Error>) -> Void) {
         let fbLoginManager = LoginManager()
 
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: viewContorller) { (result, error) in
             
             if error != nil {
+                completion(Result.failure(AuthManagerError.loginFailed))
                 return
             }
             
             if AccessToken.current == nil {
-                print("Failed to get access token")
+                completion(Result.failure(AuthManagerError.getAccessTokenFailed))
                 return
             }
             
@@ -64,20 +70,32 @@ class AuthManager: NSObject {
             Auth.auth().signIn(with: credential, completion: { (user, error) in
                 
                 if error != nil {
-                    print("使用FB error")
                     print((error?.localizedDescription)!)
                     return
                 }
-
-                print("使用FB登入成功")
-                completion(self.isSignIn)
+                
+                guard let user = user,
+                    let name = user.user.displayName,
+                    let email = user.user.email,
+                    let photoURL = user.user.photoURL
+                    else { return }
+                
+                let userInfo = UserInfo(id: user.user.uid,
+                                        name: name,
+                                        email: email,
+                                        phone: nil,
+                                        photoURL: "\(photoURL)",
+                    groups: nil)
+                
+                completion(Result.success(userInfo))
             })
             
         }
 
     }
     
-    func googleSignIn(viewContorller: LoginViewController, completion: @escaping (Bool) -> Void) {
+    func googleSignIn(viewContorller: LoginViewController,
+                      completion: @escaping ((Result<UserInfo, Error>) -> Void)) {
         
         GIDSignIn.sharedInstance().uiDelegate = viewContorller
         //GIDSignIn.sharedInstance().signInSilently()
@@ -85,7 +103,7 @@ class AuthManager: NSObject {
         
         googleSignInHandler = completion
     }
-    
+
     func signOut() {
         let firebaseAuth = Auth.auth()
         do {
@@ -112,12 +130,28 @@ extension AuthManager: GIDSignInDelegate {
             withIDToken: authentication.idToken,
             accessToken: authentication.accessToken)
         
-        Auth.auth().signIn(with: credential) { (user, error) in
-            if let error = error {
-                print(error)
+        Auth.auth().signIn(with: credential) { [weak self] (user, error) in
+            
+            if error != nil {
+                self?.googleSignInHandler?(Result.failure(AuthManagerError.loginFailed))
                 return
             }
-            self.googleSignInHandler?(true)
+            
+            guard let user = user,
+                let name = user.user.displayName,
+                let email = user.user.email,
+                let photoURL = user.user.photoURL
+            else { return }
+            
+            let userInfo = UserInfo(id: user.user.uid,
+                                    name: name,
+                                    email: email,
+                                    phone: nil,
+                                    photoURL: "\(photoURL)",
+                                    groups: nil)
+            
+            self?.googleSignInHandler?(Result.success(userInfo))
+            
         }
         
     }

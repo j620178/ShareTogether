@@ -52,17 +52,15 @@ class LoginViewController: STBaseViewController {
             case .success(let userInfo):
                 print(userInfo)
                 if UserInfoManager.shaered.currentGroup != nil {
-                    self?.goMainVC()
+                    self?.goHomeVC()
                 } else {
                     
                     if let groups = userInfo.groups, !groups.isEmpty {
-                        for group in groups {
-                            group.id == "r2faZu22KX4ZbG7Fv86A" ? UserInfoManager.shaered.setCurrentGroup(group) : nil
-                        }
+                        UserInfoManager.shaered.setCurrentGroup(groups[0])
 
-                        self?.goMainVC()
+                        self?.goHomeVC()
                     } else {
-                        self?.goMainVC()
+                        self?.goHomeVC()
                     }
                     
                 }
@@ -75,7 +73,7 @@ class LoginViewController: STBaseViewController {
         
     }
     
-    func goMainVC() {
+    func goHomeVC() {
         
         if presentingViewController != nil {
             let presentingVC = presentingViewController
@@ -91,23 +89,32 @@ class LoginViewController: STBaseViewController {
     @IBAction func clickOAuthLogin(_ sender: UIButton) {
         
         if sender.tag == 1 {
+            
             AuthManager.shared.googleSignIn(viewContorller: self) { [weak self] result in
                 switch result {
-                case true:
-                    self?.checkUserGroup()
-                case false:
-                    print("error")
+                case .success(let userInfo):
+                    FirestoreManager.shared.insertNewUser(userInfo: userInfo) { _ in
+                        self?.checkUserGroup()
+                    }
+                case .failure(let error):
+                    print(error)
                 }
             }
+            
         } else if sender.tag == 2 {
+            
             AuthManager.shared.facebookSignIn(viewContorller: self) { [weak self] result in
                 switch result {
-                case true:
-                    self?.checkUserGroup()
-                case false:
-                    print("error")
+                case .success(let userInfo):
+                    FirestoreManager.shared.insertNewUser(userInfo: userInfo) { _ in
+                        self?.checkUserGroup()
+                    }
+                case .failure(let error):
+                    print(error)
                 }
+
             }
+            
         }
         
     }
@@ -138,8 +145,8 @@ class LoginViewController: STBaseViewController {
         signUpButton.setTitleColor(.STDarkGray, for: .normal)
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
         emailTextField.layer.cornerRadius = emailTextField.frame.height / 4
         passwordTextField.layer.cornerRadius = passwordTextField.frame.height / 4

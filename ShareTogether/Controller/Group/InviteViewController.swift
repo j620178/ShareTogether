@@ -64,7 +64,7 @@ class InviteViewController: STBaseViewController {
         
         if showType == .new, self.isMovingFromParent {
             for viewController in navigationController!.viewControllers {
-                if let previousVC = viewController as? AddGroupViewController {
+                if let previousVC = viewController as? GroupViewController {
                     previousVC.memberData += viewModel.getInviteMembers()
                 }
             }
@@ -74,8 +74,9 @@ class InviteViewController: STBaseViewController {
     
     func switchShowType() {
         if showType == .edit {
-            let rightItem = UIBarButtonItem(title: "邀請", style: .plain, target: self, action: nil)
-            navigationItem.rightBarButtonItem = rightItem
+            inviteButton.setTitle("送出邀請", for: .normal)
+        } else {
+            inviteButton.setTitle("加入邀請名單", for: .normal)
         }
     }
     

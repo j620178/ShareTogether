@@ -14,7 +14,7 @@ protocol TableViewControllerDelegate: AnyObject {
 
 class ExpenseTableViewController: UITableViewController {
     
-    var currentGroup: UserGroup? {
+    var currentGroup: GroupInfo? {
         didSet {
             if oldValue?.id != currentGroup?.id {
                 viewModel.fectchData()
@@ -32,6 +32,7 @@ class ExpenseTableViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
+        tableView.register(ExpenseFooterView.self, forHeaderFooterViewReuseIdentifier: ExpenseFooterView.reuseIdentifier)
         
         viewModel.reloadTableViewHandler = { [weak self] in
             self?.tableView.reloadData()
@@ -43,7 +44,7 @@ class ExpenseTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        currentGroup = UserInfoManager.shaered.currentGroup
+        currentGroup = UserInfoManager.shaered.currentGroupInfo
     }
 }
 
@@ -83,6 +84,22 @@ extension ExpenseTableViewController {
         let header = view as? UITableViewHeaderFooterView
         header?.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
     }
+    
+//    override func tableView(_ tableView: UITableView,
+//                   heightForFooterInSection section: Int) -> CGFloat {
+//        return 20
+//    }
+//    
+//    override func tableView(_ tableView: UITableView,
+//                   viewForFooterInSection section: Int) -> UIView? {
+//        guard let view = tableView.dequeueReusableHeaderFooterView(
+//            withIdentifier: ExpenseFooterView.reuseIdentifier) as? ExpenseFooterView
+//        else {
+//            return nil
+//        }
+//        
+//        return view
+//    }
 
     override func tableView(
         _ tableView: UITableView,

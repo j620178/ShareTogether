@@ -8,11 +8,17 @@
 
 import UIKit
 
-class SplitViewController: STBaseViewController {
+class CalculatorViewController: STBaseViewController {
     
-    let selectionViewTitle = ["均分", "比例", "金額"]
+    let selectionViewTitle = ["均分", "比例", "指定金額"]
     
-    let splitUser = ["Pony", "Kevin", "Nick", "Angle", "Daniel"]
+    var members = [MemberInfo]()
+    
+    var isSelect = [true, true] {
+        didSet {
+            print(isSelect)
+        }
+    }
     
     @IBOutlet weak var selectionView: SelectionView! {
         didSet {
@@ -24,6 +30,7 @@ class SplitViewController: STBaseViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
+            tableView.delegate = self
             tableView.registerWithNib(indentifer: CheckBoxTableViewCell.identifer)
             tableView.registerWithNib(indentifer: SplitTextFieldTableViewCell.identifer)
         }
@@ -40,7 +47,7 @@ class SplitViewController: STBaseViewController {
     
 }
 
-extension SplitViewController: SelectionViewDataSource {
+extension CalculatorViewController: SelectionViewDataSource {
     func titleOfRowAt(selectionView: SelectionView, index: Int) -> String {
         return selectionViewTitle[index]
     }
@@ -67,7 +74,7 @@ extension SplitViewController: SelectionViewDataSource {
     
 }
 
-extension SplitViewController: SelectionViewDelegate {
+extension CalculatorViewController: SelectionViewDelegate {
     
     func didSelectButton(selectionView: SelectionView, index: Int) {
         print(selectionView.currentIndex)
@@ -76,10 +83,10 @@ extension SplitViewController: SelectionViewDelegate {
     
 }
 
-extension SplitViewController: UITableViewDataSource {
+extension CalculatorViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return splitUser.count
+        return members.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -88,10 +95,11 @@ extension SplitViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: CheckBoxTableViewCell.identifer, for: indexPath)
     
             guard let checkBoxCell = cell as? CheckBoxTableViewCell else { return cell }
-            
-            checkBoxCell.userNameLabel.text = splitUser[indexPath.row]
     
-            checkBoxCell.updateCheckBoxImage(isSelectd: true)
+            checkBoxCell.setupContent(name: members[indexPath.row].name,
+                                      photoURL: members[indexPath.row].photoURL)
+            
+            tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
             return checkBoxCell
         } else if selectionView.currentIndex == 1 {
             let cell = tableView.dequeueReusableCell(
@@ -100,7 +108,7 @@ extension SplitViewController: UITableViewDataSource {
             
             guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
             textFieldCell.unitLabel.text = "%"
-            textFieldCell.userNameLabel.text = splitUser[indexPath.row]
+            textFieldCell.userNameLabel.text = members[indexPath.row].name
             
             return textFieldCell
         } else {
@@ -110,11 +118,23 @@ extension SplitViewController: UITableViewDataSource {
             
             guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
             textFieldCell.unitLabel.text = "元"
-            textFieldCell.userNameLabel.text = splitUser[indexPath.row]
+            textFieldCell.userNameLabel.text = members[indexPath.row].name
             
             return textFieldCell
         }
     
     }
 
+}
+
+extension CalculatorViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        isSelect[indexPath.row] = true
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        isSelect[indexPath.row] = false
+    }
+    
 }

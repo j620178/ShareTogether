@@ -1,5 +1,5 @@
 //
-//  GroupViewController.swift
+//  GroupListViewController.swift
 //  ShareTogether
 //
 //  Created by littlema on 2019/9/2.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class GroupViewController: STBaseViewController {
+class GroupListViewController: STBaseViewController {
     
-    var viewModel = SelectionGroupViewModel()
+    var viewModel = GroupListViewModel()
     
     override var isHideNavigationBar: Bool {
         return true
@@ -61,7 +61,7 @@ class GroupViewController: STBaseViewController {
 
 }
 
-extension GroupViewController: UICollectionViewDataSource {
+extension GroupListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numberOfCells
@@ -83,10 +83,11 @@ extension GroupViewController: UICollectionViewDataSource {
     
 }
 
-extension GroupViewController: UICollectionViewDelegate {
+extension GroupListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let userGroup = viewModel.getUserGroup(at: indexPath.row)
-        UserInfoManager.shaered.setCurrentGroup(userGroup)
+        let groupInfo = GroupInfo(id: userGroup.id, name: userGroup.name, coverURL: userGroup.coverURL, status: nil)
+        UserInfoManager.shaered.setCurrentGroupInfo(groupInfo)
 
         dismiss(animated: true, completion: nil)
     }

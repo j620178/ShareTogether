@@ -8,17 +8,15 @@
 
 import UIKit
 
-protocol TextFieldTableViewCellDelegate: AnyObject {
-    func keyboardBeginEditing(tableViewCell: TextFieldTableViewCell)
-}
 
 class TextFieldTableViewCell: UITableViewCell {
     
-    weak var delegate: TextFieldTableViewCellDelegate?
+    var amountPassHandler: ((Int) -> Void)?
+    
+    var descPassHandler: ((Int) -> Void)?
 
     @IBOutlet weak var textField: UITextField! {
         didSet {
-            textField.delegate = self
             textField.layer.cornerRadius = 10.0
             textField.clipsToBounds = true
             textField.addLeftSpace()
@@ -41,10 +39,4 @@ class TextFieldTableViewCell: UITableViewCell {
         self.selectionStyle = .none
     }
     
-}
-
-extension TextFieldTableViewCell: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        delegate?.keyboardBeginEditing(tableViewCell: self)
-    }
 }

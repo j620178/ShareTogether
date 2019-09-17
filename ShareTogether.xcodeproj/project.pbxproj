@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		741E2B96232E361700350F42 /* SelectionGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E2B95232E361700350F42 /* SelectionGroupViewModel.swift */; };
+		741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E2B95232E361700350F42 /* GroupListViewModel.swift */; };
 		742E5F4E23304E8E001EDF54 /* AddGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */; };
 		742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4F23306373001EDF54 /* MemberStatusType.swift */; };
+		742E5F522331A6EA001EDF54 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F512331A6EA001EDF54 /* AlertManager.swift */; };
+		742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */; };
 		743F4E62232F3FA3009BA6BA /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 743F4E61232F3FA3009BA6BA /* Menu.storyboard */; };
 		743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E63232F4317009BA6BA /* StorageManager.swift */; };
 		743F4E66232F923D009BA6BA /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E65232F923D009BA6BA /* InviteViewModel.swift */; };
@@ -72,7 +74,7 @@
 		74B5C4C7231DE46B00EB916D /* NewGroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4C5231DE46B00EB916D /* NewGroupCollectionViewCell.swift */; };
 		74B5C4C8231DE46B00EB916D /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4C6231DE46B00EB916D /* GroupCollectionViewCell.swift */; };
 		74B5C4CD231DE47B00EB916D /* AddExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */; };
-		74B5C4CE231DE47B00EB916D /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4CA231DE47B00EB916D /* GroupViewController.swift */; };
+		74B5C4CE231DE47B00EB916D /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4CA231DE47B00EB916D /* GroupListViewController.swift */; };
 		74B5C4CF231DE47B00EB916D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4CB231DE47B00EB916D /* HomeViewController.swift */; };
 		74B5C4D0231DE47B00EB916D /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4CC231DE47B00EB916D /* ActivityViewController.swift */; };
 		74B5C4D9231DE48800EB916D /* ExpenseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74B5C4D1231DE48800EB916D /* ExpenseTableViewCell.xib */; };
@@ -84,13 +86,18 @@
 		74B5C4E4231DE48F00EB916D /* STTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4E1231DE48E00EB916D /* STTabBarController.swift */; };
 		74B5C4E6231DE48F00EB916D /* ScrollSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4E3231DE48F00EB916D /* ScrollSelectionView.swift */; };
 		74B5C4E8231DED8400EB916D /* Activity.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74B5C4E7231DED8400EB916D /* Activity.storyboard */; };
-		74B5C4EA231E00B000EB916D /* AddGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4E9231E00B000EB916D /* AddGroupViewController.swift */; };
 		74B5C4EC231E044800EB916D /* STBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4EB231E044800EB916D /* STBaseViewController.swift */; };
 		74B5C4EF231E5CB600EB916D /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4EE231E5CB600EB916D /* CategoryCollectionViewCell.swift */; };
 		74B5C4F1231E7BB400EB916D /* STNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4F0231E7BB400EB916D /* STNavigationController.swift */; };
 		74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4F4231E7E1800EB916D /* TabView.swift */; };
-		74BA2AE12325D58A0010799E /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA2AE02325D58A0010799E /* SplitViewController.swift */; };
+		74BA2AE12325D58A0010799E /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA2AE02325D58A0010799E /* CalculatorViewController.swift */; };
 		74BA2AE32326517E0010799E /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA2AE22326517E0010799E /* SelectionView.swift */; };
+		74D0051C23320E4B0079D68E /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0051B23320E4B0079D68E /* GroupViewController.swift */; };
+		74D00522233246C50079D68E /* AmountTypeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D00521233246C50079D68E /* AmountTypeController.swift */; };
+		74D005252332490E0079D68E /* ExpenseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D005242332490E0079D68E /* ExpenseController.swift */; };
+		74D0052723324AC30079D68E /* PayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0052623324AC30079D68E /* PayerController.swift */; };
+		74D0052923324B2D0079D68E /* SplitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0052823324B2D0079D68E /* SplitController.swift */; };
+		74D0052B23324B5F0079D68E /* PayDateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0052A23324B5F0079D68E /* PayDateController.swift */; };
 		74D611D0231CEF7600A301E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74D611CF231CEF7600A301E9 /* Main.storyboard */; };
 		74D611D3231D008D00A301E9 /* SwiftIconFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D611D2231D008D00A301E9 /* SwiftIconFont.swift */; };
 		EDC6CC7D8B7BE0C2AC75B3D9 /* Pods_ShareTogether.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E018E2029FD73E0459A7E1 /* Pods_ShareTogether.framework */; };
@@ -99,9 +106,11 @@
 /* Begin PBXFileReference section */
 		35E2FFF816BE8EA55FE2021B /* Pods-ShareTogether.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.debug.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.debug.xcconfig"; sourceTree = "<group>"; };
 		6EE45046B2151DE911C1D99A /* Pods-ShareTogether.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.release.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.release.xcconfig"; sourceTree = "<group>"; };
-		741E2B95232E361700350F42 /* SelectionGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SelectionGroupViewModel.swift; path = ../Model/SelectionGroupViewModel.swift; sourceTree = "<group>"; };
+		741E2B95232E361700350F42 /* GroupListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupListViewModel.swift; path = ../Model/GroupListViewModel.swift; sourceTree = "<group>"; };
 		742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupViewModel.swift; sourceTree = "<group>"; };
 		742E5F4F23306373001EDF54 /* MemberStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStatusType.swift; sourceTree = "<group>"; };
+		742E5F512331A6EA001EDF54 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AlertManager.swift; path = ../Extension/AlertManager.swift; sourceTree = "<group>"; };
+		742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHeaderFooterView.swift; sourceTree = "<group>"; };
 		743F4E61232F3FA3009BA6BA /* Menu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
 		743F4E63232F4317009BA6BA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		743F4E65232F923D009BA6BA /* InviteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewModel.swift; sourceTree = "<group>"; };
@@ -166,7 +175,7 @@
 		74B5C4C5231DE46B00EB916D /* NewGroupCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		74B5C4C6231DE46B00EB916D /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddExpenseViewController.swift; sourceTree = "<group>"; };
-		74B5C4CA231DE47B00EB916D /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
+		74B5C4CA231DE47B00EB916D /* GroupListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
 		74B5C4CB231DE47B00EB916D /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		74B5C4CC231DE47B00EB916D /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		74B5C4D1231DE48800EB916D /* ExpenseTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpenseTableViewCell.xib; sourceTree = "<group>"; };
@@ -178,13 +187,18 @@
 		74B5C4E1231DE48E00EB916D /* STTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STTabBarController.swift; sourceTree = "<group>"; };
 		74B5C4E3231DE48F00EB916D /* ScrollSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollSelectionView.swift; sourceTree = "<group>"; };
 		74B5C4E7231DED8400EB916D /* Activity.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Activity.storyboard; sourceTree = "<group>"; };
-		74B5C4E9231E00B000EB916D /* AddGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupViewController.swift; sourceTree = "<group>"; };
 		74B5C4EB231E044800EB916D /* STBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STBaseViewController.swift; sourceTree = "<group>"; };
 		74B5C4EE231E5CB600EB916D /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		74B5C4F0231E7BB400EB916D /* STNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STNavigationController.swift; sourceTree = "<group>"; };
 		74B5C4F4231E7E1800EB916D /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
-		74BA2AE02325D58A0010799E /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
+		74BA2AE02325D58A0010799E /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
 		74BA2AE22326517E0010799E /* SelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
+		74D0051B23320E4B0079D68E /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
+		74D00521233246C50079D68E /* AmountTypeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountTypeController.swift; sourceTree = "<group>"; };
+		74D005242332490E0079D68E /* ExpenseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseController.swift; sourceTree = "<group>"; };
+		74D0052623324AC30079D68E /* PayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayerController.swift; sourceTree = "<group>"; };
+		74D0052823324B2D0079D68E /* SplitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitController.swift; sourceTree = "<group>"; };
+		74D0052A23324B5F0079D68E /* PayDateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDateController.swift; sourceTree = "<group>"; };
 		74D611CF231CEF7600A301E9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		74D611D2231D008D00A301E9 /* SwiftIconFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftIconFont.swift; sourceTree = "<group>"; };
 		E0E018E2029FD73E0459A7E1 /* Pods_ShareTogether.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareTogether.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -277,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				74975EB523277A61008FC7B0 /* AuthManager.swift */,
+				742E5F512331A6EA001EDF54 /* AlertManager.swift */,
 				74A1A0E6232D93C6007C717A /* ExpenseType.swift */,
 				74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */,
 				743F4E63232F4317009BA6BA /* StorageManager.swift */,
@@ -300,7 +315,8 @@
 		7492067A2317DDAB0049357B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				741E2B95232E361700350F42 /* SelectionGroupViewModel.swift */,
+				74D00520233246A10079D68E /* AddExpense */,
+				741E2B95232E361700350F42 /* GroupListViewModel.swift */,
 				743F4E65232F923D009BA6BA /* InviteViewModel.swift */,
 				742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */,
 				743F4E5E232F2FDB009BA6BA /* Home */,
@@ -350,12 +366,11 @@
 		74B5C4BE231DE37700EB916D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				74D0051F233237E30079D68E /* Group */,
+				74D0051E233237C00079D68E /* Setting */,
+				74D0051D2332378B0079D68E /* AddExpense */,
 				74BAAEA22328FA8B008623FF /* Home */,
 				744C9C332328F9AD00661252 /* Login */,
-				7451C46223272B4800EA0AEB /* InviteViewController.swift */,
-				74BA2AE02325D58A0010799E /* SplitViewController.swift */,
-				74B5C4CA231DE47B00EB916D /* GroupViewController.swift */,
-				74B5C4E9231E00B000EB916D /* AddGroupViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -376,6 +391,7 @@
 		74B5C4C3231DE3E200EB916D /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */,
 				74B5C4D2231DE48800EB916D /* ExpenseTableViewCell.swift */,
 				74B5C4D1231DE48800EB916D /* ExpenseTableViewCell.xib */,
 				74B5C4D5231DE48800EB916D /* ResultTableViewCell.swift */,
@@ -428,10 +444,47 @@
 				74A1A0DC232B8535007C717A /* ResultTableViewController.swift */,
 				74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */,
 				74B5C4CC231DE47B00EB916D /* ActivityViewController.swift */,
-				7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */,
-				74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		74D0051D2332378B0079D68E /* AddExpense */ = {
+			isa = PBXGroup;
+			children = (
+				74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */,
+				74BA2AE02325D58A0010799E /* CalculatorViewController.swift */,
+			);
+			path = AddExpense;
+			sourceTree = "<group>";
+		};
+		74D0051E233237C00079D68E /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		74D0051F233237E30079D68E /* Group */ = {
+			isa = PBXGroup;
+			children = (
+				74B5C4CA231DE47B00EB916D /* GroupListViewController.swift */,
+				74D0051B23320E4B0079D68E /* GroupViewController.swift */,
+				7451C46223272B4800EA0AEB /* InviteViewController.swift */,
+			);
+			path = Group;
+			sourceTree = "<group>";
+		};
+		74D00520233246A10079D68E /* AddExpense */ = {
+			isa = PBXGroup;
+			children = (
+				74D00521233246C50079D68E /* AmountTypeController.swift */,
+				74D005242332490E0079D68E /* ExpenseController.swift */,
+				74D0052623324AC30079D68E /* PayerController.swift */,
+				74D0052823324B2D0079D68E /* SplitController.swift */,
+				74D0052A23324B5F0079D68E /* PayDateController.swift */,
+			);
+			path = AddExpense;
 			sourceTree = "<group>";
 		};
 		74D611D1231D006700A301E9 /* ThridPratyWrapper */ = {
@@ -623,7 +676,7 @@
 			files = (
 				74A1A0DB232B6EFF007C717A /* StatisticsTableViewController.swift in Sources */,
 				747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */,
-				74B5C4CE231DE47B00EB916D /* GroupViewController.swift in Sources */,
+				74B5C4CE231DE47B00EB916D /* GroupListViewController.swift in Sources */,
 				745CACC823169FD30055A60C /* ExpenseRecode.swift in Sources */,
 				747AB9072324DFED00007A32 /* LoginViewController.swift in Sources */,
 				747AB90B2324F38A00007A32 /* SignUpViewController.swift in Sources */,
@@ -636,12 +689,13 @@
 				74A1A0DF232B8675007C717A /* NotebookTableViewController.swift in Sources */,
 				745CC98F232249CE00426D1A /* CustomTransitionAnimation.swift in Sources */,
 				74A1A0E3232CD5F8007C717A /* UserInfoManager.swift in Sources */,
+				74D0052923324B2D0079D68E /* SplitController.swift in Sources */,
 				74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */,
-				741E2B96232E361700350F42 /* SelectionGroupViewModel.swift in Sources */,
+				741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */,
+				74D0052723324AC30079D68E /* PayerController.swift in Sources */,
 				745CC990232249CE00426D1A /* Animatable.swift in Sources */,
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
 				74BA2AE32326517E0010799E /* SelectionView.swift in Sources */,
-				74B5C4EA231E00B000EB916D /* AddGroupViewController.swift in Sources */,
 				74960EA323150834006BF12C /* AppDelegate.swift in Sources */,
 				745CACC423169E530055A60C /* ExpenseViewModel.swift in Sources */,
 				74B5C4DA231DE48800EB916D /* ExpenseTableViewCell.swift in Sources */,
@@ -657,15 +711,19 @@
 				744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */,
 				74A1A0E7232D93C6007C717A /* ExpenseType.swift in Sources */,
 				74B5C4CD231DE47B00EB916D /* AddExpenseViewController.swift in Sources */,
+				74D00522233246C50079D68E /* AmountTypeController.swift in Sources */,
 				748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */,
+				74D0051C23320E4B0079D68E /* GroupViewController.swift in Sources */,
 				74AEC9012320837C003A6F01 /* CheckBoxTableViewCell.swift in Sources */,
 				74B5C4C8231DE46B00EB916D /* GroupCollectionViewCell.swift in Sources */,
 				74B5C4D0231DE47B00EB916D /* ActivityViewController.swift in Sources */,
 				74A1A0D9232B6728007C717A /* ExpenseTableViewController.swift in Sources */,
 				74D611D3231D008D00A301E9 /* SwiftIconFont.swift in Sources */,
 				74B5C4E4231DE48F00EB916D /* STTabBarController.swift in Sources */,
+				74D0052B23324B5F0079D68E /* PayDateController.swift in Sources */,
 				7451C46323272B4800EA0AEB /* InviteViewController.swift in Sources */,
 				745CC98E232249CE00426D1A /* NavigationController.swift in Sources */,
+				74D005252332490E0079D68E /* ExpenseController.swift in Sources */,
 				74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */,
 				74A1A0DD232B8535007C717A /* ResultTableViewController.swift in Sources */,
 				742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */,
@@ -675,9 +733,11 @@
 				74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */,
 				74B5C4E6231DE48F00EB916D /* ScrollSelectionView.swift in Sources */,
 				745CACC2231672810055A60C /* UITableView+Extension.swift in Sources */,
-				74BA2AE12325D58A0010799E /* SplitViewController.swift in Sources */,
+				74BA2AE12325D58A0010799E /* CalculatorViewController.swift in Sources */,
 				745CC9862321164E00426D1A /* Direction.swift in Sources */,
 				745CC983232106C200426D1A /* ActivityTableViewCell.swift in Sources */,
+				742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */,
+				742E5F522331A6EA001EDF54 /* AlertManager.swift in Sources */,
 				74B5C4C7231DE46B00EB916D /* NewGroupCollectionViewCell.swift in Sources */,
 				743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */,
 				745CC989232146F700426D1A /* MemberTableViewCell.swift in Sources */,

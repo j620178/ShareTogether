@@ -14,6 +14,7 @@ enum MemberStatusType: Int {
     case inviting = 2
     case joined = 3
     case quit = 4
+    case archive = 5
     
     var getString: String {
         switch self {
@@ -21,13 +22,15 @@ enum MemberStatusType: Int {
         case .builder:
             return "建立者"
         case .willInvite:
-            return "加入邀請"
+            return "將邀請"
         case .inviting:
             return "邀請中"
         case .joined:
             return "已加入"
         case .quit:
             return "已退出"
+        case .archive:
+            return "已封存"
         }
     }
     

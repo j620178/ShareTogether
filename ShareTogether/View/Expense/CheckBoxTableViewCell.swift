@@ -16,12 +16,11 @@ class CheckBoxTableViewCell: UITableViewCell {
     
     @IBOutlet weak var checkBoxImageView: UIImageView!
     
-    func updateCheckBoxImage(isSelectd: Bool) {
-        if isSelectd {
-            checkBoxImageView.setIcon(code: "ios-checkmark-circle", color: .STTintColor)
-        } else {
-            checkBoxImageView.setIcon(code: "ios-radio-button-off", color: .lightGray)
-        }
+    func setupContent(name: String, photoURL: String) {
+        
+        userNameLabel.text = name
+        userImageView.setUrlImage(photoURL)
+        
     }
         
     override func awakeFromNib() {
@@ -31,8 +30,17 @@ class CheckBoxTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
+        switchIcon(isSelectd: selected)
         // Configure the view for the selected state
+    }
+    
+    func switchIcon(isSelectd: Bool) {
+        if isSelectd {
+            checkBoxImageView.setIcon(code: "ios-checkmark-circle", color: .STTintColor)
+        } else {
+            checkBoxImageView.setIcon(code: "ios-radio-button-off", color: .lightGray)
+        }
     }
     
     override func layoutSubviews() {

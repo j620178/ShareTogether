@@ -10,13 +10,28 @@ import UIKit
 
 class SplitTextFieldTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var userImageView: UIImageView!
     
     @IBOutlet weak var userNameLabel: UILabel!
     
     @IBOutlet weak var unitLabel: UILabel!
    
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textField: UITextField! {
+        didSet {
+            textField.delegate = self
+        }
+    }
+    
+    var passStringHandler: ((String?) -> Void)?
+    
+    func setupContent(text: String?, name: String, photoURL: String, unit: String) {
+        
+        textField.text = text
+        userNameLabel.text = name
+        userImageView.setUrlImage(photoURL)
+        unitLabel.text = unit
+        
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,9 +47,15 @@ class SplitTextFieldTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        userImage.layer.cornerRadius = userImage.frame.height / 2
+        userImageView.layer.cornerRadius = userImageView.frame.height / 2
         userNameLabel.textColor = .STBlack
         textField.textColor = .STBlack
     }
     
+}
+
+extension SplitTextFieldTableViewCell: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        passStringHandler?(textField.text)
+    }
 }

@@ -46,7 +46,7 @@ class LoginViewController: STBaseViewController {
     
     func checkUserGroup(authUserInfo: UserInfo) {
         
-        if UserInfoManager.shaered.currentGroup != nil {
+        if UserInfoManager.shaered.currentGroupInfo != nil {
             goHomeVC()
             return
         }
@@ -57,13 +57,23 @@ class LoginViewController: STBaseViewController {
             case .success(let userInfo):
                     
                 if let userInfo = userInfo, let groups = userInfo.groups, !groups.isEmpty {
-                    UserInfoManager.shaered.setCurrentGroup(groups[0])
+                    let group = GroupInfo(id: groups[0].id, name: groups[0].name, coverURL: groups[0].coverURL, status: nil)
+                    UserInfoManager.shaered.setCurrentGroupInfo(group)
                     UserInfoManager.shaered.setCurrentUserInfo(userInfo)
                     self?.goHomeVC()
                 } else {
-                    UserInfoManager.shaered.setCurrentUserInfo(authUserInfo)
-                    FirestoreManager.shared.insertNewUser(userInfo: authUserInfo) { _ in
-                        self?.goHomeVC()
+                    FirestoreManager.shared.insertNewUser(userInfo: authUserInfo) { result in
+                        switch result {
+                            
+                        case .success(let demoGroup):
+                            var userInfo = authUserInfo
+                            userInfo.groups = [demoGroup]
+                            UserInfoManager.shaered.setCurrentUserInfo(userInfo)
+                            self?.goHomeVC()
+                        case .failure:
+                            print("error")
+                        }
+
                     }
                 }
                 

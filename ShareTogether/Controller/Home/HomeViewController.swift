@@ -60,7 +60,7 @@ class HomeViewController: STBaseViewController {
         
         let navigationController = STNavigationController()
         
-        guard let nextVC = groupStoryboard.instantiateViewController(withIdentifier: AddGroupViewController.identifier) as? AddGroupViewController else { return }
+        guard let nextVC = groupStoryboard.instantiateViewController(withIdentifier: GroupViewController.identifier) as? GroupViewController else { return }
         
         nextVC.showType = .edit
         
@@ -88,7 +88,7 @@ class HomeViewController: STBaseViewController {
         super.viewWillAppear(animated)
         
         //更新 Group Name
-        groupNameButton.setTitle(UserInfoManager.shaered.currentGroup?.name, for: .normal)
+        groupNameButton.setTitle(UserInfoManager.shaered.currentGroupInfo?.name, for: .normal)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -1,5 +1,5 @@
 //
-//  AddGroupViewController.swift
+//  GroupViewController.swift
 //  ShareTogether
 //
 //  Created by littlema on 2019/9/3.
@@ -13,12 +13,7 @@ enum ShowType {
     case edit
 }
 
-class AddGroupViewController: STBaseViewController {
-    
-//    override var isHideNavigationBar: Bool {
-//
-//        return true
-//    }
+class GroupViewController: STBaseViewController {
     
     var showType = ShowType.new
     
@@ -26,6 +21,21 @@ class AddGroupViewController: STBaseViewController {
         didSet {
             tableView.reloadData()
         }
+    }
+    
+    var memeberDataDic: [String: [MemberInfo]] {
+        var data = ["Show": [MemberInfo](), "Hide": [MemberInfo]()]
+        
+        for member in memberData {
+            if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
+                MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
+                data["Hide"]?.append(member)
+            } else {
+                data["Show"]?.append(member)
+            }
+        }
+
+        return data
     }
     
     var lastVelocityYSign = 0
@@ -87,13 +97,12 @@ class AddGroupViewController: STBaseViewController {
     }
     
     func setupUI() {
-        addMemberButton.setImage(.getIcon(code: "ios-add-circle-outline", color: .STTintColor, size: 30), for: .normal)
+        addMemberButton.setImage(.getIcon(code: "md-person-add", color: .STTintColor, size: 30), for: .normal)
 
         coverImageView.layer.cornerRadius = 20
         coverImageView.layer.maskedCorners = [.layerMaxXMaxYCorner]
         bannerView.addCornerAndShadow(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner])
         
-        textField.delegate = self
         textField.layer.cornerRadius = 10.0
         textField.clipsToBounds = true
         textField.addLeftSpace()
@@ -128,11 +137,6 @@ class AddGroupViewController: STBaseViewController {
             textField.isUserInteractionEnabled = true
             textField.becomeFirstResponder()
             
-//            setCoverButton.isHidden = false
-//
-//            let rightItem = UIBarButtonItem(title: "新增", style: .plain, target: self, action: #selector(addGroup(_:)))
-//            navigationItem.rightBarButtonItem = rightItem
-            
             let leftButton = UIButton(type: .custom)
             leftButton.addTarget(self, action: #selector(closeSelf(_:)), for: .touchUpInside)
             navigationItem.leftBarButtonItem = .customItem(button: leftButton, code: "ios-arrow-round-back")
@@ -145,8 +149,8 @@ class AddGroupViewController: STBaseViewController {
             
         case .edit:
             textField.isUserInteractionEnabled = false
-            textField.text = UserInfoManager.shaered.currentGroup?.name
-            coverImageView.setUrlImage(UserInfoManager.shaered.currentGroup!.coverURL)
+            textField.text = UserInfoManager.shaered.currentGroupInfo?.name
+            coverImageView.setUrlImage(UserInfoManager.shaered.currentGroupInfo?.coverURL ?? "")
 
             setCoverButton.isHidden = true
             
@@ -165,6 +169,8 @@ class AddGroupViewController: STBaseViewController {
             }
         }
     }
+    
+ 
     
     @objc func closeSelf(_ sender: UIButton) {
         
@@ -191,16 +197,14 @@ class AddGroupViewController: STBaseViewController {
             
         StorageManager.shared.uploadImage(image: coverImageView.image!) { [weak self] urlString in
             
-            let groupInfo = GroupInfo(id: nil,
-                                      name: text,
-                                      coverURL: urlString,
-                                      expenses: nil,
-                                      members: self?.memberData)
+            guard let strongSelf = self else { return }
             
-            FirestoreManager.shared.addGroup(groupInfo: groupInfo, completion: { [weak self] result in
+            let groupInfo = GroupInfo(id: nil, name: text, coverURL: urlString, status: nil)
+
+            FirestoreManager.shared.addGroup(groupInfo: groupInfo, members: strongSelf.memberData, completion: { result in
                 switch result {
                 case .success:
-                    self?.navigationController?.popViewController(animated: true)
+                    strongSelf.navigationController?.popViewController(animated: true)
                 case .failure(let error):
                     print(error)
                 }
@@ -224,22 +228,16 @@ class AddGroupViewController: STBaseViewController {
     
 }
 
-extension AddGroupViewController: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-
-    }
-}
-
-extension AddGroupViewController: UITableViewDataSource {
+extension GroupViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memberData.count
+        return memeberDataDic["Show"]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: MemberTableViewCell.identifer, for: indexPath)
         
-        guard let memberCell = cell as? MemberTableViewCell else { return cell}
+        guard let memberData = memeberDataDic["Show"], let memberCell = cell as? MemberTableViewCell else { return cell}
         
         memberCell.userImageView.setUrlImage(memberData[indexPath.row].photoURL)
         
@@ -253,7 +251,7 @@ extension AddGroupViewController: UITableViewDataSource {
         
 }
 
-extension AddGroupViewController: UITableViewDelegate {
+extension GroupViewController: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let currentVelocityY =  scrollView.panGestureRecognizer.velocity(in: scrollView.superview).y
@@ -265,18 +263,47 @@ extension AddGroupViewController: UITableViewDelegate {
         
         if lastVelocityYSign < 0 {
             switchLayout(direction: .down)
-        } else if lastVelocityYSign > 0 {
-            //switchLayout(direction: .up)
         }
         
         if scrollView.contentOffset.y < -50 {
             switchLayout(direction: .up)
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if showType == .edit {
+            let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+            let action = UIAlertAction(title: "刪除", style: .destructive) { [weak self] _ in
+
+                guard let uid = self?.memberData[indexPath.row].id else { return }
+                
+                FirestoreManager.shared.updateMemberStatus(uid: uid, status: .quit, completion: { result in
+                    switch result {
+                        
+                    case .success:
+                        print("success")
+                
+                    case .failure:
+                        print("error")
+                    }
+                })
+        
+            }
+            
+            controller.addAction(action)
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            controller.addAction(cancelAction)
+            present(controller, animated: true, completion: nil)
+        }
+    }
 
 }
 
-extension AddGroupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension GroupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {

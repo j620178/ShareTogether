@@ -8,9 +8,9 @@
 
 import Foundation
 
-class SelectionGroupViewModel {
+class GroupListViewModel {
     
-    var userGroups = [UserGroup]()
+    var userGroups = [GroupInfo]()
     
     var cellViewModels = [GroupCellViewModel]() {
         didSet {
@@ -26,17 +26,17 @@ class SelectionGroupViewModel {
     var showAlertHandler: (() -> Void)?
     var updateLoadingStatusHandler: (() -> Void)?
  
-    func createCellViewModel(userGroup: UserGroup) -> GroupCellViewModel {
+    func createCellViewModel(group: GroupInfo) -> GroupCellViewModel {
         
-        if UserInfoManager.shaered.currentGroup?.id == userGroup.id {
-            return GroupCellViewModel(name: userGroup.name,
-                                      groupID: userGroup.id,
-                                      coverURL: userGroup.coverURL,
+        if UserInfoManager.shaered.currentGroupInfo?.id == group.id {
+            return GroupCellViewModel(name: group.name,
+                                      groupID: group.id,
+                                      coverURL: group.coverURL,
                                       isCurrent: true)
         } else {
-            return GroupCellViewModel(name: userGroup.name,
-                                      groupID: userGroup.id,
-                                      coverURL: userGroup.coverURL,
+            return GroupCellViewModel(name: group.name,
+                                      groupID: group.id,
+                                      coverURL: group.coverURL,
                                       isCurrent: false)
         }
     }
@@ -45,7 +45,7 @@ class SelectionGroupViewModel {
         return cellViewModels[index]
     }
     
-    func getUserGroup(at index: Int) -> UserGroup {
+    func getUserGroup(at index: Int) -> GroupInfo {
         return userGroups[index]
     }
     
@@ -57,7 +57,7 @@ class SelectionGroupViewModel {
             strongSelf.userGroups = userGroups
             var viewModels = [GroupCellViewModel]()
             for userGroup in userGroups {
-                let viewModel = strongSelf.createCellViewModel(userGroup: userGroup)
+                let viewModel = strongSelf.createCellViewModel(group: userGroup)
                 viewModels.append(viewModel)
             }
             strongSelf.cellViewModels = viewModels

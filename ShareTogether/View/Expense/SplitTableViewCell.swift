@@ -16,11 +16,11 @@ class SplitTableViewCell: UITableViewCell {
     
     @IBOutlet weak var indicatorImageView: UIImageView!
     
-    func updateLabelText(title: String, type: String) {
+    func setupContent(title: String, type: String) {
         titleLabel.text = title
         detailLabel.text = type
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

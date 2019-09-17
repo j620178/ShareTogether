@@ -48,18 +48,21 @@ class UserInfoManager {
         }
     }
     
-    var currentGroup: UserGroup? {
-        if let data = userDefault.value(forKey: UserInfoConstant.currentGroup) as? Data,
-            let userGroup = try? JSONDecoder().decode(UserGroup.self, from: data) {
-            return userGroup
+    var currentGroupStatus: Int? {
+        
+        guard let currentGroupID = currentGroupInfo?.id,
+            let userGroups = currentUserInfo?.groups
+        else { return nil }
+        
+        for userGroup in userGroups {
+            if userGroup.id == currentGroupID {
+                return userGroup.status
+            }
         }
+        
         return nil
     }
     
-    func setCurrentGroup(_ group: UserGroup) {
-        if let data = try? JSONEncoder().encode(group) {
-            UserDefaults.standard.set(data, forKey: UserInfoConstant.currentGroup)
-        }
-    }
+    
     
 }

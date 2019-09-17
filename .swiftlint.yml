@@ -9,6 +9,7 @@ identifier_name:
     - url
     - app
     - up
+    - db
 file_length:
   warning: 500
   error: 800

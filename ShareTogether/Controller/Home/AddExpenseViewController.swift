@@ -89,7 +89,7 @@ class AddExpenseViewController: STBaseViewController {
         FirestoreManager.shared.addExpense(expense: expense) { result in
             switch result {
                 
-            case .success(_):
+            case .success:
                 print("success")
             case .failure(let error):
                 print(error)

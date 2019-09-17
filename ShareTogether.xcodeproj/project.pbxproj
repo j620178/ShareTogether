@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		741E2B96232E361700350F42 /* SelectionGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E2B95232E361700350F42 /* SelectionGroupViewModel.swift */; };
+		742E5F4E23304E8E001EDF54 /* AddGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */; };
+		742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4F23306373001EDF54 /* MemberStatusType.swift */; };
+		743F4E62232F3FA3009BA6BA /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 743F4E61232F3FA3009BA6BA /* Menu.storyboard */; };
+		743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E63232F4317009BA6BA /* StorageManager.swift */; };
+		743F4E66232F923D009BA6BA /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E65232F923D009BA6BA /* InviteViewModel.swift */; };
 		744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744BBFA723162B1900434D7A /* UIColor+Extension.swift */; };
 		7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */; };
 		7451C46023271AB200EA0AEB /* AddNotebookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C45E23271AB200EA0AEB /* AddNotebookTableViewCell.swift */; };
@@ -95,6 +100,11 @@
 		35E2FFF816BE8EA55FE2021B /* Pods-ShareTogether.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.debug.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.debug.xcconfig"; sourceTree = "<group>"; };
 		6EE45046B2151DE911C1D99A /* Pods-ShareTogether.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.release.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.release.xcconfig"; sourceTree = "<group>"; };
 		741E2B95232E361700350F42 /* SelectionGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SelectionGroupViewModel.swift; path = ../Model/SelectionGroupViewModel.swift; sourceTree = "<group>"; };
+		742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupViewModel.swift; sourceTree = "<group>"; };
+		742E5F4F23306373001EDF54 /* MemberStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStatusType.swift; sourceTree = "<group>"; };
+		743F4E61232F3FA3009BA6BA /* Menu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
+		743F4E63232F4317009BA6BA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		743F4E65232F923D009BA6BA /* InviteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewModel.swift; sourceTree = "<group>"; };
 		744BBFA723162B1900434D7A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModallyMeauViewController.swift; sourceTree = "<group>"; };
 		7451C45E23271AB200EA0AEB /* AddNotebookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNotebookTableViewCell.swift; sourceTree = "<group>"; };
@@ -201,6 +211,32 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		742E5F4C23302CF8001EDF54 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				74D611CF231CEF7600A301E9 /* Main.storyboard */,
+				74960EA623150834006BF12C /* Home.storyboard */,
+				748701BD231C926600D5437E /* Group.storyboard */,
+				743F4E61232F3FA3009BA6BA /* Menu.storyboard */,
+				748A84F52319216B00EE00A0 /* Expense.storyboard */,
+				747AB9042324D38C00007A32 /* Login.storyboard */,
+				74B5C4E7231DED8400EB916D /* Activity.storyboard */,
+				74960EAB23150838006BF12C /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		743F4E5E232F2FDB009BA6BA /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				745CACC323169E530055A60C /* ExpenseViewModel.swift */,
+				745CACD02317BE630055A60C /* StatisticsViewModel.swift */,
+				745CACD62317C6950055A60C /* ResultViewModel.swift */,
+				745CACDD2317C9D60055A60C /* NotebookViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		744BBF9E2315F73100434D7A /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,8 +257,8 @@
 				745CACC1231672810055A60C /* UITableView+Extension.swift */,
 				747AB9082324EC7500007A32 /* UITexField+Extension.swift */,
 				74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */,
-				74A1A0E4232D8C76007C717A /* Date+Extension.swift */,
 				748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */,
+				74A1A0E4232D8C76007C717A /* Date+Extension.swift */,
 				745CACC9231784DF0055A60C /* String+Extension.swift */,
 			);
 			path = Extension;
@@ -243,9 +279,11 @@
 				74975EB523277A61008FC7B0 /* AuthManager.swift */,
 				74A1A0E6232D93C6007C717A /* ExpenseType.swift */,
 				74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */,
+				743F4E63232F4317009BA6BA /* StorageManager.swift */,
 				74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */,
 				745CACC723169FD30055A60C /* ExpenseRecode.swift */,
 				745CC9852321164E00426D1A /* Direction.swift */,
+				742E5F4F23306373001EDF54 /* MemberStatusType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -263,10 +301,9 @@
 			isa = PBXGroup;
 			children = (
 				741E2B95232E361700350F42 /* SelectionGroupViewModel.swift */,
-				745CACC323169E530055A60C /* ExpenseViewModel.swift */,
-				745CACD02317BE630055A60C /* StatisticsViewModel.swift */,
-				745CACD62317C6950055A60C /* ResultViewModel.swift */,
-				745CACDD2317C9D60055A60C /* NotebookViewModel.swift */,
+				743F4E65232F923D009BA6BA /* InviteViewModel.swift */,
+				742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */,
+				743F4E5E232F2FDB009BA6BA /* Home */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -303,13 +340,7 @@
 				7492067A2317DDAB0049357B /* ViewModel */,
 				74B5C4BE231DE37700EB916D /* Controller */,
 				744BBF9E2315F73100434D7A /* View */,
-				74D611CF231CEF7600A301E9 /* Main.storyboard */,
-				74960EA623150834006BF12C /* Home.storyboard */,
-				748701BD231C926600D5437E /* Group.storyboard */,
-				748A84F52319216B00EE00A0 /* Expense.storyboard */,
-				747AB9042324D38C00007A32 /* Login.storyboard */,
-				74B5C4E7231DED8400EB916D /* Activity.storyboard */,
-				74960EAB23150838006BF12C /* LaunchScreen.storyboard */,
+				742E5F4C23302CF8001EDF54 /* Storyboard */,
 				74960EA923150838006BF12C /* Assets.xcassets */,
 				74960EAE23150838006BF12C /* Info.plist */,
 			);
@@ -499,6 +530,7 @@
 				745CC984232106C200426D1A /* ActivityTableViewCell.xib in Resources */,
 				74960EAA23150838006BF12C /* Assets.xcassets in Resources */,
 				74B5C4E8231DED8400EB916D /* Activity.storyboard in Resources */,
+				743F4E62232F3FA3009BA6BA /* Menu.storyboard in Resources */,
 				74B5C4DC231DE48800EB916D /* StatisticsTableViewCell.xib in Resources */,
 				74960EA823150834006BF12C /* Home.storyboard in Resources */,
 				748701BE231C926600D5437E /* Group.storyboard in Resources */,
@@ -614,9 +646,11 @@
 				745CACC423169E530055A60C /* ExpenseViewModel.swift in Sources */,
 				74B5C4DA231DE48800EB916D /* ExpenseTableViewCell.swift in Sources */,
 				74A1A0E1232B8F6E007C717A /* FirestoreManager.swift in Sources */,
+				743F4E66232F923D009BA6BA /* InviteViewModel.swift in Sources */,
 				74525B0C231C9B2500670D6E /* UICollectionView+Extension.swift in Sources */,
 				74B5C4EF231E5CB600EB916D /* CategoryCollectionViewCell.swift in Sources */,
 				74B5C4CF231DE47B00EB916D /* HomeViewController.swift in Sources */,
+				742E5F4E23304E8E001EDF54 /* AddGroupViewModel.swift in Sources */,
 				7451C46023271AB200EA0AEB /* AddNotebookTableViewCell.swift in Sources */,
 				745CC9942322863500426D1A /* UIView+Extension.swift in Sources */,
 				7455837523265D2E008C1690 /* SplitTextFieldTableViewCell.swift in Sources */,
@@ -634,6 +668,7 @@
 				745CC98E232249CE00426D1A /* NavigationController.swift in Sources */,
 				74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */,
 				74A1A0DD232B8535007C717A /* ResultTableViewController.swift in Sources */,
+				742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */,
 				747AE9A7232E3C50007D855B /* Kingfisher.swift in Sources */,
 				74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */,
 				7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */,
@@ -644,6 +679,7 @@
 				745CC9862321164E00426D1A /* Direction.swift in Sources */,
 				745CC983232106C200426D1A /* ActivityTableViewCell.swift in Sources */,
 				74B5C4C7231DE46B00EB916D /* NewGroupCollectionViewCell.swift in Sources */,
+				743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */,
 				745CC989232146F700426D1A /* MemberTableViewCell.swift in Sources */,
 				745CACDE2317C9D60055A60C /* NotebookViewModel.swift in Sources */,
 				74B5C4DD231DE48800EB916D /* ResultTableViewCell.swift in Sources */,

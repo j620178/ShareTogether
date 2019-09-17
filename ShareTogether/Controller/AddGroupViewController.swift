@@ -8,19 +8,33 @@
 
 import UIKit
 
+enum ShowType {
+    case new
+    case edit
+}
+
 class AddGroupViewController: STBaseViewController {
     
-    let userNames = ["Pony", "Tiffany", "Jun", "Rita", "Evan", "Vickey", "Hanru", "Emma", "Hazel"]
+//    override var isHideNavigationBar: Bool {
+//
+//        return true
+//    }
+    
+    var showType = ShowType.new
+    
+    var memberData = [MemberInfo]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     var lastVelocityYSign = 0
     
-    @IBOutlet weak var bannerImageView: UIImageView!
+    @IBOutlet weak var coverImageView: UIImageView!
     
     @IBOutlet weak var bannerView: UIView!
-    
-    @IBOutlet weak var groupMemberView: UIView!
-    
-    @IBOutlet weak var groupNameTextField: UITextField!
+        
+    @IBOutlet weak var textField: UITextField!
     
     @IBOutlet weak var bannerViewConstaint: NSLayoutConstraint!
     
@@ -42,6 +56,7 @@ class AddGroupViewController: STBaseViewController {
     }
     
     @IBAction func clickAddMemberButton(_ sender: UIButton) {
+ 
     }
     
     @IBAction func clickSetCoverButton(_ sender: UIButton) {
@@ -60,28 +75,9 @@ class AddGroupViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addMemberButton.setImage(.getIcon(code: "ios-add-circle-outline", color: .STTintColor, size: 30), for: .normal)
-
-        bannerImageView.layer.cornerRadius = 20
-        bannerImageView.layer.maskedCorners = [.layerMaxXMaxYCorner]
-        bannerView.addCornerAndShadow(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner])
+        setupUI()
         
-        groupNameTextField.delegate = self
-        groupNameTextField.layer.cornerRadius = 10.0
-        groupNameTextField.clipsToBounds = true
-        groupNameTextField.becomeFirstResponder()
-        groupNameTextField.addLeftSpace()
-
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
-        
-        let barItem = UIBarButtonItem(image: .getIcon(code: "ios-add", color: .white, size: 40),
-                                      style: .plain,
-                                      target: self,
-                                      action: nil)
-        
-        navigationItem.rightBarButtonItem = barItem
-        
+        switchShowType()
     }
     
     override func viewDidLayoutSubviews() {
@@ -90,26 +86,132 @@ class AddGroupViewController: STBaseViewController {
         setCoverButton.layer.cornerRadius = setCoverButton.frame.height / 2
     }
     
+    func setupUI() {
+        addMemberButton.setImage(.getIcon(code: "ios-add-circle-outline", color: .STTintColor, size: 30), for: .normal)
+
+        coverImageView.layer.cornerRadius = 20
+        coverImageView.layer.maskedCorners = [.layerMaxXMaxYCorner]
+        bannerView.addCornerAndShadow(cornerRadius: 20, maskedCorners: [.layerMaxXMaxYCorner])
+        
+        textField.delegate = self
+        textField.layer.cornerRadius = 10.0
+        textField.clipsToBounds = true
+        textField.addLeftSpace()
+    }
+    
     func switchLayout(direction: Direction) {
         if direction == .up {
             UIView.animate(withDuration: 0.5) { [weak self] in
                 self?.bannerViewConstaint.constant = 360
-                self?.groupNameTextField.alpha = 1
+                self?.textField.alpha = 1
                 self?.setCoverButton.alpha = 1
                 self?.title = ""
                 self?.view.layoutIfNeeded()
             }
         } else if direction == .down {
-            groupNameTextField.resignFirstResponder()
+            textField.resignFirstResponder()
             
             UIView.animate(withDuration: 0.5) { [weak self] in
                 self?.bannerViewConstaint.constant = 180
-                self?.groupNameTextField.alpha = 0
+                self?.textField.alpha = 0
                 self?.setCoverButton.alpha = 0
-                self?.title = self?.groupNameTextField.text
+                self?.title = self?.textField.text
                 self?.view.layoutIfNeeded()
             }
         }
+    }
+    
+    func switchShowType() {
+        switch showType {
+            
+        case .new:
+            textField.isUserInteractionEnabled = true
+            textField.becomeFirstResponder()
+            
+//            setCoverButton.isHidden = false
+//
+//            let rightItem = UIBarButtonItem(title: "新增", style: .plain, target: self, action: #selector(addGroup(_:)))
+//            navigationItem.rightBarButtonItem = rightItem
+            
+            let leftButton = UIButton(type: .custom)
+            leftButton.addTarget(self, action: #selector(closeSelf(_:)), for: .touchUpInside)
+            navigationItem.leftBarButtonItem = .customItem(button: leftButton, code: "ios-arrow-round-back")
+            
+            let rightButton = UIButton(type: .custom)
+            rightButton.addTarget(self, action: #selector(addGroup(_:)), for: .touchUpInside)
+            navigationItem.rightBarButtonItem = .customItem(button: rightButton, code: "ios-add")
+            
+            memberData = [MemberInfo(userInfo: UserInfoManager.shaered.currentUserInfo!, status: 0)]
+            
+        case .edit:
+            textField.isUserInteractionEnabled = false
+            textField.text = UserInfoManager.shaered.currentGroup?.name
+            coverImageView.setUrlImage(UserInfoManager.shaered.currentGroup!.coverURL)
+
+            setCoverButton.isHidden = true
+            
+            let button = UIButton(type: .custom)
+            button.addTarget(self, action: #selector(closeSelf(_:)), for: .touchUpInside)
+            navigationItem.leftBarButtonItem = .customItem(button: button, code: "ios-close")
+            
+            FirestoreManager.shared.getMembers { [weak self] result in
+                switch result {
+                    
+                case .success(let members):
+                    self?.memberData = members
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    @objc func closeSelf(_ sender: UIButton) {
+        
+        switch showType {
+   
+        case .new:
+            navigationController?.popViewController(animated: true)
+        case .edit:
+            dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if showType == .edit {
+            guard let nextVC = segue.destination as? InviteViewController else { return }
+            nextVC.showType = .edit
+        }
+    }
+
+    @objc func addGroup(_ sender: UIButton) {
+        
+        guard let text = textField.text, text != "" else { return }
+            
+        StorageManager.shared.uploadImage(image: coverImageView.image!) { [weak self] urlString in
+            
+            let groupInfo = GroupInfo(id: nil,
+                                      name: text,
+                                      coverURL: urlString,
+                                      expenses: nil,
+                                      members: self?.memberData)
+            
+            FirestoreManager.shared.addGroup(groupInfo: groupInfo, completion: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.navigationController?.popViewController(animated: true)
+                case .failure(let error):
+                    print(error)
+                }
+            })
+            
+        }
+        
+    }
+    
+    @objc func addMember(_ sender: UIButton) {
+            
     }
     
     @objc func gestureAction(_ sender: UITapGestureRecognizer) {
@@ -119,18 +221,18 @@ class AddGroupViewController: STBaseViewController {
     @objc func gestureDownAction(_ sender: UISwipeGestureRecognizer) {
         switchLayout(direction: .down)
     }
-
+    
 }
 
 extension AddGroupViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print(123)
+
     }
 }
 
 extension AddGroupViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userNames.count
+        return memberData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -139,7 +241,11 @@ extension AddGroupViewController: UITableViewDataSource {
         
         guard let memberCell = cell as? MemberTableViewCell else { return cell}
         
-        memberCell.userNameLabel.text = userNames[indexPath.row]
+        memberCell.userImageView.setUrlImage(memberData[indexPath.row].photoURL)
+        
+        memberCell.userNameLabel.text = memberData[indexPath.row].name
+        
+        memberCell.detailLabel.text = MemberStatusType(rawValue: memberData[indexPath.row].status)?.getString
         
         return memberCell
         
@@ -172,14 +278,30 @@ extension AddGroupViewController: UITableViewDelegate {
 
 extension AddGroupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil) // 關掉
-        self.bannerImageView.image = info[.originalImage] as? UIImage // 從Dictionary取出原始圖檔
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[.originalImage] as? UIImage else { return }
+        self.coverImageView.image = image.resizeImage(targetSize: CGSize(width: 1024, height: 768))
+        
     }
     
-    // 圖片picker控制器任務結束回呼
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension UIBarButtonItem {
+    
+    static func customItem(button: UIButton, code: String) -> UIBarButtonItem {
+        button.setImage(.getIcon(code: code, color: .STDarkGray, size: 40), for: .normal)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.layer.cornerRadius = 20
+        button.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        
+        return UIBarButtonItem(customView: button)
+    }
+
 }

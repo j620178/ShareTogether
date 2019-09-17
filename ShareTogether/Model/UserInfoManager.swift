@@ -11,6 +11,7 @@ import Foundation
 struct UserInfoConstant {
     static let currentGroup = "currentGroup"
     static let currentUserInfo = "currentUserInfo"
+    static let currentGroupInfo = "currentGroupInfo"
 }
 
 class UserInfoManager {
@@ -30,6 +31,20 @@ class UserInfoManager {
     func setCurrentUserInfo(_ userInfo: UserInfo) {
         if let data = try? JSONEncoder().encode(userInfo) {
             UserDefaults.standard.set(data, forKey: UserInfoConstant.currentUserInfo)
+        }
+    }
+    
+    var currentGroupInfo: GroupInfo? {
+        if let data = userDefault.value(forKey: UserInfoConstant.currentGroupInfo) as? Data,
+            let groupInfo = try? JSONDecoder().decode(GroupInfo.self, from: data) {
+            return groupInfo
+        }
+        return nil
+    }
+    
+    func setCurrentGroupInfo(_ groupInfo: GroupInfo) {
+        if let data = try? JSONEncoder().encode(groupInfo) {
+            UserDefaults.standard.set(data, forKey: UserInfoConstant.currentGroupInfo)
         }
     }
     

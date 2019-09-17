@@ -31,7 +31,7 @@ class LoginViewController: STBaseViewController {
         } else {
             
             AuthManager.shared.emailSignIn(email: emailTextField.text!,
-                                            password: passwordTextField.text!) { [weak self] result in
+                                            password: passwordTextField.text!) { result in
                 
                 if result != nil {
                     
@@ -44,25 +44,27 @@ class LoginViewController: STBaseViewController {
         
     }
     
-    func checkUserGroup() {
+    func checkUserGroup(authUserInfo: UserInfo) {
+        
+        if UserInfoManager.shaered.currentGroup != nil {
+            goHomeVC()
+            return
+        }
         
         FirestoreManager.shared.getUserInfo { [weak self] result in
             switch result {
                 
             case .success(let userInfo):
-                print(userInfo)
-                if UserInfoManager.shaered.currentGroup != nil {
+                    
+                if let userInfo = userInfo, let groups = userInfo.groups, !groups.isEmpty {
+                    UserInfoManager.shaered.setCurrentGroup(groups[0])
+                    UserInfoManager.shaered.setCurrentUserInfo(userInfo)
                     self?.goHomeVC()
                 } else {
-                    
-                    if let groups = userInfo.groups, !groups.isEmpty {
-                        UserInfoManager.shaered.setCurrentGroup(groups[0])
-
-                        self?.goHomeVC()
-                    } else {
+                    UserInfoManager.shaered.setCurrentUserInfo(authUserInfo)
+                    FirestoreManager.shared.insertNewUser(userInfo: authUserInfo) { _ in
                         self?.goHomeVC()
                     }
-                    
                 }
                 
             case .failure(let error):
@@ -78,10 +80,12 @@ class LoginViewController: STBaseViewController {
         if presentingViewController != nil {
             let presentingVC = presentingViewController
             dismiss(animated: true) {
-                presentingVC?.dismiss(animated: true, completion: nil)
+                let tabBar = presentingVC as? STTabBarController
+                tabBar?.selectedIndex = 0
             }
         } else {
             let nextVC = UIStoryboard.main.instantiateInitialViewController()!
+            nextVC.modalPresentationStyle = .fullScreen
             present(nextVC, animated: true, completion: nil)
         }
     }
@@ -93,9 +97,7 @@ class LoginViewController: STBaseViewController {
             AuthManager.shared.googleSignIn(viewContorller: self) { [weak self] result in
                 switch result {
                 case .success(let userInfo):
-                    FirestoreManager.shared.insertNewUser(userInfo: userInfo) { _ in
-                        self?.checkUserGroup()
-                    }
+                    self?.checkUserGroup(authUserInfo: userInfo)
                 case .failure(let error):
                     print(error)
                 }
@@ -106,9 +108,7 @@ class LoginViewController: STBaseViewController {
             AuthManager.shared.facebookSignIn(viewContorller: self) { [weak self] result in
                 switch result {
                 case .success(let userInfo):
-                    FirestoreManager.shared.insertNewUser(userInfo: userInfo) { _ in
-                        self?.checkUserGroup()
-                    }
+                    self?.checkUserGroup(authUserInfo: userInfo)
                 case .failure(let error):
                     print(error)
                 }

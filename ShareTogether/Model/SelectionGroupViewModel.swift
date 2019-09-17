@@ -29,9 +29,15 @@ class SelectionGroupViewModel {
     func createCellViewModel(userGroup: UserGroup) -> GroupCellViewModel {
         
         if UserInfoManager.shaered.currentGroup?.id == userGroup.id {
-            return GroupCellViewModel(name: userGroup.name, groupID: userGroup.id, coverURL: userGroup.coverURL, isCurrent: true)
+            return GroupCellViewModel(name: userGroup.name,
+                                      groupID: userGroup.id,
+                                      coverURL: userGroup.coverURL,
+                                      isCurrent: true)
         } else {
-            return GroupCellViewModel(name: userGroup.name, groupID: userGroup.id, coverURL: userGroup.coverURL, isCurrent: false)
+            return GroupCellViewModel(name: userGroup.name,
+                                      groupID: userGroup.id,
+                                      coverURL: userGroup.coverURL,
+                                      isCurrent: false)
         }
     }
     
@@ -45,6 +51,7 @@ class SelectionGroupViewModel {
     
     func fetchDate() {
         FirestoreManager.shared.getUserGroups { [weak self] userGroups in
+            
             guard let strongSelf = self else { return }
             
             strongSelf.userGroups = userGroups

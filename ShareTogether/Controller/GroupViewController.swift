@@ -32,7 +32,7 @@ class GroupViewController: STBaseViewController {
     
     @IBOutlet weak var newGroupButton: UIButton! {
         didSet {
-            newGroupButton.setImage(.getIcon(code: "ios-add", color: .white, size: 40), for: .normal)
+            newGroupButton.setImage(.getIcon(code: "ios-arrow-round-forward", color: .white, size: 40), for: .normal)
             newGroupButton.backgroundColor = .STTintColor
             newGroupButton.layer.cornerRadius = 10
         }
@@ -44,12 +44,6 @@ class GroupViewController: STBaseViewController {
             backButton.backgroundColor = .backgroundLightGray
             backButton.layer.cornerRadius = 10
         }
-    }
-    
-    @IBAction func clickNewGroupButton(_ sender: UIButton) {
-        let nextVC = UIStoryboard.group.instantiateViewController(withIdentifier: AddGroupViewController.identifier)
-        
-        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     @IBAction func clickBackButton(_ sender: UIButton) {

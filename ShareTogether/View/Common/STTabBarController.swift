@@ -12,9 +12,13 @@ private enum Tab {
     
     case home
     
+    case search
+    
     case expense
     
     case activity
+    
+    case setting
     
     func controller() -> UIViewController {
         
@@ -24,9 +28,13 @@ private enum Tab {
             
         case .home: controller = UIStoryboard.home.instantiateInitialViewController()!
             
+        case .search: controller = UIStoryboard.activity.instantiateInitialViewController()!
+
         case .expense: controller = UIStoryboard.expense.instantiateInitialViewController()!
             
         case .activity: controller = UIStoryboard.activity.instantiateInitialViewController()!
+            
+        case .setting: controller = UIStoryboard.menu.instantiateInitialViewController()!
             
         }
         
@@ -50,6 +58,13 @@ private enum Tab {
             item.image?.withRenderingMode(.alwaysOriginal)
             return item
             
+        case .search:
+            return UITabBarItem(
+                title: nil,
+                image: .search,
+                selectedImage: .search
+            )
+        
         case .expense:
             return UITabBarItem(
                 title: nil,
@@ -60,8 +75,15 @@ private enum Tab {
         case .activity:
             return UITabBarItem(
                 title: nil,
-                image: .notifications,
-                selectedImage: .notifications
+                image: .notification,
+                selectedImage: .notification
+            )
+    
+        case .setting:
+            return UITabBarItem(
+                title: nil,
+                image: .setting,
+                selectedImage: .setting
             )
         }
         
@@ -70,7 +92,7 @@ private enum Tab {
 
 class STTabBarController: UITabBarController {
     
-    private let tabs: [Tab] = [.home, .expense, .activity] //, .search, .setting
+    private let tabs: [Tab] = [.home, .search, .expense, .activity, .setting]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +106,8 @@ class STTabBarController: UITabBarController {
         tabBar.addShadow()
         
         viewControllers = tabs.map({ $0.controller() })
+        
+        tabBar.tintColor = .STDarkGray
         
     }
 }

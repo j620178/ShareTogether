@@ -19,15 +19,6 @@ class HomeViewController: STBaseViewController {
     
     let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
     
-    var currentGroup: UserGroup? {
-        didSet {
-            if oldValue?.id != currentGroup?.id {
-                groupNameButton.setTitle(currentGroup?.name, for: .normal)
-                editGroupButton.setImage(.getIcon(code: "md-create", color: .white, size: 30), for: .normal)
-            }
-        }
-    }
-    
     lazy var notebookViewModel: NotebookViewModel = {
         return NotebookViewModel()
     }()
@@ -47,12 +38,10 @@ class HomeViewController: STBaseViewController {
             groupNameButton.setTitleColor(.white, for: .normal)
         }
     }
-    
-    @IBOutlet weak var settingButton: UIButton!
-    
+        
     @IBOutlet weak var editGroupButton: UIButton! {
         didSet {
-            editGroupButton.setImage(.getIcon(code: "md-create", color: .white, size: 30), for: .normal)
+            editGroupButton.setImage(.getIcon(code: "md-more", color: .white, size: 30), for: .normal)
         }
     }
     
@@ -65,13 +54,19 @@ class HomeViewController: STBaseViewController {
         
     }
     
-    @IBAction func clickSettingButton(_ sender: UIButton) {
+    @IBAction func clickEditGroupButton(_ sender: UIButton) {
         
-        guard let nextVC = storyboard?.instantiateViewController(withIdentifier: ModallyMeauViewController.identifier)
-        else { return }
+        let groupStoryboard = UIStoryboard.group
         
-        nextVC.modalPresentationStyle = .overFullScreen
-        present(nextVC, animated: true, completion: nil)
+        let navigationController = STNavigationController()
+        
+        guard let nextVC = groupStoryboard.instantiateViewController(withIdentifier: AddGroupViewController.identifier) as? AddGroupViewController else { return }
+        
+        nextVC.showType = .edit
+        
+        navigationController.viewControllers = [nextVC]
+        
+        present(navigationController, animated: true, completion: nil)
         
     }
     
@@ -92,17 +87,8 @@ class HomeViewController: STBaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        currentGroup = UserInfoManager.shaered.currentGroup
-        
-        guard let userInfo = UserInfoManager.shaered.currentUserInfo else { return }
-        
-        settingButton.setUrlImage(userInfo.photoURL, for: .normal)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        settingButton.imageView?.layer.cornerRadius = settingButton.frame.height / 2
+        //更新 Group Name
+        groupNameButton.setTitle(UserInfoManager.shaered.currentGroup?.name, for: .normal)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -154,7 +140,6 @@ extension HomeViewController: TableViewControllerDelegate {
         let offset = min(max(offsetY, 0), 65)
     
         groupNameButton.alpha = 1 - (offset / 65)
-        settingButton.alpha = 1 - (offset / 65)
         editGroupButton.alpha = 1 - (offset / 65)
         bannerTopConstraint.constant = 20 - offset
         view.layoutIfNeeded()

@@ -22,6 +22,8 @@ private struct StoryboardCategory {
     static let group = "Group"
     
     static let activity = "Activity"
+    
+    static let menu = "Menu"
 
 }
 
@@ -38,6 +40,8 @@ extension UIStoryboard {
     static var group: UIStoryboard { return getStoryboard(name: StoryboardCategory.group) }
     
     static var activity: UIStoryboard { return getStoryboard(name: StoryboardCategory.activity) }
+    
+    static var menu: UIStoryboard { return getStoryboard(name: StoryboardCategory.menu) }
     
     private static func getStoryboard(name: String) -> UIStoryboard {
         

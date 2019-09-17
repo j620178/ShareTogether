@@ -115,11 +115,11 @@ extension UIImage {
         )
     }
 
-    static var notifications: UIImage {
+    static var notification: UIImage {
         return UIImage.getIcon(from: .themify, code: "bell", color: nil, size: tabbarIconSize)
     }
     
-    static var settings: UIImage {
+    static var setting: UIImage {
         return UIImage.getIcon(from: .themify, code: "settings", color: nil, size: tabbarIconSize)
     }
     

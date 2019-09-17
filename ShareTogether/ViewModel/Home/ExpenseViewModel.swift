@@ -98,6 +98,8 @@ class HomeExpenseViewModel: NSObject {
         
         var index = 0
         
+        titleOfSections = [String]()
+        
         titleOfSections.append(expenses[0].time.toSimpleFormat())
         
         for expense in expenses {

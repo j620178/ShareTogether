@@ -74,6 +74,8 @@ class SelectionView: UIView {
     
     let indicatorView = UIView()
     
+    var buttons = [UIButton]()
+    
     weak var dataSource: SelectionViewDataSource? {
         didSet {
             if dataSource != nil {
@@ -142,11 +144,14 @@ class SelectionView: UIView {
             button.setTitle(dataSource.titleOfRowAt(selectionView: self, index: index), for: .normal)
             
             button.titleLabel?.font = dataSource.fontOfSelectionButtons(selectionView: self, index: index)
-        button.setTitleColor(dataSource.titleColorOfSelectionButtons(selectionView: self, index: index), for: .normal)
+            
+            button.setTitleColor(dataSource.titleColorOfSelectionButtons(selectionView: self, index: index), for: .normal)
             
             button.backgroundColor = dataSource.backgroundColorOfSelectionButtons(selectionView: self, index: index)
             
             button.addTarget(self, action: #selector(updataIndicatorPosition(_:)), for: .touchUpInside)
+            
+            buttons.append(button)
             
             buttonStackView.addArrangedSubview(button)
         }
@@ -159,6 +164,8 @@ class SelectionView: UIView {
         buttonStackView.subviews.forEach { $0.removeFromSuperview() }
         
         indicatorView.removeFromSuperview()
+        
+        buttons = [UIButton]()
         
         setupButton()
         
@@ -183,11 +190,27 @@ class SelectionView: UIView {
             
             indicatorView.frame = CGRect(x: btn.center.x - (width / 2), y: 0, width: width, height: 2)
             
-            guard let delegate = delegate else { return }
-            
-            delegate.didSelectButton?(selectionView: self, index: 0)
         }
         
+    }
+    
+    func setIndicatorPosition(index: Int) {
+        
+        currentIndex = index
+        
+        let button = buttons[currentIndex]
+        
+        guard let btnLabel = button.titleLabel,
+            let text = btnLabel.text
+        else { return }
+    
+        let width = text.getSizeFromString().width + 20
+        
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            
+            self?.indicatorView.frame = CGRect(x: button.center.x - (width / 2), y: 0, width: width, height: 2)
+            
+        }
     }
     
     @objc func updataIndicatorPosition(_ button: UIButton) {

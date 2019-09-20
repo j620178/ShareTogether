@@ -52,13 +52,6 @@ struct UploadUserInfo: Codable {
     let photoURL: String
 }
 
-//struct UserGroup: Codable {
-//    var id: String!
-//    let name: String
-//    let status: Int
-//    let coverURL: String
-//}
-
 struct GroupInfo: Codable {
     var id: String!
     let name: String
@@ -87,34 +80,27 @@ struct MemberInfo: Codable {
 struct Expense: Codable {
     var id: String?
     let type: Int
-    let title: String
     let desc: String
     let userID: String
     let amount: Double
-    let payer: [Payer]
-    let splitUser: [String]
+    let payerInfo: AmountInfo
+    let splitInfo: AmountInfo
     let position: GeoPoint
     let time: Timestamp
     
-    init(type: Int, title: String, desc: String, userID: String, amount: Double,
-         payer: [Payer], splitUser: [String], location: CLLocationCoordinate2D, time: Date) {
+    init(type: Int, desc: String, userID: String, amount: Double,
+         payerInfo: AmountInfo, splitInfo: AmountInfo, location: CLLocationCoordinate2D, time: Date) {
         
-        self.type = type
-        self.title = title
-        self.desc = desc
         self.userID = userID
+        self.type = type
         self.amount = amount
-        self.payer = payer
-        self.splitUser = splitUser
+        self.desc = desc
+        self.payerInfo = payerInfo
+        self.splitInfo = splitInfo
         self.position = GeoPoint(latitude: location.latitude, longitude: location.longitude)
         self.time = Timestamp(date: time)
         
     }
-}
-
-struct Payer: Codable {
-    var userID: String
-    let value: Int
 }
 
 class FirestoreManager {

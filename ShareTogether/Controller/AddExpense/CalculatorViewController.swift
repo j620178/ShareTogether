@@ -8,16 +8,26 @@
 
 import UIKit
 
+struct AmountInfo: Codable {
+    var type: Int
+    var amountDesc: [AmountDesc]
+}
+
+struct AmountDesc: Codable {
+    let member: MemberInfo
+    var value: Double?
+}
+
 class CalculatorViewController: STBaseViewController {
     
     let selectionViewTitle = ["均分", "比例", "指定金額"]
+        
+    var amount: Double?
     
-    var members = [(user: MemberInfo, isSelect: Bool, percent: String?, amount: String?)]() {
-        didSet {
-            print(members)
-        }
-    }
+    var splitInfo: AmountInfo?
     
+    var passCalculateDateHandler: ((AmountInfo) -> Void)?
+
     @IBOutlet weak var selectionView: SelectionView! {
         didSet {
             selectionView.dataSource = self
@@ -39,13 +49,109 @@ class CalculatorViewController: STBaseViewController {
 
         title = "分帳方式"
         
-        let barItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: nil)
+        let barItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveDate(_:)))
         navigationItem.rightBarButtonItem = barItem
+
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        selectionView.setIndicatorPosition(index: splitInfo?.type ?? 0)
+    }
+    
+    @objc func saveDate(_ sender: UIBarButtonItem) {
+        
+        guard var splitInfo = splitInfo else { return }
+        
+        if SplitType(rawValue: splitInfo.type) == .average {
+            for index in splitInfo.amountDesc.indices {
+                guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)),
+                    let textfieldCell = cell as? SplitTextFieldTableViewCell,
+                    let text = textfieldCell.textField.text
+                else { return }
+                
+                splitInfo.amountDesc[index].value = Double(text)
+            }
+        }
+    
+        passCalculateDateHandler?(splitInfo)
+        navigationController?.popViewController(animated: true)
+        return
+        
+    }
+    
+}
+
+extension CalculatorViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return splitInfo?.amountDesc.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let splitInfo = splitInfo else { return UITableViewCell() }
+        
+        if selectionView.currentIndex == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CheckBoxTableViewCell.identifer, for: indexPath)
+    
+            guard let checkBoxCell = cell as? CheckBoxTableViewCell else { return cell }
+    
+            checkBoxCell.setupContent(name: splitInfo.amountDesc[indexPath.row].member.name,
+                                      photoURL: splitInfo.amountDesc[indexPath.row].member.photoURL)
+           
+            if splitInfo.amountDesc[indexPath.row].value != nil {
+                tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+            }
+            
+            return checkBoxCell
+            
+        } else if selectionView.currentIndex == 1 {
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: SplitTextFieldTableViewCell.identifer,
+                for: indexPath)
+            
+            guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
+            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value == nil ? "" : String(splitInfo.amountDesc[indexPath.row].value!),
+                                       name: splitInfo.amountDesc[indexPath.row].member.name,
+                                       photoURL: splitInfo.amountDesc[indexPath.row].member.photoURL,
+                                       unit: "%")
+            
+            return textFieldCell
+            
+        } else {
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: SplitTextFieldTableViewCell.identifer,
+                for: indexPath)
+            
+            guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
+            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value == nil ? "" : String(splitInfo.amountDesc[indexPath.row].value!),
+                                       name: splitInfo.amountDesc[indexPath.row].member.name,
+                                       photoURL: splitInfo.amountDesc[indexPath.row].member.photoURL,
+                                       unit: "元")
+        
+            return textFieldCell
+        }
+    
+    }
+
+}
+
+extension CalculatorViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        splitInfo?.amountDesc[indexPath.row].value = 1
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        splitInfo?.amountDesc[indexPath.row].value = nil
     }
     
 }
 
 extension CalculatorViewController: SelectionViewDataSource {
+    
     func titleOfRowAt(selectionView: SelectionView, index: Int) -> String {
         return selectionViewTitle[index]
     }
@@ -75,81 +181,21 @@ extension CalculatorViewController: SelectionViewDataSource {
 extension CalculatorViewController: SelectionViewDelegate {
     
     func didSelectButton(selectionView: SelectionView, index: Int) {
-        print(selectionView.currentIndex)
-        tableView.reloadData()
-    }
-    
-}
-
-extension CalculatorViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return members.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if selectionView.currentIndex == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CheckBoxTableViewCell.identifer, for: indexPath)
-    
-            guard let checkBoxCell = cell as? CheckBoxTableViewCell else { return cell }
-    
-            checkBoxCell.setupContent(name: members[indexPath.row].user.name,
-                                      photoURL: members[indexPath.row].user.photoURL)
-           
-            if members[indexPath.row].isSelect {
-                tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-
+        guard let splitInfo = splitInfo, let type = SplitType(rawValue: index)  else { return }
+        
+        self.splitInfo?.type = type.rawValue
+        
+        for index in splitInfo.amountDesc.indices {
+            if type == .average {
+                self.splitInfo?.amountDesc[index].value = 1
+            } else {
+                self.splitInfo?.amountDesc[index].value = nil
             }
-            
-            return checkBoxCell
-            
-        } else if selectionView.currentIndex == 1 {
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: SplitTextFieldTableViewCell.identifer,
-                for: indexPath)
-            
-            guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
-            textFieldCell.setupContent(text: members[indexPath.row].percent,
-                                       name: members[indexPath.row].user.name,
-                                       photoURL: members[indexPath.row].user.photoURL,
-                                       unit: "%")
-            textFieldCell.passStringHandler = { [weak self] text in
-                self?.members[indexPath.row].percent = text
-            }
-            
-            return textFieldCell
-            
-        } else {
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: SplitTextFieldTableViewCell.identifer,
-                for: indexPath)
-            
-            guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
-            textFieldCell.setupContent(text: members[indexPath.row].amount,
-                                       name: members[indexPath.row].user.name,
-                                       photoURL: members[indexPath.row].user.photoURL,
-                                       unit: "元")
-            
-            textFieldCell.passStringHandler = { [weak self] text in
-                self?.members[indexPath.row].amount = text
-            }
-
-            return textFieldCell
         }
-    
-    }
-
-}
-
-extension CalculatorViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        members[indexPath.row].isSelect = true
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        members[indexPath.row].isSelect = false
+        
+        tableView.reloadData()
+        
     }
     
 }

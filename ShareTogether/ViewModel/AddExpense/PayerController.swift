@@ -8,26 +8,6 @@
 
 import UIKit
 
-enum PayType: Int {
-    case onePerson = 0
-    case multiplePeople = 1
-    
-    var getString: String {
-        switch self {
-            
-        case .onePerson:
-            return "一人"
-        case .multiplePeople:
-            return "多人"
-        }
-    }
-}
-
-struct PayDetail {
-    var user: UserInfo
-    var value: Double
-}
-
 protocol PayerControllerDelegate: AnyObject {
     func didSelectPayTypeAt(_ indexPath: IndexPath)
 }
@@ -38,19 +18,37 @@ class PayerController: NSObject, AddExpenseItem {
     
     weak var delegate: PayerControllerDelegate?
     
-    var members = [MemberInfo]()
+    var members = [MemberInfo]() {
+        didSet {
+            initPayInfo()
+        }
+    }
     
-    var payer: UserInfo?
-    
-    var payType: PayType?
-    
-    var payDetail = [PayDetail]()
-    
-    func initData() {
+    var payInfo: AmountInfo? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+       
+
+    func initPayInfo() {
         
-        payer = UserInfoManager.shaered.currentUserInfo
-        
-        payType = .onePerson
+        if payInfo == nil {
+            payInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
+            var index = 0
+            for member in members {
+                if index == 0 {
+                    payInfo?.amountDesc.append(AmountDesc(member: member, value: 1))
+                } else {
+                    payInfo?.amountDesc.append(AmountDesc(member: member, value: nil))
+                }
+                index += 1
+            }
+        } else {
+            
+            //guard let spliteInfo = spliteInfo else { return }
+            
+        }
         
     }
     
@@ -81,9 +79,13 @@ extension PayerController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: SplitTableViewCell.identifer, for: indexPath)
         
-        guard let splitCell = cell as? SplitTableViewCell, let payer = payer else { return cell }
+        guard let splitCell = cell as? SplitTableViewCell,
+            let payInfo = payInfo
+        else { return cell }
         
-        splitCell.setupContent(title: payer.name, type: "")
+        for amount in payInfo.amountDesc where amount.value != nil {
+            splitCell.setupContent(title: amount.member.name, type: "")
+        }
         
         return splitCell
         

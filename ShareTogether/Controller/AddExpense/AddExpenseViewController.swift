@@ -91,41 +91,37 @@ class AddExpenseViewController: STBaseViewController {
             let amountText = expenseController.expenseInfo[0],
             let amount = Double(amountText),
             let desc = expenseController.expenseInfo[1],
-            let payType = payerController.payType
-//            let payers = [Payer(userID: <#T##String#>, value: <#T##Int#>)]
-//            payerController.payDetail,
+            let payerInfo = payerController.payInfo,
+            let splitInfo = splitController.splitInfo,
+            let date = payDateController.selectDate
         else { return }
-Expense(type: <#T##Int#>, title: <#T##String#>, desc: <#T##String#>, userID: <#T##String#>, amount: <#T##Double#>, payer: <#T##[Payer]#>, splitUser: <#T##[String]#>, location: <#T##CLLocationCoordinate2D#>, time: <#T##Date#>)
-//        let expense = Expense(type: 0,
-//                              title: "JR Pass",
-//                              desc: "北九州3人日pass",
-//                              userID: uid,
-//                              amount: 5000,
-//                              payer: [Payer(userID: uid, value: 5000)],
-//                              splitUser: [uid],
-//                              lat: 22,
-//                              lon: 120,
-//                              time: Date()
-//        )
-//
-//        FirestoreManager.shared.addExpense(expense: expense) { result in
-//            switch result {
-//
-//            case .success:
-//                print("success")
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//
-//        dismiss(animated: true, completion: nil)
         
-        print(amountTypeController.amountTypeIndex)
-        print(expenseController.expenseInfo)
-        print(payerController.payType)
-        //print(splitController)
-        print(payDateController.selectDate?.toDay)
+        let expense = Expense(type: amountTypeController.amountTypeIndex,
+                              desc: desc, userID: uid,
+                              amount: amount,
+                              payerInfo: payerInfo,
+                              splitInfo: splitInfo,
+                              location: annotation.coordinate,
+                              time: date)
+
+        FirestoreManager.shared.addExpense(expense: expense) { result in
+            switch result {
+
+            case .success:
+                print("success")
+            case .failure(let error):
+                print(error)
+            }
+        }
+
+        dismiss(animated: true, completion: nil)
         
+        print(uid)
+        print(amount)
+        print(desc)
+        print(payerInfo)
+        print(splitInfo)
+        print(date)
     }
     
     override func viewDidLoad() {
@@ -145,7 +141,6 @@ Expense(type: <#T##Int#>, title: <#T##String#>, desc: <#T##String#>, userID: <#T
         payerController.delegate = self
         splitController.delegate = self
         
-        payerController.initData()
         payDateController.fetchDayOfWeek()
         
     }
@@ -324,21 +319,36 @@ extension AddExpenseViewController: ExpenseTextFieldDelegate {
 extension AddExpenseViewController: PayerControllerDelegate {
     
     func didSelectPayTypeAt(_ indexPath: IndexPath) {
-        guard let nextVC = storyboard?.instantiateViewController(withIdentifier: CalculatorViewController.identifier),
-            let calculatorVC = nextVC as? CalculatorViewController
-        else { return }
-        
-        var tempMember = [(MemberInfo, Bool, String?, String?)]()
 
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
         for member in members {
-            tempMember.append((member, false, nil, nil))
+            let action = UIAlertAction(title: member.name, style: .default) { [weak self] action in
+                
+                guard let strongSelf = self else { return }
+                
+                var payInfo = AmountInfo(type: 0, amountDesc: [AmountDesc]())
+                
+                for member in strongSelf.members {
+                    
+                    if member.name == action.title {
+                        payInfo.amountDesc.append(AmountDesc(member: member, value: 1))
+
+                    } else {
+                        payInfo.amountDesc.append(AmountDesc(member: member, value: nil))
+                    }
+                    
+                }
+                
+                strongSelf.payerController.payInfo = payInfo
+
+            }
+            controller.addAction(action)
         }
         
-        tempMember[0].1 = true
-        
-        calculatorVC.members = tempMember
-        
-        show(calculatorVC, sender: nil)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
     }
 
 }
@@ -350,13 +360,11 @@ extension AddExpenseViewController: SplitControllerDelegate {
             let calculatorVC = nextVC as? CalculatorViewController
         else { return }
         
-        var tempMember = [(MemberInfo, Bool, String?, String?)]()
+        calculatorVC.splitInfo = splitController.splitInfo
         
-        for member in members {
-            tempMember.append((member, true, nil, nil))
+        calculatorVC.passCalculateDateHandler = { [weak self] spliteInfo in
+            self?.splitController.splitInfo = spliteInfo
         }
-        
-        calculatorVC.members = tempMember
         
         show(calculatorVC, sender: nil)
     }

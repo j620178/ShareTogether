@@ -16,13 +16,7 @@ class SplitTextFieldTableViewCell: UITableViewCell {
     
     @IBOutlet weak var unitLabel: UILabel!
    
-    @IBOutlet weak var textField: UITextField! {
-        didSet {
-            textField.delegate = self
-        }
-    }
-    
-    var passStringHandler: ((String?) -> Void)?
+    @IBOutlet weak var textField: UITextField!
     
     func setupContent(text: String?, name: String, photoURL: String, unit: String) {
         
@@ -52,10 +46,4 @@ class SplitTextFieldTableViewCell: UITableViewCell {
         textField.textColor = .STBlack
     }
     
-}
-
-extension SplitTextFieldTableViewCell: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        passStringHandler?(textField.text)
-    }
 }

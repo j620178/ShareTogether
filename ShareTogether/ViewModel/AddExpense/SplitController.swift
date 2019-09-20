@@ -102,11 +102,35 @@ class SplitController: NSObject, AddExpenseItem {
     
     weak var delegate: SplitControllerDelegate?
     
-    var members = [MemberInfo]()
+    var members = [MemberInfo]() {
+        didSet {
+            initSplitInfo()
+        }
+    }
     
-    var splitType: SplitType = .average
-    
+    var splitInfo: AmountInfo? {
+        didSet {
+            tableView.reloadData()
+            print(splitInfo)
+        }
+    }
     var splitDetail = [Int]()
+    
+    func initSplitInfo() {
+        
+        if splitInfo == nil {
+            splitInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
+            
+            for member in members {
+                splitInfo?.amountDesc.append(AmountDesc(member: member, value: 1))
+            }
+        } else {
+            
+            //guard let spliteInfo = spliteInfo else { return }
+            
+        }
+        
+    }
     
     init(tableView: UITableView) {
         self.tableView = tableView
@@ -135,9 +159,15 @@ extension SplitController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: SplitTableViewCell.identifer, for: indexPath)
         
-        guard let splitCell = cell as? SplitTableViewCell else { return cell }
+        guard let splitCell = cell as? SplitTableViewCell, let spliteInfo = splitInfo else { return cell }
         
-        splitCell.setupContent(title: "\(members.count) 名成員", type: splitType.getString)
+        var count = 0
+        
+        for data in spliteInfo.amountDesc where data.value != nil {
+            count += 1
+        }
+        
+        splitCell.setupContent(title: "\(count) 名成員", type: SplitType.init(rawValue: spliteInfo.type)?.getString)
         
         return splitCell
         

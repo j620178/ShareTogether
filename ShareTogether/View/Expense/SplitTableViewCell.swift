@@ -16,7 +16,7 @@ class SplitTableViewCell: UITableViewCell {
     
     @IBOutlet weak var indicatorImageView: UIImageView!
     
-    func setupContent(title: String, type: String) {
+    func setupContent(title: String?, type: String?) {
         titleLabel.text = title
         detailLabel.text = type
     }

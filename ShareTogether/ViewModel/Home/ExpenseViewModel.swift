@@ -58,8 +58,8 @@ class HomeExpenseViewModel: NSObject {
     func createCellViewModels(expense: Expense) -> HomeExpenseCellViewModel {
         
         return HomeExpenseCellViewModel(type: ExpenseType(rawValue: expense.type)!,
-                                        title: expense.title,
-                                        userImg: "123",
+                                        title: expense.desc,
+                                        userImg: expense.splitInfo.amountDesc[0].member.photoURL,
                                         time: expense.time.toFullFormat(),
                                         amount: expense.amount,
                                         isFirst: false,
@@ -89,8 +89,6 @@ class HomeExpenseViewModel: NSObject {
     }
     
     func processData() {
-        
-        guard expenses.count > 1 else { return }
         
         var viewModels = [[HomeExpenseCellViewModel]]()
         

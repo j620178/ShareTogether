@@ -14,38 +14,27 @@ protocol TableViewControllerDelegate: AnyObject {
 
 class ExpenseTableViewController: UITableViewController {
     
-    var currentGroup: GroupInfo? {
-        didSet {
-            if oldValue?.id != currentGroup?.id {
-                viewModel.fectchData()
-            }
-        }
-    }
-    
     weak var delegate: TableViewControllerDelegate?
     
-    lazy var viewModel: HomeExpenseViewModel = {
-        return HomeExpenseViewModel()
-    }()
-
+    var viewModel: HomeViewModel!
+    
+    var observation: NSKeyValueObservation!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
-        tableView.register(ExpenseFooterView.self, forHeaderFooterViewReuseIdentifier: ExpenseFooterView.reuseIdentifier)
+        tableView.register(ExpenseFooterView.self,
+                           forHeaderFooterViewReuseIdentifier: ExpenseFooterView.reuseIdentifier)
         
-        viewModel.reloadTableViewHandler = { [weak self] in
-            self?.tableView.reloadData()
+        observation = viewModel.observe(\.cellViewModels, options: [.initial, .old, .new, .prior]) { (child, change) in
+            self.tableView.reloadData()
         }
         
         viewModel.fectchData()
+
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        currentGroup = UserInfoManager.shaered.currentGroupInfo
-    }
+
 }
 
 // MARK: - Table view data source
@@ -69,7 +58,7 @@ extension ExpenseTableViewController {
 
         guard let recodeCell = cell as? ExpenseTableViewCell else { return cell }
 
-        recodeCell.viewModel = viewModel.getCellViewModel(at: indexPath)
+        recodeCell.viewModel = viewModel.getExpenseCellViewModel(at: indexPath)
 
         return recodeCell
 

@@ -54,15 +54,11 @@ class UserInfoManager {
             let userGroups = currentUserInfo?.groups
         else { return nil }
         
-        for userGroup in userGroups {
-            if userGroup.id == currentGroupID {
-                return userGroup.status
-            }
+        for userGroup in userGroups where userGroup.id == currentGroupID {
+            return userGroup.status
         }
         
         return nil
     }
-    
-    
-    
+
 }

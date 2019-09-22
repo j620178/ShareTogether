@@ -14,6 +14,8 @@ class ResultTableViewController: UITableViewController {
     let data2 = ["3000", "200", "10000", "20330"]
     
     weak var delegate: TableViewControllerDelegate?
+    
+    var viewModel: HomeViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()

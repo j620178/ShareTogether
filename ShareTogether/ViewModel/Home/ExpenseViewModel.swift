@@ -59,7 +59,7 @@ class HomeExpenseViewModel: NSObject {
         
         return HomeExpenseCellViewModel(type: ExpenseType(rawValue: expense.type)!,
                                         title: expense.desc,
-                                        userImg: expense.splitInfo.amountDesc[0].member.photoURL,
+                                        img: expense.splitInfo.amountDesc[0].member.photoURL,
                                         time: expense.time.toFullFormat(),
                                         amount: expense.amount,
                                         isFirst: false,

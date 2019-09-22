@@ -65,7 +65,7 @@ class InviteViewController: STBaseViewController {
         if showType == .new, self.isMovingFromParent {
             for viewController in navigationController!.viewControllers {
                 if let previousVC = viewController as? GroupViewController {
-                    previousVC.memberData += viewModel.getInviteMembers()
+                    previousVC.members += viewModel.getInviteMembers()
                 }
             }
         }

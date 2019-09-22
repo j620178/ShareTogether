@@ -38,18 +38,14 @@ class ActivityViewController: STBaseViewController {
         goSearchButton.addShadow()
         
         mapView = MKMapView(frame: view.frame)
-        
+
         view.addSubview(mapView!)
         setupMap()
         mapView?.isHidden = true
+    
         view.bringSubviewToFront(goSearchButton)
         view.bringSubviewToFront(switchTypeButton)
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
         
-        goSearchButton.layer.cornerRadius = goSearchButton.frame.height / 4
         goSearchButton.layer.borderWidth = 1.0
         goSearchButton.layer.borderColor = UIColor.backgroundLightGray.cgColor
         goSearchButton.clipsToBounds = true
@@ -57,8 +53,13 @@ class ActivityViewController: STBaseViewController {
         goSearchButton.setImage(.getIcon(code: "ios-search", color: .darkGray, size: 20), for: .normal)
     }
     
-    func setupMap() {
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         
+        goSearchButton.layer.cornerRadius = goSearchButton.frame.height / 4
+    }
+    
+    func setupMap() {
         locationManager.delegate = self
         locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -86,6 +87,7 @@ class ActivityViewController: STBaseViewController {
 }
 
 extension ActivityViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }

@@ -8,9 +8,39 @@
 
 import UIKit
 
+struct StatisticsCellViewModel {
+    let total: Double
+    let count: Int
+    let selfPay: Double
+    let selfLend: Double
+    let selfBorrow: Double
+}
+
 class StatisticsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var insetContentView: UIView!
+    
+    @IBOutlet weak var totalLabel: UILabel!
+    
+    @IBOutlet weak var expenseCountLabel: UILabel!
+    
+    @IBOutlet weak var selfPayLabel: UILabel!
+    
+    @IBOutlet weak var lendLabel: UILabel!
+    
+    @IBOutlet weak var borrowLabel: UILabel!
+    
+    var cellViewModel: StatisticsCellViewModel? {
+        didSet {
+            guard let cellViewModel = cellViewModel else { return }
+            
+            self.totalLabel.text = "\(cellViewModel.total)"
+            self.expenseCountLabel.text = "\(cellViewModel.count)"
+            self.selfPayLabel.text = "\(cellViewModel.selfPay)"
+            self.lendLabel.text = "\(cellViewModel.selfLend)"
+            self.borrowLabel.text = "\(cellViewModel.selfBorrow)"
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

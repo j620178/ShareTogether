@@ -33,6 +33,8 @@ class AddExpenseViewController: STBaseViewController {
         }
     }
     
+    
+    
     var lastVelocityYSign = 0
     
     lazy var amountTypeController = AmountTypeController(tableView: tableView)

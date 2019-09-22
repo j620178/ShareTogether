@@ -12,14 +12,19 @@ class StatisticsTableViewController: UITableViewController {
     
     weak var delegate: TableViewControllerDelegate?
     
-    lazy var viewModel: StatisticsViewModel = {
-        return StatisticsViewModel()
-    }()
-
+    var viewModel: HomeViewModel!
+    
+    var observation: NSKeyValueObservation!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.registerWithNib(indentifer: StatisticsTableViewCell.identifer)
+        
+        observation = viewModel.observe(\.cellViewModels, options: [.initial, .old, .new, .prior]) { (child, change) in
+            self.tableView.reloadData()
+        }
+        
     }
     
 }
@@ -35,6 +40,9 @@ extension StatisticsTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsTableViewCell.identifer, for: indexPath)
         
         guard let statisticsCell = cell as? StatisticsTableViewCell else { return cell }
+        
+        statisticsCell.cellViewModel = viewModel.getStatisticsgetCellViewModel()
+        
         return statisticsCell
     }
     

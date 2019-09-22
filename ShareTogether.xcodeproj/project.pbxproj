@@ -25,7 +25,7 @@
 		7455837623265D2E008C1690 /* SplitTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7455837423265D2E008C1690 /* SplitTextFieldTableViewCell.xib */; };
 		745CACC2231672810055A60C /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC1231672810055A60C /* UITableView+Extension.swift */; };
 		745CACC423169E530055A60C /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC323169E530055A60C /* ExpenseViewModel.swift */; };
-		745CACC823169FD30055A60C /* ExpenseRecode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC723169FD30055A60C /* ExpenseRecode.swift */; };
+		745CACC823169FD30055A60C /* HomeExpenseCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC723169FD30055A60C /* HomeExpenseCellViewModel.swift */; };
 		745CACCA231784DF0055A60C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC9231784DF0055A60C /* String+Extension.swift */; };
 		745CACD12317BE630055A60C /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACD02317BE630055A60C /* StatisticsViewModel.swift */; };
 		745CACD72317C6950055A60C /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACD62317C6950055A60C /* ResultViewModel.swift */; };
@@ -48,6 +48,7 @@
 		747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AB9082324EC7500007A32 /* UITexField+Extension.swift */; };
 		747AB90B2324F38A00007A32 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AB90A2324F38A00007A32 /* SignUpViewController.swift */; };
 		747AE9A7232E3C50007D855B /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AE9A6232E3C50007D855B /* Kingfisher.swift */; };
+		747B6EDC2334CE76000FE48B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747B6EDB2334CE76000FE48B /* HomeViewModel.swift */; };
 		748701BE231C926600D5437E /* Group.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748701BD231C926600D5437E /* Group.storyboard */; };
 		748A84F62319216B00EE00A0 /* Expense.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748A84F52319216B00EE00A0 /* Expense.storyboard */; };
 		748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */; };
@@ -124,7 +125,7 @@
 		7455837423265D2E008C1690 /* SplitTextFieldTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SplitTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		745CACC1231672810055A60C /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		745CACC323169E530055A60C /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
-		745CACC723169FD30055A60C /* ExpenseRecode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRecode.swift; sourceTree = "<group>"; };
+		745CACC723169FD30055A60C /* HomeExpenseCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeExpenseCellViewModel.swift; sourceTree = "<group>"; };
 		745CACC9231784DF0055A60C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		745CACD02317BE630055A60C /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
 		745CACD62317C6950055A60C /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
@@ -147,6 +148,7 @@
 		747AB9082324EC7500007A32 /* UITexField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITexField+Extension.swift"; sourceTree = "<group>"; };
 		747AB90A2324F38A00007A32 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		747AE9A6232E3C50007D855B /* Kingfisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
+		747B6EDB2334CE76000FE48B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		748701BD231C926600D5437E /* Group.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Group.storyboard; sourceTree = "<group>"; };
 		748A84F52319216B00EE00A0 /* Expense.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Expense.storyboard; sourceTree = "<group>"; };
 		748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 		743F4E5E232F2FDB009BA6BA /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				747B6EDB2334CE76000FE48B /* HomeViewModel.swift */,
 				745CACC323169E530055A60C /* ExpenseViewModel.swift */,
 				745CACD02317BE630055A60C /* StatisticsViewModel.swift */,
 				745CACD62317C6950055A60C /* ResultViewModel.swift */,
@@ -296,7 +299,7 @@
 				74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */,
 				743F4E63232F4317009BA6BA /* StorageManager.swift */,
 				74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */,
-				745CACC723169FD30055A60C /* ExpenseRecode.swift */,
+				745CACC723169FD30055A60C /* HomeExpenseCellViewModel.swift */,
 				745CC9852321164E00426D1A /* Direction.swift */,
 				742E5F4F23306373001EDF54 /* MemberStatusType.swift */,
 			);
@@ -308,6 +311,14 @@
 			children = (
 				745CC981232106C200426D1A /* ActivityTableViewCell.swift */,
 				745CC982232106C200426D1A /* ActivityTableViewCell.xib */,
+			);
+			path = Activity;
+			sourceTree = "<group>";
+		};
+		747B6EDD2335987E000FE48B /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				74B5C4CC231DE47B00EB916D /* ActivityViewController.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -366,6 +377,7 @@
 		74B5C4BE231DE37700EB916D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				747B6EDD2335987E000FE48B /* Activity */,
 				74D0051F233237E30079D68E /* Group */,
 				74D0051E233237C00079D68E /* Setting */,
 				74D0051D2332378B0079D68E /* AddExpense */,
@@ -443,7 +455,6 @@
 				74A1A0DA232B6EFF007C717A /* StatisticsTableViewController.swift */,
 				74A1A0DC232B8535007C717A /* ResultTableViewController.swift */,
 				74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */,
-				74B5C4CC231DE47B00EB916D /* ActivityViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -677,7 +688,7 @@
 				74A1A0DB232B6EFF007C717A /* StatisticsTableViewController.swift in Sources */,
 				747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */,
 				74B5C4CE231DE47B00EB916D /* GroupListViewController.swift in Sources */,
-				745CACC823169FD30055A60C /* ExpenseRecode.swift in Sources */,
+				745CACC823169FD30055A60C /* HomeExpenseCellViewModel.swift in Sources */,
 				747AB9072324DFED00007A32 /* LoginViewController.swift in Sources */,
 				747AB90B2324F38A00007A32 /* SignUpViewController.swift in Sources */,
 				745CACCA231784DF0055A60C /* String+Extension.swift in Sources */,
@@ -693,6 +704,7 @@
 				74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */,
 				741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */,
 				74D0052723324AC30079D68E /* PayerController.swift in Sources */,
+				747B6EDC2334CE76000FE48B /* HomeViewModel.swift in Sources */,
 				745CC990232249CE00426D1A /* Animatable.swift in Sources */,
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
 				74BA2AE32326517E0010799E /* SelectionView.swift in Sources */,

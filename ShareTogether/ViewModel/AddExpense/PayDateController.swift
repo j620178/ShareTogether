@@ -31,8 +31,7 @@ class PayDateController: NSObject, AddExpenseItem {
         var days = [(Date, Bool)]()
         
         for index in -3...3 {
-            let today = cal.startOfDay(for: Date())
-            var date = cal.startOfDay(for: Date())
+              var date = cal.startOfDay(for: Date())
             date = cal.date(byAdding: .day, value: index, to: date)!
             
             index == 0 ? days.append((Date(), true)) : days.append((date, false))

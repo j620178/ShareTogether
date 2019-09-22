@@ -17,26 +17,40 @@ class GroupViewController: STBaseViewController {
     
     var showType = ShowType.new
     
-    var memberData = [MemberInfo]() {
+    var members = [MemberInfo]() {
         didSet {
             tableView.reloadData()
         }
     }
     
-    var memeberDataDic: [String: [MemberInfo]] {
-        var data = ["Show": [MemberInfo](), "Hide": [MemberInfo]()]
+    var availableMembers: [MemberInfo] {
+        var availableMembers = [MemberInfo]()
         
-        for member in memberData {
+        for member in members {
             if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
                 MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
-                data["Hide"]?.append(member)
             } else {
-                data["Show"]?.append(member)
+                availableMembers.append(member)
             }
         }
-
-        return data
+        
+        return availableMembers
     }
+    
+//    var memeberDataDic: [String: [MemberInfo]] {
+//        var data = ["Show": [MemberInfo](), "Hide": [MemberInfo]()]
+//
+//        for member in members {
+//            if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
+//                MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
+//                data["Hide"]?.append(member)
+//            } else {
+//                data["Show"]?.append(member)
+//            }
+//        }
+//
+//        return data
+//    }
     
     var lastVelocityYSign = 0
     
@@ -145,7 +159,7 @@ class GroupViewController: STBaseViewController {
             rightButton.addTarget(self, action: #selector(addGroup(_:)), for: .touchUpInside)
             navigationItem.rightBarButtonItem = .customItem(button: rightButton, code: "ios-add")
             
-            memberData = [MemberInfo(userInfo: UserInfoManager.shaered.currentUserInfo!, status: 0)]
+            members = [MemberInfo(userInfo: UserInfoManager.shaered.currentUserInfo!, status: 0)]
             
         case .edit:
             textField.isUserInteractionEnabled = false
@@ -162,7 +176,7 @@ class GroupViewController: STBaseViewController {
                 switch result {
                     
                 case .success(let members):
-                    self?.memberData = members
+                    self?.members = members
                 case .failure(let error):
                     print(error)
                 }
@@ -201,7 +215,7 @@ class GroupViewController: STBaseViewController {
             
             let groupInfo = GroupInfo(id: nil, name: text, coverURL: urlString, status: nil)
 
-            FirestoreManager.shared.addGroup(groupInfo: groupInfo, members: strongSelf.memberData, completion: { result in
+            FirestoreManager.shared.addGroup(groupInfo: groupInfo, members: strongSelf.members, completion: { result in
                 switch result {
                 case .success:
                     strongSelf.navigationController?.popViewController(animated: true)
@@ -230,20 +244,20 @@ class GroupViewController: STBaseViewController {
 
 extension GroupViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memeberDataDic["Show"]?.count ?? 0
+        return availableMembers.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: MemberTableViewCell.identifer, for: indexPath)
         
-        guard let memberData = memeberDataDic["Show"], let memberCell = cell as? MemberTableViewCell else { return cell}
+        guard let memberCell = cell as? MemberTableViewCell else { return cell}
         
-        memberCell.userImageView.setUrlImage(memberData[indexPath.row].photoURL)
+        memberCell.userImageView.setUrlImage(availableMembers[indexPath.row].photoURL)
         
-        memberCell.userNameLabel.text = memberData[indexPath.row].name
+        memberCell.userNameLabel.text = availableMembers[indexPath.row].name
         
-        memberCell.detailLabel.text = MemberStatusType(rawValue: memberData[indexPath.row].status)?.getString
+        memberCell.detailLabel.text = MemberStatusType(rawValue: availableMembers[indexPath.row].status)?.getString
         
         return memberCell
         
@@ -279,7 +293,7 @@ extension GroupViewController: UITableViewDelegate {
 
             let action = UIAlertAction(title: "刪除", style: .destructive) { [weak self] _ in
 
-                guard let uid = self?.memberData[indexPath.row].id else { return }
+                guard let uid = self?.members[indexPath.row].id else { return }
                 
                 FirestoreManager.shared.updateMemberStatus(uid: uid, status: .quit, completion: { result in
                     switch result {

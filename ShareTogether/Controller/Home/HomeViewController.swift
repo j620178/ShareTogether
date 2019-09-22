@@ -19,8 +19,24 @@ class HomeViewController: STBaseViewController {
     
     let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
     
-    lazy var notebookViewModel: NotebookViewModel = {
-        return NotebookViewModel()
+    var currentGroup: GroupInfo? {
+        didSet {
+            if oldValue?.id != currentGroup?.id {
+                viewModel.fectchData()
+            }
+        }
+    }
+    
+    var expenseTableViewController: ExpenseTableViewController?
+    
+    var statisticsTableViewController: StatisticsTableViewController?
+    
+    var resultTableViewController: ResultTableViewController?
+    
+    var notebookTableViewController: NotebookTableViewController?
+    
+    lazy var viewModel: HomeViewModel = {
+        return HomeViewModel()
     }()
     
     @IBOutlet weak var bannerView: UIView!
@@ -87,19 +103,26 @@ class HomeViewController: STBaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //更新 Group Name
+        currentGroup = UserInfoManager.shaered.currentGroupInfo
         groupNameButton.setTitle(UserInfoManager.shaered.currentGroupInfo?.name, for: .normal)
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let expenseVC = segue.destination as? ExpenseTableViewController {
             expenseVC.delegate = self
+            expenseVC.viewModel = viewModel
+            expenseTableViewController = expenseVC
         } else if let statisticsVC = segue.destination as? StatisticsTableViewController {
             statisticsVC.delegate = self
+            statisticsVC.viewModel = viewModel
+            statisticsTableViewController = statisticsVC
         } else if let resultVC = segue.destination as? ResultTableViewController {
             resultVC.delegate = self
+            resultVC.viewModel = viewModel
+            resultTableViewController = resultVC
         } else if let notebookVC = segue.destination as? NotebookTableViewController {
             notebookVC.delegate = self
+            notebookTableViewController = notebookVC
         }
     }
 }

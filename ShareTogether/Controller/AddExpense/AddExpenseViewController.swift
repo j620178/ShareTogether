@@ -145,6 +145,48 @@ class AddExpenseViewController: STBaseViewController {
         cancelButton.layer.cornerRadius = cancelButton.frame.height / 2
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if CLLocationManager.authorizationStatus()
+            == .notDetermined {
+            // 取得定位服務授權
+            locationManager.requestWhenInUseAuthorization()
+            
+            // 開始定位自身位置
+            locationManager.startUpdatingLocation()
+        }
+            // 使用者已經拒絕定位自身位置權限
+        else if CLLocationManager.authorizationStatus()
+            == .denied {
+            // 提示可至[設定]中開啟權限
+            let alertController = UIAlertController(
+                title: "定位權限已關閉",
+                message:
+                "如要變更權限，請至 設定 > 隱私權 > 定位服務 開啟",
+                preferredStyle: .alert)
+            let okAction = UIAlertAction(
+                title: "確認", style: .default, handler:nil)
+            alertController.addAction(okAction)
+            self.present(
+                alertController,
+                animated: true, completion: nil)
+        }
+            // 使用者已經同意定位自身位置權限
+        else if CLLocationManager.authorizationStatus()
+            == .authorizedWhenInUse {
+            // 開始定位自身位置
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // 停止定位自身位置
+        locationManager.stopUpdatingLocation()
+    }
+    
     func fetchMember() {
         FirestoreManager.shared.getMembers { [weak self] result in
             switch result {
@@ -184,12 +226,12 @@ class AddExpenseViewController: STBaseViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         mapView.delegate = self
-        mapView.showsUserLocation = true
+        mapView.showsUserLocation = false
         mapView.userTrackingMode = .follow
         
         annotation.title = "Test"
-        annotation.coordinate = CLLocationCoordinate2D(latitude: 25.047342, longitude: 121.549285)
-        mapView.showAnnotations([annotation], animated: true)
+
+        
     }
     
     func switchMapHeight(direction: Direction) {
@@ -291,13 +333,20 @@ extension AddExpenseViewController: UITableViewDelegate {
 
 extension AddExpenseViewController: CLLocationManagerDelegate {
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // 印出目前所在位置座標
+        let currentLocation = locations[0] as CLLocation
+        
+        annotation.coordinate = currentLocation.coordinate
+        mapView.showAnnotations([annotation], animated: true)
+    }
+    
 }
 
 extension AddExpenseViewController: MKMapViewDelegate {
     
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         annotation.coordinate = mapView.centerCoordinate
-        print(mapView.centerCoordinate)
     }
     
 }

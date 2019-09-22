@@ -109,23 +109,24 @@ struct Expense: Codable {
 }
 
 struct Activity: Codable {
+    var id: String!
     let type: Int
-    let targetUid: String
-    let pushUid: String
+    let targetMember: MemberInfo
+    let pushUser: UserInfo
     let groupInfo: GroupInfo?
     let amount: Double?
     let time: Timestamp
     
     init(type: Int,
-         targetUid: String,
-         pushUid: String,
+         targetMember: MemberInfo,
+         pushUser: UserInfo,
          groupInfo: GroupInfo?,
          amount: Double?,
          time: Date) {
         
         self.type = type
-        self.targetUid = targetUid
-        self.pushUid = pushUid
+        self.targetMember = targetMember
+        self.pushUser = pushUser
         self.groupInfo = groupInfo
         self.amount = amount
         self.time = Timestamp(date: time)
@@ -370,15 +371,19 @@ class FirestoreManager {
         else { return }
         firestore.collection(Collection.group).document(groupID).collection(Collection.Group.member).document(memberInfo.id).setData(docData)
             
-        addActivity(type: ActivityType.addMember.rawValue, targetUid: memberInfo.id, pushUid: currentUserInfo.id, groupInfo: currentGroupInfo, amount: nil)
+        addActivity(type: ActivityType.addMember.rawValue,
+                    targetMember: memberInfo,
+                    pushUser: currentUserInfo,
+                    groupInfo: currentGroupInfo,
+                    amount: nil)
 
     }
     
-    func updateMemberStatus(uid: String, status: MemberStatusType, completion: @escaping (Result<Int, Error>) -> Void) {
+    func updateMemberStatus(memberInfo: MemberInfo, status: MemberStatusType, completion: @escaping (Result<Int, Error>) -> Void) {
         
         let data = ["status": status.rawValue]
         
-        currentGroupRef?.collection(Collection.Group.member).document(uid).updateData(data) { error in
+        currentGroupRef?.collection(Collection.Group.member).document(memberInfo.id).updateData(data) { error in
             if error != nil {
                 print("Error updating document: \(error!)")
             }
@@ -386,13 +391,17 @@ class FirestoreManager {
             print("Document successfully updated")
             
             if status != .inviting {
-                self.updateUserGroupStatus(uid: uid, status: status, completion: { _ in
+                self.updateUserGroupStatus(uid: memberInfo.id, status: status, completion: { _ in
                     
                     guard let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
                         let currentGroupInfo = UserInfoManager.shaered.currentGroupInfo
                     else { return }
                     
-                    self.addActivity(type: ActivityType.addMember.rawValue, targetUid: uid, pushUid: currentUserInfo.id, groupInfo: currentGroupInfo, amount: nil)
+                    self.addActivity(type: ActivityType.addMember.rawValue,
+                                     targetMember: memberInfo,
+                                     pushUser: currentUserInfo,
+                                     groupInfo: currentGroupInfo,
+                                     amount: nil)
                 })
             }
             
@@ -452,18 +461,18 @@ class FirestoreManager {
         }
     }
     
-    func addActivity(type: Int, targetUid: String, pushUid: String, groupInfo: GroupInfo?, amount: Double?) {
+    func addActivity(type: Int, targetMember: MemberInfo, pushUser: UserInfo, groupInfo: GroupInfo?, amount: Double?) {
         
-        let activity = Activity(type: type, targetUid: targetUid, pushUid: pushUid, groupInfo: groupInfo, amount: amount, time: Date())
+        let activity = Activity(type: type, targetMember: targetMember, pushUser: pushUser, groupInfo: groupInfo, amount: amount, time: Date())
         
         guard let docData = try? FirestoreEncoder().encode(activity) else { return }
-        firestore.collection(Collection.user).document(targetUid).collection(Collection.User.activity).addDocument(data: docData)
+        firestore.collection(Collection.user).document(targetMember.id).collection(Collection.User.activity).addDocument(data: docData)
         
     }
     
     func getActivity(uid: String, completion: @escaping (Result<[Activity], Error>) -> Void) {
         
-        firestore.collection(Collection.user).document(uid).collection(Collection.User.activity).order(by: "time", descending: true).getDocuments { (querySnapshot, error) in
+        firestore.collection(Collection.user).document(uid).collection(Collection.User.activity).order(by: "time", descending: true).addSnapshotListener { (querySnapshot, error) in
             
             guard let documents = querySnapshot?.documents else { return }
             
@@ -471,8 +480,8 @@ class FirestoreManager {
             
             for document in documents {
                 do {
-                    let activity = try FirestoreDecoder().decode(Activity.self, from: document.data())
-                    //activity.id = document.documentID
+                    var activity = try FirestoreDecoder().decode(Activity.self, from: document.data())
+                    activity.id = document.documentID
                     activities.append(activity)
                 } catch {
                     print(error)
@@ -480,6 +489,11 @@ class FirestoreManager {
             }
             completion(Result.success(activities))
         }
+        
+    }
+    
+    func deleteActivity(uid: String, id: String) {
+        firestore.collection(Collection.user).document(uid).collection(Collection.User.activity).document(id).delete()
         
     }
     

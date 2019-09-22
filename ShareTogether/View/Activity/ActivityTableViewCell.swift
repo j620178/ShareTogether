@@ -32,6 +32,15 @@ class ActivityTableViewCell: UITableViewCell {
     
     @IBOutlet weak var contentLabel: UILabel!
     
+    @IBAction func clickAddGroupButton(_ sender: UIButton) {
+        clickCellHandler?(self)
+        sender.isEnabled = false
+        sender.setTitleColor(.backgroundLightGray, for: .normal)
+        sender.setTitle("已加入", for: .normal)
+    }
+    
+    var clickCellHandler: ((ActivityTableViewCell) -> Void)?
+    
     var cellViewModel: ActivityCellViewModel? {
         didSet {
             guard let cellViewModel = cellViewModel else { return }

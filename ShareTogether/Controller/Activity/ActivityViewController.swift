@@ -34,6 +34,11 @@ class ActivityViewController: STBaseViewController {
 extension ActivityViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if viewModel.numberOfCells == 0 {
+            tableView.alpha = 0
+        } else {
+            tableView.alpha = 1
+        }
         return viewModel.numberOfCells
     }
     
@@ -43,6 +48,12 @@ extension ActivityViewController: UITableViewDataSource {
         guard let activityCell = cell as? ActivityTableViewCell else { return cell }
         
         activityCell.cellViewModel = viewModel.getViewModelAt(indexPath)
+        
+        activityCell.clickCellHandler = { [weak self] cell in
+            guard let indexPath = tableView.indexPath(for: cell) else { return }
+            
+            self?.viewModel.addGroupButton(indexPath: indexPath)
+        }
         
         return activityCell
     }

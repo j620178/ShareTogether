@@ -291,9 +291,9 @@ extension GroupViewController: UITableViewDelegate {
 
             let action = UIAlertAction(title: "刪除", style: .destructive) { [weak self] _ in
 
-                guard let uid = self?.members[indexPath.row].id else { return }
+                guard let member = self?.members[indexPath.row] else { return }
                 
-                FirestoreManager.shared.updateMemberStatus(uid: uid, status: .quit, completion: { result in
+                FirestoreManager.shared.updateMemberStatus(memberInfo: member, status: .quit, completion: { result in
                     switch result {
                         
                     case .success:

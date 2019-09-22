@@ -35,6 +35,7 @@ class ExpenseTableViewCell: UITableViewCell {
             guard let viewModel = viewModel else { return }
             
             expenseTypeImageView.image = viewModel.type.getImage(color: .STTintColor)
+            userImageView.setUrlImage(viewModel.userImg)
             expenseTitleLabel.text = viewModel.title
             amountLabel.text = String(viewModel.amount)
             timeLabel.text = viewModel.time

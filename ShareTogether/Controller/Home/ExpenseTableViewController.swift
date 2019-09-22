@@ -10,6 +10,7 @@ import UIKit
 
 protocol TableViewControllerDelegate: AnyObject {
     func tableViewDidScroll(viewController: UITableViewController, offsetY: CGFloat)
+    func empty(isEmpty: Bool)
 }
 
 class ExpenseTableViewController: UITableViewController {
@@ -41,6 +42,7 @@ class ExpenseTableViewController: UITableViewController {
 extension ExpenseTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.numberOfSections == 0 ? delegate?.empty(isEmpty: true) : delegate?.empty(isEmpty: false) 
         return viewModel.numberOfSections
     }
 

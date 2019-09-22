@@ -10,7 +10,9 @@ import UIKit
 
 class ModallyMeauViewController: STBaseViewController {
     
-    let itemString = ["圖示順序", "通知", "已封存群組", "登出"]
+    let itemString = ["登出"] // "圖示順序", "通知", "已封存群組",
+    
+    weak var backgroundview: UIView?
     
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
@@ -22,7 +24,8 @@ class ModallyMeauViewController: STBaseViewController {
     }
     
     @IBAction func clickCancelButton(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        presentingViewController
+        dismiss(animated: true, completion: backgroundview?.removeFromSuperview)
     }
     
     override func viewDidLoad() {
@@ -43,13 +46,13 @@ extension ModallyMeauViewController: UITableViewDataSource {
         
         cell.textLabel?.text = itemString[indexPath.row]
         
-        if indexPath.row == 0 {
-            cell.imageView?.image = .getIcon(code: "ios-list", color: .STTintColor, size: 40)
-        } else if indexPath.row == 1 {
-            cell.imageView?.image = .getIcon(code: "ios-megaphone", color: .STTintColor, size: 40)
-        } else {
+//        if indexPath.row == 0 {
+//            cell.imageView?.image = .getIcon(code: "ios-list", color: .STTintColor, size: 40)
+//        } else if indexPath.row == 1 {
+//            cell.imageView?.image = .getIcon(code: "ios-megaphone", color: .STTintColor, size: 40)
+//        } else {
             cell.imageView?.image = .getIcon(code: "ios-log-out", color: .STTintColor, size: 40)
-        }
+        //}
 
         return cell
     }

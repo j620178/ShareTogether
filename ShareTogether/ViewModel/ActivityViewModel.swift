@@ -55,19 +55,49 @@ class ActivityViewModel {
             var text = ""
             
             if ActivityType(rawValue: activity.type) == ActivityType.addExpense {
-                text = "xxx於\(groupInfo.name)增加了一筆消費"
+                text = "\(activity.pushUser.name)於\(groupInfo.name)增加了一筆消費"
             } else if ActivityType(rawValue: activity.type) == ActivityType.addMember {
-                text = "xxx於邀請您加入\(groupInfo.name)群組"
+                text = "\(activity.pushUser.name)於邀請您加入\(groupInfo.name)群組"
             }
             
             let viewModel = ActivityCellViewModel(mainPhotoImageURL: groupInfo.coverURL,
-                                                  userImageURL: "",
+                                                  userImageURL: activity.pushUser.photoURL,
                                                   desc: text,
                                                   time: activity.time.toSimpleFormat())
             cellViewModels.append(viewModel)
         }
         
         self.cellViewModels = cellViewModels
+        
+    }
+    
+    func addGroupButton(indexPath: IndexPath) {
+        
+        guard let groupInfo = activities[indexPath.row].groupInfo else { return }
+        
+        FirestoreManager.shared.joinGroup(group: groupInfo) { [weak self] result in
+            switch result {
+                
+            case .success:
+                guard let strongSelf = self else { return }
+                
+                FirestoreManager.shared.updateMemberStatus(memberInfo:
+                strongSelf.activities[indexPath.row].targetMember, status: .joined) { result in
+                    switch result {
+                        
+                    case .success:
+                        print("success")
+                    case .failure: print("failure")
+                    }
+                }
+                
+                FirestoreManager.shared.deleteActivity(uid: strongSelf.activities[indexPath.row].targetMember.id,
+                                                       id: strongSelf.activities[indexPath.row].id)
+                
+            case .failure:
+                print("failure")
+            }
+        }
         
     }
     

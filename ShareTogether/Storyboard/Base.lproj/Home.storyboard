@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -105,16 +104,41 @@
                                     <constraint firstItem="FZZ-F8-1la" firstAttribute="leading" secondItem="qDM-I4-a1C" secondAttribute="leading" constant="16" id="yRQ-Wg-aNg"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iey-ju-BtB">
+                                <rect key="frame" x="164.5" y="405.5" width="85" height="85"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="empty-box" translatesAutoresizingMaskIntoConstraints="NO" id="yr0-jO-iv6">
+                                        <rect key="frame" x="0.0" y="0.0" width="85" height="85"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="無資料" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="blN-iZ-o0d">
+                                        <rect key="frame" x="16.5" y="105" width="52" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="blN-iZ-o0d" firstAttribute="centerX" secondItem="Iey-ju-BtB" secondAttribute="centerX" id="Lgs-qp-jhQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="yr0-jO-iv6" secondAttribute="bottom" id="RCn-Ax-B77"/>
+                                    <constraint firstItem="yr0-jO-iv6" firstAttribute="top" secondItem="Iey-ju-BtB" secondAttribute="top" id="Wuv-ZD-cS0"/>
+                                    <constraint firstAttribute="trailing" secondItem="yr0-jO-iv6" secondAttribute="trailing" id="hz0-0x-vU4"/>
+                                    <constraint firstItem="yr0-jO-iv6" firstAttribute="leading" secondItem="Iey-ju-BtB" secondAttribute="leading" id="re5-xP-2io"/>
+                                    <constraint firstItem="blN-iZ-o0d" firstAttribute="top" secondItem="yr0-jO-iv6" secondAttribute="bottom" constant="20" id="s0Q-r4-92X"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="qDM-I4-a1C" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="2Ux-CU-h8Y"/>
+                            <constraint firstItem="Iey-ju-BtB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9dd-sk-ZLM"/>
                             <constraint firstItem="qDM-I4-a1C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Acc-lQ-wrH"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qDM-I4-a1C" secondAttribute="trailing" id="Dsb-Yf-xDJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NYj-ah-caq" secondAttribute="trailing" id="GfE-D6-de3"/>
                             <constraint firstItem="NYj-ah-caq" firstAttribute="top" secondItem="qDM-I4-a1C" secondAttribute="bottom" id="Q7d-7J-KIF"/>
                             <constraint firstItem="NYj-ah-caq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="YnT-La-g3f"/>
+                            <constraint firstItem="Iey-ju-BtB" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="oRp-NZ-Yhi"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="NYj-ah-caq" secondAttribute="bottom" id="qfu-9O-sLt"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -124,6 +148,7 @@
                         <outlet property="bannerTopConstraint" destination="5Q3-XK-jBi" id="j3I-nZ-DLd"/>
                         <outlet property="bannerView" destination="qDM-I4-a1C" id="njv-oq-T9y"/>
                         <outlet property="editGroupButton" destination="uUY-dS-577" id="jY5-Hs-t9l"/>
+                        <outlet property="emptyView" destination="Iey-ju-BtB" id="Ldq-sm-2hE"/>
                         <outlet property="groupNameButton" destination="FZZ-F8-1la" id="HoO-X6-sbu"/>
                         <outlet property="infoContainer" destination="NYj-ah-caq" id="FWc-qD-IC2"/>
                         <outlet property="infoTypeSelectionView" destination="XLa-nT-ELX" id="HO3-w7-GjB"/>
@@ -131,7 +156,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1059" y="17"/>
+            <point key="canvasLocation" x="1057.9710144927537" y="16.741071428571427"/>
         </scene>
         <!--Expense Table View Controller-->
         <scene sceneID="Pfy-9O-BY0">
@@ -208,6 +233,7 @@
     </scenes>
     <resources>
         <image name="down-arrow12x" width="12" height="12"/>
+        <image name="empty-box" width="85" height="85"/>
         <image name="search" width="30" height="30"/>
     </resources>
 </document>

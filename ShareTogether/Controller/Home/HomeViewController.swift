@@ -17,13 +17,12 @@ class HomeViewController: STBaseViewController {
         case notebook = "記事本"
     }
     
-    let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
+    let infoItems: [InfoType] = [.expense, .statistics, .result] //, .notebook
     
     var currentGroup: GroupInfo? {
         didSet {
             if oldValue?.id != currentGroup?.id {
                 viewModel.fectchData()
-                
             }
         }
     }
@@ -46,6 +45,8 @@ class HomeViewController: STBaseViewController {
     
     @IBOutlet weak var infoTypeSelectionView: ScrollSelectionView!
     
+    @IBOutlet weak var emptyView: UIView!
+    
     @IBOutlet weak var groupNameButton: UIButton! {
         didSet {
             groupNameButton.setImage(
@@ -67,6 +68,7 @@ class HomeViewController: STBaseViewController {
     @IBAction func clickGroupNameButton(_ sender: UIButton) {
         
         let nextVC = UIStoryboard.group.instantiateInitialViewController()!
+        nextVC.modalPresentationStyle = .fullScreen
         present(nextVC, animated: true, completion: nil)
         
     }
@@ -110,7 +112,7 @@ class HomeViewController: STBaseViewController {
         currentGroup = UserInfoManager.shaered.currentGroupInfo
         groupNameButton.setTitle(UserInfoManager.shaered.currentGroupInfo?.name, for: .normal)
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let expenseVC = segue.destination as? ExpenseTableViewController {
             expenseVC.delegate = self
@@ -133,6 +135,9 @@ class HomeViewController: STBaseViewController {
 
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        emptyView.alpha = 0
+        
         let screenPage = Int(scrollView.contentOffset.x / UIScreen.main.bounds.width)
         
         if screenPage > infoTypeSelectionView.selectIndex {
@@ -162,6 +167,14 @@ extension HomeViewController: ScrollSelectionViewDelegate {
 }
 
 extension HomeViewController: TableViewControllerDelegate {
+    
+    func empty(isEmpty: Bool) {
+        if isEmpty {
+            emptyView.alpha = 1
+        } else {
+            emptyView.alpha = 0
+        }
+    }
     
     func tableViewDidScroll(viewController: UITableViewController, offsetY: CGFloat) {
         let offset = min(max(offsetY, 0), 65)

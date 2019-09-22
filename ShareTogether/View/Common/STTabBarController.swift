@@ -122,8 +122,24 @@ extension STTabBarController: UITabBarControllerDelegate {
             let nextVC = UIStoryboard.expense.instantiateInitialViewController()!
             nextVC.modalPresentationStyle = .overFullScreen
             self.present(nextVC, animated: true, completion: nil)
+            
             return false
             
+        } else if viewController.isKind(of: ModallyMeauViewController.self) {
+            
+            guard let nextVC = UIStoryboard.menu.instantiateInitialViewController()!
+                as? ModallyMeauViewController
+            else { return false }
+            
+            nextVC.modalPresentationStyle = .overCurrentContext
+            let view = UIView(frame: UIScreen.main.bounds)
+            view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            nextVC.backgroundview = view
+            self.view.addSubview(view)
+            
+            self.present(nextVC, animated: true, completion: nil)
+            
+            return false
         }
         
         return true

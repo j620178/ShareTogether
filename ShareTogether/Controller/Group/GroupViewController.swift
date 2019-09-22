@@ -184,8 +184,6 @@ class GroupViewController: STBaseViewController {
         }
     }
     
- 
-    
     @objc func closeSelf(_ sender: UIButton) {
         
         switch showType {

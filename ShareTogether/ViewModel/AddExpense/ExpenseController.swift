@@ -70,7 +70,6 @@ extension ExpenseController: UITextFieldDelegate {
             superView = superView?.superview
         }
         
-        
         delegate?.keyboardBeginEditing(controller: self)
     }
     

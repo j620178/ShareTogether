@@ -14,6 +14,8 @@ class HomeViewModel: NSObject {
     
     @objc dynamic var cellViewModels = [[HomeExpenseCellViewModel]]()
     
+    var resultInfo = [String: Double]()
+    
     private var titleOfSections = [String]()
     
     var reloadTableViewHandler: (() -> Void)?
@@ -76,6 +78,7 @@ class HomeViewModel: NSObject {
                 } else {
                     self?.expenses = expenses
                     self?.processData()
+                    self?.createResultInfo()
                 }
 
             case .failure(let error):
@@ -115,6 +118,7 @@ class HomeViewModel: NSObject {
         
         self.cellViewModels = viewModels
         
+        createResultInfo()
     }
     
     func getStatisticsgetCellViewModel() -> StatisticsCellViewModel? {
@@ -172,11 +176,11 @@ class HomeViewModel: NSObject {
         
         for expense in expenses {
             
-            guard let first = expense.payerInfo.amountDesc.first else { return nil }
+            guard let payer = expense.payerInfo.amountDesc.first else { return nil }
             
             let selfID = UserInfoManager.shaered.currentUserInfo?.id
             
-            if first.member.id != selfID {
+            if payer.member.id != selfID {
             
                 if SplitType(rawValue: expense.splitInfo.type) == SplitType.average {
                     let eachPay = expense.amount / Double(expense.splitInfo.amountDesc.filter({$0.value != nil}).count)
@@ -196,7 +200,61 @@ class HomeViewModel: NSObject {
                 
         }
         
-        return StatisticsCellViewModel(total: total, count: count, selfPay: selfPay, selfLend: selfLend, selfBorrow: selfBorrow)
+        return StatisticsCellViewModel(total: total,
+                                       count: count,
+                                       selfPay: selfPay,
+                                       selfLend: selfLend,
+                                       selfBorrow: selfBorrow)
     }
     
+    func createResultInfo() {
+        
+        var result = [String: Double]()
+        
+        for expense in expenses {
+            
+            guard let payer = expense.payerInfo.amountDesc.first else { return }
+            
+            if SplitType(rawValue: expense.splitInfo.type) == SplitType.average {
+                
+                let pay = expense.amount / Double(expense.splitInfo.amountDesc.filter({$0.value != nil}).count)
+                for aDesc in expense.splitInfo.amountDesc where aDesc.member.id != payer.member.id {
+                    if result[aDesc.member.id] != nil {
+                        result[aDesc.member.id]! += pay
+                    } else {
+                        result[aDesc.member.id] = pay
+                    }
+                }
+                
+            } else if SplitType(rawValue: expense.splitInfo.type) == SplitType.percentage {
+                                
+                for aDesc in expense.splitInfo.amountDesc where aDesc.member.id != payer.member.id {
+                    if result[aDesc.member.id] != nil {
+                        result[aDesc.member.id]! += (expense.amount * (aDesc.value ?? 0) / 100)
+                    } else {
+                        result[aDesc.member.id] = (expense.amount * (aDesc.value ?? 0) / 100)
+                    }
+                }
+                
+            } else if SplitType(rawValue: expense.splitInfo.type) == SplitType.amount {
+                
+                for aDesc in expense.splitInfo.amountDesc where aDesc.member.id != payer.member.id {
+                    if result[aDesc.member.id] != nil {
+                        result[aDesc.member.id]! += (aDesc.value ?? 0)
+                    } else {
+                        result[aDesc.member.id] = (aDesc.value ?? 0)
+                    }
+                }
+            }
+        
+        }
+        
+        resultInfo = result
+        
+    }
+    
+    func getResultInfo(uid: String) -> Double? {
+        return resultInfo[uid]
+    }
+
 }

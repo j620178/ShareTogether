@@ -90,9 +90,11 @@ extension PayDateController: UICollectionViewDataSource {
         guard let categoryCell = cell as? CategoryCollectionViewCell else { return cell }
         
         if weekDaysData[indexPath.row].isSelect {
-            categoryCell.setupText(text: "\(weekDaysData[indexPath.row].date.toDay)", isSelected: weekDaysData[indexPath.row].isSelect)
+            categoryCell.setupText(text: "\(weekDaysData[indexPath.row].date.toDay)",
+                isSelected: weekDaysData[indexPath.row].isSelect)
         } else {
-            categoryCell.setupText(text: "\(weekDaysData[indexPath.row].date.toDay)", isSelected: weekDaysData[indexPath.row].isSelect)
+            categoryCell.setupText(text: "\(weekDaysData[indexPath.row].date.toDay)",
+                isSelected: weekDaysData[indexPath.row].isSelect)
         }
         
         return categoryCell

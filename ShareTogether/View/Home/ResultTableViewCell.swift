@@ -8,6 +8,14 @@
 
 import UIKit
 
+struct ResultCellViewModel {
+    let leftUesrImageURL: String
+    let leftUesrName: String
+    let rightUesrImageURL: String
+    let rightUesrName: String
+    let amount: Double
+}
+
 class ResultTableViewCell: UITableViewCell {
     
     @IBOutlet weak var insideContentView: UIView!
@@ -39,9 +47,11 @@ class ResultTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func uadateContent(leftUser: String, rightUser: String, amount: String) {
-        leftUserLabel.text = leftUser
-        rightUserLabel.text = rightUser
+    func setupContent(leftUserImageURL: String, leftUserName: String, rightUserImageURL: String, rightUserName: String, amount: String) {
+        leftUserImageView.setUrlImage(leftUserImageURL)
+        leftUserLabel.text = leftUserName
+        rightUserImageView.setUrlImage(rightUserImageURL)
+        rightUserLabel.text = rightUserName
         amountLabel.text = amount
     }
     
@@ -50,9 +60,9 @@ class ResultTableViewCell: UITableViewCell {
         
         self.insideContentView.addCornerRadius()
         
-        leftUserImageView.layer.cornerRadius = leftUserImageView.frame.height / 4
+        leftUserImageView.layer.cornerRadius = leftUserImageView.frame.height / 2
         
-        rightUserImageView.layer.cornerRadius = leftUserImageView.frame.height / 4
+        rightUserImageView.layer.cornerRadius = leftUserImageView.frame.height / 2
 
     }
     

@@ -50,7 +50,8 @@ class InviteViewController: STBaseViewController {
         
         viewModel.delegate = self
     
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.STDarkGray]
+        navigationController?.navigationBar.titleTextAttributes =
+            [NSAttributedString.Key.foregroundColor: UIColor.STDarkGray]
     }
     
     override func viewDidLayoutSubviews() {

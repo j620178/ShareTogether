@@ -11,12 +11,8 @@ import MapKit
 
 class ActivityViewController: STBaseViewController {
     
-    let data = ["增加一筆消費", "修改了紀錄", "增加一筆消費", "增加一筆消費", "增加一筆消費", "增加一筆消費", "增加一筆消費", "增加一筆消費"]
-    
-    let locationManager = CLLocationManager()
-    
-    @IBOutlet weak var goSearchButton: UIButton!
-    
+    var viewModel = ActivityViewModel()
+            
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -24,63 +20,12 @@ class ActivityViewController: STBaseViewController {
         }
     }
     
-    @IBOutlet weak var switchTypeButton: UIButton!
-    
-    var mapView: MKMapView?
-    
-    @IBAction func switchType(_ sender: UIButton) {
-        switchType()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        goSearchButton.addShadow()
-        
-        mapView = MKMapView(frame: view.frame)
-
-        view.addSubview(mapView!)
-        setupMap()
-        mapView?.isHidden = true
-    
-        view.bringSubviewToFront(goSearchButton)
-        view.bringSubviewToFront(switchTypeButton)
-        
-        goSearchButton.layer.borderWidth = 1.0
-        goSearchButton.layer.borderColor = UIColor.backgroundLightGray.cgColor
-        goSearchButton.clipsToBounds = true
-        goSearchButton.backgroundColor = .white
-        goSearchButton.setImage(.getIcon(code: "ios-search", color: .darkGray, size: 20), for: .normal)
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        goSearchButton.layer.cornerRadius = goSearchButton.frame.height / 4
-    }
-    
-    func setupMap() {
-        locationManager.delegate = self
-        locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
-        mapView?.delegate = self
-        mapView?.showsUserLocation = true
-        mapView?.userTrackingMode = .follow
-        
-        let annotation = MKPointAnnotation()
-        annotation.title = "Test"
-        annotation.coordinate = CLLocationCoordinate2D(latitude: 25.047342, longitude: 121.549285)
-        mapView?.showAnnotations([annotation], animated: true)
-    }
-    
-    func switchType() {
-        if mapView!.isHidden {
-            mapView?.isHidden = false
-            switchTypeButton.setTitle("列表", for: .normal)
-        } else {
-            mapView?.isHidden = true
-            switchTypeButton.setTitle("地圖", for: .normal)
+        viewModel.fectchData()
+        viewModel.reloadTableView = { [weak self] in
+            self?.tableView.reloadData()
         }
     }
 
@@ -89,7 +34,7 @@ class ActivityViewController: STBaseViewController {
 extension ActivityViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return viewModel.numberOfCells
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -97,18 +42,9 @@ extension ActivityViewController: UITableViewDataSource {
         
         guard let activityCell = cell as? ActivityTableViewCell else { return cell }
         
-        activityCell.contentLabel.text = data[indexPath.row]
-        activityCell.timeLabel.text = "2019/09/02"
+        activityCell.cellViewModel = viewModel.getViewModelAt(indexPath)
         
         return activityCell
     }
-    
-}
-
-extension ActivityViewController: CLLocationManagerDelegate {
-    
-}
-
-extension ActivityViewController: MKMapViewDelegate {
     
 }

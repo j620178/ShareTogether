@@ -9,8 +9,7 @@
 import Foundation
 
 class PayerController: NSObject, AddExpenseItem {
-    
-    
+
 }
 
 extension PayerController: UITableViewDelegate {
@@ -18,6 +17,7 @@ extension PayerController: UITableViewDelegate {
 }
 
 extension PayerController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         <#code#>
     }
@@ -25,6 +25,5 @@ extension PayerController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         <#code#>
     }
-    
     
 }

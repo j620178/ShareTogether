@@ -57,7 +57,10 @@ class LoginViewController: STBaseViewController {
             case .success(let userInfo):
                     
                 if let userInfo = userInfo, let groups = userInfo.groups, !groups.isEmpty {
-                    let group = GroupInfo(id: groups[0].id, name: groups[0].name, coverURL: groups[0].coverURL, status: nil)
+                    let group = GroupInfo(id: groups[0].id,
+                                          name: groups[0].name,
+                                          coverURL: groups[0].coverURL,
+                                          status: nil)
                     UserInfoManager.shaered.setCurrentGroupInfo(group)
                     UserInfoManager.shaered.setCurrentUserInfo(userInfo)
                     self?.goHomeVC()

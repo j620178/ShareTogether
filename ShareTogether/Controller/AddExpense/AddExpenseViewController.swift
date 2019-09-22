@@ -33,8 +33,6 @@ class AddExpenseViewController: STBaseViewController {
         }
     }
     
-    
-    
     var lastVelocityYSign = 0
     
     lazy var amountTypeController = AmountTypeController(tableView: tableView)
@@ -117,13 +115,7 @@ class AddExpenseViewController: STBaseViewController {
         }
 
         dismiss(animated: true, completion: nil)
-        
-        print(uid)
-        print(amount)
-        print(desc)
-        print(payerInfo)
-        print(splitInfo)
-        print(date)
+
     }
     
     override func viewDidLoad() {

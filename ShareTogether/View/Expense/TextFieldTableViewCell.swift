@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class TextFieldTableViewCell: UITableViewCell {
     
     var amountPassHandler: ((Int) -> Void)?

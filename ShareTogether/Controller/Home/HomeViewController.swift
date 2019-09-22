@@ -23,6 +23,7 @@ class HomeViewController: STBaseViewController {
         didSet {
             if oldValue?.id != currentGroup?.id {
                 viewModel.fectchData()
+                
             }
         }
     }
@@ -35,7 +36,7 @@ class HomeViewController: STBaseViewController {
     
     var notebookTableViewController: NotebookTableViewController?
     
-    lazy var viewModel: HomeViewModel = {
+    var viewModel: HomeViewModel = {
         return HomeViewModel()
     }()
     
@@ -76,7 +77,10 @@ class HomeViewController: STBaseViewController {
         
         let navigationController = STNavigationController()
         
-        guard let nextVC = groupStoryboard.instantiateViewController(withIdentifier: GroupViewController.identifier) as? GroupViewController else { return }
+        guard let nextVC = groupStoryboard.instantiateViewController(
+            withIdentifier: GroupViewController.identifier)
+            as? GroupViewController
+        else { return }
         
         nextVC.showType = .edit
         

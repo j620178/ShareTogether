@@ -27,7 +27,6 @@
 		745CACC423169E530055A60C /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC323169E530055A60C /* ExpenseViewModel.swift */; };
 		745CACC823169FD30055A60C /* HomeExpenseCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC723169FD30055A60C /* HomeExpenseCellViewModel.swift */; };
 		745CACCA231784DF0055A60C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC9231784DF0055A60C /* String+Extension.swift */; };
-		745CACD12317BE630055A60C /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACD02317BE630055A60C /* StatisticsViewModel.swift */; };
 		745CACD72317C6950055A60C /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACD62317C6950055A60C /* ResultViewModel.swift */; };
 		745CACDE2317C9D60055A60C /* NotebookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACDD2317C9D60055A60C /* NotebookViewModel.swift */; };
 		745CC983232106C200426D1A /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CC981232106C200426D1A /* ActivityTableViewCell.swift */; };
@@ -52,6 +51,7 @@
 		748701BE231C926600D5437E /* Group.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748701BD231C926600D5437E /* Group.storyboard */; };
 		748A84F62319216B00EE00A0 /* Expense.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748A84F52319216B00EE00A0 /* Expense.storyboard */; };
 		748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */; };
+		749573972337D442003997BD /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749573962337D442003997BD /* ActivityViewModel.swift */; };
 		74960EA323150834006BF12C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74960EA223150834006BF12C /* AppDelegate.swift */; };
 		74960EA823150834006BF12C /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74960EA623150834006BF12C /* Home.storyboard */; };
 		74960EAA23150838006BF12C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74960EA923150838006BF12C /* Assets.xcassets */; };
@@ -127,7 +127,6 @@
 		745CACC323169E530055A60C /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
 		745CACC723169FD30055A60C /* HomeExpenseCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeExpenseCellViewModel.swift; sourceTree = "<group>"; };
 		745CACC9231784DF0055A60C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
-		745CACD02317BE630055A60C /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
 		745CACD62317C6950055A60C /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
 		745CACDD2317C9D60055A60C /* NotebookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookViewModel.swift; sourceTree = "<group>"; };
 		745CC981232106C200426D1A /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
@@ -152,6 +151,7 @@
 		748701BD231C926600D5437E /* Group.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Group.storyboard; sourceTree = "<group>"; };
 		748A84F52319216B00EE00A0 /* Expense.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Expense.storyboard; sourceTree = "<group>"; };
 		748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
+		749573962337D442003997BD /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
 		74960E9F23150834006BF12C /* ShareTogether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareTogether.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74960EA223150834006BF12C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		74960EA723150834006BF12C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Home.storyboard; sourceTree = "<group>"; };
@@ -247,7 +247,6 @@
 			children = (
 				747B6EDB2334CE76000FE48B /* HomeViewModel.swift */,
 				745CACC323169E530055A60C /* ExpenseViewModel.swift */,
-				745CACD02317BE630055A60C /* StatisticsViewModel.swift */,
 				745CACD62317C6950055A60C /* ResultViewModel.swift */,
 				745CACDD2317C9D60055A60C /* NotebookViewModel.swift */,
 			);
@@ -330,6 +329,7 @@
 				741E2B95232E361700350F42 /* GroupListViewModel.swift */,
 				743F4E65232F923D009BA6BA /* InviteViewModel.swift */,
 				742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */,
+				749573962337D442003997BD /* ActivityViewModel.swift */,
 				743F4E5E232F2FDB009BA6BA /* Home */,
 			);
 			path = ViewModel;
@@ -406,14 +406,14 @@
 				742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */,
 				74B5C4D2231DE48800EB916D /* ExpenseTableViewCell.swift */,
 				74B5C4D1231DE48800EB916D /* ExpenseTableViewCell.xib */,
-				74B5C4D5231DE48800EB916D /* ResultTableViewCell.swift */,
-				74B5C4D3231DE48800EB916D /* ResultTableViewCell.xib */,
 				74B5C4D7231DE48800EB916D /* StatisticsTableViewCell.swift */,
 				74B5C4D4231DE48800EB916D /* StatisticsTableViewCell.xib */,
-				74641F412320FB3A0059B265 /* NotebookTableViewCell.swift */,
-				74641F422320FB3A0059B265 /* NotebookTableViewCell.xib */,
+				74B5C4D5231DE48800EB916D /* ResultTableViewCell.swift */,
+				74B5C4D3231DE48800EB916D /* ResultTableViewCell.xib */,
 				7451C45E23271AB200EA0AEB /* AddNotebookTableViewCell.swift */,
 				7451C45F23271AB200EA0AEB /* AddNotebookTableViewCell.xib */,
+				74641F412320FB3A0059B265 /* NotebookTableViewCell.swift */,
+				74641F422320FB3A0059B265 /* NotebookTableViewCell.xib */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -695,7 +695,6 @@
 				74AEC8FD231FC5E9003A6F01 /* TextFieldTableViewCell.swift in Sources */,
 				74641F432320FB3A0059B265 /* NotebookTableViewCell.swift in Sources */,
 				74B5C4EC231E044800EB916D /* STBaseViewController.swift in Sources */,
-				745CACD12317BE630055A60C /* StatisticsViewModel.swift in Sources */,
 				74B5C4DF231DE48800EB916D /* StatisticsTableViewCell.swift in Sources */,
 				74A1A0DF232B8675007C717A /* NotebookTableViewController.swift in Sources */,
 				745CC98F232249CE00426D1A /* CustomTransitionAnimation.swift in Sources */,
@@ -721,6 +720,7 @@
 				745CC9942322863500426D1A /* UIView+Extension.swift in Sources */,
 				7455837523265D2E008C1690 /* SplitTextFieldTableViewCell.swift in Sources */,
 				744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */,
+				749573972337D442003997BD /* ActivityViewModel.swift in Sources */,
 				74A1A0E7232D93C6007C717A /* ExpenseType.swift in Sources */,
 				74B5C4CD231DE47B00EB916D /* AddExpenseViewController.swift in Sources */,
 				74D00522233246C50079D68E /* AmountTypeController.swift in Sources */,

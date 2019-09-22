@@ -29,7 +29,6 @@ class PayerController: NSObject, AddExpenseItem {
             tableView.reloadData()
         }
     }
-       
 
     func initPayInfo() {
         

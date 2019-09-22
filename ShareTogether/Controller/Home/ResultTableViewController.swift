@@ -10,17 +10,62 @@ import UIKit
 
 class ResultTableViewController: UITableViewController {
     
-    let data = ["Kevin", "Nick", "Angle", "Daniel"]
-    let data2 = ["3000", "200", "10000", "20330"]
-    
     weak var delegate: TableViewControllerDelegate?
     
+    var members = [MemberInfo]()
+    
+    var availableMembers: [MemberInfo] {
+        var availableMembers = [MemberInfo]()
+        
+        for member in members {
+            if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
+                MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
+            } else {
+                availableMembers.append(member)
+            }
+        }
+        
+        return availableMembers
+    }
+    
     var viewModel: HomeViewModel!
+    
+    var observation: NSKeyValueObservation!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.registerWithNib(indentifer: ResultTableViewCell.identifer)
+        
+        observation = viewModel.observe(\.cellViewModels, options: [.initial, .old, .new, .prior]) { (child, change) in
+            self.tableView.reloadData()
+        }
+        
+        func fetchMember() {
+            FirestoreManager.shared.getMembers { [weak self] result in
+                switch result {
+                    
+                case .success(var members):
+                    var index = 0
+                    for member in members {
+                        
+                        if member.id == UserInfoManager.shaered.currentUserInfo?.id {
+                            members.remove(at: index)
+                            self?.members = members
+                            break
+                        }
+                        
+                        index += 1
+
+                    }
+
+                case .failure:
+                    print("error")
+                }
+            }
+            
+        }
+        
     }
 
 }
@@ -29,15 +74,22 @@ class ResultTableViewController: UITableViewController {
 extension ResultTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return availableMembers.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ResultTableViewCell.identifer, for: indexPath)
         
-        guard let resultCell = cell as? ResultTableViewCell else { return cell }
+        guard let resultCell = cell as? ResultTableViewCell,
+            let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
+            let amount = viewModel.getResultInfo(uid: availableMembers[indexPath.row].id)
+        else { return cell }
         
-        resultCell.uadateContent(leftUser: data[indexPath.row], rightUser: "Pony", amount: data2[indexPath.row])
+        resultCell.setupContent(leftUserImageURL: availableMembers[indexPath.row].photoURL,
+                                leftUserName: availableMembers[indexPath.row].name,
+                                rightUserImageURL: currentUserInfo.photoURL,
+                                rightUserName: currentUserInfo.name,
+                                amount: "\(amount)")
         
         return resultCell
     }

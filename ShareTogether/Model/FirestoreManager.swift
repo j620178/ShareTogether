@@ -21,6 +21,11 @@ enum FirestoreError: Error {
     case joinDemoGroupFailed
 }
 
+enum ActivityType: Int {
+    case addMember = 0
+    case addExpense = 1
+}
+
 struct Collection {
     static let user = "user"
     static let group = "group"
@@ -100,6 +105,30 @@ struct Expense: Codable {
         self.position = GeoPoint(latitude: location.latitude, longitude: location.longitude)
         self.time = Timestamp(date: time)
         
+    }
+}
+
+struct Activity: Codable {
+    let type: Int
+    let targetUid: String
+    let pushUid: String
+    let groupInfo: GroupInfo?
+    let amount: Double?
+    let time: Timestamp
+    
+    init(type: Int,
+         targetUid: String,
+         pushUid: String,
+         groupInfo: GroupInfo?,
+         amount: Double?,
+         time: Date) {
+        
+        self.type = type
+        self.targetUid = targetUid
+        self.pushUid = pushUid
+        self.groupInfo = groupInfo
+        self.amount = amount
+        self.time = Timestamp(date: time)
     }
 }
 
@@ -335,8 +364,13 @@ class FirestoreManager {
     func addMember(groupID: String? = UserInfoManager.shaered.currentGroupInfo?.id, memberInfo: MemberInfo) {
         
         guard let groupID = groupID,
-            let docData = try? FirestoreEncoder().encode(memberInfo) else { return }
+            let docData = try? FirestoreEncoder().encode(memberInfo),
+            let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
+            let currentGroupInfo = UserInfoManager.shaered.currentGroupInfo
+        else { return }
         firestore.collection(Collection.group).document(groupID).collection(Collection.Group.member).document(memberInfo.id).setData(docData)
+            
+        addActivity(type: ActivityType.addMember.rawValue, targetUid: memberInfo.id, pushUid: currentUserInfo.id, groupInfo: currentGroupInfo, amount: nil)
 
     }
     
@@ -354,6 +388,11 @@ class FirestoreManager {
             if status != .inviting {
                 self.updateUserGroupStatus(uid: uid, status: status, completion: { _ in
                     
+                    guard let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
+                        let currentGroupInfo = UserInfoManager.shaered.currentGroupInfo
+                    else { return }
+                    
+                    self.addActivity(type: ActivityType.addMember.rawValue, targetUid: uid, pushUid: currentUserInfo.id, groupInfo: currentGroupInfo, amount: nil)
                 })
             }
             
@@ -395,7 +434,10 @@ class FirestoreManager {
             return
         }
         
-        let demoGroup = GroupInfo(id: demoGroupID, name: "九州行(範例)", coverURL: demoGroupCoverURL, status: MemberStatusType.joined.rawValue)
+        let demoGroup = GroupInfo(id: demoGroupID,
+                                  name: "九州行(範例)",
+                                  coverURL: demoGroupCoverURL,
+                                  status: MemberStatusType.joined.rawValue)
 
         guard let docData = try? FirestoreEncoder().encode(demoGroup) else { return }
     
@@ -410,7 +452,37 @@ class FirestoreManager {
         }
     }
     
-    func addActivity() {}
+    func addActivity(type: Int, targetUid: String, pushUid: String, groupInfo: GroupInfo?, amount: Double?) {
+        
+        let activity = Activity(type: type, targetUid: targetUid, pushUid: pushUid, groupInfo: groupInfo, amount: amount, time: Date())
+        
+        guard let docData = try? FirestoreEncoder().encode(activity) else { return }
+        firestore.collection(Collection.user).document(targetUid).collection(Collection.User.activity).addDocument(data: docData)
+        
+    }
+    
+    func getActivity(uid: String, completion: @escaping (Result<[Activity], Error>) -> Void) {
+        
+        firestore.collection(Collection.user).document(uid).collection(Collection.User.activity).order(by: "time", descending: true).getDocuments { (querySnapshot, error) in
+            
+            guard let documents = querySnapshot?.documents else { return }
+            
+            var activities = [Activity]()
+            
+            for document in documents {
+                do {
+                    let activity = try FirestoreDecoder().decode(Activity.self, from: document.data())
+                    //activity.id = document.documentID
+                    activities.append(activity)
+                } catch {
+                    print(error)
+                }
+            }
+            completion(Result.success(activities))
+        }
+        
+    }
+    
 }
 
 extension Timestamp {

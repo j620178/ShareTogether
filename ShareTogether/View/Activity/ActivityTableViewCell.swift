@@ -8,6 +8,20 @@
 
 import UIKit
 
+class ActivityCellViewModel {
+    let mainPhotoImageURL: String
+    let userImageURL: String
+    let desc: String
+    let time: String
+    
+    init(mainPhotoImageURL: String, userImageURL: String, desc: String, time: String) {
+        self.mainPhotoImageURL = mainPhotoImageURL
+        self.userImageURL = userImageURL
+        self.desc = desc
+        self.time = time
+    }
+}
+
 class ActivityTableViewCell: UITableViewCell {
     
     @IBOutlet weak var categoryImageView: UIImageView!
@@ -17,6 +31,17 @@ class ActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     
     @IBOutlet weak var contentLabel: UILabel!
+    
+    var cellViewModel: ActivityCellViewModel? {
+        didSet {
+            guard let cellViewModel = cellViewModel else { return }
+            
+            categoryImageView.setUrlImage(cellViewModel.mainPhotoImageURL)
+            userImageView.setUrlImage(cellViewModel.userImageURL)
+            contentLabel.text = cellViewModel.desc
+            timeLabel.text = cellViewModel.time
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

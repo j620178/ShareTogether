@@ -145,7 +145,9 @@ class SelectionView: UIView {
             
             button.titleLabel?.font = dataSource.fontOfSelectionButtons(selectionView: self, index: index)
             
-            button.setTitleColor(dataSource.titleColorOfSelectionButtons(selectionView: self, index: index), for: .normal)
+            button.setTitleColor(dataSource.titleColorOfSelectionButtons(selectionView: self,
+                                                                         index: index),
+                                 for: .normal)
             
             button.backgroundColor = dataSource.backgroundColorOfSelectionButtons(selectionView: self, index: index)
             

@@ -8,14 +8,21 @@
 
 import UIKit
 
-protocol TableViewControllerDelegate: AnyObject {
-    func tableViewDidScroll(viewController: UITableViewController, offsetY: CGFloat)
+protocol HomeViewControllerDelegate: AnyObject {
+    func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat)
     func empty(isEmpty: Bool)
 }
 
-class ExpenseTableViewController: UITableViewController {
+class ExpenseViewController: UIViewController {
     
-    weak var delegate: TableViewControllerDelegate?
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
+        }
+    }
+    
+    weak var delegate: HomeViewControllerDelegate?
     
     var viewModel: HomeViewModel!
     
@@ -39,22 +46,22 @@ class ExpenseTableViewController: UITableViewController {
 }
 
 // MARK: - Table view data source
-extension ExpenseTableViewController {
+extension ExpenseViewController: UITableViewDataSource {
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         viewModel.numberOfSections == 0 ? delegate?.empty(isEmpty: true) : delegate?.empty(isEmpty: false) 
         return viewModel.numberOfSections
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return viewModel.titleOfSections(section: section)
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfCells(section: section)
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseTableViewCell.identifer, for: indexPath)
 
@@ -69,14 +76,14 @@ extension ExpenseTableViewController {
 }
 
 // MARK: - Table view delegate
-extension ExpenseTableViewController {
+extension ExpenseViewController: UITableViewDelegate {
     
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as? UITableViewHeaderFooterView
         header?.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
     }
 
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath) {
@@ -88,7 +95,7 @@ extension ExpenseTableViewController {
         
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.tableViewDidScroll(viewController: self, offsetY: scrollView.contentOffset.y)
     }
     

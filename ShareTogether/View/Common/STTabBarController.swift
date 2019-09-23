@@ -92,7 +92,7 @@ private enum Tab {
 
 class STTabBarController: UITabBarController {
     
-    private let tabs: [Tab] = [.home, .expense, .activity, .setting] //, .search
+    private let tabs: [Tab] = [.home, .search, .expense, .activity, .setting]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,13 +101,17 @@ class STTabBarController: UITabBarController {
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().backgroundColor = UIColor.white
         
+        //TuPu
+        let lineView = UIView(frame: CGRect(x: 0, y: -1, width: UIScreen.main.bounds.width, height: 1))
+        lineView.backgroundColor = UIColor.white
+        tabBar.addSubview(lineView)
+        
         delegate = self
-        
-        tabBar.addShadow()
-        
+
         viewControllers = tabs.map({ $0.controller() })
         
         tabBar.tintColor = .STDarkGray
+        tabBar.addShadow()
         
     }
 }
@@ -117,8 +121,8 @@ extension STTabBarController: UITabBarControllerDelegate {
         _ tabBarController: UITabBarController,
         shouldSelect viewController: UIViewController) -> Bool {
         
-        if viewController.isKind(of: UINavigationController.self) {
-            
+        if viewController.isKind(of: UINavigationController.self),
+            viewController.children[0] is AddExpenseViewController {
             let nextVC = UIStoryboard.expense.instantiateInitialViewController()!
             nextVC.modalPresentationStyle = .overFullScreen
             self.present(nextVC, animated: true, completion: nil)

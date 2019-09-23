@@ -50,7 +50,6 @@
 		747AB90B2324F38A00007A32 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AB90A2324F38A00007A32 /* SignUpViewController.swift */; };
 		747AE9A7232E3C50007D855B /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AE9A6232E3C50007D855B /* Kingfisher.swift */; };
 		747B6EDC2334CE76000FE48B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747B6EDB2334CE76000FE48B /* HomeViewModel.swift */; };
-		748701BE231C926600D5437E /* Group.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748701BD231C926600D5437E /* Group.storyboard */; };
 		748A84F62319216B00EE00A0 /* Expense.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748A84F52319216B00EE00A0 /* Expense.storyboard */; };
 		748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */; };
 		749573972337D442003997BD /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749573962337D442003997BD /* ActivityViewModel.swift */; };
@@ -60,9 +59,9 @@
 		74960EAD23150838006BF12C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74960EAB23150838006BF12C /* LaunchScreen.storyboard */; };
 		74975EB42327764A008FC7B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74975EB32327764A008FC7B0 /* GoogleService-Info.plist */; };
 		74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74975EB523277A61008FC7B0 /* AuthManager.swift */; };
-		74A1A0D9232B6728007C717A /* ExpenseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0D8232B6728007C717A /* ExpenseTableViewController.swift */; };
-		74A1A0DB232B6EFF007C717A /* StatisticsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DA232B6EFF007C717A /* StatisticsTableViewController.swift */; };
-		74A1A0DD232B8535007C717A /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DC232B8535007C717A /* ResultTableViewController.swift */; };
+		74A1A0D9232B6728007C717A /* ExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0D8232B6728007C717A /* ExpenseViewController.swift */; };
+		74A1A0DB232B6EFF007C717A /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DA232B6EFF007C717A /* StatisticsViewController.swift */; };
+		74A1A0DD232B8535007C717A /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DC232B8535007C717A /* ResultViewController.swift */; };
 		74A1A0DF232B8675007C717A /* NotebookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */; };
 		74A1A0E1232B8F6E007C717A /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */; };
 		74A1A0E3232CD5F8007C717A /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */; };
@@ -93,6 +92,8 @@
 		74B5C4EF231E5CB600EB916D /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4EE231E5CB600EB916D /* CategoryCollectionViewCell.swift */; };
 		74B5C4F1231E7BB400EB916D /* STNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4F0231E7BB400EB916D /* STNavigationController.swift */; };
 		74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4F4231E7E1800EB916D /* TabView.swift */; };
+		74B9AE0C233877D40029A8BE /* Group.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74B9AE0B233877D40029A8BE /* Group.storyboard */; };
+		74B9AE0F2338BA1F0029A8BE /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9AE0E2338BA1F0029A8BE /* SearchViewModel.swift */; };
 		74BA2AE12325D58A0010799E /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA2AE02325D58A0010799E /* CalculatorViewController.swift */; };
 		74BA2AE32326517E0010799E /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA2AE22326517E0010799E /* SelectionView.swift */; };
 		74D0051C23320E4B0079D68E /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0051B23320E4B0079D68E /* GroupViewController.swift */; };
@@ -152,7 +153,6 @@
 		747AB90A2324F38A00007A32 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		747AE9A6232E3C50007D855B /* Kingfisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
 		747B6EDB2334CE76000FE48B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		748701BD231C926600D5437E /* Group.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Group.storyboard; sourceTree = "<group>"; };
 		748A84F52319216B00EE00A0 /* Expense.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Expense.storyboard; sourceTree = "<group>"; };
 		748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		749573962337D442003997BD /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
@@ -164,9 +164,9 @@
 		74960EAE23150838006BF12C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74975EB32327764A008FC7B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		74975EB523277A61008FC7B0 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
-		74A1A0D8232B6728007C717A /* ExpenseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewController.swift; sourceTree = "<group>"; };
-		74A1A0DA232B6EFF007C717A /* StatisticsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTableViewController.swift; sourceTree = "<group>"; };
-		74A1A0DC232B8535007C717A /* ResultTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewController.swift; sourceTree = "<group>"; };
+		74A1A0D8232B6728007C717A /* ExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewController.swift; sourceTree = "<group>"; };
+		74A1A0DA232B6EFF007C717A /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
+		74A1A0DC232B8535007C717A /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookTableViewController.swift; sourceTree = "<group>"; };
 		74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
@@ -197,6 +197,9 @@
 		74B5C4EE231E5CB600EB916D /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		74B5C4F0231E7BB400EB916D /* STNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STNavigationController.swift; sourceTree = "<group>"; };
 		74B5C4F4231E7E1800EB916D /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
+		74B9AE0B233877D40029A8BE /* Group.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Group.storyboard; sourceTree = "<group>"; };
+		74B9AE0D2338A6EC0029A8BE /* ShareTogether.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareTogether.entitlements; sourceTree = "<group>"; };
+		74B9AE0E2338BA1F0029A8BE /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		74BA2AE02325D58A0010799E /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
 		74BA2AE22326517E0010799E /* SelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		74D0051B23320E4B0079D68E /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
@@ -243,8 +246,8 @@
 			isa = PBXGroup;
 			children = (
 				74D611CF231CEF7600A301E9 /* Main.storyboard */,
+				74B9AE0B233877D40029A8BE /* Group.storyboard */,
 				74960EA623150834006BF12C /* Home.storyboard */,
-				748701BD231C926600D5437E /* Group.storyboard */,
 				743F4E61232F3FA3009BA6BA /* Menu.storyboard */,
 				748A84F52319216B00EE00A0 /* Expense.storyboard */,
 				747AB9042324D38C00007A32 /* Login.storyboard */,
@@ -343,6 +346,7 @@
 				743F4E65232F923D009BA6BA /* InviteViewModel.swift */,
 				742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */,
 				749573962337D442003997BD /* ActivityViewModel.swift */,
+				74B9AE0E2338BA1F0029A8BE /* SearchViewModel.swift */,
 				743F4E5E232F2FDB009BA6BA /* Home */,
 			);
 			path = ViewModel;
@@ -369,6 +373,7 @@
 		74960EA123150834006BF12C /* ShareTogether */ = {
 			isa = PBXGroup;
 			children = (
+				74B9AE0D2338A6EC0029A8BE /* ShareTogether.entitlements */,
 				74975EB32327764A008FC7B0 /* GoogleService-Info.plist */,
 				745CC98D232249CE00426D1A /* Animatable.swift */,
 				745CC98C232249CD00426D1A /* CustomTransitionAnimation.swift */,
@@ -465,9 +470,9 @@
 			isa = PBXGroup;
 			children = (
 				74B5C4CB231DE47B00EB916D /* HomeViewController.swift */,
-				74A1A0D8232B6728007C717A /* ExpenseTableViewController.swift */,
-				74A1A0DA232B6EFF007C717A /* StatisticsTableViewController.swift */,
-				74A1A0DC232B8535007C717A /* ResultTableViewController.swift */,
+				74A1A0D8232B6728007C717A /* ExpenseViewController.swift */,
+				74A1A0DA232B6EFF007C717A /* StatisticsViewController.swift */,
+				74A1A0DC232B8535007C717A /* ResultViewController.swift */,
 				74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */,
 			);
 			path = Home;
@@ -608,10 +613,10 @@
 				745CC984232106C200426D1A /* ActivityTableViewCell.xib in Resources */,
 				74960EAA23150838006BF12C /* Assets.xcassets in Resources */,
 				74B5C4E8231DED8400EB916D /* Activity.storyboard in Resources */,
+				74B9AE0C233877D40029A8BE /* Group.storyboard in Resources */,
 				743F4E62232F3FA3009BA6BA /* Menu.storyboard in Resources */,
 				74B5C4DC231DE48800EB916D /* StatisticsTableViewCell.xib in Resources */,
 				74960EA823150834006BF12C /* Home.storyboard in Resources */,
-				748701BE231C926600D5437E /* Group.storyboard in Resources */,
 				74975EB42327764A008FC7B0 /* GoogleService-Info.plist in Resources */,
 				742468BE2338422D00528202 /* Search.storyboard in Resources */,
 			);
@@ -700,10 +705,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74A1A0DB232B6EFF007C717A /* StatisticsTableViewController.swift in Sources */,
+				74A1A0DB232B6EFF007C717A /* StatisticsViewController.swift in Sources */,
 				747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */,
 				74B5C4CE231DE47B00EB916D /* GroupListViewController.swift in Sources */,
 				745CACC823169FD30055A60C /* HomeExpenseCellViewModel.swift in Sources */,
+				74B9AE0F2338BA1F0029A8BE /* SearchViewModel.swift in Sources */,
 				747AB9072324DFED00007A32 /* LoginViewController.swift in Sources */,
 				747AB90B2324F38A00007A32 /* SignUpViewController.swift in Sources */,
 				745CACCA231784DF0055A60C /* String+Extension.swift in Sources */,
@@ -745,7 +751,7 @@
 				74AEC9012320837C003A6F01 /* CheckBoxTableViewCell.swift in Sources */,
 				74B5C4C8231DE46B00EB916D /* GroupCollectionViewCell.swift in Sources */,
 				74B5C4D0231DE47B00EB916D /* ActivityViewController.swift in Sources */,
-				74A1A0D9232B6728007C717A /* ExpenseTableViewController.swift in Sources */,
+				74A1A0D9232B6728007C717A /* ExpenseViewController.swift in Sources */,
 				74D611D3231D008D00A301E9 /* SwiftIconFont.swift in Sources */,
 				74B5C4E4231DE48F00EB916D /* STTabBarController.swift in Sources */,
 				74D0052B23324B5F0079D68E /* PayDateController.swift in Sources */,
@@ -753,7 +759,7 @@
 				745CC98E232249CE00426D1A /* NavigationController.swift in Sources */,
 				74D005252332490E0079D68E /* ExpenseController.swift in Sources */,
 				74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */,
-				74A1A0DD232B8535007C717A /* ResultTableViewController.swift in Sources */,
+				74A1A0DD232B8535007C717A /* ResultViewController.swift in Sources */,
 				742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */,
 				747AE9A7232E3C50007D855B /* Kingfisher.swift in Sources */,
 				74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */,
@@ -921,9 +927,11 @@
 			baseConfigurationReference = 35E2FFF816BE8EA55FE2021B /* Pods-ShareTogether.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ShareTogether/ShareTogether.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2NZHQL2FPV;
 				INFOPLIST_FILE = ShareTogether/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -931,7 +939,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.littlema.ShareTogether;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -940,9 +948,11 @@
 			baseConfigurationReference = 6EE45046B2151DE911C1D99A /* Pods-ShareTogether.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ShareTogether/ShareTogether.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2NZHQL2FPV;
 				INFOPLIST_FILE = ShareTogether/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -950,7 +960,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.littlema.ShareTogether;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

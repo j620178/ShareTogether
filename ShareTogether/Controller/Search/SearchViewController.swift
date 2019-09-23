@@ -17,9 +17,18 @@ class SearchViewController: STBaseViewController {
     
     @IBOutlet weak var goSearchButton: UIButton!
     
+    @IBOutlet weak var scrollSelectionView: ScrollSelectionView! {
+        didSet {
+            scrollSelectionView.dataSource = self
+        }
+    }
+    
+    var viewModel = SearchViewModel()
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
+            tableView.delegate = self
             tableView.registerWithNib(indentifer: ActivityTableViewCell.identifer)
         }
     }
@@ -28,20 +37,24 @@ class SearchViewController: STBaseViewController {
     
     var mapView: MKMapView?
     
+    var annotations = [MKPointAnnotation]() {
+        didSet {
+            mapView?.showAnnotations(annotations, animated: true)
+        }
+    }
+    
     @IBAction func switchType(_ sender: UIButton) {
         switchType()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        goSearchButton.addShadow()
-        
+                
         mapView = MKMapView(frame: view.frame)
 
         view.addSubview(mapView!)
         setupMap()
-        mapView?.isHidden = true
+        //mapView?.isHidden = true
     
         view.bringSubviewToFront(goSearchButton)
         view.bringSubviewToFront(switchTypeButton)
@@ -51,6 +64,11 @@ class SearchViewController: STBaseViewController {
         goSearchButton.clipsToBounds = true
         goSearchButton.backgroundColor = .white
         goSearchButton.setImage(.getIcon(code: "ios-search", color: .darkGray, size: 20), for: .normal)
+        
+        viewModel.fectchData()
+        viewModel.reloadMapHandler = { [weak self] annotations in
+            self?.annotations = annotations
+        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -68,10 +86,6 @@ class SearchViewController: STBaseViewController {
         mapView?.showsUserLocation = true
         mapView?.userTrackingMode = .follow
         
-        let annotation = MKPointAnnotation()
-        annotation.title = "Test"
-        annotation.coordinate = CLLocationCoordinate2D(latitude: 25.047342, longitude: 121.549285)
-        mapView?.showAnnotations([annotation], animated: true)
     }
     
     func switchType() {
@@ -105,10 +119,34 @@ extension SearchViewController: UITableViewDataSource {
     
 }
 
+extension SearchViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+}
+
 extension SearchViewController: CLLocationManagerDelegate {
     
 }
 
 extension SearchViewController: MKMapViewDelegate {
+    
+}
+
+extension SearchViewController: ScrollSelectionViewDataSource {
+    
+    func numberOfItems(scrollSelectionView: ScrollSelectionView) -> Int {
+        return 10
+    }
+    
+    func titleForItem(scrollSelectionView: ScrollSelectionView, index: Int) -> String {
+        return "12345"
+    }
+    
+    func colorOfTitleForItem(scrollSelectionView: ScrollSelectionView) -> UIColor {
+        return .STTintColor
+    }
     
 }

@@ -8,12 +8,19 @@
 
 import UIKit
 
-class NotebookTableViewController: UITableViewController {
+class NotebookViewController: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
+        }
+    }
     
     let data = ["Pony", "Kevin", "Nick", "Angel", "Daniel"]
     let data2 = ["Me", "恩～～～～", "我是天才!!!!", "你長大就知道了🚬", "等等就去買電池"]
     
-    weak var delegate: TableViewControllerDelegate?
+    weak var delegate: HomeViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,13 +32,13 @@ class NotebookTableViewController: UITableViewController {
 }
 
 // MARK: - Table view data source
-extension NotebookTableViewController {
+extension NotebookViewController: UITableViewDataSource {
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: AddNotebookTableViewCell.identifer, for: indexPath)
@@ -51,9 +58,9 @@ extension NotebookTableViewController {
 }
 
 // MARK: - Table view delegate
-extension NotebookTableViewController {
+extension NotebookViewController: UITableViewDelegate {
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath) {
@@ -65,7 +72,7 @@ extension NotebookTableViewController {
         
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.tableViewDidScroll(viewController: self, offsetY: scrollView.contentOffset.y)
     }
     

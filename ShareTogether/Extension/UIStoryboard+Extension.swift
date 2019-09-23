@@ -37,7 +37,7 @@ extension UIStoryboard {
     
     static var home: UIStoryboard { return getStoryboard(name: StoryboardCategory.home) }
     
-    static var search: UIStoryboard { return getStoryboard(name: StoryboardCategory.expense) }
+    static var search: UIStoryboard { return getStoryboard(name: StoryboardCategory.search) }
     
     static var expense: UIStoryboard { return getStoryboard(name: StoryboardCategory.expense) }
     

@@ -12,12 +12,19 @@ protocol ScrollSelectionViewDataSource: AnyObject {
     func numberOfItems(scrollSelectionView: ScrollSelectionView) -> Int
     func titleForItem(scrollSelectionView: ScrollSelectionView, index: Int) -> String
     func titleFontForItem(scrollSelectionView: ScrollSelectionView) -> UIFont
+    func colorOfTitleForItem(scrollSelectionView: ScrollSelectionView) -> UIColor
 }
 
 extension ScrollSelectionViewDataSource {
+    
     func titleFontForItem(scrollSelectionView: ScrollSelectionView) -> UIFont {
         return .systemFont(ofSize: 14, weight: .medium)
     }
+    
+    func colorOfTitleForItem(scrollSelectionView: ScrollSelectionView) -> UIColor {
+        return .white
+    }
+    
 }
 
 @objc protocol ScrollSelectionViewDelegate {
@@ -67,6 +74,8 @@ class ScrollSelectionView: UIView {
         self.addSubview(scrollView)
         scrollView.addSubview(stackView)
         
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -85,6 +94,7 @@ class ScrollSelectionView: UIView {
         guard let dataSource = dataSource else { return }
         
         for index in 0..<dataSource.numberOfItems(scrollSelectionView: self) {
+            print(index)
             let button = UIButton()
             button.translatesAutoresizingMaskIntoConstraints = false
             let string = dataSource.titleForItem(scrollSelectionView: self, index: index)
@@ -116,13 +126,13 @@ class ScrollSelectionView: UIView {
         selectIndex = index
         UIView.animate(withDuration: 0.5) { [weak self] in
             
-            guard let strongSelf = self else { return }
+            guard let strongSelf = self, let dataSource = self?.dataSource else { return }
             
             for button in strongSelf.buttons {
-                button.setTitleColor(UIColor.white.withAlphaComponent(0.25), for: .normal)
+                button.setTitleColor(dataSource.colorOfTitleForItem(scrollSelectionView: strongSelf).withAlphaComponent(0.25), for: .normal)
             }
             
-            strongSelf.buttons[index].setTitleColor(.white, for: .normal)
+            strongSelf.buttons[index].setTitleColor(dataSource.colorOfTitleForItem(scrollSelectionView: strongSelf), for: .normal)
             strongSelf.indicator.center.x = strongSelf.buttons[index].center.x
         }
     }

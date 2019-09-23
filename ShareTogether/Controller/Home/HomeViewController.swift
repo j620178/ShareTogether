@@ -17,7 +17,7 @@ class HomeViewController: STBaseViewController {
         case notebook = "記事本"
     }
     
-    let infoItems: [InfoType] = [.expense, .statistics, .result] //, .notebook
+    let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
     
     var currentGroup: GroupInfo? {
         didSet {
@@ -27,13 +27,13 @@ class HomeViewController: STBaseViewController {
         }
     }
     
-    var expenseTableViewController: ExpenseTableViewController?
+    var expenseTableViewController: ExpenseViewController?
     
-    var statisticsTableViewController: StatisticsTableViewController?
+    var statisticsTableViewController: StatisticsViewController?
     
-    var resultTableViewController: ResultTableViewController?
+    var resultTableViewController: ResultViewController?
     
-    var notebookTableViewController: NotebookTableViewController?
+    var notebookTableViewController: NotebookViewController?
     
     var viewModel: HomeViewModel = {
         return HomeViewModel()
@@ -114,15 +114,15 @@ class HomeViewController: STBaseViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let expenseVC = segue.destination as? ExpenseTableViewController {
+        if let expenseVC = segue.destination as? ExpenseViewController {
             expenseVC.delegate = self
             expenseVC.viewModel = viewModel
             expenseTableViewController = expenseVC
-        } else if let statisticsVC = segue.destination as? StatisticsTableViewController {
+        } else if let statisticsVC = segue.destination as? StatisticsViewController {
             statisticsVC.delegate = self
             statisticsVC.viewModel = viewModel
             statisticsTableViewController = statisticsVC
-        } else if let resultVC = segue.destination as? ResultTableViewController {
+        } else if let resultVC = segue.destination as? ResultViewController {
             resultVC.delegate = self
             resultVC.viewModel = viewModel
             resultTableViewController = resultVC
@@ -166,7 +166,7 @@ extension HomeViewController: ScrollSelectionViewDelegate {
     }
 }
 
-extension HomeViewController: TableViewControllerDelegate {
+extension HomeViewController: HomeViewControllerDelegate {
     
     func empty(isEmpty: Bool) {
         if isEmpty {
@@ -176,7 +176,7 @@ extension HomeViewController: TableViewControllerDelegate {
         }
     }
     
-    func tableViewDidScroll(viewController: UITableViewController, offsetY: CGFloat) {
+    func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat) {
         let offset = min(max(offsetY, 0), 65)
     
         groupNameButton.alpha = 1 - (offset / 65)

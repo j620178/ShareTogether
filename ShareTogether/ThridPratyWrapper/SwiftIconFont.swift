@@ -104,7 +104,7 @@ extension UIImage {
     }
     
     static var search: UIImage {
-        return UIImage.getIcon(from: .themify, code: "search", color: nil, size: tabbarIconSize)
+        return UIImage.getIcon(from: .themify, code: "map.alt", color: nil, size: tabbarIconSize)
     }
     
     static var add: UIImage {

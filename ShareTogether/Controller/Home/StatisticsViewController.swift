@@ -8,9 +8,16 @@
 
 import UIKit
 
-class StatisticsTableViewController: UITableViewController {
+class StatisticsViewController: UIViewController {
     
-    weak var delegate: TableViewControllerDelegate?
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            tableView.dataSource = self
+            tableView.delegate = self
+        }
+    }
+    
+    weak var delegate: HomeViewControllerDelegate?
     
     var viewModel: HomeViewModel!
     
@@ -30,13 +37,13 @@ class StatisticsTableViewController: UITableViewController {
 }
 
 // MARK: - Table view data source
-extension StatisticsTableViewController {
+extension StatisticsViewController: UITableViewDataSource {
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsTableViewCell.identifer, for: indexPath)
         
         guard let statisticsCell = cell as? StatisticsTableViewCell else { return cell }
@@ -49,9 +56,9 @@ extension StatisticsTableViewController {
 }
 
 // MARK: - Table view delegate
-extension StatisticsTableViewController {
+extension StatisticsViewController: UITableViewDelegate {
     
-    override func tableView(
+    func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath) {
@@ -63,7 +70,7 @@ extension StatisticsTableViewController {
         
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.tableViewDidScroll(viewController: self, offsetY: scrollView.contentOffset.y)
     }
     

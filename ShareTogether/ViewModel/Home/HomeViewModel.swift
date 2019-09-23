@@ -255,5 +255,6 @@ class HomeViewModel: NSObject {
     func getResultInfo(uid: String) -> Double? {
         return resultInfo[uid]
     }
+    
 
 }

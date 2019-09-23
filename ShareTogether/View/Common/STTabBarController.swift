@@ -103,7 +103,7 @@ class STTabBarController: UITabBarController {
         
         //TuPu
         let lineView = UIView(frame: CGRect(x: 0, y: -1, width: UIScreen.main.bounds.width, height: 1))
-        lineView.backgroundColor = UIColor.white
+        lineView.backgroundColor = UIColor.backgroundLightGray
         tabBar.addSubview(lineView)
         
         delegate = self
@@ -111,7 +111,7 @@ class STTabBarController: UITabBarController {
         viewControllers = tabs.map({ $0.controller() })
         
         tabBar.tintColor = .STDarkGray
-        tabBar.addShadow()
+        //tabBar.addShadow()
         
     }
 }

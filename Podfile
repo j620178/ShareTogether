@@ -18,4 +18,5 @@ target 'ShareTogether' do
   pod 'GoogleSignIn'
   pod 'CodableFirebase'
   pod 'Kingfisher', '~> 5.0'
+  pod 'JGProgressHUD'
 end

@@ -285,9 +285,9 @@ class FirestoreManager {
         
         currentGroupRef?.collection(Collection.Group.expense).addDocument(data: docData) { (error) in
             if let error = error {
-                print("Error writing document: \(error)")
+                completion(Result.failure(error))
             } else {
-                print("Document successfully written!")
+                completion(Result.success("success"))
             }
             
         }

@@ -130,6 +130,7 @@ PODS:
   - gRPC-Core/Interface (1.21.0)
   - GTMSessionFetcher/Core (1.2.2)
   - IQKeyboardManagerSwift (6.4.0)
+  - JGProgressHUD (2.0.3)
   - Kingfisher (5.7.0)
   - leveldb-library (1.20)
   - nanopb (0.3.901):
@@ -151,6 +152,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - GoogleSignIn
   - IQKeyboardManagerSwift
+  - JGProgressHUD
   - Kingfisher (~> 5.0)
   - SwiftIconFont
   - SwiftLint
@@ -178,6 +180,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - JGProgressHUD
     - Kingfisher
     - leveldb-library
     - nanopb
@@ -207,6 +210,7 @@ SPEC CHECKSUMS:
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   IQKeyboardManagerSwift: ed9b04ee0e3067ffba543283462d619f944b05e5
+  JGProgressHUD: 12b20a8f4ffe05258f8635c1ab92816e451f904d
   Kingfisher: c7d211b54f1f30d8060aadab177d52b4349c825b
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
@@ -214,6 +218,6 @@ SPEC CHECKSUMS:
   SwiftIconFont: 2ba18554a77c44948dc35b561b344e3c23834a84
   SwiftLint: 79d48a17c6565dc286c37efb8322c7b450f95c67
 
-PODFILE CHECKSUM: 5a05b55a42236271a81664251ccb12d5027d8c6e
+PODFILE CHECKSUM: 21a5fa74b15159c9d9511472a48b9a86d0decae3
 
 COCOAPODS: 1.7.5

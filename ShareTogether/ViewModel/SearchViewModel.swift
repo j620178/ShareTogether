@@ -43,14 +43,21 @@ class SearchViewModel {
     
     func processData() {
         var annotations = [MKPointAnnotation]()
-        
+        var index = 0
         for expense in expenses {
-            let annotation = MKPointAnnotation()
+            let annotation = STMKPointAnnotation()
+            annotation.title = expense.desc
+            annotation.identifier = "\(index)"
             annotation.coordinate = CLLocationCoordinate2D(latitude: expense.position.latitude, longitude: expense.position.longitude)
             annotations.append(annotation)
+            index += 1
         }
     
         self.annotations = annotations
     }
 
+}
+
+class STMKPointAnnotation: MKPointAnnotation {
+    var identifier: String = ""
 }

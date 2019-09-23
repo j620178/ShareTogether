@@ -78,13 +78,10 @@ class SearchViewController: STBaseViewController {
     }
     
     func setupMap() {
-        locationManager.delegate = self
-        locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         mapView?.delegate = self
-        mapView?.showsUserLocation = true
-        mapView?.userTrackingMode = .follow
+        mapView?.showsUserLocation = false
+        mapView?.userTrackingMode = .none
         
     }
     
@@ -133,6 +130,15 @@ extension SearchViewController: CLLocationManagerDelegate {
 
 extension SearchViewController: MKMapViewDelegate {
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print(view.annotation?.title)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier, for: annotation)
+    annotationView.clusteringIdentifier = "identifier"
+    return annotationView
+    }
 }
 
 extension SearchViewController: ScrollSelectionViewDataSource {

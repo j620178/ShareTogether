@@ -256,5 +256,4 @@ class HomeViewModel: NSObject {
         return resultInfo[uid]
     }
     
-
 }

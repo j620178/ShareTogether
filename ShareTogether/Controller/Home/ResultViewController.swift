@@ -83,7 +83,7 @@ class ResultViewController: UIViewController {
 extension ResultViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(availableMembers.count)
+        viewModel.numberOfSections == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
         return availableMembers.count
     }
     

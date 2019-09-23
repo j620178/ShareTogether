@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c8X-2T-Weq">
-                                <rect key="frame" x="0.0" y="144.5" width="414" height="655.5"/>
+                                <rect key="frame" x="0.0" y="144.5" width="414" height="647.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="l59-vL-sJn">
                                     <size key="itemSize" width="50" height="50"/>
@@ -111,8 +111,14 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="選擇群組" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1jA-p6-4Ib">
+                                <rect key="frame" x="16" y="104" width="109.5" height="32.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TDu-rp-U1D" customClass="TabView" customModule="ShareTogether" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="800" width="414" height="62"/>
+                                <rect key="frame" x="0.0" y="792" width="414" height="104"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AyF-vL-VeX">
                                         <rect key="frame" x="16" y="16" width="30" height="30"/>
@@ -133,25 +139,18 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="LOG-Jr-SsI" secondAttribute="trailing" constant="16" id="5sU-yD-o1E"/>
-                                    <constraint firstItem="AyF-vL-VeX" firstAttribute="centerY" secondItem="TDu-rp-U1D" secondAttribute="centerY" id="BlQ-TP-Xro"/>
                                     <constraint firstItem="AyF-vL-VeX" firstAttribute="top" secondItem="TDu-rp-U1D" secondAttribute="top" constant="16" id="HZo-1I-wrT"/>
                                     <constraint firstItem="LOG-Jr-SsI" firstAttribute="leading" secondItem="AyF-vL-VeX" secondAttribute="trailing" constant="16" id="ds8-jY-29Z"/>
-                                    <constraint firstAttribute="bottom" secondItem="AyF-vL-VeX" secondAttribute="bottom" constant="16" id="iNA-EV-Mio"/>
-                                    <constraint firstAttribute="bottom" secondItem="LOG-Jr-SsI" secondAttribute="bottom" constant="16" id="q5q-We-a1J"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="AyF-vL-VeX" secondAttribute="bottom" constant="16" id="iNA-EV-Mio"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="LOG-Jr-SsI" secondAttribute="bottom" constant="16" id="q5q-We-a1J"/>
                                     <constraint firstItem="AyF-vL-VeX" firstAttribute="leading" secondItem="TDu-rp-U1D" secondAttribute="leading" constant="16" id="sFu-JU-Y7O"/>
                                     <constraint firstItem="LOG-Jr-SsI" firstAttribute="top" secondItem="TDu-rp-U1D" secondAttribute="top" constant="16" id="zpA-WM-6Hk"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="選擇群組" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1jA-p6-4Ib">
-                                <rect key="frame" x="16" y="104" width="109.5" height="32.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="TDu-rp-U1D" firstAttribute="bottom" secondItem="VsE-yC-EYB" secondAttribute="bottom" id="02X-bY-KOK"/>
+                            <constraint firstItem="TDu-rp-U1D" firstAttribute="bottom" secondItem="DgA-0L-238" secondAttribute="bottom" id="02X-bY-KOK"/>
                             <constraint firstItem="1jA-p6-4Ib" firstAttribute="leading" secondItem="VsE-yC-EYB" secondAttribute="leading" constant="16" id="8Ht-mI-Hln"/>
                             <constraint firstItem="TDu-rp-U1D" firstAttribute="top" secondItem="c8X-2T-Weq" secondAttribute="bottom" id="Eas-yr-ezj"/>
                             <constraint firstItem="VsE-yC-EYB" firstAttribute="trailing" secondItem="TDu-rp-U1D" secondAttribute="trailing" id="beh-6y-Ydl"/>

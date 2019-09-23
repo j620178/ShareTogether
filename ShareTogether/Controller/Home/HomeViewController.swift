@@ -44,9 +44,7 @@ class HomeViewController: STBaseViewController {
     @IBOutlet weak var bannerTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var infoTypeSelectionView: ScrollSelectionView!
-    
-    @IBOutlet weak var emptyView: UIView!
-    
+        
     @IBOutlet weak var groupNameButton: UIButton! {
         didSet {
             groupNameButton.setImage(
@@ -136,8 +134,6 @@ class HomeViewController: STBaseViewController {
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        emptyView.alpha = 0
-        
         let screenPage = Int(scrollView.contentOffset.x / UIScreen.main.bounds.width)
         
         if screenPage > infoTypeSelectionView.selectIndex {
@@ -145,6 +141,7 @@ extension HomeViewController: UIScrollViewDelegate {
         } else if screenPage < infoTypeSelectionView.selectIndex {
             infoTypeSelectionView.switchIndicatorAt(index: screenPage)
         }
+        
     }
 }
 
@@ -167,14 +164,6 @@ extension HomeViewController: ScrollSelectionViewDelegate {
 }
 
 extension HomeViewController: HomeViewControllerDelegate {
-    
-    func empty(isEmpty: Bool) {
-        if isEmpty {
-            emptyView.alpha = 1
-        } else {
-            emptyView.alpha = 0
-        }
-    }
     
     func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat) {
         let offset = min(max(offsetY, 0), 65)

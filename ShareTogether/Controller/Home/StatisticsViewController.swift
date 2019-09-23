@@ -40,6 +40,7 @@ class StatisticsViewController: UIViewController {
 extension StatisticsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.numberOfSections == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
         return 1
     }
     

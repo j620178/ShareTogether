@@ -35,6 +35,7 @@ class NotebookViewController: UIViewController {
 extension NotebookViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        data.count == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
         return data.count
     }
     

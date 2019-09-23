@@ -86,6 +86,8 @@ class AddExpenseViewController: STBaseViewController {
     }
     
     @IBAction func clickAddButton(_ sender: UIButton) {
+        sender.isEnabled = false
+        LKProgressHUD.show()
         
         guard let uid = AuthManager.shared.uid,
             let amountText = expenseController.expenseInfo[0],
@@ -108,14 +110,13 @@ class AddExpenseViewController: STBaseViewController {
             switch result {
 
             case .success:
-                print("success")
+                sender.isEnabled = true
+                LKProgressHUD.showSuccess(text: "STYLiSH 登入成功")
+                self.dismiss(animated: true, completion: nil)
             case .failure(let error):
-                print(error)
+                LKProgressHUD.showFailure(text: error.localizedDescription)
             }
         }
-
-        dismiss(animated: true, completion: nil)
-
     }
     
     override func viewDidLoad() {

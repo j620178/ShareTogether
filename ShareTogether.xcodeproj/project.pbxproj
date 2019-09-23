@@ -104,6 +104,8 @@
 		74D0052B23324B5F0079D68E /* PayDateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0052A23324B5F0079D68E /* PayDateController.swift */; };
 		74D611D0231CEF7600A301E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74D611CF231CEF7600A301E9 /* Main.storyboard */; };
 		74D611D3231D008D00A301E9 /* SwiftIconFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D611D2231D008D00A301E9 /* SwiftIconFont.swift */; };
+		74F92B952338CF7000FD7DE2 /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */; };
+		74F92B9923396C3F00FD7DE2 /* EmptyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F92B9823396C3F00FD7DE2 /* EmptyInfoView.swift */; };
 		EDC6CC7D8B7BE0C2AC75B3D9 /* Pods_ShareTogether.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E018E2029FD73E0459A7E1 /* Pods_ShareTogether.framework */; };
 /* End PBXBuildFile section */
 
@@ -210,6 +212,8 @@
 		74D0052A23324B5F0079D68E /* PayDateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDateController.swift; sourceTree = "<group>"; };
 		74D611CF231CEF7600A301E9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		74D611D2231D008D00A301E9 /* SwiftIconFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftIconFont.swift; sourceTree = "<group>"; };
+		74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
+		74F92B9823396C3F00FD7DE2 /* EmptyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyInfoView.swift; sourceTree = "<group>"; };
 		E0E018E2029FD73E0459A7E1 /* Pods_ShareTogether.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareTogether.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -395,12 +399,12 @@
 		74B5C4BE231DE37700EB916D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				74BAAEA22328FA8B008623FF /* Home */,
 				742468BF2338424600528202 /* Search */,
 				747B6EDD2335987E000FE48B /* Activity */,
 				74D0051F233237E30079D68E /* Group */,
 				74D0051E233237C00079D68E /* Setting */,
 				74D0051D2332378B0079D68E /* AddExpense */,
-				74BAAEA22328FA8B008623FF /* Home */,
 				744C9C332328F9AD00661252 /* Login */,
 			);
 			path = Controller;
@@ -411,6 +415,7 @@
 			children = (
 				74B5C4E1231DE48E00EB916D /* STTabBarController.swift */,
 				74B5C4F0231E7BB400EB916D /* STNavigationController.swift */,
+				74F92B9823396C3F00FD7DE2 /* EmptyInfoView.swift */,
 				74B5C4EB231E044800EB916D /* STBaseViewController.swift */,
 				74B5C4E3231DE48F00EB916D /* ScrollSelectionView.swift */,
 				74BA2AE22326517E0010799E /* SelectionView.swift */,
@@ -522,6 +527,7 @@
 			children = (
 				74D611D2231D008D00A301E9 /* SwiftIconFont.swift */,
 				747AE9A6232E3C50007D855B /* Kingfisher.swift */,
+				74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */,
 			);
 			path = ThridPratyWrapper;
 			sourceTree = "<group>";
@@ -729,6 +735,7 @@
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
 				74BA2AE32326517E0010799E /* SelectionView.swift in Sources */,
 				742468C12338425800528202 /* SearchViewController.swift in Sources */,
+				74F92B9923396C3F00FD7DE2 /* EmptyInfoView.swift in Sources */,
 				74960EA323150834006BF12C /* AppDelegate.swift in Sources */,
 				745CACC423169E530055A60C /* ExpenseViewModel.swift in Sources */,
 				74B5C4DA231DE48800EB916D /* ExpenseTableViewCell.swift in Sources */,
@@ -767,6 +774,7 @@
 				74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */,
 				74B5C4E6231DE48F00EB916D /* ScrollSelectionView.swift in Sources */,
 				745CACC2231672810055A60C /* UITableView+Extension.swift in Sources */,
+				74F92B952338CF7000FD7DE2 /* JGProgressHUDWrapper.swift in Sources */,
 				74BA2AE12325D58A0010799E /* CalculatorViewController.swift in Sources */,
 				745CC9862321164E00426D1A /* Direction.swift in Sources */,
 				745CC983232106C200426D1A /* ActivityTableViewCell.swift in Sources */,

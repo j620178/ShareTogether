@@ -10,7 +10,6 @@ import UIKit
 
 protocol HomeViewControllerDelegate: AnyObject {
     func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat)
-    func empty(isEmpty: Bool)
 }
 
 class ExpenseViewController: UIViewController {
@@ -34,8 +33,8 @@ class ExpenseViewController: UIViewController {
         tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
         tableView.register(ExpenseFooterView.self,
                            forHeaderFooterViewReuseIdentifier: ExpenseFooterView.reuseIdentifier)
-        // .old,, .prior
-        observation = viewModel.observe(\.cellViewModels, options: [.initial, .new]) { (child, change) in
+
+        observation = viewModel.observe(\.cellViewModels, options: [.initial, .new]) { (_, _) in
             self.tableView.reloadData()
         }
         
@@ -49,7 +48,7 @@ class ExpenseViewController: UIViewController {
 extension ExpenseViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.numberOfSections == 0 ? delegate?.empty(isEmpty: true) : delegate?.empty(isEmpty: false) 
+        viewModel.numberOfSections == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
         return viewModel.numberOfSections
     }
 

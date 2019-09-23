@@ -27,8 +27,8 @@ class ExpenseTableViewController: UITableViewController {
         tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
         tableView.register(ExpenseFooterView.self,
                            forHeaderFooterViewReuseIdentifier: ExpenseFooterView.reuseIdentifier)
-        
-        observation = viewModel.observe(\.cellViewModels, options: [.initial, .old, .new, .prior]) { (child, change) in
+        // .old,, .prior
+        observation = viewModel.observe(\.cellViewModels, options: [.initial, .new]) { (child, change) in
             self.tableView.reloadData()
         }
         

@@ -28,7 +28,7 @@ private enum Tab {
             
         case .home: controller = UIStoryboard.home.instantiateInitialViewController()!
             
-        case .search: controller = UIStoryboard.activity.instantiateInitialViewController()!
+        case .search: controller = UIStoryboard.search.instantiateInitialViewController()!
 
         case .expense: controller = UIStoryboard.expense.instantiateInitialViewController()!
             
@@ -92,7 +92,7 @@ private enum Tab {
 
 class STTabBarController: UITabBarController {
     
-    private let tabs: [Tab] = [.home, .search, .expense, .activity, .setting]
+    private let tabs: [Tab] = [.home, .expense, .activity, .setting] //, .search
 
     override func viewDidLoad() {
         super.viewDidLoad()

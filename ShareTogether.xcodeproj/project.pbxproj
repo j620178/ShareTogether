@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E2B95232E361700350F42 /* GroupListViewModel.swift */; };
+		742468BE2338422D00528202 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742468BD2338422D00528202 /* Search.storyboard */; };
+		742468C12338425800528202 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742468C02338425800528202 /* SearchViewController.swift */; };
 		742E5F4E23304E8E001EDF54 /* AddGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */; };
 		742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4F23306373001EDF54 /* MemberStatusType.swift */; };
 		742E5F522331A6EA001EDF54 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F512331A6EA001EDF54 /* AlertManager.swift */; };
@@ -108,6 +110,8 @@
 		35E2FFF816BE8EA55FE2021B /* Pods-ShareTogether.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.debug.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.debug.xcconfig"; sourceTree = "<group>"; };
 		6EE45046B2151DE911C1D99A /* Pods-ShareTogether.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.release.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.release.xcconfig"; sourceTree = "<group>"; };
 		741E2B95232E361700350F42 /* GroupListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupListViewModel.swift; path = ../Model/GroupListViewModel.swift; sourceTree = "<group>"; };
+		742468BD2338422D00528202 /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
+		742468C02338425800528202 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupViewModel.swift; sourceTree = "<group>"; };
 		742E5F4F23306373001EDF54 /* MemberStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStatusType.swift; sourceTree = "<group>"; };
 		742E5F512331A6EA001EDF54 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AlertManager.swift; path = ../Extension/AlertManager.swift; sourceTree = "<group>"; };
@@ -227,6 +231,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		742468BF2338424600528202 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				742468C02338425800528202 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		742E5F4C23302CF8001EDF54 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +248,7 @@
 				743F4E61232F3FA3009BA6BA /* Menu.storyboard */,
 				748A84F52319216B00EE00A0 /* Expense.storyboard */,
 				747AB9042324D38C00007A32 /* Login.storyboard */,
+				742468BD2338422D00528202 /* Search.storyboard */,
 				74B5C4E7231DED8400EB916D /* Activity.storyboard */,
 				74960EAB23150838006BF12C /* LaunchScreen.storyboard */,
 			);
@@ -377,6 +390,7 @@
 		74B5C4BE231DE37700EB916D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				742468BF2338424600528202 /* Search */,
 				747B6EDD2335987E000FE48B /* Activity */,
 				74D0051F233237E30079D68E /* Group */,
 				74D0051E233237C00079D68E /* Setting */,
@@ -599,6 +613,7 @@
 				74960EA823150834006BF12C /* Home.storyboard in Resources */,
 				748701BE231C926600D5437E /* Group.storyboard in Resources */,
 				74975EB42327764A008FC7B0 /* GoogleService-Info.plist in Resources */,
+				742468BE2338422D00528202 /* Search.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -707,6 +722,7 @@
 				745CC990232249CE00426D1A /* Animatable.swift in Sources */,
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
 				74BA2AE32326517E0010799E /* SelectionView.swift in Sources */,
+				742468C12338425800528202 /* SearchViewController.swift in Sources */,
 				74960EA323150834006BF12C /* AppDelegate.swift in Sources */,
 				745CACC423169E530055A60C /* ExpenseViewModel.swift in Sources */,
 				74B5C4DA231DE48800EB916D /* ExpenseTableViewCell.swift in Sources */,

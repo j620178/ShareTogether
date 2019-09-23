@@ -118,7 +118,6 @@ class HomeViewModel: NSObject {
         
         self.cellViewModels = viewModels
         
-        createResultInfo()
     }
     
     func getStatisticsgetCellViewModel() -> StatisticsCellViewModel? {

@@ -21,7 +21,7 @@ class StatisticsTableViewController: UITableViewController {
 
         tableView.registerWithNib(indentifer: StatisticsTableViewCell.identifer)
         
-        observation = viewModel.observe(\.cellViewModels, options: [.initial, .old, .new, .prior]) { (child, change) in
+        observation = viewModel.observe(\.cellViewModels, options: [.initial, .new]) { (child, change) in
             self.tableView.reloadData()
         }
         

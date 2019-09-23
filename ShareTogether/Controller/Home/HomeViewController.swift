@@ -126,10 +126,10 @@ class HomeViewController: STBaseViewController {
             resultVC.delegate = self
             resultVC.viewModel = viewModel
             resultTableViewController = resultVC
-        } else if let notebookVC = segue.destination as? NotebookTableViewController {
-            notebookVC.delegate = self
-            notebookTableViewController = notebookVC
-        }
+        } //else if let notebookVC = segue.destination as? NotebookTableViewController {
+//            notebookVC.delegate = self
+//            notebookTableViewController = notebookVC
+//        }
     }
 }
 

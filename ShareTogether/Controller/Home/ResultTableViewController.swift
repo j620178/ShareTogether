@@ -37,43 +37,46 @@ class ResultTableViewController: UITableViewController {
         
         tableView.registerWithNib(indentifer: ResultTableViewCell.identifer)
         
-        observation = viewModel.observe(\.cellViewModels, options: [.initial, .old, .new, .prior]) { (child, change) in
-            self.tableView.reloadData()
-        }
+        fetchMember()
         
-        func fetchMember() {
-            FirestoreManager.shared.getMembers { [weak self] result in
-                switch result {
-                    
-                case .success(var members):
-                    var index = 0
-                    for member in members {
-                        
-                        if member.id == UserInfoManager.shaered.currentUserInfo?.id {
-                            members.remove(at: index)
-                            self?.members = members
-                            break
-                        }
-                        
-                        index += 1
-
-                    }
-
-                case .failure:
-                    print("error")
-                }
-            }
-            
+        observation = viewModel.observe(\.cellViewModels, options: [.initial, .old, .new, .prior]) { [weak self] (child, change) in
+            self?.viewModel.createResultInfo()
+            self?.tableView.reloadData()
         }
         
     }
 
+    func fetchMember() {
+        FirestoreManager.shared.getMembers { [weak self] result in
+            switch result {
+                
+            case .success(var members):
+                var index = 0
+                for member in members {
+                    
+                    if member.id == UserInfoManager.shaered.currentUserInfo?.id {
+                        members.remove(at: index)
+                        self?.members = members
+                        break
+                    }
+                    
+                    index += 1
+
+                }
+
+            case .failure:
+                print("error")
+            }
+        }
+        
+    }
 }
 
 // MARK: - Table view data source
 extension ResultTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(availableMembers.count)
         return availableMembers.count
     }
     

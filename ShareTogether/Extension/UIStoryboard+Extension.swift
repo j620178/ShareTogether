@@ -17,6 +17,8 @@ private struct StoryboardCategory {
     
     static let home = "Home"
     
+    static let search = "Search"
+    
     static let expense = "Expense"
     
     static let group = "Group"
@@ -34,6 +36,8 @@ extension UIStoryboard {
     static var login: UIStoryboard { return getStoryboard(name: StoryboardCategory.login) }
     
     static var home: UIStoryboard { return getStoryboard(name: StoryboardCategory.home) }
+    
+    static var search: UIStoryboard { return getStoryboard(name: StoryboardCategory.expense) }
     
     static var expense: UIStoryboard { return getStoryboard(name: StoryboardCategory.expense) }
     

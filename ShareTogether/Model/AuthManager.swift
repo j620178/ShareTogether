@@ -23,17 +23,17 @@ class AuthManager: NSObject {
     
     var googleSignInHandler: ((Result<UserInfo, Error>) -> Void)?
     
-    var uid: String? {
-        return Auth.auth().currentUser?.uid
-    }
-    
-    var isSignIn: Bool {
-        if Auth.auth().currentUser != nil {
-            return true
-        } else {
-            return false
-        }
-    }
+//    var uid: String? {
+//        return Auth.auth().currentUser?.uid
+//    }
+//    
+//    var isSignIn: Bool {
+//        if Auth.auth().currentUser != nil {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
         
     func createNewUser(email: String, password: String, completion: @escaping (String?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
@@ -78,14 +78,14 @@ class AuthManager: NSObject {
                     let name = user.user.displayName,
                     let email = user.user.email,
                     let photoURL = user.user.photoURL
-                    else { return }
+                else { return }
                 
                 let userInfo = UserInfo(id: user.user.uid,
                                         name: name,
                                         email: email,
                                         phone: nil,
                                         photoURL: "\(photoURL)",
-                    groups: nil)
+                                        groups: nil)
                 
                 completion(Result.success(userInfo))
             })

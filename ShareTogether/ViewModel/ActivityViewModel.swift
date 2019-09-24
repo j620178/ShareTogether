@@ -81,8 +81,9 @@ class ActivityViewModel {
             case .success:
                 guard let strongSelf = self else { return }
                 
-                FirestoreManager.shared.updateMemberStatus(memberInfo:
-                strongSelf.activities[indexPath.row].targetMember, status: .joined) { result in
+                FirestoreManager.shared.updateMemberStatus(groupID: groupInfo.id,
+                                                           memberInfo: strongSelf.activities[indexPath.row].targetMember,
+                                                           status: .joined) { result in
                     switch result {
                         
                     case .success:
@@ -91,8 +92,8 @@ class ActivityViewModel {
                     }
                 }
                 
-                FirestoreManager.shared.deleteActivity(uid: strongSelf.activities[indexPath.row].targetMember.id,
-                                                       id: strongSelf.activities[indexPath.row].id)
+                //FirestoreManager.shared.deleteActivity(uid: strongSelf.activities[indexPath.row].targetMember.id,
+                                                       //id: strongSelf.activities[indexPath.row].id)
                 
             case .failure:
                 print("failure")

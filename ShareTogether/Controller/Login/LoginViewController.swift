@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AuthenticationServices
 
 class LoginViewController: STBaseViewController {
     
@@ -23,6 +24,8 @@ class LoginViewController: STBaseViewController {
     @IBOutlet weak var facebookLoginButton: UIButton!
     
     @IBOutlet weak var signUpButton: UIButton!
+    
+    @IBOutlet weak var appleSignInButton: ASAuthorizationAppleIDButton!
     
     @IBAction func clickLoginButton(_ sender: UIButton) {
         
@@ -42,6 +45,89 @@ class LoginViewController: STBaseViewController {
             
         }
         
+    }
+
+    @objc func clickAppleSignInButton() {
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        
+        controller.performRequests()
+    }
+    
+    @IBAction func clickOAuthLogin(_ sender: UIButton) {
+        
+        if sender.tag == 1 {
+            
+            AuthManager.shared.googleSignIn(viewContorller: self) { [weak self] result in
+                switch result {
+                case .success(let userInfo):
+                    self?.checkUserGroup(authUserInfo: userInfo)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            
+        } else if sender.tag == 2 {
+            
+            AuthManager.shared.facebookSignIn(viewContorller: self) { [weak self] result in
+                switch result {
+                case .success(let userInfo):
+                    self?.checkUserGroup(authUserInfo: userInfo)
+                case .failure(let error):
+                    print(error)
+                }
+
+            }
+            
+        }
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupBase()
+        
+        appleSignInButton.addTarget(self, action: #selector(clickAppleSignInButton), for: .touchUpInside)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        emailTextField.layer.cornerRadius = emailTextField.frame.height / 4
+        passwordTextField.layer.cornerRadius = passwordTextField.frame.height / 4
+        
+        loginButton.layer.cornerRadius = loginButton.frame.height / 4
+        googleLoginButton.layer.cornerRadius = googleLoginButton.frame.height / 4
+        facebookLoginButton.layer.cornerRadius = facebookLoginButton.frame.height / 4
+        signUpButton.layer.cornerRadius = signUpButton.frame.height / 4
+        appleSignInButton.cornerRadius = appleSignInButton.frame.height / 4
+    }
+    
+    func setupBase() {
+        emailTextField.addLeftSpace()
+        emailTextField.textColor = .STDarkGray
+        passwordTextField.addLeftSpace()
+        passwordTextField.textColor = .STDarkGray
+        
+        loginButton.backgroundColor = .STTintColor
+        loginButton.setTitleColor(.white, for: .normal)
+        
+        googleLoginButton.setImage(.getIcon(code: "logo-google", color: .STTintColor, size: 20), for: .normal)
+        googleLoginButton.layer.borderColor = UIColor.STTintColor.cgColor
+        googleLoginButton.layer.borderWidth = 1.0
+        
+        facebookLoginButton.setImage(.getIcon(code: "logo-facebook", color: .STTintColor, size: 20), for: .normal)
+        facebookLoginButton.layer.borderColor = UIColor.STTintColor.cgColor
+        facebookLoginButton.layer.borderWidth = 1.0
+        
+        signUpButton.setTitleColor(.STDarkGray, for: .normal)
     }
     
     func checkUserGroup(authUserInfo: UserInfo) {
@@ -102,77 +188,43 @@ class LoginViewController: STBaseViewController {
             present(nextVC, animated: true, completion: nil)
         }
     }
-    
-    @IBAction func clickOAuthLogin(_ sender: UIButton) {
-        
-        if sender.tag == 1 {
-            
-            AuthManager.shared.googleSignIn(viewContorller: self) { [weak self] result in
-                switch result {
-                case .success(let userInfo):
-                    self?.checkUserGroup(authUserInfo: userInfo)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            
-        } else if sender.tag == 2 {
-            
-            AuthManager.shared.facebookSignIn(viewContorller: self) { [weak self] result in
-                switch result {
-                case .success(let userInfo):
-                    self?.checkUserGroup(authUserInfo: userInfo)
-                case .failure(let error):
-                    print(error)
-                }
 
-            }
-            
-        }
-        
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupBase()
-    }
-    
-    func setupBase() {
-        emailTextField.addLeftSpace()
-        emailTextField.textColor = .STDarkGray
-        passwordTextField.addLeftSpace()
-        passwordTextField.textColor = .STDarkGray
-        
-        loginButton.backgroundColor = .STTintColor
-        loginButton.setTitleColor(.white, for: .normal)
-        
-        googleLoginButton.setImage(.getIcon(code: "logo-google", color: .STTintColor, size: 20), for: .normal)
-        googleLoginButton.layer.borderColor = UIColor.STTintColor.cgColor
-        googleLoginButton.layer.borderWidth = 1.0
-        
-        facebookLoginButton.setImage(.getIcon(code: "logo-facebook", color: .STTintColor, size: 20), for: .normal)
-        facebookLoginButton.layer.borderColor = UIColor.STTintColor.cgColor
-        facebookLoginButton.layer.borderWidth = 1.0
-        
-        signUpButton.setTitleColor(.STDarkGray, for: .normal)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        emailTextField.layer.cornerRadius = emailTextField.frame.height / 4
-        passwordTextField.layer.cornerRadius = passwordTextField.frame.height / 4
-        
-        loginButton.layer.cornerRadius = loginButton.frame.height / 4
-        googleLoginButton.layer.cornerRadius = googleLoginButton.frame.height / 4
-        facebookLoginButton.layer.cornerRadius = facebookLoginButton.frame.height / 4
-        signUpButton.layer.cornerRadius = signUpButton.frame.height / 4
+}
 
+extension LoginViewController: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+        
+        let credentialUser = CredentialUser(credentials: credentials)
+        
+        let userInfo = UserInfo(id: credentialUser.id,
+                                name: credentialUser.lastName + credentialUser.firstName,
+                                email: credentialUser.email,
+                                phone: nil, photoURL: "",
+                                groups: nil)
+        checkUserGroup(authUserInfo: userInfo)
     }
+}
+
+extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
+
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return view.window!
+    }
+
+}
+
+struct CredentialUser {
+    let id: String
+    let firstName: String
+    let lastName: String
+    let email: String
     
-    deinit {
-        print("LoginViewController - deinit")
+    init(credentials: ASAuthorizationAppleIDCredential) {
+        self.id = credentials.user
+        self.firstName = credentials.fullName?.givenName ?? ""
+        self.lastName = credentials.fullName?.familyName ?? ""
+        self.email = credentials.email ?? ""
     }
 
 }

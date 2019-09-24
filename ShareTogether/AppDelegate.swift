@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window!.tintColor = .STTintColor
         
-        if AuthManager.shared.isSignIn {
+        if UserInfoManager.shaered.currentUserInfo != nil {
             self.window?.rootViewController = UIStoryboard.main.instantiateInitialViewController()!
         } else {
             self.window?.rootViewController = UIStoryboard.login.instantiateInitialViewController()!

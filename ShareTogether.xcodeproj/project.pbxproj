@@ -401,10 +401,10 @@
 			children = (
 				74BAAEA22328FA8B008623FF /* Home */,
 				742468BF2338424600528202 /* Search */,
+				74D0051D2332378B0079D68E /* AddExpense */,
 				747B6EDD2335987E000FE48B /* Activity */,
 				74D0051F233237E30079D68E /* Group */,
 				74D0051E233237C00079D68E /* Setting */,
-				74D0051D2332378B0079D68E /* AddExpense */,
 				744C9C332328F9AD00661252 /* Login */,
 			);
 			path = Controller;
@@ -939,7 +939,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2NZHQL2FPV;
 				INFOPLIST_FILE = ShareTogether/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -960,7 +960,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2NZHQL2FPV;
 				INFOPLIST_FILE = ShareTogether/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

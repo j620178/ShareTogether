@@ -205,8 +205,8 @@ class GroupViewController: STBaseViewController {
 
     @objc func addGroup(_ sender: UIButton) {
         
-        guard let text = textField.text, text != "" else { return }
-            
+        guard let text = textField.text, text != "", coverImageView.image != nil else { return }
+        
         StorageManager.shared.uploadImage(image: coverImageView.image!) { [weak self] urlString in
             
             guard let strongSelf = self else { return }

@@ -87,9 +87,8 @@ class AddExpenseViewController: STBaseViewController {
     
     @IBAction func clickAddButton(_ sender: UIButton) {
         sender.isEnabled = false
-        LKProgressHUD.show()
         
-        guard let uid = AuthManager.shared.uid,
+        guard let uid = UserInfoManager.shaered.currentUserInfo?.id,
             let amountText = expenseController.expenseInfo[0],
             let amount = Double(amountText),
             let desc = expenseController.expenseInfo[1],
@@ -111,7 +110,7 @@ class AddExpenseViewController: STBaseViewController {
 
             case .success:
                 sender.isEnabled = true
-                LKProgressHUD.showSuccess(text: "STYLiSH 登入成功")
+                LKProgressHUD.showSuccess()
                 self.dismiss(animated: true, completion: nil)
             case .failure(let error):
                 LKProgressHUD.showFailure(text: error.localizedDescription)
@@ -193,7 +192,11 @@ class AddExpenseViewController: STBaseViewController {
             switch result {
                 
             case .success(var members):
+                
+                self?.members = [MemberInfo]()
+                
                 var index = 0
+                
                 for member in members {
                     
                     if member.id == UserInfoManager.shaered.currentUserInfo?.id {
@@ -231,7 +234,6 @@ class AddExpenseViewController: STBaseViewController {
         mapView.userTrackingMode = .follow
         
         annotation.title = "Test"
-
         
     }
     

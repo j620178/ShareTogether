@@ -22,7 +22,7 @@ enum MemberStatusType: Int {
         case .builder:
             return "建立者"
         case .willInvite:
-            return "將邀請"
+            return "即將邀請"
         case .inviting:
             return "邀請中"
         case .joined:

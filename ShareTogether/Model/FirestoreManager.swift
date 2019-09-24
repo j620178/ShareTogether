@@ -144,7 +144,7 @@ class FirestoreManager {
     }
     
     var currentUid: String? {
-        return AuthManager.shared.uid
+        return UserInfoManager.shaered.currentUserInfo?.id
     }
     
     var currentGroupRef: DocumentReference? {
@@ -161,27 +161,27 @@ class FirestoreManager {
         
         guard let docData = try? FirestoreEncoder().encode(userInfo) else { return }
 
-        firestore.collection(Collection.user).document(userInfo.id).setData(docData) { (error) in
+        firestore.collection(Collection.user).document(userInfo.id).setData(docData) { error in
             
             if error != nil {
                 completion(Result.failure(FirestoreError.insertFailed))
                 return
             }
-            
-            FirestoreManager.shared.joinDemoGroup(completion: { result in
-                switch result {
-                case .success(var demoGroup):
                     
-                    UserInfoManager.shaered.setCurrentGroupInfo(demoGroup)
-                    demoGroup.status = MemberStatusType.joined.rawValue
-                    completion(Result.success(demoGroup))
-                    
-                case .failure:
-                    completion(Result.failure(FirestoreError.joinDemoGroupFailed))
-                }
-            })
-            
         }
+        
+        FirestoreManager.shared.joinDemoGroup(uid: userInfo.id, completion: { result in
+            switch result {
+            case .success(var demoGroup):
+                
+                UserInfoManager.shaered.setCurrentGroupInfo(demoGroup)
+                demoGroup.status = MemberStatusType.joined.rawValue
+                completion(Result.success(demoGroup))
+                
+            case .failure:
+                completion(Result.failure(FirestoreError.joinDemoGroupFailed))
+            }
+        })
     }
     
     func getUserInfo(completion: @escaping (Result<UserInfo?, Error>) -> Void) {
@@ -208,6 +208,8 @@ class FirestoreManager {
             }
             
         }
+        
+        completion(Result.success(nil))
     }
     
     func getUserGroups(completion: @escaping ([GroupInfo]) -> Void) {
@@ -276,6 +278,8 @@ class FirestoreManager {
             completion(Result.success(members))
             
         }
+        
+        completion(Result.success([MemberInfo]()))
     }
     
     func addExpense(expense: Expense,
@@ -327,10 +331,6 @@ class FirestoreManager {
         
     }
     
-    func inviteUser(userInfo: UserInfo) {
-        
-    }
-    
     func addGroup(groupInfo: GroupInfo, members: [MemberInfo], completion: @escaping (Result<String, Error>) -> Void) {
         
         var reference: DocumentReference?
@@ -344,15 +344,16 @@ class FirestoreManager {
             
             guard let groupID = reference?.documentID else { return }
             
+            let group = GroupInfo(id: groupID, name: groupInfo.name, coverURL: groupInfo.coverURL, status: 3)
+            
             for member in members {
                 var newMember = member
                 if newMember.status == MemberStatusType.willInvite.rawValue {
                     newMember.status = MemberStatusType.inviting.rawValue
                 }
-                self?.addMember(groupID: groupID, memberInfo: newMember)
+                
+                self?.addMember(group: group, memberInfo: newMember, isBuilder: newMember.status == MemberStatusType.builder.rawValue)
             }
-            
-            let group = GroupInfo(id: groupID, name: groupInfo.name, coverURL: groupInfo.coverURL, status: 3)
             
             self?.joinGroup(group: group, completion: { _ in
                 completion(Result.success(groupID))
@@ -362,49 +363,52 @@ class FirestoreManager {
         
     }
 
-    func addMember(groupID: String? = UserInfoManager.shaered.currentGroupInfo?.id, memberInfo: MemberInfo) {
+    func addMember(group: GroupInfo? = UserInfoManager.shaered.currentGroupInfo, memberInfo: MemberInfo, isBuilder: Bool = false) {
         
-        guard let groupID = groupID,
+        guard let group = group,
             let docData = try? FirestoreEncoder().encode(memberInfo),
-            let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
-            let currentGroupInfo = UserInfoManager.shaered.currentGroupInfo
+            let currentUserInfo = UserInfoManager.shaered.currentUserInfo
         else { return }
-        firestore.collection(Collection.group).document(groupID).collection(Collection.Group.member).document(memberInfo.id).setData(docData)
+        firestore.collection(Collection.group).document(group.id).collection(Collection.Group.member).document(memberInfo.id).setData(docData)
             
-        addActivity(type: ActivityType.addMember.rawValue,
-                    targetMember: memberInfo,
-                    pushUser: currentUserInfo,
-                    groupInfo: currentGroupInfo,
-                    amount: nil)
+        if !isBuilder {
+            addActivity(type: ActivityType.addMember.rawValue,
+                        targetMember: memberInfo,
+                        pushUser: currentUserInfo,
+                        groupInfo: group,
+                        amount: nil)
+        }
 
     }
     
-    func updateMemberStatus(memberInfo: MemberInfo, status: MemberStatusType, completion: @escaping (Result<Int, Error>) -> Void) {
+    func updateMemberStatus(groupID: String? = FirestoreManager.shared.currentGroupID, memberInfo: MemberInfo, status: MemberStatusType, completion: @escaping (Result<Int, Error>) -> Void) {
         
         let data = ["status": status.rawValue]
         
-        currentGroupRef?.collection(Collection.Group.member).document(memberInfo.id).updateData(data) { error in
+        guard let groupID = groupID else { return }
+        
+        firestore.collection(Collection.group).document(groupID).collection(Collection.Group.member).document(memberInfo.id).updateData(data) { error in
+            
             if error != nil {
                 print("Error updating document: \(error!)")
             }
             
             print("Document successfully updated")
-            
-            if status != .inviting {
-                self.updateUserGroupStatus(uid: memberInfo.id, status: status, completion: { _ in
-                    
-                    guard let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
-                        let currentGroupInfo = UserInfoManager.shaered.currentGroupInfo
-                    else { return }
-                    
-                    self.addActivity(type: ActivityType.addMember.rawValue,
-                                     targetMember: memberInfo,
-                                     pushUser: currentUserInfo,
-                                     groupInfo: currentGroupInfo,
-                                     amount: nil)
-                })
-            }
-            
+        }
+        
+        if status != .inviting {
+            self.updateUserGroupStatus(uid: memberInfo.id, status: status, completion: { _ in
+                
+//                guard let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
+//                    let currentGroupInfo = UserInfoManager.shaered.currentGroupInfo
+//                else { return }
+                
+//                self.addActivity(type: ActivityType.addMember.rawValue,
+//                                 targetMember: memberInfo,
+//                                 pushUser: currentUserInfo,
+//                                 groupInfo: currentGroupInfo,
+//                                 amount: nil)
+            })
         }
         
     }
@@ -430,12 +434,11 @@ class FirestoreManager {
                 completion(Result.failure(FirestoreError.insertFailed))
                 return
             }
-            
-            completion(Result.success(groupID))
         }
+        completion(Result.success(groupID))
     }
     
-    func joinDemoGroup(completion: @escaping (Result<GroupInfo, Error>) -> Void) {
+    func joinDemoGroup(uid: String, completion: @escaping (Result<GroupInfo, Error>) -> Void) {
         guard let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String,
             let demoGroupCoverURL = Bundle.main.object(forInfoDictionaryKey: "DemoGroupCoverURL") as? String
         else {
@@ -450,7 +453,7 @@ class FirestoreManager {
 
         guard let docData = try? FirestoreEncoder().encode(demoGroup) else { return }
     
-        currentUserRef?.collection(Collection.User.groups).document(demoGroupID).setData(docData) { error in
+        firestore.collection(Collection.user).document(uid).collection(Collection.User.groups).document(demoGroupID).setData(docData) { error in
              
             if error != nil {
                 completion(Result.failure(FirestoreError.insertFailed))

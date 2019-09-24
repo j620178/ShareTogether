@@ -32,7 +32,7 @@ class PayerController: NSObject, AddExpenseItem {
 
     func initPayInfo() {
         
-        if payInfo == nil {
+        if payInfo == nil, members.count > 0 {
             payInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
             var index = 0
             for member in members {
@@ -43,10 +43,12 @@ class PayerController: NSObject, AddExpenseItem {
                 }
                 index += 1
             }
+        } else if payInfo == nil, members.count == 0 {
+            payInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
+            guard let userInfo = UserInfoManager.shaered.currentUserInfo else { return }
+            payInfo?.amountDesc.append(AmountDesc(member: MemberInfo(userInfo: userInfo, status: 1), value: 1))
         } else {
-            
-            //guard let spliteInfo = spliteInfo else { return }
-            
+            //Todo
         }
         
     }

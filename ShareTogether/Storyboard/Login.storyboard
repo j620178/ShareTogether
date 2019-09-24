@@ -62,7 +62,7 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="或" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BI2-he-9yr">
                                 <rect key="frame" x="142" y="315.5" width="36" height="18"/>
-                                <color key="backgroundColor" red="0.95686274509803915" green="0.94117647058823528" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="i5K-Yf-JF8"/>
                                 </constraints>
@@ -87,7 +87,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jP8-o2-z3E">
-                                <rect key="frame" x="135" y="515" width="50" height="27"/>
+                                <rect key="frame" x="135" y="525" width="50" height="27"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <state key="normal" title="註冊帳號"/>
                                 <connections>
@@ -95,17 +95,21 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14q-N0-7tQ" customClass="ASAuthorizationAppleIDButton">
-                                <rect key="frame" x="137" y="465" width="46" height="30"/>
+                                <rect key="frame" x="32" y="465" width="256" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Ph9-On-Whk"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.95686274509803915" green="0.94117647058823528" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="zDC-xV-64F" firstAttribute="leading" secondItem="DDD-JM-v3u" secondAttribute="leading" constant="32" id="2bG-Qf-TWz"/>
                             <constraint firstItem="irQ-D6-dLA" firstAttribute="width" secondItem="zDC-xV-64F" secondAttribute="width" id="6BB-aO-Ka9"/>
                             <constraint firstItem="jP8-o2-z3E" firstAttribute="centerX" secondItem="Aod-B6-S7F" secondAttribute="centerX" id="6bq-7R-rBX"/>
                             <constraint firstItem="irQ-D6-dLA" firstAttribute="centerX" secondItem="Aod-B6-S7F" secondAttribute="centerX" id="9jj-5L-oKS"/>
                             <constraint firstItem="irQ-D6-dLA" firstAttribute="top" secondItem="zDC-xV-64F" secondAttribute="bottom" constant="20" id="CGw-m2-1oX"/>
+                            <constraint firstItem="14q-N0-7tQ" firstAttribute="width" secondItem="G5p-Jw-xMA" secondAttribute="width" id="CqW-jL-wup"/>
                             <constraint firstItem="pnw-2i-443" firstAttribute="leading" secondItem="DDD-JM-v3u" secondAttribute="leading" id="CvO-e6-5dQ"/>
                             <constraint firstItem="lH4-Gb-QIj" firstAttribute="width" secondItem="irQ-D6-dLA" secondAttribute="width" id="HoI-iF-0uZ"/>
                             <constraint firstItem="G5p-Jw-xMA" firstAttribute="width" secondItem="lH4-Gb-QIj" secondAttribute="width" id="IRY-rd-6g9"/>
@@ -136,6 +140,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="16o-Vb-qbm"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="appleSignInButton" destination="14q-N0-7tQ" id="Aeq-Mo-loi"/>
                         <outlet property="emailTextField" destination="zDC-xV-64F" id="2wa-lj-hYR"/>
                         <outlet property="facebookLoginButton" destination="G5p-Jw-xMA" id="y8K-kV-rJH"/>
                         <outlet property="googleLoginButton" destination="MQv-2c-Jll" id="839-LI-avq"/>
@@ -194,7 +199,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.95686274510000002" green="0.94117647059999998" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="W5O-8A-TvE" firstAttribute="top" secondItem="6qk-Vk-Uv5" secondAttribute="bottom" constant="20" id="B42-x0-KER"/>
                             <constraint firstItem="Pi8-Tr-x3B" firstAttribute="width" secondItem="NoY-au-O0w" secondAttribute="width" id="Bwc-YQ-0RY"/>

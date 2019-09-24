@@ -178,9 +178,12 @@ class LoginViewController: STBaseViewController {
         
         if presentingViewController != nil {
             let presentingVC = presentingViewController
-            dismiss(animated: true) {
-                let tabBar = presentingVC as? STTabBarController
-                tabBar?.selectedIndex = 0
+            dismiss(animated: false) {
+                presentingVC?.dismiss(animated: false) {
+                    let meauVC = presentingVC as? ModallyMeauViewController
+                    let tabBar = meauVC?.presentingViewController as? STTabBarController
+                    tabBar?.selectedIndex = 0
+                }
             }
         } else {
             let nextVC = UIStoryboard.main.instantiateInitialViewController()!

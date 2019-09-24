@@ -14,7 +14,11 @@ class LKProgressHUD {
 
     private init() { }
 
-    let hud = JGProgressHUD(style: .dark)
+    let hud: JGProgressHUD = {
+        let hud = JGProgressHUD(style: .dark)
+        hud.tintColor = .white
+        return hud
+    }()
     
     var view: UIView {
         return AppDelegate.shared.window!.rootViewController!.view
@@ -33,8 +37,27 @@ class LKProgressHUD {
             showFailure(text: error.localizedDescription)
         }
     }
+    
+    static func showLoading(text: String = "處理中", view: UIView = shared.view) {
 
-    static func showSuccess(text: String = "Success") {
+        if !Thread.isMainThread {
+
+            DispatchQueue.main.async {
+                showLoading(text: text, view: view)
+            }
+
+            return
+        }
+
+        shared.hud.indicatorView = JGProgressHUDPieIndicatorView()
+        
+        shared.hud.textLabel.text = text
+
+        shared.hud.show(in: view)
+
+    }
+    
+    static func showSuccess(text: String = "Success", view: UIView = shared.view) {
 
         if !Thread.isMainThread {
 
@@ -49,12 +72,12 @@ class LKProgressHUD {
 
         shared.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
 
-        shared.hud.show(in: shared.view)
+        shared.hud.show(in: view)
 
         shared.hud.dismiss(afterDelay: 1.5)
     }
 
-    static func showFailure(text: String = "Failure") {
+    static func showFailure(text: String = "Failure", view: UIView = shared.view) {
 
         if !Thread.isMainThread {
 
@@ -69,12 +92,12 @@ class LKProgressHUD {
 
         shared.hud.indicatorView = JGProgressHUDErrorIndicatorView()
 
-        shared.hud.show(in: shared.view)
+        shared.hud.show(in: view)
 
         shared.hud.dismiss(afterDelay: 1.5)
     }
 
-    static func show() {
+    static func show(view: UIView = shared.view) {
 
         if !Thread.isMainThread {
 
@@ -89,7 +112,7 @@ class LKProgressHUD {
 
         shared.hud.textLabel.text = "Loading"
 
-        shared.hud.show(in: shared.view)
+        shared.hud.show(in: view)
     }
 
     static func dismiss() {

@@ -22,6 +22,15 @@ class ExpenseController: NSObject, AddExpenseItem {
     
     var expenseInfo: [String?] = [nil, nil]
     
+    var newExpenseInfo: [String?] {
+        var newExpenseInfo = [String?]()
+        for index in textfieldPlaceHolder.indices {
+            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 1)) as? TextFieldTableViewCell else { return [nil] }
+            newExpenseInfo.append(cell.textField.text)
+        }
+        return newExpenseInfo
+    }
+    
     init(tableView: UITableView) {
         self.tableView = tableView
         self.tableView.registerWithNib(indentifer: TextFieldTableViewCell.identifer)
@@ -52,7 +61,6 @@ extension ExpenseController: UITableViewDataSource {
         
         if indexPath.row == 0 {
             textfieldCell.textField.keyboardType = .numberPad
-            //textfieldCell.textField.becomeFirstResponder()
         }
         
         return textfieldCell
@@ -83,4 +91,5 @@ extension ExpenseController: UITextFieldDelegate {
         }
         
     }
+    
 }

@@ -26,7 +26,6 @@ class AddExpenseViewController: STBaseViewController {
     
     var members = [MemberInfo]() {
         didSet {
-            print(members)
             payerController.members = members
             splitController.members = members
             tableView.reloadData()
@@ -86,17 +85,20 @@ class AddExpenseViewController: STBaseViewController {
     }
     
     @IBAction func clickAddButton(_ sender: UIButton) {
-        sender.isEnabled = false
-        
         guard let uid = UserInfoManager.shaered.currentUserInfo?.id,
-            let amountText = expenseController.expenseInfo[0],
+            let amountText = expenseController.newExpenseInfo[0],
             let amount = Double(amountText),
-            let desc = expenseController.expenseInfo[1],
+            let desc = expenseController.newExpenseInfo[1],
+            desc != "",
             let payerInfo = payerController.payInfo,
             let splitInfo = splitController.splitInfo,
             let date = payDateController.selectDate
-        else { return }
+        else {
+            LKProgressHUD.showFailure(text: "請輸入消費金額與說明", view: self.view)
+            return
+        }
         
+        LKProgressHUD.show(view: self.view)
         let expense = Expense(type: amountTypeController.amountTypeIndex,
                               desc: desc, userID: uid,
                               amount: amount,
@@ -104,13 +106,12 @@ class AddExpenseViewController: STBaseViewController {
                               splitInfo: splitInfo,
                               location: annotation.coordinate,
                               time: date)
-
+        
         FirestoreManager.shared.addExpense(expense: expense) { result in
             switch result {
 
             case .success:
-                sender.isEnabled = true
-                LKProgressHUD.showSuccess()
+                LKProgressHUD.dismiss()
                 self.dismiss(animated: true, completion: nil)
             case .failure(let error):
                 LKProgressHUD.showFailure(text: error.localizedDescription)
@@ -136,6 +137,8 @@ class AddExpenseViewController: STBaseViewController {
         splitController.delegate = self
         
         payDateController.fetchDayOfWeek()
+        
+        mapHeightConstraint.constant = UIScreen.main.bounds.height - 500
         
     }
     
@@ -166,7 +169,7 @@ class AddExpenseViewController: STBaseViewController {
                 "如要變更權限，請至 設定 > 隱私權 > 定位服務 開啟",
                 preferredStyle: .alert)
             let okAction = UIAlertAction(
-                title: "確認", style: .default, handler:nil)
+                title: "確認", style: .default, handler: nil)
             alertController.addAction(okAction)
             self.present(
                 alertController,
@@ -230,10 +233,10 @@ class AddExpenseViewController: STBaseViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         mapView.delegate = self
-        mapView.showsUserLocation = false
+        mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
         
-        annotation.title = "Test"
+        //annotation.title = "消費位置"
         
     }
     
@@ -258,7 +261,7 @@ class AddExpenseViewController: STBaseViewController {
             tableView.isScrollEnabled = false
             
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.mapHeightConstraint.constant = UIScreen.main.bounds.height / 2
+                self?.mapHeightConstraint.constant = UIScreen.main.bounds.height - 500
                 self?.view.layoutIfNeeded()
             }
         }
@@ -341,7 +344,7 @@ extension AddExpenseViewController: CLLocationManagerDelegate {
         let currentLocation = locations[0] as CLLocation
         
         annotation.coordinate = currentLocation.coordinate
-        mapView.showAnnotations([annotation], animated: true)
+        //mapView.showAnnotations([annotation], animated: true)
     }
     
 }

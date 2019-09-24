@@ -427,8 +427,8 @@
 		74B5C4C3231DE3E200EB916D /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */,
 				74B5C4D2231DE48800EB916D /* ExpenseTableViewCell.swift */,
+				742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */,
 				74B5C4D1231DE48800EB916D /* ExpenseTableViewCell.xib */,
 				74B5C4D7231DE48800EB916D /* StatisticsTableViewCell.swift */,
 				74B5C4D4231DE48800EB916D /* StatisticsTableViewCell.xib */,

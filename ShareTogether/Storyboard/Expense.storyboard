@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6ju-pz-x3M">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,8 +16,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ff0-sN-6NP">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="158"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="282"/>
                             </mapView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shop" translatesAutoresizingMaskIntoConstraints="NO" id="Ffg-7I-gNE">
+                                <rect key="frame" x="184.5" y="96" width="45" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="VkG-YA-l6a"/>
+                                    <constraint firstAttribute="width" constant="45" id="tek-Mq-kv8"/>
+                                </constraints>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ikq-X8-aB8">
                                 <rect key="frame" x="16" y="104" width="12" height="22"/>
                                 <state key="normal" image="down-arrow12x"/>
@@ -37,10 +43,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SBQ-NT-Q19">
-                                <rect key="frame" x="0.0" y="138" width="414" height="758"/>
+                                <rect key="frame" x="0.0" y="262" width="414" height="634"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Dvr-jh-ddu">
-                                        <rect key="frame" x="0.0" y="15" width="414" height="743"/>
+                                        <rect key="frame" x="0.0" y="15" width="414" height="619"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Pi-zL-mnf">
@@ -73,12 +79,14 @@
                             <constraint firstItem="SBQ-NT-Q19" firstAttribute="leading" secondItem="7mv-nd-5Qb" secondAttribute="leading" id="3IW-se-uvo"/>
                             <constraint firstAttribute="trailing" secondItem="kzY-JI-ZTL" secondAttribute="trailing" constant="16" id="3cv-is-vE7"/>
                             <constraint firstItem="ff0-sN-6NP" firstAttribute="top" secondItem="yuv-rT-0Ps" secondAttribute="top" id="5ZU-Gc-ftR"/>
+                            <constraint firstItem="Ffg-7I-gNE" firstAttribute="centerX" secondItem="ff0-sN-6NP" secondAttribute="centerX" id="7Ju-Bt-BLo"/>
                             <constraint firstItem="ff0-sN-6NP" firstAttribute="leading" secondItem="7mv-nd-5Qb" secondAttribute="leading" id="9jx-5Q-0oC"/>
                             <constraint firstItem="SBQ-NT-Q19" firstAttribute="trailing" secondItem="7mv-nd-5Qb" secondAttribute="trailing" id="H7M-N3-KDH"/>
                             <constraint firstItem="ff0-sN-6NP" firstAttribute="trailing" secondItem="7mv-nd-5Qb" secondAttribute="trailing" id="Ja3-29-gn7"/>
                             <constraint firstItem="Ikq-X8-aB8" firstAttribute="leading" secondItem="yuv-rT-0Ps" secondAttribute="leading" constant="16" id="NHQ-JU-tZ0"/>
-                            <constraint firstItem="ff0-sN-6NP" firstAttribute="bottom" secondItem="kzY-JI-ZTL" secondAttribute="bottom" constant="36" id="RBv-Eg-rVa"/>
+                            <constraint firstItem="ff0-sN-6NP" firstAttribute="bottom" secondItem="kzY-JI-ZTL" secondAttribute="bottom" constant="160" id="RBv-Eg-rVa"/>
                             <constraint firstItem="SBQ-NT-Q19" firstAttribute="top" secondItem="ff0-sN-6NP" secondAttribute="bottom" constant="-20" id="XUB-JC-IIU"/>
+                            <constraint firstItem="Ffg-7I-gNE" firstAttribute="bottom" secondItem="ff0-sN-6NP" secondAttribute="centerY" id="aBn-y3-abA"/>
                             <constraint firstItem="SBQ-NT-Q19" firstAttribute="bottom" secondItem="yuv-rT-0Ps" secondAttribute="bottom" id="gQA-9T-6tM"/>
                             <constraint firstItem="kzY-JI-ZTL" firstAttribute="top" secondItem="7mv-nd-5Qb" secondAttribute="top" constant="16" id="iju-5P-iit"/>
                             <constraint firstItem="Ikq-X8-aB8" firstAttribute="top" secondItem="7mv-nd-5Qb" secondAttribute="top" constant="16" id="tan-3f-BUh"/>
@@ -163,5 +171,6 @@
     </scenes>
     <resources>
         <image name="down-arrow12x" width="12" height="12"/>
+        <image name="shop" width="128" height="128"/>
     </resources>
 </document>

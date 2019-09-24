@@ -136,12 +136,8 @@ extension STTabBarController: UITabBarControllerDelegate {
             else { return false }
             
             nextVC.modalPresentationStyle = .overCurrentContext
-            let view = UIView(frame: UIScreen.main.bounds)
-            view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            nextVC.backgroundview = view
-            self.view.addSubview(view)
             
-            self.present(nextVC, animated: true, completion: nil)
+            self.present(nextVC, animated: false, completion: nil)
             
             return false
         }

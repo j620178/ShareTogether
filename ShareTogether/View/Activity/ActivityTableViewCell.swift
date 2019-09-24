@@ -8,18 +8,13 @@
 
 import UIKit
 
-class ActivityCellViewModel {
+struct ActivityCellViewModel {
+    let type: Int
     let mainPhotoImageURL: String
     let userImageURL: String
     let desc: String
     let time: String
-    
-    init(mainPhotoImageURL: String, userImageURL: String, desc: String, time: String) {
-        self.mainPhotoImageURL = mainPhotoImageURL
-        self.userImageURL = userImageURL
-        self.desc = desc
-        self.time = time
-    }
+    let status: Int
 }
 
 class ActivityTableViewCell: UITableViewCell {
@@ -32,11 +27,10 @@ class ActivityTableViewCell: UITableViewCell {
     
     @IBOutlet weak var contentLabel: UILabel!
     
+    @IBOutlet weak var addGroupButton: UIButton!
+    
     @IBAction func clickAddGroupButton(_ sender: UIButton) {
         clickCellHandler?(self)
-        sender.isEnabled = false
-        sender.setTitleColor(.backgroundLightGray, for: .normal)
-        sender.setTitle("已加入", for: .normal)
     }
     
     var clickCellHandler: ((ActivityTableViewCell) -> Void)?
@@ -49,6 +43,14 @@ class ActivityTableViewCell: UITableViewCell {
             userImageView.setUrlImage(cellViewModel.userImageURL)
             contentLabel.text = cellViewModel.desc
             timeLabel.text = cellViewModel.time
+            
+            if cellViewModel.status == 0 {
+                addGroupButton.setTitle("加入", for: .normal)
+            } else if cellViewModel.status == 2 {
+                addGroupButton.setTitle("已加入", for: .normal)
+                addGroupButton.setTitleColor(.STGray, for: .normal)
+                addGroupButton.isEnabled = false
+            }
         }
     }
     

@@ -35,8 +35,10 @@ class InviteViewController: STBaseViewController {
         switch showType {
 
         case .new:
+            LKProgressHUD.showSuccess(text: "加入成功", view: self.view)
             viewModel.addInviteMembers()
         case .edit:
+            LKProgressHUD.showSuccess(text: "邀請成功", view: self.view)
             viewModel.inviteMember()
         }
     }

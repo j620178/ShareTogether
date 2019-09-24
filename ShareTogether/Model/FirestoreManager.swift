@@ -62,8 +62,6 @@ struct GroupInfo: Codable {
     let name: String
     let coverURL: String
     var status: Int?
-//    var expenses: [Expense]!
-//    var members: [MemberInfo]!
 }
 
 struct MemberInfo: Codable {
@@ -111,6 +109,7 @@ struct Expense: Codable {
 struct Activity: Codable {
     var id: String!
     let type: Int
+    let status: Int
     let targetMember: MemberInfo
     let pushUser: UserInfo
     let groupInfo: GroupInfo?
@@ -122,7 +121,8 @@ struct Activity: Codable {
          pushUser: UserInfo,
          groupInfo: GroupInfo?,
          amount: Double?,
-         time: Date) {
+         time: Date,
+         status: Int) {
         
         self.type = type
         self.targetMember = targetMember
@@ -130,7 +130,14 @@ struct Activity: Codable {
         self.groupInfo = groupInfo
         self.amount = amount
         self.time = Timestamp(date: time)
+        self.status = status
     }
+}
+
+enum ActivityStatus: Int {
+    case new = 0
+    case readed = 1
+    case used = 2
 }
 
 class FirestoreManager {
@@ -381,7 +388,7 @@ class FirestoreManager {
 
     }
     
-    func updateMemberStatus(groupID: String? = FirestoreManager.shared.currentGroupID, memberInfo: MemberInfo, status: MemberStatusType, completion: @escaping (Result<Int, Error>) -> Void) {
+    func updateGroupMemberStatus(groupID: String? = FirestoreManager.shared.currentGroupID, memberInfo: MemberInfo, status: MemberStatusType, completion: @escaping (Result<Int, Error>) -> Void) {
         
         let data = ["status": status.rawValue]
         
@@ -396,9 +403,9 @@ class FirestoreManager {
             print("Document successfully updated")
         }
         
-        if status != .inviting {
-            self.updateUserGroupStatus(uid: memberInfo.id, status: status, completion: { _ in
-                
+//        if status != .inviting {
+//            self.updateUserGroupStatus(uid: memberInfo.id, status: status, completion: { _ in
+//
 //                guard let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
 //                    let currentGroupInfo = UserInfoManager.shaered.currentGroupInfo
 //                else { return }
@@ -408,8 +415,8 @@ class FirestoreManager {
 //                                 pushUser: currentUserInfo,
 //                                 groupInfo: currentGroupInfo,
 //                                 amount: nil)
-            })
-        }
+//            })
+//        }
         
     }
     
@@ -435,6 +442,7 @@ class FirestoreManager {
                 return
             }
         }
+        
         completion(Result.success(groupID))
     }
     
@@ -466,7 +474,7 @@ class FirestoreManager {
     
     func addActivity(type: Int, targetMember: MemberInfo, pushUser: UserInfo, groupInfo: GroupInfo?, amount: Double?) {
         
-        let activity = Activity(type: type, targetMember: targetMember, pushUser: pushUser, groupInfo: groupInfo, amount: amount, time: Date())
+        let activity = Activity(type: type, targetMember: targetMember, pushUser: pushUser, groupInfo: groupInfo, amount: amount, time: Date(), status: 0)
         
         guard let docData = try? FirestoreEncoder().encode(activity) else { return }
         firestore.collection(Collection.user).document(targetMember.id).collection(Collection.User.activity).addDocument(data: docData)
@@ -495,9 +503,9 @@ class FirestoreManager {
         
     }
     
-    func deleteActivity(uid: String, id: String) {
-        firestore.collection(Collection.user).document(uid).collection(Collection.User.activity).document(id).delete()
-        
+    func updateActivityStatus(uid: String, id: String, status: ActivityStatus) {
+        let data = ["status": status.rawValue]
+        firestore.collection(Collection.user).document(uid).collection(Collection.User.activity).document(id).updateData(data)
     }
     
 }

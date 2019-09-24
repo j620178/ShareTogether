@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,8 +19,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJW-AT-erM">
                         <rect key="frame" x="10" y="10" width="300" height="92"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="aso" translatesAutoresizingMaskIntoConstraints="NO" id="9rz-Ye-h3M">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9rz-Ye-h3M">
                                 <rect key="frame" x="16" y="16" width="60" height="60"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="FBz-oX-x3y"/>
                                     <constraint firstAttribute="height" constant="60" id="FCI-4A-gd5"/>
@@ -39,8 +39,9 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="me" translatesAutoresizingMaskIntoConstraints="NO" id="RGd-Bg-wcf">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RGd-Bg-wcf">
                                 <rect key="frame" x="56" y="51" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="cOf-OV-CgJ"/>
                                     <constraint firstAttribute="width" constant="30" id="gH3-jU-s6Z"/>
@@ -84,6 +85,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="addGroupButton" destination="FdL-Zb-AMF" id="e8A-pN-qgy"/>
                 <outlet property="categoryImageView" destination="9rz-Ye-h3M" id="0w0-DU-iG0"/>
                 <outlet property="contentLabel" destination="I6b-Z2-VXL" id="yQO-Ty-8ag"/>
                 <outlet property="timeLabel" destination="Raf-8s-5ep" id="xAu-dF-37I"/>
@@ -92,8 +94,4 @@
             <point key="canvasLocation" x="3" y="39"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="aso" width="1024" height="683"/>
-        <image name="me" width="1176" height="1176"/>
-    </resources>
 </document>

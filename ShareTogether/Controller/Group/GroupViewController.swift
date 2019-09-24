@@ -205,7 +205,13 @@ class GroupViewController: STBaseViewController {
 
     @objc func addGroup(_ sender: UIButton) {
         
-        guard let text = textField.text, text != "", coverImageView.image != nil else { return }
+        LKProgressHUD.showLoading(view: self.view)
+        
+        guard let text = textField.text, text != "", coverImageView.image != nil
+        else {
+            LKProgressHUD.showFailure(text: "請點選相機圖示上傳群組相片", view: self.view)
+            return
+        }
         
         StorageManager.shared.uploadImage(image: coverImageView.image!) { [weak self] urlString in
             
@@ -220,6 +226,7 @@ class GroupViewController: STBaseViewController {
                 case .failure(let error):
                     print(error)
                 }
+                LKProgressHUD.dismiss()
             })
             
         }
@@ -293,7 +300,7 @@ extension GroupViewController: UITableViewDelegate {
 
                 guard let member = self?.members[indexPath.row] else { return }
                 
-                FirestoreManager.shared.updateMemberStatus(memberInfo: member, status: .quit, completion: { result in
+                FirestoreManager.shared.updateGroupMemberStatus(memberInfo: member, status: .quit, completion: { result in
                     switch result {
                         
                     case .success:

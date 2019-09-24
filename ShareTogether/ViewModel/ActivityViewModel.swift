@@ -55,15 +55,17 @@ class ActivityViewModel {
             var text = ""
             
             if ActivityType(rawValue: activity.type) == ActivityType.addExpense {
-                text = "\(activity.pushUser.name)於\(groupInfo.name)增加了一筆消費"
+                text = "\(activity.pushUser.name) 於 \(groupInfo.name) 增加了一筆消費"
             } else if ActivityType(rawValue: activity.type) == ActivityType.addMember {
-                text = "\(activity.pushUser.name)於邀請您加入\(groupInfo.name)群組"
+                text = "\(activity.pushUser.name) 邀請您加入 \(groupInfo.name) 群組"
             }
             
-            let viewModel = ActivityCellViewModel(mainPhotoImageURL: groupInfo.coverURL,
+            let viewModel = ActivityCellViewModel(type: activity.type,
+                                                  mainPhotoImageURL: groupInfo.coverURL,
                                                   userImageURL: activity.pushUser.photoURL,
                                                   desc: text,
-                                                  time: activity.time.toSimpleFormat())
+                                                  time: activity.time.toSimpleFormat(),
+                                                  status: activity.status)
             cellViewModels.append(viewModel)
         }
         
@@ -81,7 +83,7 @@ class ActivityViewModel {
             case .success:
                 guard let strongSelf = self else { return }
                 
-                FirestoreManager.shared.updateMemberStatus(groupID: groupInfo.id,
+                FirestoreManager.shared.updateGroupMemberStatus(groupID: groupInfo.id,
                                                            memberInfo: strongSelf.activities[indexPath.row].targetMember,
                                                            status: .joined) { result in
                     switch result {
@@ -92,8 +94,9 @@ class ActivityViewModel {
                     }
                 }
                 
-                //FirestoreManager.shared.deleteActivity(uid: strongSelf.activities[indexPath.row].targetMember.id,
-                                                       //id: strongSelf.activities[indexPath.row].id)
+                FirestoreManager.shared.updateActivityStatus(uid: strongSelf.activities[indexPath.row].targetMember.id,
+                                                       id: strongSelf.activities[indexPath.row].id,
+                                                       status: .used)
                 
             case .failure:
                 print("failure")

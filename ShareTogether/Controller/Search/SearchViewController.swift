@@ -15,6 +15,19 @@ class SearchViewController: STBaseViewController {
     
     let locationManager = CLLocationManager()
     
+    var viewModel = SearchViewModel()
+    
+    var mapView: MKMapView?
+    
+    var annotations = [MKPointAnnotation]() {
+        willSet {
+            mapView?.removeAnnotations(annotations)
+        }
+        didSet {
+            mapView?.showAnnotations(annotations, animated: true)
+        }
+    }
+    
     @IBOutlet weak var goSearchButton: UIButton!
     
     @IBOutlet weak var scrollSelectionView: ScrollSelectionView! {
@@ -22,9 +35,7 @@ class SearchViewController: STBaseViewController {
             scrollSelectionView.dataSource = self
         }
     }
-    
-    var viewModel = SearchViewModel()
-    
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -34,14 +45,6 @@ class SearchViewController: STBaseViewController {
     }
     
     @IBOutlet weak var switchTypeButton: UIButton!
-    
-    var mapView: MKMapView?
-    
-    var annotations = [MKPointAnnotation]() {
-        didSet {
-            mapView?.showAnnotations(annotations, animated: true)
-        }
-    }
     
     @IBAction func switchType(_ sender: UIButton) {
         switchType()
@@ -59,16 +62,29 @@ class SearchViewController: STBaseViewController {
         view.bringSubviewToFront(goSearchButton)
         view.bringSubviewToFront(switchTypeButton)
         
+        switchTypeButton.alpha = 0
+        goSearchButton.alpha = 0
         goSearchButton.layer.borderWidth = 1.0
         goSearchButton.layer.borderColor = UIColor.backgroundLightGray.cgColor
         goSearchButton.clipsToBounds = true
         goSearchButton.backgroundColor = .white
         goSearchButton.setImage(.getIcon(code: "ios-search", color: .darkGray, size: 20), for: .normal)
         
-        viewModel.fectchData()
         viewModel.reloadMapHandler = { [weak self] annotations in
             self?.annotations = annotations
         }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(upadateCurrentGroup),
+                                               name: NSNotification.Name(rawValue: "CurrentGroup"),
+                                               object: nil)
+
+        upadateCurrentGroup()
+        
+    }
+
+    @objc func upadateCurrentGroup() {
+        viewModel.fectchData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -129,16 +145,7 @@ extension SearchViewController: CLLocationManagerDelegate {
 }
 
 extension SearchViewController: MKMapViewDelegate {
-    
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print(view.annotation?.title)
-    }
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-    let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier, for: annotation)
-    annotationView.clusteringIdentifier = "identifier"
-    return annotationView
-    }
+
 }
 
 extension SearchViewController: ScrollSelectionViewDataSource {

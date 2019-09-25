@@ -32,6 +32,7 @@ class InviteViewController: STBaseViewController {
     }
 
     @IBAction func clickInviteButton(_ sender: UIButton) {
+        
         switch showType {
 
         case .new:
@@ -51,7 +52,7 @@ class InviteViewController: STBaseViewController {
         textField.becomeFirstResponder()
         
         viewModel.delegate = self
-    
+            
         navigationController?.navigationBar.titleTextAttributes =
             [NSAttributedString.Key.foregroundColor: UIColor.STDarkGray]
     }
@@ -68,7 +69,17 @@ class InviteViewController: STBaseViewController {
         if showType == .new, self.isMovingFromParent {
             for viewController in navigationController!.viewControllers {
                 if let previousVC = viewController as? GroupViewController {
-                    previousVC.members += viewModel.getInviteMembers()
+                    //previousVC.members += viewModel.getInviteMembers()
+                    for inviteMember in viewModel.getInviteMembers() {
+                        let result = previousVC.members.contains { memberInfo -> Bool in
+                            return memberInfo.id == inviteMember.id
+                        }
+                        
+                        if !result {
+                            previousVC.members.append(inviteMember)
+                        }
+                    }
+        
                 }
             }
         }
@@ -100,7 +111,7 @@ extension InviteViewController: UITextFieldDelegate {
 
 extension InviteViewController: InviteViewModelDelegete {
     
-    func updateView(text: String, imageURL: String?, isButtonHidden: Bool) {
+    func updateView(text: String, imageURL: String?, isButtonHidden: Bool, isEnable: Bool = true) {
         
         userNameLabel.text = text
         
@@ -114,7 +125,14 @@ extension InviteViewController: InviteViewModelDelegete {
             userNameLabel.textColor = .lightGray
         }
         
+        if isEnable {
+            inviteButton.setTitle("送出邀請", for: .normal)
+        } else {
+            inviteButton.setTitle("已加入群組", for: .normal)
+        }
+        
         inviteButton.isHidden = isButtonHidden
+        inviteButton.isEnabled = isEnable
         
     }
 

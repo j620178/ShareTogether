@@ -9,7 +9,7 @@
 import Foundation
 
 protocol InviteViewModelDelegete: AnyObject {
-    func updateView(text: String, imageURL: String?, isButtonHidden: Bool)
+    func updateView(text: String, imageURL: String?, isButtonHidden: Bool, isEnable: Bool)
 }
 
 class InviteViewModel {
@@ -19,9 +19,29 @@ class InviteViewModel {
     var userInfo: UserInfo? {
         didSet {
             if let userInfo = userInfo {
-                delegate?.updateView(text: userInfo.name, imageURL: userInfo.photoURL, isButtonHidden: false)
+                
+                FirestoreManager.shared.getMembers { [weak self] result in
+                    switch result {
+                        
+                    case .success(let members):
+                        
+                        let isContainMember = members.contains { memberInfo -> Bool in
+                            memberInfo.id == userInfo.id
+                        }
+                        
+                        if isContainMember {
+                            self?.delegate?.updateView(text: userInfo.name, imageURL: userInfo.photoURL, isButtonHidden: false, isEnable: false)
+                        } else {
+                            self?.delegate?.updateView(text: userInfo.name, imageURL: userInfo.photoURL, isButtonHidden: false, isEnable: true)
+                        }
+                        
+                    case .failure:
+                        print("error")
+                    }
+                }
+                
             } else {
-                delegate?.updateView(text: "查無使用者，請重新輸入", imageURL: nil, isButtonHidden: true)
+                delegate?.updateView(text: "查無使用者，請重新輸入", imageURL: nil, isButtonHidden: true, isEnable: false)
             }
         }
     }

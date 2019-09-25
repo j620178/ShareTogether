@@ -37,21 +37,6 @@ class GroupViewController: STBaseViewController {
         return availableMembers
     }
     
-//    var memeberDataDic: [String: [MemberInfo]] {
-//        var data = ["Show": [MemberInfo](), "Hide": [MemberInfo]()]
-//
-//        for member in members {
-//            if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
-//                MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
-//                data["Hide"]?.append(member)
-//            } else {
-//                data["Show"]?.append(member)
-//            }
-//        }
-//
-//        return data
-//    }
-    
     var lastVelocityYSign = 0
     
     @IBOutlet weak var coverImageView: UIImageView!
@@ -80,7 +65,30 @@ class GroupViewController: STBaseViewController {
     }
     
     @IBAction func clickAddMemberButton(_ sender: UIButton) {
- 
+        if showType == .edit {
+            let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
+            
+            if demoGroupID == UserInfoManager.shaered.currentGroupInfo?.id {
+                LKProgressHUD.showFailure(text: "範例群組無法新增成員，請建立新群組", view: self.view)
+                return
+            }
+            
+            guard let nextVC = UIStoryboard.group.instantiateViewController(identifier: InviteViewController.identifier)
+                as? InviteViewController
+            else { return }
+            
+            nextVC.showType = .edit
+            navigationController?.pushViewController(nextVC, animated: true)
+            
+        } else if showType == .new {
+            
+            guard let nextVC = UIStoryboard.group.instantiateViewController(identifier: InviteViewController.identifier)
+                as? InviteViewController
+            else { return }
+            
+            navigationController?.pushViewController(nextVC, animated: true)
+
+        }
     }
     
     @IBAction func clickSetCoverButton(_ sender: UIButton) {
@@ -184,6 +192,46 @@ class GroupViewController: STBaseViewController {
         }
     }
     
+    func presentAlertController(text: String, member: MemberInfo) {
+        
+        FirestoreManager.shared.getUserGroups { [weak self] userGroups in
+
+            guard let strongSelf = self else { return }
+            
+            let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+            let action = UIAlertAction(title: text, style: .destructive) { _ in
+                
+                guard userGroups.count > 1
+                else {
+                    LKProgressHUD.showFailure(text: "無法退出最後一個群組", view: strongSelf.view)
+                    return
+                }
+                
+                FirestoreManager.shared.updateGroupMemberStatus(memberInfo: member,
+                                                                status: .quit,
+                                                                completion: { result in
+                    switch result {
+                        
+                    case .success:
+                        print("success")
+                
+                    case .failure:
+                        print("error")
+                    }
+                })
+
+            }
+            
+            controller.addAction(action)
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            controller.addAction(cancelAction)
+            strongSelf.present(controller, animated: true, completion: nil)
+
+        }
+        
+    }
+    
     @objc func closeSelf(_ sender: UIButton) {
         
         switch showType {
@@ -195,23 +243,16 @@ class GroupViewController: STBaseViewController {
         }
         
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if showType == .edit {
-            guard let nextVC = segue.destination as? InviteViewController else { return }
-            nextVC.showType = .edit
-        }
-    }
 
     @objc func addGroup(_ sender: UIButton) {
-        
-        LKProgressHUD.showLoading(view: self.view)
-        
+                
         guard let text = textField.text, text != "", coverImageView.image != nil
         else {
             LKProgressHUD.showFailure(text: "請點選相機圖示上傳群組相片", view: self.view)
             return
         }
+        
+        LKProgressHUD.showLoading(view: self.view)
         
         StorageManager.shared.uploadImage(image: coverImageView.image!) { [weak self] urlString in
             
@@ -233,10 +274,6 @@ class GroupViewController: STBaseViewController {
         
     }
     
-    @objc func addMember(_ sender: UIButton) {
-            
-    }
-    
     @objc func gestureAction(_ sender: UITapGestureRecognizer) {
         switchLayout(direction: .up)
     }
@@ -248,6 +285,7 @@ class GroupViewController: STBaseViewController {
 }
 
 extension GroupViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return availableMembers.count ?? 0
     }
@@ -294,30 +332,22 @@ extension GroupViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if showType == .edit {
-            let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-            let action = UIAlertAction(title: "刪除", style: .destructive) { [weak self] _ in
-
-                guard let member = self?.members[indexPath.row] else { return }
-                
-                FirestoreManager.shared.updateGroupMemberStatus(memberInfo: member, status: .quit, completion: { result in
-                    switch result {
-                        
-                    case .success:
-                        print("success")
-                
-                    case .failure:
-                        print("error")
-                    }
-                })
-        
+            let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
+            
+            if demoGroupID == UserInfoManager.shaered.currentGroupInfo?.id {
+                LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
+                return
             }
             
-            controller.addAction(action)
-            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-            controller.addAction(cancelAction)
-            present(controller, animated: true, completion: nil)
+            guard showType == .edit else { return }
+            
+            if availableMembers[indexPath.row].id == UserInfoManager.shaered.currentUserInfo?.id {
+                presentAlertController(text: "退出", member: availableMembers[indexPath.row])
+            } else {
+                presentAlertController(text: "刪除", member: availableMembers[indexPath.row])
+            }
         }
+
     }
 
 }

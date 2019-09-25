@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vmb-HV-ehx">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -192,6 +191,7 @@
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MiU-h4-pqb">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="280"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIN-hk-tbw">
                                         <rect key="frame" x="16" y="300" width="382" height="40"/>
@@ -204,7 +204,6 @@
                                         </state>
                                         <connections>
                                             <action selector="clickAddMemberButton:" destination="aiW-Vf-YMP" eventType="touchUpInside" id="TJT-Ub-CRl"/>
-                                            <segue destination="SsR-0y-l4f" kind="show" id="7Uz-IK-Pgk"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o1n-2S-TL4">
@@ -279,13 +278,13 @@
         <!--搜尋使用者-->
         <scene sceneID="EHH-YU-qaD">
             <objects>
-                <viewController id="SsR-0y-l4f" customClass="InviteViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InviteViewController" id="SsR-0y-l4f" customClass="InviteViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="onh-uh-WB9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="請輸入 e-mail 進行搜尋" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R6l-dq-qcD">
-                                <rect key="frame" x="16" y="104" width="382" height="45"/>
+                                <rect key="frame" x="16" y="60" width="382" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="Tu4-4a-mq5"/>
                                 </constraints>
@@ -293,13 +292,13 @@
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="search"/>
                             </textField>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="searchEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="k01-76-n29">
-                                <rect key="frame" x="164.5" y="181" width="85" height="85"/>
+                                <rect key="frame" x="164.5" y="137" width="85" height="85"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="k01-76-n29" secondAttribute="height" multiplier="1:1" id="CBk-sj-wwX"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="您可以透過 e-mail 搜尋其他已註冊之使用者並邀請加入本群組" textAlignment="center" lineBreakMode="headTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4US-HE-cbH">
-                                <rect key="frame" x="16" y="276" width="382" height="112"/>
+                                <rect key="frame" x="16" y="232" width="382" height="156"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>

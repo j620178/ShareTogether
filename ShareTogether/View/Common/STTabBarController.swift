@@ -114,6 +114,7 @@ class STTabBarController: UITabBarController {
         //tabBar.addShadow()
         
     }
+    
 }
 
 extension STTabBarController: UITabBarControllerDelegate {
@@ -135,7 +136,7 @@ extension STTabBarController: UITabBarControllerDelegate {
                 as? ModallyMeauViewController
             else { return false }
             
-            nextVC.modalPresentationStyle = .overCurrentContext
+            nextVC.modalPresentationStyle = .overFullScreen
             
             self.present(nextVC, animated: false, completion: nil)
             

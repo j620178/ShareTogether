@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,7 +19,7 @@
                                 <rect key="frame" x="0.0" y="356" width="414" height="506"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LSv-gj-97q">
-                                        <rect key="frame" x="0.0" y="0.0" width="1656" height="506"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1242" height="506"/>
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sPW-nw-dk6">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="506"/>
@@ -40,12 +39,6 @@
                                                     <segue destination="qSc-1p-frt" kind="embed" id="dN6-Lp-rMW"/>
                                                 </connections>
                                             </containerView>
-                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wf9-RN-PT7">
-                                                <rect key="frame" x="1242" y="0.0" width="414" height="506"/>
-                                                <connections>
-                                                    <segue destination="lHx-Xn-yVQ" kind="embed" id="LzY-Ah-nei"/>
-                                                </connections>
-                                            </containerView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -59,7 +52,6 @@
                                     <constraint firstAttribute="bottom" secondItem="LSv-gj-97q" secondAttribute="bottom" id="OVN-d4-NF1"/>
                                     <constraint firstItem="sPW-nw-dk6" firstAttribute="width" secondItem="NYj-ah-caq" secondAttribute="width" id="SQy-NW-iTX"/>
                                     <constraint firstItem="LSv-gj-97q" firstAttribute="leading" secondItem="NYj-ah-caq" secondAttribute="leading" id="lpK-Jz-jeu"/>
-                                    <constraint firstItem="Wf9-RN-PT7" firstAttribute="width" secondItem="NYj-ah-caq" secondAttribute="width" id="vq8-Pr-TdP"/>
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qDM-I4-a1C">
@@ -124,7 +116,7 @@
                         <outlet property="bannerView" destination="qDM-I4-a1C" id="njv-oq-T9y"/>
                         <outlet property="editGroupButton" destination="uUY-dS-577" id="jY5-Hs-t9l"/>
                         <outlet property="groupNameButton" destination="FZZ-F8-1la" id="HoO-X6-sbu"/>
-                        <outlet property="infoContainer" destination="NYj-ah-caq" id="FWc-qD-IC2"/>
+                        <outlet property="infoScrollView" destination="NYj-ah-caq" id="FWc-qD-IC2"/>
                         <outlet property="infoTypeSelectionView" destination="XLa-nT-ELX" id="HO3-w7-GjB"/>
                     </connections>
                 </viewController>
@@ -257,18 +249,18 @@
             <objects>
                 <viewController id="lHx-Xn-yVQ" customClass="NotebookViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aSg-NO-eL9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="506"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jih-d4-tiA" customClass="EmptyInfoView" customModule="ShareTogether" customModuleProvider="target">
-                                <rect key="frame" x="138" y="115" width="138" height="138"/>
+                                <rect key="frame" x="138" y="310" width="138" height="138"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jih-d4-tiA" secondAttribute="height" multiplier="1:1" id="iNi-jA-BVc"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="7AJ-Lg-83T">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="506"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
                         </subviews>

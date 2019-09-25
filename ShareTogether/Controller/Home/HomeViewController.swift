@@ -17,15 +17,7 @@ class HomeViewController: STBaseViewController {
         case notebook = "記事本"
     }
     
-    let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
-    
-    var currentGroup: GroupInfo? {
-        didSet {
-            if oldValue?.id != currentGroup?.id {
-                viewModel.fectchData()
-            }
-        }
-    }
+    let infoItems: [InfoType] = [.expense, .statistics, .result] //, .notebook
     
     var expenseTableViewController: ExpenseViewController?
     
@@ -61,7 +53,7 @@ class HomeViewController: STBaseViewController {
         }
     }
     
-    @IBOutlet weak var infoContainer: UIScrollView!
+    @IBOutlet weak var infoScrollView: UIScrollView!
     
     @IBAction func clickGroupNameButton(_ sender: UIButton) {
         
@@ -93,22 +85,30 @@ class HomeViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .backgroundLightGray
         bannerView.addShadow()
         bannerView.backgroundColor = .STTintColor
         
-        infoContainer.delegate = self
+        infoScrollView.delegate = self
         
         infoTypeSelectionView.dataSource = self
         infoTypeSelectionView.delegate = self
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(upadateCurrentGroup),
+                                               name: NSNotification.Name(rawValue: "CurrentGroup"),
+                                               object: nil)
+
+        upadateCurrentGroup()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        currentGroup = UserInfoManager.shaered.currentGroupInfo
+    @objc func upadateCurrentGroup() {
+        viewModel.fectchData()
         groupNameButton.setTitle(UserInfoManager.shaered.currentGroupInfo?.name, for: .normal)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -129,6 +129,7 @@ class HomeViewController: STBaseViewController {
 //            notebookTableViewController = notebookVC
 //        }
     }
+
 }
 
 extension HomeViewController: UIScrollViewDelegate {
@@ -159,7 +160,7 @@ extension HomeViewController: ScrollSelectionViewDataSource {
 extension HomeViewController: ScrollSelectionViewDelegate {
     func scrollSelectionView(scrollSelectionView: ScrollSelectionView, didSelectIndexAt index: Int) {
         let index = infoTypeSelectionView.selectIndex
-        infoContainer.setContentOffset(CGPoint(x: index * Int(UIScreen.main.bounds.width), y: 0), animated: true)
+        infoScrollView.setContentOffset(CGPoint(x: index * Int(UIScreen.main.bounds.width), y: 0), animated: true)
     }
 }
 

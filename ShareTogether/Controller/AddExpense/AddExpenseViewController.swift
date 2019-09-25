@@ -85,6 +85,14 @@ class AddExpenseViewController: STBaseViewController {
     }
     
     @IBAction func clickAddButton(_ sender: UIButton) {
+        
+        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
+        
+        if demoGroupID == UserInfoManager.shaered.currentGroupInfo?.id {
+            LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
+            return
+        }
+        
         guard let uid = UserInfoManager.shaered.currentUserInfo?.id,
             let amountText = expenseController.newExpenseInfo[0],
             let amount = Double(amountText),
@@ -138,7 +146,7 @@ class AddExpenseViewController: STBaseViewController {
         
         payDateController.fetchDayOfWeek()
         
-        mapHeightConstraint.constant = UIScreen.main.bounds.height - 500
+        mapHeightConstraint.constant = UIScreen.main.bounds.height - 430
         
     }
     
@@ -261,7 +269,7 @@ class AddExpenseViewController: STBaseViewController {
             tableView.isScrollEnabled = false
             
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.mapHeightConstraint.constant = UIScreen.main.bounds.height - 500
+                self?.mapHeightConstraint.constant = UIScreen.main.bounds.height - 430
                 self?.view.layoutIfNeeded()
             }
         }

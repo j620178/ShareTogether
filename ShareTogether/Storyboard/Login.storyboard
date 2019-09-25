@@ -87,8 +87,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jP8-o2-z3E">
-                                <rect key="frame" x="135" y="525" width="50" height="27"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <rect key="frame" x="129" y="528" width="62" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="註冊帳號"/>
                                 <connections>
                                     <segue destination="kZm-92-HPF" kind="show" id="T54-qH-Vg5"/>
@@ -120,11 +120,11 @@
                             <constraint firstItem="lH4-Gb-QIj" firstAttribute="top" secondItem="irQ-D6-dLA" secondAttribute="bottom" constant="20" id="TKf-p6-fOe"/>
                             <constraint firstItem="14q-N0-7tQ" firstAttribute="centerX" secondItem="DDD-JM-v3u" secondAttribute="centerX" id="YbE-H3-DrP"/>
                             <constraint firstItem="DDD-JM-v3u" firstAttribute="trailing" secondItem="pnw-2i-443" secondAttribute="trailing" id="Zme-qJ-aep"/>
-                            <constraint firstItem="jP8-o2-z3E" firstAttribute="top" secondItem="14q-N0-7tQ" secondAttribute="bottom" constant="20" id="bTb-E6-ey3"/>
                             <constraint firstItem="DDD-JM-v3u" firstAttribute="trailing" secondItem="zDC-xV-64F" secondAttribute="trailing" constant="32" id="bd9-Ia-efc"/>
                             <constraint firstItem="zDC-xV-64F" firstAttribute="top" secondItem="pnw-2i-443" secondAttribute="bottom" constant="40" id="bjX-vi-cjq"/>
                             <constraint firstItem="MQv-2c-Jll" firstAttribute="width" secondItem="lH4-Gb-QIj" secondAttribute="width" id="dzd-Xr-yk2"/>
                             <constraint firstItem="MQv-2c-Jll" firstAttribute="centerX" secondItem="Aod-B6-S7F" secondAttribute="centerX" id="eko-Yh-2ZL"/>
+                            <constraint firstItem="DDD-JM-v3u" firstAttribute="bottom" secondItem="jP8-o2-z3E" secondAttribute="bottom" constant="10" id="faG-wf-6H6"/>
                             <constraint firstItem="lH4-Gb-QIj" firstAttribute="centerY" secondItem="Aod-B6-S7F" secondAttribute="centerY" id="jZT-cl-npu"/>
                             <constraint firstItem="zDC-xV-64F" firstAttribute="centerX" secondItem="Aod-B6-S7F" secondAttribute="centerX" id="nw4-Zo-XGL"/>
                             <constraint firstItem="14q-N0-7tQ" firstAttribute="top" secondItem="G5p-Jw-xMA" secondAttribute="bottom" constant="20" id="o3y-nK-3Lc"/>
@@ -198,21 +198,40 @@
                                     <action selector="clickSignUpButton:" destination="kZm-92-HPF" eventType="touchUpInside" id="IV8-r2-t6w"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="為保障會員之權益，請於使用本服務或註冊成為會員前，詳細下方隱私權政策內容，當您註冊本服務時，即表示您已閱讀、瞭解並同意接受內容" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8YN-JR-s4o">
+                                <rect key="frame" x="16" y="334" width="288" height="43"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbc-sT-pm8">
+                                <rect key="frame" x="121.5" y="387" width="77" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="隱私權政策"/>
+                                <connections>
+                                    <action selector="praviteInfo:" destination="kZm-92-HPF" eventType="touchUpInside" id="q0F-aq-lRr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="8YN-JR-s4o" firstAttribute="leading" secondItem="RNc-Kh-VxU" secondAttribute="leading" constant="16" id="7xl-74-Oeg"/>
                             <constraint firstItem="W5O-8A-TvE" firstAttribute="top" secondItem="6qk-Vk-Uv5" secondAttribute="bottom" constant="20" id="B42-x0-KER"/>
+                            <constraint firstItem="8YN-JR-s4o" firstAttribute="top" secondItem="Pi8-Tr-x3B" secondAttribute="bottom" constant="10" id="Bjs-en-Z2l"/>
                             <constraint firstItem="Pi8-Tr-x3B" firstAttribute="width" secondItem="NoY-au-O0w" secondAttribute="width" id="Bwc-YQ-0RY"/>
                             <constraint firstItem="Pi8-Tr-x3B" firstAttribute="top" secondItem="W5O-8A-TvE" secondAttribute="bottom" constant="20" id="D96-fL-KJE"/>
                             <constraint firstItem="W5O-8A-TvE" firstAttribute="centerX" secondItem="56t-I5-WGH" secondAttribute="centerX" id="IBe-Wf-1Um"/>
                             <constraint firstItem="W5O-8A-TvE" firstAttribute="width" secondItem="NoY-au-O0w" secondAttribute="width" id="JfO-SS-M0G"/>
                             <constraint firstItem="6qk-Vk-Uv5" firstAttribute="width" secondItem="NoY-au-O0w" secondAttribute="width" id="Kzt-2E-Vju"/>
+                            <constraint firstItem="pbc-sT-pm8" firstAttribute="top" secondItem="8YN-JR-s4o" secondAttribute="bottom" constant="10" id="NW5-fA-PdL"/>
+                            <constraint firstAttribute="trailing" secondItem="8YN-JR-s4o" secondAttribute="trailing" constant="16" id="NyI-HB-WCt"/>
                             <constraint firstItem="6qk-Vk-Uv5" firstAttribute="top" secondItem="NoY-au-O0w" secondAttribute="bottom" constant="20" id="R4K-d7-wKA"/>
                             <constraint firstItem="NoY-au-O0w" firstAttribute="top" secondItem="RNc-Kh-VxU" secondAttribute="top" constant="40" id="egg-Eb-yBH"/>
                             <constraint firstItem="Pi8-Tr-x3B" firstAttribute="centerX" secondItem="56t-I5-WGH" secondAttribute="centerX" id="jwy-tA-I9V"/>
                             <constraint firstItem="RNc-Kh-VxU" firstAttribute="trailing" secondItem="NoY-au-O0w" secondAttribute="trailing" constant="32" id="m1X-nq-pG1"/>
                             <constraint firstItem="NoY-au-O0w" firstAttribute="leading" secondItem="RNc-Kh-VxU" secondAttribute="leading" constant="32" id="nLG-Yl-XYi"/>
                             <constraint firstItem="6qk-Vk-Uv5" firstAttribute="centerX" secondItem="56t-I5-WGH" secondAttribute="centerX" id="r91-7k-ydi"/>
+                            <constraint firstItem="pbc-sT-pm8" firstAttribute="centerX" secondItem="56t-I5-WGH" secondAttribute="centerX" id="wYg-Id-2d1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RNc-Kh-VxU"/>
                     </view>

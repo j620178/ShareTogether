@@ -94,7 +94,6 @@ class ScrollSelectionView: UIView {
         guard let dataSource = dataSource else { return }
         
         for index in 0..<dataSource.numberOfItems(scrollSelectionView: self) {
-            print(index)
             let button = UIButton()
             button.translatesAutoresizingMaskIntoConstraints = false
             let string = dataSource.titleForItem(scrollSelectionView: self, index: index)

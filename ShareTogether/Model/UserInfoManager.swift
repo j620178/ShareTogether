@@ -20,32 +20,30 @@ class UserInfoManager {
     
     let userDefault = UserDefaults.standard
     
-    var currentUserInfo: UserInfo? {
-        if let data = userDefault.value(forKey: UserInfoConstant.currentUserInfo) as? Data,
-            let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
-            return userInfo
-        }
-        return nil
-    }
+    var currentUserInfo: UserInfo?
     
     func setCurrentUserInfo(_ userInfo: UserInfo) {
-        if let data = try? JSONEncoder().encode(userInfo) {
-            UserDefaults.standard.set(data, forKey: UserInfoConstant.currentUserInfo)
+        print(userInfo)
+        if userInfo.id != currentUserInfo?.id {
+            currentUserInfo = userInfo
+            if let data = try? JSONEncoder().encode(userInfo) {
+                UserDefaults.standard.set(data, forKey: UserInfoConstant.currentUserInfo)
+            }
         }
     }
     
-    var currentGroupInfo: GroupInfo? {
-        if let data = userDefault.value(forKey: UserInfoConstant.currentGroupInfo) as? Data,
-            let groupInfo = try? JSONDecoder().decode(GroupInfo.self, from: data) {
-            return groupInfo
-        }
-        return nil
-    }
+    var currentGroupInfo: GroupInfo?
     
     func setCurrentGroupInfo(_ groupInfo: GroupInfo) {
-        if let data = try? JSONEncoder().encode(groupInfo) {
-            UserDefaults.standard.set(data, forKey: UserInfoConstant.currentGroupInfo)
+        
+        if groupInfo.id != currentGroupInfo?.id {
+            currentGroupInfo = groupInfo
+            if let data = try? JSONEncoder().encode(groupInfo) {
+                UserDefaults.standard.set(data, forKey: UserInfoConstant.currentGroupInfo)
+            }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CurrentGroup"), object: self, userInfo: nil)
         }
+
     }
     
     var currentGroupStatus: Int? {
@@ -59,6 +57,18 @@ class UserInfoManager {
         }
         
         return nil
+    }
+    
+    func removeCurrentGroupInfo() {
+
+        UserDefaults.standard.removeObject(forKey: UserInfoConstant.currentGroupInfo)
+  
+    }
+    
+    func removeCurrentUserInfo() {
+
+        UserDefaults.standard.removeObject(forKey: UserInfoConstant.currentUserInfo)
+
     }
 
 }

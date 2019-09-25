@@ -43,6 +43,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window!.tintColor = .STTintColor
         
+        self.window!.overrideUserInterfaceStyle = .light
+        
+        if let data = UserDefaults.standard.value(forKey: UserInfoConstant.currentUserInfo) as? Data,
+            let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
+            UserInfoManager.shaered.setCurrentUserInfo(userInfo)
+        }
+        //refator
+        if let data = UserDefaults.standard.value(forKey: UserInfoConstant.currentGroupInfo) as? Data,
+            let groupInfo = try? JSONDecoder().decode(GroupInfo.self, from: data) {
+            UserInfoManager.shaered.setCurrentGroupInfo(groupInfo)
+        }
+        
         if UserInfoManager.shaered.currentUserInfo != nil {
             self.window?.rootViewController = UIStoryboard.main.instantiateInitialViewController()!
         } else {

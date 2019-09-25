@@ -16,6 +16,7 @@ class ActivityViewController: STBaseViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
+            tableView.delegate = self
             tableView.registerWithNib(indentifer: ActivityTableViewCell.identifer)
         }
     }
@@ -27,6 +28,18 @@ class ActivityViewController: STBaseViewController {
         viewModel.reloadTableView = { [weak self] in
             self?.tableView.reloadData()
         }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(upadateCurrentGroup),
+                                               name: NSNotification.Name(rawValue: "CurrentGroup"),
+                                               object: nil)
+
+        upadateCurrentGroup()
+        
+    }
+
+    @objc func upadateCurrentGroup() {
+        viewModel.fectchData()
     }
 
 }
@@ -58,4 +71,10 @@ extension ActivityViewController: UITableViewDataSource {
         return activityCell
     }
     
+}
+
+extension ActivityViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }

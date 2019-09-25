@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class SignUpViewController: UIViewController {
     
@@ -18,15 +19,41 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var signUpButton: UIButton!
     
+    @IBAction func praviteInfo(_ sender: UIButton) {
+        
+        let url = URL(string: "https://www.privacypolicies.com/privacy/view/e9b6b5e82a15d74909eff1e0d8234312")
+        let safariVC = SFSafariViewController(url: url!)
+        safariVC.delegate = self
+        self.show(safariVC, sender: nil)
+        
+    }
+    
     @IBAction func clickSignUpButton(_ sender: UIButton) {
         if userNameTextField.text == "" ||
             emailTextField.text == "" ||
             passwordTextField.text == "" {
-            print("請輸入完整資訊")
+            LKProgressHUD.showFailure(text: "請輸入完整資訊", view: self.view)
         } else {
+            LKProgressHUD.showLoading(view: self.view)
+            
+            guard let userName = userNameTextField.text, let email = emailTextField.text else { return }
+            
             AuthManager.shared.createNewUser(email: emailTextField.text!,
-                                              password: passwordTextField.text!) { text in
-                print(text)
+                                              password: passwordTextField.text!) { uid in
+                                                FirestoreManager.shared.insertNewUser(userInfo: UserInfo(id: uid,
+                                                                                                         name: userName,
+                                                                                                         email: email,
+                                                                                                         phone: nil,
+                                                                                                         photoURL: "",
+                                                                                                         groups: nil)) { result in
+                                                    switch result {
+                                                        
+                                                    case .success:
+                                                        LKProgressHUD.dismiss()
+                                                    case .failure:
+                                                        print("錯誤LKProgressHUD")
+                                                    }
+                                                }
             }
         }
     }
@@ -62,4 +89,12 @@ class SignUpViewController: UIViewController {
         
     }
 
+}
+
+extension SignUpViewController: SFSafariViewControllerDelegate {
+
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
 }

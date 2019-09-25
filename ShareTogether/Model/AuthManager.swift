@@ -22,31 +22,35 @@ class AuthManager: NSObject {
     static var shared = AuthManager()
     
     var googleSignInHandler: ((Result<UserInfo, Error>) -> Void)?
-    
-//    var uid: String? {
-//        return Auth.auth().currentUser?.uid
-//    }
-//    
-//    var isSignIn: Bool {
-//        if Auth.auth().currentUser != nil {
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
-        
+
     func createNewUser(email: String, password: String, completion: @escaping (String?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-            completion(result?.user.email)
-            //print(.displayName)
-            print(error ?? "error")
+            
+            if error != nil {
+                print(error ?? "error")
+                return
+            }
+            
+            completion(result!.user.uid)
+            
         }
     }
     
-    func emailSignIn(email: String, password: String, completion: @escaping (String?) -> Void) {
+    func emailSignIn(email: String, password: String, completion: @escaping (Result<UserInfo, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-            completion(result?.user.email)
-            print(error ?? "error")
+            
+            guard let result = result else { return }
+            
+            FirestoreManager.shared.getUserInfo(uid: result.user.uid) { [weak self] result in
+                switch result {
+                    
+                case .success(let userInfo):
+                    completion(Result.success(userInfo!))
+                case .failure:
+                    print("error")
+                }
+            }
+
         }
     }
     

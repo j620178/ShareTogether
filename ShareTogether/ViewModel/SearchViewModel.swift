@@ -12,7 +12,7 @@ import MapKit
 class SearchViewModel {
     var expenses = [Expense]()
     
-    var annotations = [MKPointAnnotation](){
+    var annotations = [MKPointAnnotation]() {
         didSet {
             reloadMapHandler?(annotations)
         }
@@ -29,6 +29,7 @@ class SearchViewModel {
                 
                 if expenses.isEmpty {
                     self?.expenses = [Expense]()
+                    self?.annotations = [MKPointAnnotation]()
                 } else {
                     self?.expenses = expenses
                     self?.processData()

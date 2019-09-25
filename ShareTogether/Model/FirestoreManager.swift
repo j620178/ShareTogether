@@ -62,6 +62,13 @@ struct GroupInfo: Codable {
     let name: String
     let coverURL: String
     var status: Int?
+    
+//    init(id: String!, name: String, coverURL: String, status: Int?) {
+//        self.id = id
+//        self.name = name
+//        self.coverURL = coverURL
+//        self.status = status
+//    }
 }
 
 struct MemberInfo: Codable {
@@ -180,8 +187,6 @@ class FirestoreManager {
         FirestoreManager.shared.joinDemoGroup(uid: userInfo.id, completion: { result in
             switch result {
             case .success(var demoGroup):
-                
-                UserInfoManager.shaered.setCurrentGroupInfo(demoGroup)
                 demoGroup.status = MemberStatusType.joined.rawValue
                 completion(Result.success(demoGroup))
                 
@@ -191,9 +196,12 @@ class FirestoreManager {
         })
     }
     
-    func getUserInfo(completion: @escaping (Result<UserInfo?, Error>) -> Void) {
+    func getUserInfo(uid: String? = UserInfoManager.shaered.currentUserInfo?.id,
+                     completion: @escaping (Result<UserInfo?, Error>) -> Void) {
+        
+        guard let uid = uid else { return }
                 
-        currentUserRef?.getDocument { (querySnapshot, error) in
+        firestore.collection(Collection.user).document(uid).getDocument { (querySnapshot, error) in
             
             guard let document = querySnapshot, let data = document.data()
             else {
@@ -205,7 +213,7 @@ class FirestoreManager {
                 var userInfo = try FirestoreDecoder().decode(UserInfo.self, from: data)
                 userInfo.id = document.documentID
                 
-                self.getUserGroups(completion: { userGroups in
+                self.getUserGroups(uid: uid, completion: { userGroups in
                     userInfo.groups = userGroups
                     completion(Result.success(userInfo))
                 })
@@ -216,12 +224,14 @@ class FirestoreManager {
             
         }
         
-        completion(Result.success(nil))
     }
     
-    func getUserGroups(completion: @escaping ([GroupInfo]) -> Void) {
+    func getUserGroups(uid: String? = UserInfoManager.shaered.currentUserInfo?.id,
+                       completion: @escaping ([GroupInfo]) -> Void) {
         
-        currentUserRef?.collection(Collection.User.groups).addSnapshotListener { (querySnapshot, error) in
+        guard let uid = uid else { return }
+        
+        firestore.collection(Collection.user).document(uid).collection(Collection.User.groups).addSnapshotListener { (querySnapshot, error) in
             
             if let documents = querySnapshot?.documents {
                 var userGroups = [GroupInfo]()
@@ -455,7 +465,7 @@ class FirestoreManager {
         }
         
         let demoGroup = GroupInfo(id: demoGroupID,
-                                  name: "九州行(範例)",
+                                  name: "台北自由行(範例)",
                                   coverURL: demoGroupCoverURL,
                                   status: MemberStatusType.joined.rawValue)
 

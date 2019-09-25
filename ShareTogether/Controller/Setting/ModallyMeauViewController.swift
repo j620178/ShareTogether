@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import SafariServices
 
 class ModallyMeauViewController: STBaseViewController {
     
-    let itemString = ["隱私權政策", "使用者條款", "登出"] // "圖示順序", "通知", "已封存群組",
+    let itemString = ["隱私權政策", "登出"] // "圖示順序", "通知", "已封存群組",
     
     weak var backgroundview: UIView?
     
@@ -58,8 +59,6 @@ extension ModallyMeauViewController: UITableViewDataSource {
         cell.textLabel?.text = itemString[indexPath.row]
         
         if indexPath.row == 0 {
-            cell.imageView?.image = .getIcon(code: "ios-eye", color: .STTintColor, size: 40)
-        } else if indexPath.row == 1 {
             cell.imageView?.image = .getIcon(code: "ios-book", color: .STTintColor, size: 40)
         } else {
             cell.imageView?.image = .getIcon(code: "ios-log-out", color: .STTintColor, size: 40)
@@ -73,10 +72,30 @@ extension ModallyMeauViewController: UITableViewDataSource {
 extension ModallyMeauViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        AuthManager.shared.signOut()
-        let nextVC = UIStoryboard.login.instantiateInitialViewController()!
-        nextVC.modalPresentationStyle = .fullScreen
-        present(nextVC, animated: true)
+        
+        if indexPath.row == 0 {
+            let url = URL(string: "https://www.privacypolicies.com/privacy/view/e9b6b5e82a15d74909eff1e0d8234312")
+            let safariVC = SFSafariViewController(url: url!)
+            safariVC.delegate = self
+            self.show(safariVC, sender: nil)
+            //self.present(safariVC, animated: true, completion: nil)
+        } else {
+            AuthManager.shared.signOut()
+            UserInfoManager.shaered.removeCurrentUserInfo()
+            UserInfoManager.shaered.removeCurrentGroupInfo()
+            let nextVC = UIStoryboard.login.instantiateInitialViewController()!
+            nextVC.modalPresentationStyle = .fullScreen
+            present(nextVC, animated: true)
+        }
+
+    }
+    
+}
+
+extension ModallyMeauViewController: SFSafariViewControllerDelegate {
+
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
 }

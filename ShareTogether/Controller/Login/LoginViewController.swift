@@ -30,17 +30,21 @@ class LoginViewController: STBaseViewController {
     @IBAction func clickLoginButton(_ sender: UIButton) {
         
         if emailTextField.text == "" || passwordTextField.text == "" {
-            print("請輸入完整資訊")
+            LKProgressHUD.showFailure(text: "請輸入完整資訊", view: self.view)
         } else {
             
+            LKProgressHUD.showLoading(view: self.view)
+            
             AuthManager.shared.emailSignIn(email: emailTextField.text!,
-                                            password: passwordTextField.text!) { result in
+                                            password: passwordTextField.text!) { [weak self] result in
+                                                switch result {
+                                                    
+                                                case .success(let userInfo):
+                                                    self?.checkUserGroup(authUserInfo: userInfo)
+                                                case .failure:
+                                                    print("Error")
+                                                }
                 
-                if result != nil {
-                    
-                } else {
-                    print(result ?? "error")
-                }
             }
             
         }
@@ -61,6 +65,8 @@ class LoginViewController: STBaseViewController {
     }
     
     @IBAction func clickOAuthLogin(_ sender: UIButton) {
+        
+        LKProgressHUD.showLoading(view: self.view)
         
         if sender.tag == 1 {
             
@@ -131,13 +137,8 @@ class LoginViewController: STBaseViewController {
     }
     
     func checkUserGroup(authUserInfo: UserInfo) {
-        
-        if UserInfoManager.shaered.currentGroupInfo != nil {
-            goHomeVC()
-            return
-        }
-        
-        FirestoreManager.shared.getUserInfo { [weak self] result in
+
+        FirestoreManager.shared.getUserInfo(uid: authUserInfo.id) { [weak self] result in
             switch result {
                 
             case .success(let userInfo):
@@ -147,8 +148,9 @@ class LoginViewController: STBaseViewController {
                                           name: groups[0].name,
                                           coverURL: groups[0].coverURL,
                                           status: nil)
-                    UserInfoManager.shaered.setCurrentGroupInfo(group)
                     UserInfoManager.shaered.setCurrentUserInfo(userInfo)
+                    UserInfoManager.shaered.setCurrentGroupInfo(group)
+                    LKProgressHUD.dismiss()
                     self?.goHomeVC()
                 } else {
                     FirestoreManager.shared.insertNewUser(userInfo: authUserInfo) { result in
@@ -158,8 +160,11 @@ class LoginViewController: STBaseViewController {
                             var userInfo = authUserInfo
                             userInfo.groups = [demoGroup]
                             UserInfoManager.shaered.setCurrentUserInfo(userInfo)
+                            UserInfoManager.shaered.setCurrentGroupInfo(demoGroup)
+                            LKProgressHUD.dismiss()
                             self?.goHomeVC()
                         case .failure:
+                            LKProgressHUD.dismiss()
                             print("error")
                         }
 
@@ -167,6 +172,7 @@ class LoginViewController: STBaseViewController {
                 }
                 
             case .failure(let error):
+                LKProgressHUD.dismiss()
                 print(error)
             }
             
@@ -179,17 +185,14 @@ class LoginViewController: STBaseViewController {
         if presentingViewController != nil {
             let presentingVC = presentingViewController
             dismiss(animated: false) {
-                presentingVC?.dismiss(animated: false) {
-                    let meauVC = presentingVC as? ModallyMeauViewController
-                    let tabBar = meauVC?.presentingViewController as? STTabBarController
-                    tabBar?.selectedIndex = 0
-                }
+                presentingVC?.dismiss(animated: false)
             }
         } else {
             let nextVC = UIStoryboard.main.instantiateInitialViewController()!
             nextVC.modalPresentationStyle = .fullScreen
             present(nextVC, animated: true, completion: nil)
         }
+        
     }
 
 }
@@ -205,6 +208,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                                 email: credentialUser.email,
                                 phone: nil, photoURL: "",
                                 groups: nil)
+        print(userInfo)
         checkUserGroup(authUserInfo: userInfo)
     }
 }

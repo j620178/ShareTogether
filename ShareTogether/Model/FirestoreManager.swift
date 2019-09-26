@@ -21,11 +21,6 @@ enum FirestoreError: Error {
     case joinDemoGroupFailed
 }
 
-enum ActivityType: Int {
-    case addMember = 0
-    case addExpense = 1
-}
-
 struct Collection {
     static let user = "user"
     static let group = "group"
@@ -38,113 +33,8 @@ struct Collection {
     struct Group {
         static let expense = "expense"
         static let member = "member"
+        static let notebook = "notebook"
     }
-}
-
-struct UserInfo: Codable {
-    var id: String!
-    let name: String
-    let email: String
-    let phone: String?
-    let photoURL: String
-    var groups: [GroupInfo]!
-}
-
-struct UploadUserInfo: Codable {
-    let name: String
-    let email: String
-    let phone: String?
-    let photoURL: String
-}
-
-struct GroupInfo: Codable {
-    var id: String!
-    let name: String
-    let coverURL: String
-    var status: Int?
-    
-//    init(id: String!, name: String, coverURL: String, status: Int?) {
-//        self.id = id
-//        self.name = name
-//        self.coverURL = coverURL
-//        self.status = status
-//    }
-}
-
-struct MemberInfo: Codable {
-    var id: String!
-    let name: String
-    let email: String
-    let photoURL: String
-    var status: Int
-    
-    init(userInfo: UserInfo, status: Int) {
-        self.id = userInfo.id
-        self.name = userInfo.name
-        self.email = userInfo.email
-        self.photoURL = userInfo.photoURL
-        self.status = status
-    }
-}
-
-struct Expense: Codable {
-    var id: String?
-    let type: Int
-    let desc: String
-    let userID: String
-    let amount: Double
-    let payerInfo: AmountInfo
-    let splitInfo: AmountInfo
-    let position: GeoPoint
-    let time: Timestamp
-    
-    init(type: Int, desc: String, userID: String, amount: Double,
-         payerInfo: AmountInfo, splitInfo: AmountInfo, location: CLLocationCoordinate2D, time: Date) {
-        
-        self.userID = userID
-        self.type = type
-        self.amount = amount
-        self.desc = desc
-        self.payerInfo = payerInfo
-        self.splitInfo = splitInfo
-        self.position = GeoPoint(latitude: location.latitude, longitude: location.longitude)
-        self.time = Timestamp(date: time)
-        
-    }
-}
-
-struct Activity: Codable {
-    var id: String!
-    let type: Int
-    let status: Int
-    let targetMember: MemberInfo
-    let pushUser: UserInfo
-    let groupInfo: GroupInfo?
-    let amount: Double?
-    let time: Timestamp
-    
-    init(type: Int,
-         targetMember: MemberInfo,
-         pushUser: UserInfo,
-         groupInfo: GroupInfo?,
-         amount: Double?,
-         time: Date,
-         status: Int) {
-        
-        self.type = type
-        self.targetMember = targetMember
-        self.pushUser = pushUser
-        self.groupInfo = groupInfo
-        self.amount = amount
-        self.time = Timestamp(date: time)
-        self.status = status
-    }
-}
-
-enum ActivityStatus: Int {
-    case new = 0
-    case readed = 1
-    case used = 2
 }
 
 class FirestoreManager {
@@ -152,24 +42,6 @@ class FirestoreManager {
     static let shared = FirestoreManager()
     
     var firestore = Firestore.firestore()
-    
-    var currentGroupID: String? {
-        return UserInfoManager.shaered.currentGroupInfo?.id
-    }
-    
-    var currentUid: String? {
-        return UserInfoManager.shaered.currentUserInfo?.id
-    }
-    
-    var currentGroupRef: DocumentReference? {
-        guard let groupID = currentGroupID else { return nil }
-        return firestore.collection(Collection.group).document(groupID)
-    }
-    
-    var currentUserRef: DocumentReference? {
-        guard let uid = currentUid else { return nil }
-        return firestore.collection(Collection.user).document(uid)
-    }
     
     func insertNewUser(userInfo: UserInfo, completion: @escaping (Result<GroupInfo, Error>) -> Void) {
         
@@ -196,7 +68,7 @@ class FirestoreManager {
         })
     }
     
-    func getUserInfo(uid: String? = UserInfoManager.shaered.currentUserInfo?.id,
+    func getUserInfo(uid: String? = CurrentInfoManager.shared.user?.id,
                      completion: @escaping (Result<UserInfo?, Error>) -> Void) {
         
         guard let uid = uid else { return }
@@ -226,12 +98,14 @@ class FirestoreManager {
         
     }
     
-    func getUserGroups(uid: String? = UserInfoManager.shaered.currentUserInfo?.id,
+    func getUserGroups(uid: String? = CurrentInfoManager.shared.user?.id,
                        completion: @escaping ([GroupInfo]) -> Void) {
         
         guard let uid = uid else { return }
         
-        firestore.collection(Collection.user).document(uid).collection(Collection.User.groups).addSnapshotListener { (querySnapshot, error) in
+        firestore.collection(Collection.user).document(uid)
+            .collection(Collection.User.groups)
+            .addSnapshotListener { (querySnapshot, error) in
             
             if let documents = querySnapshot?.documents {
                 var userGroups = [GroupInfo]()
@@ -251,9 +125,14 @@ class FirestoreManager {
         }
     }
     
-    func getExpenses(completion: @escaping (Result<[Expense], Error>) -> Void) {
+    func getExpenses(groupID: String? = CurrentInfoManager.shared.group?.id,
+                     completion: @escaping (Result<[Expense], Error>) -> Void) {
         
-        currentGroupRef?.collection(Collection.Group.expense).order(by: "time", descending: true).addSnapshotListener { (querySnapshot, error) in
+        guard let groupID = groupID else { return }
+        
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.expense).order(by: "time", descending: true)
+            .addSnapshotListener { (querySnapshot, error) in
             
             guard let documents = querySnapshot?.documents else { return }
             
@@ -274,9 +153,14 @@ class FirestoreManager {
         }
     }
     
-    func getMembers(completion: @escaping (Result<[MemberInfo], Error>) -> Void) {
+    func getMembers(groupID: String? = CurrentInfoManager.shared.group?.id,
+                    completion: @escaping (Result<[MemberInfo], Error>) -> Void) {
         
-        currentGroupRef?.collection(Collection.Group.member).addSnapshotListener { (querySnapshot, error) in
+        guard let groupID = groupID else { return }
+        
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.member)
+            .addSnapshotListener { (querySnapshot, error) in
             
             guard let documents = querySnapshot?.documents else { return }
             
@@ -299,12 +183,16 @@ class FirestoreManager {
         completion(Result.success([MemberInfo]()))
     }
     
-    func addExpense(expense: Expense,
+    func addExpense(groupID: String? = CurrentInfoManager.shared.group?.id,
+                    expense: Expense,
                     completion: @escaping (Result<String, Error>) -> Void) {
         
-        guard let docData = try? FirestoreEncoder().encode(expense) else { return }
+        guard let groupID = groupID,
+            let docData = try? FirestoreEncoder().encode(expense) else { return }
         
-        currentGroupRef?.collection(Collection.Group.expense).addDocument(data: docData) { (error) in
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.expense)
+            .addDocument(data: docData) { (error) in
             if let error = error {
                 completion(Result.failure(error))
             } else {
@@ -320,7 +208,8 @@ class FirestoreManager {
         
         if email != nil {
             
-            firestore.collection(Collection.user).whereField("email", isEqualTo: email!).getDocuments { (querySnapshot, error) in
+            firestore.collection(Collection.user).whereField("email", isEqualTo: email!)
+                .getDocuments { (querySnapshot, error) in
 
                 if error != nil {
                     return
@@ -356,7 +245,7 @@ class FirestoreManager {
         
         reference = firestore.collection(Collection.group).addDocument(data: docData) { [weak self] error in
             if error != nil {
-                print(error)
+                print(error?.localizedDescription)
             }
             
             guard let groupID = reference?.documentID else { return }
@@ -369,7 +258,9 @@ class FirestoreManager {
                     newMember.status = MemberStatusType.inviting.rawValue
                 }
                 
-                self?.addMember(group: group, memberInfo: newMember, isBuilder: newMember.status == MemberStatusType.builder.rawValue)
+                self?.addMember(group: group,
+                                memberInfo: newMember,
+                                isBuilder: newMember.status == MemberStatusType.builder.rawValue)
             }
             
             self?.joinGroup(group: group, completion: { _ in
@@ -380,13 +271,16 @@ class FirestoreManager {
         
     }
 
-    func addMember(group: GroupInfo? = UserInfoManager.shaered.currentGroupInfo, memberInfo: MemberInfo, isBuilder: Bool = false) {
+    func addMember(group: GroupInfo? = CurrentInfoManager.shared.group,
+                   memberInfo: MemberInfo,
+                   isBuilder: Bool = false) {
         
         guard let group = group,
             let docData = try? FirestoreEncoder().encode(memberInfo),
-            let currentUserInfo = UserInfoManager.shaered.currentUserInfo
+            let currentUserInfo = CurrentInfoManager.shared.user
         else { return }
-        firestore.collection(Collection.group).document(group.id).collection(Collection.Group.member).document(memberInfo.id).setData(docData)
+        firestore.collection(Collection.group).document(group.id)
+            .collection(Collection.Group.member).document(memberInfo.id).setData(docData)
             
         if !isBuilder {
             addActivity(type: ActivityType.addMember.rawValue,
@@ -398,13 +292,17 @@ class FirestoreManager {
 
     }
     
-    func updateGroupMemberStatus(groupID: String? = FirestoreManager.shared.currentGroupID, memberInfo: MemberInfo, status: MemberStatusType, completion: @escaping (Result<Int, Error>) -> Void) {
+    func updateGroupMemberStatus(groupID: String? = CurrentInfoManager.shared.group?.id,
+                                 memberInfo: MemberInfo,
+                                 status: MemberStatusType,
+                                 completion: @escaping (Result<Int, Error>) -> Void) {
         
         let data = ["status": status.rawValue]
         
         guard let groupID = groupID else { return }
         
-        firestore.collection(Collection.group).document(groupID).collection(Collection.Group.member).document(memberInfo.id).updateData(data) { error in
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.member).document(memberInfo.id).updateData(data) { error in
             
             if error != nil {
                 print("Error updating document: \(error!)")
@@ -413,39 +311,34 @@ class FirestoreManager {
             print("Document successfully updated")
         }
         
-//        if status != .inviting {
-//            self.updateUserGroupStatus(uid: memberInfo.id, status: status, completion: { _ in
-//
-//                guard let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
-//                    let currentGroupInfo = UserInfoManager.shaered.currentGroupInfo
-//                else { return }
-                
-//                self.addActivity(type: ActivityType.addMember.rawValue,
-//                                 targetMember: memberInfo,
-//                                 pushUser: currentUserInfo,
-//                                 groupInfo: currentGroupInfo,
-//                                 amount: nil)
-//            })
-//        }
-        
     }
     
-    func updateUserGroupStatus(uid: String, status: MemberStatusType, completion: @escaping (Result<Int, Error>) -> Void) {
+    func updateUserGroupStatus(uid: String,
+                               groupID: String? = CurrentInfoManager.shared.group?.id,
+                               status: MemberStatusType,
+                               completion: @escaping (Result<Int, Error>) -> Void) {
         
-        guard let groupID  = currentGroupID else { return }
+        guard let groupID = groupID else { return }
         
         let data = ["status": status.rawValue]
         
-        firestore.collection(Collection.user).document(uid).collection(Collection.User.groups).document(groupID).updateData(data)
+        firestore.collection(Collection.user).document(uid)
+            .collection(Collection.User.groups).document(groupID).updateData(data)
 
     }
     
-    func joinGroup(group: GroupInfo, completion: @escaping (Result<String, Error>) -> Void) {
+    func joinGroup(uid: String? = CurrentInfoManager.shared.user?.id,
+                   group: GroupInfo,
+                   completion: @escaping (Result<String, Error>) -> Void) {
         
-        guard let docData = try? FirestoreEncoder().encode(group),
-        let groupID = group.id else { return }
+        guard let uid = uid,
+            let groupID = group.id,
+            let docData = try? FirestoreEncoder().encode(group)
+            else { return }
         
-        currentUserRef?.collection(Collection.User.groups).document(groupID).setData(docData) { error in
+        firestore.collection(Collection.user).document(uid)
+            .collection(Collection.User.groups).document(groupID)
+            .setData(docData) { error in
             
             if error != nil {
                 completion(Result.failure(FirestoreError.insertFailed))
@@ -471,7 +364,8 @@ class FirestoreManager {
 
         guard let docData = try? FirestoreEncoder().encode(demoGroup) else { return }
     
-        firestore.collection(Collection.user).document(uid).collection(Collection.User.groups).document(demoGroupID).setData(docData) { error in
+        firestore.collection(Collection.user).document(uid)
+            .collection(Collection.User.groups).document(demoGroupID).setData(docData) { error in
              
             if error != nil {
                 completion(Result.failure(FirestoreError.insertFailed))
@@ -484,16 +378,25 @@ class FirestoreManager {
     
     func addActivity(type: Int, targetMember: MemberInfo, pushUser: UserInfo, groupInfo: GroupInfo?, amount: Double?) {
         
-        let activity = Activity(type: type, targetMember: targetMember, pushUser: pushUser, groupInfo: groupInfo, amount: amount, time: Date(), status: 0)
+        let activity = Activity(type: type,
+                                targetMember: targetMember,
+                                pushUser: pushUser,
+                                groupInfo: groupInfo,
+                                amount: amount,
+                                time: Date(),
+                                status: 0)
         
         guard let docData = try? FirestoreEncoder().encode(activity) else { return }
-        firestore.collection(Collection.user).document(targetMember.id).collection(Collection.User.activity).addDocument(data: docData)
+        firestore.collection(Collection.user).document(targetMember.id)
+            .collection(Collection.User.activity).addDocument(data: docData)
         
     }
     
     func getActivity(uid: String, completion: @escaping (Result<[Activity], Error>) -> Void) {
         
-        firestore.collection(Collection.user).document(uid).collection(Collection.User.activity).order(by: "time", descending: true).addSnapshotListener { (querySnapshot, error) in
+        firestore.collection(Collection.user).document(uid)
+            .collection(Collection.User.activity).order(by: "time", descending: true)
+            .addSnapshotListener { (querySnapshot, error) in
             
             guard let documents = querySnapshot?.documents else { return }
             
@@ -505,7 +408,7 @@ class FirestoreManager {
                     activity.id = document.documentID
                     activities.append(activity)
                 } catch {
-                    print(error)
+                    completion(Result.failure(FirestoreError.decodeFailed))
                 }
             }
             completion(Result.success(activities))
@@ -515,12 +418,40 @@ class FirestoreManager {
     
     func updateActivityStatus(uid: String, id: String, status: ActivityStatus) {
         let data = ["status": status.rawValue]
-        firestore.collection(Collection.user).document(uid).collection(Collection.User.activity).document(id).updateData(data)
+        firestore.collection(Collection.user).document(uid)
+            .collection(Collection.User.activity).document(id).updateData(data)
+    }
+    
+    func getNotebooks(groupID: String? = CurrentInfoManager.shared.group?.id,
+                      completion: @escaping (Result<[Notebook], Error>) -> Void) {
+        
+        guard let groupID = groupID else { return }
+        
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.notebook)
+            .getDocuments { (querySnapshot, error) in
+                
+            guard let documents = querySnapshot?.documents else { return }
+            
+            var notebooks = [Notebook]()
+            
+            for document in documents {
+                do {
+                    var notebook = try FirestoreDecoder().decode(Notebook.self, from: document.data())
+                    notebook.id = document.documentID
+                    notebooks.append(notebook)
+                } catch {
+                    completion(Result.failure(FirestoreError.decodeFailed))
+                }
+            }
+            completion(Result.success(notebooks))
+        }
     }
     
 }
 
 extension Timestamp {
+    
     func toFullFormat() -> String {
         let date = self.dateValue()
         

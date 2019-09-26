@@ -39,13 +39,11 @@ class HomeViewModel: NSObject {
     func getExpenseCellViewModel(at indexPath: IndexPath) -> HomeExpenseCellViewModel {
         
         if indexPath.row == 0 {
-            //cellViewModels[indexPath.section][indexPath.row].isFirst = true
             return cellViewModels[indexPath.section][indexPath.row]
         } else {
             for section in cellViewModels.indices {
                 let lastIndexPath = IndexPath(row: cellViewModels[section].count - 1, section: section)
                 if indexPath == lastIndexPath {
-                    //cellViewModels[indexPath.section][indexPath.row].isLast = true
                     return cellViewModels[indexPath.section][indexPath.row]
                 }
             }
@@ -74,12 +72,11 @@ class HomeViewModel: NSObject {
                 
                 if expenses.isEmpty {
                     self?.expenses = [Expense]()
-                    self?.cellViewModels = [[HomeExpenseCellViewModel]]()
                 } else {
                     self?.expenses = expenses
-                    self?.processData()
-                    self?.createResultInfo()
                 }
+                self?.processData()
+                self?.createResultInfo()
 
             case .failure(let error):
                 print(error)
@@ -120,53 +117,51 @@ class HomeViewModel: NSObject {
         
     }
     
-    func getStatisticsgetCellViewModel() -> StatisticsCellViewModel? {
+    func getStatisticsgetCellViewModel() -> StatisticsCellViewModel {
         
         //    //群組：總消費, 平均消費, 消費筆數
-        //    //個人：總消費, 借出, 借入, 已收到 已支付
+        //個人：總消費, 借出, 借入, 已收到 已支付
         
-        let count = expenses.count
+        var viewModel = StatisticsCellViewModel(total: 0, count: 0, selfPay: 0, selfLend: 0, selfBorrow: 0)
         
-        var total: Double = 0
-        
-        var selfPay: Double = 0
-        
-        var selfLend: Double = 0
-        
-        var selfBorrow: Double = 0
+        viewModel.count = expenses.count
         
         for expense in expenses {
-            total += expense.amount
+            viewModel.total += expense.amount
         }
         
         for expense in expenses {
             
-            guard let first = expense.payerInfo.amountDesc.first else { return nil }
+            guard let first = expense.payerInfo.amountDesc.first else { return viewModel }
             
-            if first.member.id == UserInfoManager.shaered.currentUserInfo?.id {
-                selfPay += expense.amount
+            if first.member.id == CurrentInfoManager.shared.user?.id {
+                viewModel.selfPay += expense.amount
             }
         }
         
         for expense in expenses {
             
-            guard let first = expense.payerInfo.amountDesc.first else { return nil }
+            guard let first = expense.payerInfo.amountDesc.first else {
+                return viewModel
+            }
             
-            let selfID = UserInfoManager.shaered.currentUserInfo?.id
+            let selfID = CurrentInfoManager.shared.user?.id
             
             if first.member.id == selfID {
             
                 if SplitType(rawValue: expense.splitInfo.type) == SplitType.average {
                     let pay = expense.amount / Double(expense.splitInfo.amountDesc.filter({$0.value != nil}).count)
-                    selfLend += (expense.amount - pay)
+                    viewModel.selfLend += (expense.amount - pay)
+                    
                 } else if SplitType(rawValue: expense.splitInfo.type) == SplitType.percentage {
                     guard let value = expense.splitInfo.amountDesc.filter({ $0.member.id == selfID}).first?.value
-                    else { return nil}
-                    selfLend += (expense.amount - (expense.amount * value / 100))
+                    else { return viewModel}
+                    viewModel.selfLend += (expense.amount - (expense.amount * value / 100))
+                    
                 } else if SplitType(rawValue: expense.splitInfo.type) == SplitType.amount {
                     guard let value = expense.splitInfo.amountDesc.filter({ $0.member.id == selfID}).first?.value
-                    else { return nil}
-                    selfLend += value
+                    else { return viewModel}
+                    viewModel.selfLend += value
                 }
                 
             }
@@ -175,35 +170,34 @@ class HomeViewModel: NSObject {
         
         for expense in expenses {
             
-            guard let payer = expense.payerInfo.amountDesc.first else { return nil }
+            guard let payer = expense.payerInfo.amountDesc.first else { return viewModel }
             
-            let selfID = UserInfoManager.shaered.currentUserInfo?.id
+            let selfID = CurrentInfoManager.shared.user?.id
             
             if payer.member.id != selfID {
             
                 if SplitType(rawValue: expense.splitInfo.type) == SplitType.average {
                     let eachPay = expense.amount / Double(expense.splitInfo.amountDesc.filter({$0.value != nil}).count)
-                    selfBorrow += (expense.amount - eachPay)
+                    viewModel.selfBorrow += (expense.amount - eachPay)
+                    
                 } else if SplitType(rawValue: expense.splitInfo.type) == SplitType.percentage {
                     guard let percentage = expense.splitInfo.amountDesc.filter({ $0.member.id == selfID}).first?.value
-                    else { return nil}
+                    else { return viewModel}
                     let eachPay = (expense.amount * percentage / 100)
-                    selfBorrow += (expense.amount - eachPay)
+                    viewModel.selfBorrow += (expense.amount - eachPay)
+                    
                 } else if SplitType(rawValue: expense.splitInfo.type) == SplitType.amount {
                     guard let eachPay = expense.splitInfo.amountDesc.filter({ $0.member.id == selfID}).first?.value
-                    else { return nil}
-                    selfBorrow += eachPay
+                    else { return viewModel}
+                    
+                    viewModel.selfBorrow += eachPay
                 }
                 
             }
                 
         }
         
-        return StatisticsCellViewModel(total: total,
-                                       count: count,
-                                       selfPay: selfPay,
-                                       selfLend: selfLend,
-                                       selfBorrow: selfBorrow)
+        return viewModel
     }
     
     func createResultInfo() {

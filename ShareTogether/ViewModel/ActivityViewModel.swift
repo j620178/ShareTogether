@@ -26,7 +26,7 @@ class ActivityViewModel {
     
     func fectchData() {
         
-        guard let userInfo = UserInfoManager.shaered.currentUserInfo else { return }
+        guard let userInfo = CurrentInfoManager.shared.user else { return }
         
         FirestoreManager.shared.getActivity(uid: userInfo.id) { [weak self] result in
             switch result {

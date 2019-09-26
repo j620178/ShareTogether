@@ -30,9 +30,15 @@ class InviteViewModel {
                         }
                         
                         if isContainMember {
-                            self?.delegate?.updateView(text: userInfo.name, imageURL: userInfo.photoURL, isButtonHidden: false, isEnable: false)
+                            self?.delegate?.updateView(text: userInfo.name,
+                                                       imageURL: userInfo.photoURL,
+                                                       isButtonHidden: false,
+                                                       isEnable: false)
                         } else {
-                            self?.delegate?.updateView(text: userInfo.name, imageURL: userInfo.photoURL, isButtonHidden: false, isEnable: true)
+                            self?.delegate?.updateView(text: userInfo.name,
+                                                       imageURL: userInfo.photoURL,
+                                                       isButtonHidden: false,
+                                                       isEnable: true)
                         }
                         
                     case .failure:

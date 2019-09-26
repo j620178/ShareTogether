@@ -8,6 +8,13 @@
 
 import UIKit
 
+struct NotebookCellViewModel {
+    var userImageURL: String?
+    var userName: String
+    var content: String
+    var time: String
+}
+
 class NotebookTableViewCell: UITableViewCell {
 
     @IBOutlet weak var insetContentView: UIView!
@@ -19,6 +26,16 @@ class NotebookTableViewCell: UITableViewCell {
     @IBOutlet weak var contentLabel: UILabel!
     
     @IBOutlet weak var timeLabel: UILabel!
+    
+    var cellViewModel: NotebookCellViewModel? {
+        didSet {
+            guard let cellViewModel = cellViewModel else { return }
+            userImage.setUrlImage(cellViewModel.userImageURL ?? "")
+            userNameLabel.text = cellViewModel.userName
+            contentLabel.text = cellViewModel.content
+            timeLabel.text = cellViewModel.time
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,7 +51,6 @@ class NotebookTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         userImage.layer.cornerRadius = userImage.frame.height / 2
-        insetContentView.addCornerRadius()
     }
     
 }

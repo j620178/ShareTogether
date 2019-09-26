@@ -87,7 +87,7 @@ extension GroupListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let userGroup = viewModel.getUserGroup(at: indexPath.row)
         let groupInfo = GroupInfo(id: userGroup.id, name: userGroup.name, coverURL: userGroup.coverURL, status: nil)
-        UserInfoManager.shaered.setCurrentGroupInfo(groupInfo)
+        CurrentInfoManager.shared.setCurrentGroup(groupInfo)
         
         dismiss(animated: true, completion: nil)
     }

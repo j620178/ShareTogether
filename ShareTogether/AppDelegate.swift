@@ -45,17 +45,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window!.overrideUserInterfaceStyle = .light
         
-        if let data = UserDefaults.standard.value(forKey: UserInfoConstant.currentUserInfo) as? Data,
+        if let data = UserDefaults.standard.value(forKey: CurrentInfoConstant.user) as? Data,
             let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
-            UserInfoManager.shaered.setCurrentUserInfo(userInfo)
+            CurrentInfoManager.shared.setCurrentUser(userInfo)
         }
         //refator
-        if let data = UserDefaults.standard.value(forKey: UserInfoConstant.currentGroupInfo) as? Data,
+        if let data = UserDefaults.standard.value(forKey: CurrentInfoConstant.group) as? Data,
             let groupInfo = try? JSONDecoder().decode(GroupInfo.self, from: data) {
-            UserInfoManager.shaered.setCurrentGroupInfo(groupInfo)
+            CurrentInfoManager.shared.setCurrentGroup(groupInfo)
         }
         
-        if UserInfoManager.shaered.currentUserInfo != nil {
+        if CurrentInfoManager.shared.user != nil {
             self.window?.rootViewController = UIStoryboard.main.instantiateInitialViewController()!
         } else {
             self.window?.rootViewController = UIStoryboard.login.instantiateInitialViewController()!

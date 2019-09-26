@@ -47,12 +47,18 @@ class ResultTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupContent(leftUserImageURL: String, leftUserName: String, rightUserImageURL: String, rightUserName: String, amount: String) {
+    func setupContent(leftUserImageURL: String,
+                      leftUserName: String,
+                      rightUserImageURL: String,
+                      rightUserName: String,
+                      amount: String) {
+        
         leftUserImageView.setUrlImage(leftUserImageURL)
         leftUserLabel.text = leftUserName
         rightUserImageView.setUrlImage(rightUserImageURL)
         rightUserLabel.text = rightUserName
         amountLabel.text = amount
+        
     }
     
     override func layoutSubviews() {

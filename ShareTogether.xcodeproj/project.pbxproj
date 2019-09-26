@@ -12,15 +12,15 @@
 		742468C12338425800528202 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742468C02338425800528202 /* SearchViewController.swift */; };
 		742E5F4E23304E8E001EDF54 /* AddGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */; };
 		742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4F23306373001EDF54 /* MemberStatusType.swift */; };
-		742E5F522331A6EA001EDF54 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F512331A6EA001EDF54 /* AlertManager.swift */; };
 		742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */; };
 		743F4E62232F3FA3009BA6BA /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 743F4E61232F3FA3009BA6BA /* Menu.storyboard */; };
 		743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E63232F4317009BA6BA /* StorageManager.swift */; };
 		743F4E66232F923D009BA6BA /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E65232F923D009BA6BA /* InviteViewModel.swift */; };
+		744232BC233CAFFA00139C7C /* AddNoteTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744232BB233CAFFA00139C7C /* AddNoteTableHeaderView.swift */; };
+		744232BE233CB26E00139C7C /* UImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744232BD233CB26E00139C7C /* UImage+Extension.swift */; };
+		744232C0233CC2D200139C7C /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744232BF233CC2D200139C7C /* AddNoteViewController.swift */; };
 		744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744BBFA723162B1900434D7A /* UIColor+Extension.swift */; };
 		7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */; };
-		7451C46023271AB200EA0AEB /* AddNotebookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C45E23271AB200EA0AEB /* AddNotebookTableViewCell.swift */; };
-		7451C46123271AB200EA0AEB /* AddNotebookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7451C45F23271AB200EA0AEB /* AddNotebookTableViewCell.xib */; };
 		7451C46323272B4800EA0AEB /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C46223272B4800EA0AEB /* InviteViewController.swift */; };
 		74525B0C231C9B2500670D6E /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */; };
 		7455837523265D2E008C1690 /* SplitTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455837323265D2E008C1690 /* SplitTextFieldTableViewCell.swift */; };
@@ -29,8 +29,7 @@
 		745CACC423169E530055A60C /* ExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC323169E530055A60C /* ExpenseViewModel.swift */; };
 		745CACC823169FD30055A60C /* HomeExpenseCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC723169FD30055A60C /* HomeExpenseCellViewModel.swift */; };
 		745CACCA231784DF0055A60C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACC9231784DF0055A60C /* String+Extension.swift */; };
-		745CACD72317C6950055A60C /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACD62317C6950055A60C /* ResultViewModel.swift */; };
-		745CACDE2317C9D60055A60C /* NotebookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACDD2317C9D60055A60C /* NotebookViewModel.swift */; };
+		745CACDE2317C9D60055A60C /* NoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CACDD2317C9D60055A60C /* NoteViewModel.swift */; };
 		745CC983232106C200426D1A /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CC981232106C200426D1A /* ActivityTableViewCell.swift */; };
 		745CC984232106C200426D1A /* ActivityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 745CC982232106C200426D1A /* ActivityTableViewCell.xib */; };
 		745CC9862321164E00426D1A /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CC9852321164E00426D1A /* Direction.swift */; };
@@ -59,12 +58,13 @@
 		74960EAD23150838006BF12C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74960EAB23150838006BF12C /* LaunchScreen.storyboard */; };
 		74975EB42327764A008FC7B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74975EB32327764A008FC7B0 /* GoogleService-Info.plist */; };
 		74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74975EB523277A61008FC7B0 /* AuthManager.swift */; };
+		749A2346233C3B8700273786 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749A2345233C3B8700273786 /* Firestore.swift */; };
 		74A1A0D9232B6728007C717A /* ExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0D8232B6728007C717A /* ExpenseViewController.swift */; };
 		74A1A0DB232B6EFF007C717A /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DA232B6EFF007C717A /* StatisticsViewController.swift */; };
 		74A1A0DD232B8535007C717A /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DC232B8535007C717A /* ResultViewController.swift */; };
-		74A1A0DF232B8675007C717A /* NotebookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */; };
+		74A1A0DF232B8675007C717A /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0DE232B8675007C717A /* NoteViewController.swift */; };
 		74A1A0E1232B8F6E007C717A /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */; };
-		74A1A0E3232CD5F8007C717A /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */; };
+		74A1A0E3232CD5F8007C717A /* CurrentInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E2232CD5F8007C717A /* CurrentInfoManager.swift */; };
 		74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E4232D8C76007C717A /* Date+Extension.swift */; };
 		74A1A0E7232D93C6007C717A /* ExpenseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0E6232D93C6007C717A /* ExpenseType.swift */; };
 		74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AEC8F7231FAFF0003A6F01 /* SelectionTableViewCell.swift */; };
@@ -117,15 +117,15 @@
 		742468C02338425800528202 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupViewModel.swift; sourceTree = "<group>"; };
 		742E5F4F23306373001EDF54 /* MemberStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStatusType.swift; sourceTree = "<group>"; };
-		742E5F512331A6EA001EDF54 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AlertManager.swift; path = ../Extension/AlertManager.swift; sourceTree = "<group>"; };
 		742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHeaderFooterView.swift; sourceTree = "<group>"; };
 		743F4E61232F3FA3009BA6BA /* Menu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
 		743F4E63232F4317009BA6BA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		743F4E65232F923D009BA6BA /* InviteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewModel.swift; sourceTree = "<group>"; };
+		744232BB233CAFFA00139C7C /* AddNoteTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteTableHeaderView.swift; sourceTree = "<group>"; };
+		744232BD233CB26E00139C7C /* UImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UImage+Extension.swift"; sourceTree = "<group>"; };
+		744232BF233CC2D200139C7C /* AddNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteViewController.swift; sourceTree = "<group>"; };
 		744BBFA723162B1900434D7A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModallyMeauViewController.swift; sourceTree = "<group>"; };
-		7451C45E23271AB200EA0AEB /* AddNotebookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNotebookTableViewCell.swift; sourceTree = "<group>"; };
-		7451C45F23271AB200EA0AEB /* AddNotebookTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNotebookTableViewCell.xib; sourceTree = "<group>"; };
 		7451C46223272B4800EA0AEB /* InviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		7455837323265D2E008C1690 /* SplitTextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitTextFieldTableViewCell.swift; sourceTree = "<group>"; };
@@ -134,8 +134,7 @@
 		745CACC323169E530055A60C /* ExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewModel.swift; sourceTree = "<group>"; };
 		745CACC723169FD30055A60C /* HomeExpenseCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeExpenseCellViewModel.swift; sourceTree = "<group>"; };
 		745CACC9231784DF0055A60C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
-		745CACD62317C6950055A60C /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
-		745CACDD2317C9D60055A60C /* NotebookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookViewModel.swift; sourceTree = "<group>"; };
+		745CACDD2317C9D60055A60C /* NoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModel.swift; sourceTree = "<group>"; };
 		745CC981232106C200426D1A /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
 		745CC982232106C200426D1A /* ActivityTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityTableViewCell.xib; sourceTree = "<group>"; };
 		745CC9852321164E00426D1A /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
@@ -166,12 +165,13 @@
 		74960EAE23150838006BF12C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74975EB32327764A008FC7B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		74975EB523277A61008FC7B0 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		749A2345233C3B8700273786 /* Firestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firestore.swift; sourceTree = "<group>"; };
 		74A1A0D8232B6728007C717A /* ExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewController.swift; sourceTree = "<group>"; };
 		74A1A0DA232B6EFF007C717A /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		74A1A0DC232B8535007C717A /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
-		74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookTableViewController.swift; sourceTree = "<group>"; };
+		74A1A0DE232B8675007C717A /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
-		74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
+		74A1A0E2232CD5F8007C717A /* CurrentInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentInfoManager.swift; sourceTree = "<group>"; };
 		74A1A0E4232D8C76007C717A /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		74A1A0E6232D93C6007C717A /* ExpenseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseType.swift; sourceTree = "<group>"; };
 		74AEC8F7231FAFF0003A6F01 /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
@@ -267,8 +267,7 @@
 			children = (
 				747B6EDB2334CE76000FE48B /* HomeViewModel.swift */,
 				745CACC323169E530055A60C /* ExpenseViewModel.swift */,
-				745CACD62317C6950055A60C /* ResultViewModel.swift */,
-				745CACDD2317C9D60055A60C /* NotebookViewModel.swift */,
+				745CACDD2317C9D60055A60C /* NoteViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -289,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				744BBFA723162B1900434D7A /* UIColor+Extension.swift */,
+				744232BD233CB26E00139C7C /* UImage+Extension.swift */,
 				745CC9932322863500426D1A /* UIView+Extension.swift */,
 				745CACC1231672810055A60C /* UITableView+Extension.swift */,
 				747AB9082324EC7500007A32 /* UITexField+Extension.swift */,
@@ -313,11 +313,11 @@
 			isa = PBXGroup;
 			children = (
 				74975EB523277A61008FC7B0 /* AuthManager.swift */,
-				742E5F512331A6EA001EDF54 /* AlertManager.swift */,
+				749A2345233C3B8700273786 /* Firestore.swift */,
 				74A1A0E6232D93C6007C717A /* ExpenseType.swift */,
 				74A1A0E0232B8F6E007C717A /* FirestoreManager.swift */,
 				743F4E63232F4317009BA6BA /* StorageManager.swift */,
-				74A1A0E2232CD5F8007C717A /* UserInfoManager.swift */,
+				74A1A0E2232CD5F8007C717A /* CurrentInfoManager.swift */,
 				745CACC723169FD30055A60C /* HomeExpenseCellViewModel.swift */,
 				742E5F4F23306373001EDF54 /* MemberStatusType.swift */,
 				745CC9852321164E00426D1A /* Direction.swift */,
@@ -434,8 +434,7 @@
 				74B5C4D4231DE48800EB916D /* StatisticsTableViewCell.xib */,
 				74B5C4D5231DE48800EB916D /* ResultTableViewCell.swift */,
 				74B5C4D3231DE48800EB916D /* ResultTableViewCell.xib */,
-				7451C45E23271AB200EA0AEB /* AddNotebookTableViewCell.swift */,
-				7451C45F23271AB200EA0AEB /* AddNotebookTableViewCell.xib */,
+				744232BB233CAFFA00139C7C /* AddNoteTableHeaderView.swift */,
 				74641F412320FB3A0059B265 /* NotebookTableViewCell.swift */,
 				74641F422320FB3A0059B265 /* NotebookTableViewCell.xib */,
 			);
@@ -478,7 +477,8 @@
 				74A1A0D8232B6728007C717A /* ExpenseViewController.swift */,
 				74A1A0DA232B6EFF007C717A /* StatisticsViewController.swift */,
 				74A1A0DC232B8535007C717A /* ResultViewController.swift */,
-				74A1A0DE232B8675007C717A /* NotebookTableViewController.swift */,
+				74A1A0DE232B8675007C717A /* NoteViewController.swift */,
+				744232BF233CC2D200139C7C /* AddNoteViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -604,7 +604,6 @@
 			files = (
 				74D611D0231CEF7600A301E9 /* Main.storyboard in Resources */,
 				74AEC8FE231FC5E9003A6F01 /* TextFieldTableViewCell.xib in Resources */,
-				7451C46123271AB200EA0AEB /* AddNotebookTableViewCell.xib in Resources */,
 				74AEC9022320837C003A6F01 /* CheckBoxTableViewCell.xib in Resources */,
 				748A84F62319216B00EE00A0 /* Expense.storyboard in Resources */,
 				745CC98A232146F700426D1A /* MemberTableViewCell.xib in Resources */,
@@ -711,6 +710,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				744232C0233CC2D200139C7C /* AddNoteViewController.swift in Sources */,
 				74A1A0DB232B6EFF007C717A /* StatisticsViewController.swift in Sources */,
 				747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */,
 				74B5C4CE231DE47B00EB916D /* GroupListViewController.swift in Sources */,
@@ -723,13 +723,14 @@
 				74641F432320FB3A0059B265 /* NotebookTableViewCell.swift in Sources */,
 				74B5C4EC231E044800EB916D /* STBaseViewController.swift in Sources */,
 				74B5C4DF231DE48800EB916D /* StatisticsTableViewCell.swift in Sources */,
-				74A1A0DF232B8675007C717A /* NotebookTableViewController.swift in Sources */,
+				74A1A0DF232B8675007C717A /* NoteViewController.swift in Sources */,
 				745CC98F232249CE00426D1A /* CustomTransitionAnimation.swift in Sources */,
-				74A1A0E3232CD5F8007C717A /* UserInfoManager.swift in Sources */,
+				74A1A0E3232CD5F8007C717A /* CurrentInfoManager.swift in Sources */,
 				74D0052923324B2D0079D68E /* SplitController.swift in Sources */,
 				74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */,
 				741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */,
 				74D0052723324AC30079D68E /* PayerController.swift in Sources */,
+				744232BE233CB26E00139C7C /* UImage+Extension.swift in Sources */,
 				747B6EDC2334CE76000FE48B /* HomeViewModel.swift in Sources */,
 				745CC990232249CE00426D1A /* Animatable.swift in Sources */,
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
@@ -745,7 +746,6 @@
 				74B5C4EF231E5CB600EB916D /* CategoryCollectionViewCell.swift in Sources */,
 				74B5C4CF231DE47B00EB916D /* HomeViewController.swift in Sources */,
 				742E5F4E23304E8E001EDF54 /* AddGroupViewModel.swift in Sources */,
-				7451C46023271AB200EA0AEB /* AddNotebookTableViewCell.swift in Sources */,
 				745CC9942322863500426D1A /* UIView+Extension.swift in Sources */,
 				7455837523265D2E008C1690 /* SplitTextFieldTableViewCell.swift in Sources */,
 				744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */,
@@ -756,6 +756,7 @@
 				748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */,
 				74D0051C23320E4B0079D68E /* GroupViewController.swift in Sources */,
 				74AEC9012320837C003A6F01 /* CheckBoxTableViewCell.swift in Sources */,
+				749A2346233C3B8700273786 /* Firestore.swift in Sources */,
 				74B5C4C8231DE46B00EB916D /* GroupCollectionViewCell.swift in Sources */,
 				74B5C4D0231DE47B00EB916D /* ActivityViewController.swift in Sources */,
 				74A1A0D9232B6728007C717A /* ExpenseViewController.swift in Sources */,
@@ -772,6 +773,7 @@
 				74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */,
 				7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */,
 				74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */,
+				744232BC233CAFFA00139C7C /* AddNoteTableHeaderView.swift in Sources */,
 				74B5C4E6231DE48F00EB916D /* ScrollSelectionView.swift in Sources */,
 				745CACC2231672810055A60C /* UITableView+Extension.swift in Sources */,
 				74F92B952338CF7000FD7DE2 /* JGProgressHUDWrapper.swift in Sources */,
@@ -779,13 +781,11 @@
 				745CC9862321164E00426D1A /* Direction.swift in Sources */,
 				745CC983232106C200426D1A /* ActivityTableViewCell.swift in Sources */,
 				742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */,
-				742E5F522331A6EA001EDF54 /* AlertManager.swift in Sources */,
 				74B5C4C7231DE46B00EB916D /* NewGroupCollectionViewCell.swift in Sources */,
 				743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */,
 				745CC989232146F700426D1A /* MemberTableViewCell.swift in Sources */,
-				745CACDE2317C9D60055A60C /* NotebookViewModel.swift in Sources */,
+				745CACDE2317C9D60055A60C /* NoteViewModel.swift in Sources */,
 				74B5C4DD231DE48800EB916D /* ResultTableViewCell.swift in Sources */,
-				745CACD72317C6950055A60C /* ResultViewModel.swift in Sources */,
 				74B5C4F1231E7BB400EB916D /* STNavigationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

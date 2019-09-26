@@ -68,7 +68,7 @@ class GroupViewController: STBaseViewController {
         if showType == .edit {
             let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
             
-            if demoGroupID == UserInfoManager.shaered.currentGroupInfo?.id {
+            if demoGroupID == CurrentInfoManager.shared.group?.id {
                 LKProgressHUD.showFailure(text: "範例群組無法新增成員，請建立新群組", view: self.view)
                 return
             }
@@ -167,12 +167,12 @@ class GroupViewController: STBaseViewController {
             rightButton.addTarget(self, action: #selector(addGroup(_:)), for: .touchUpInside)
             navigationItem.rightBarButtonItem = .customItem(button: rightButton, code: "ios-add")
             
-            members = [MemberInfo(userInfo: UserInfoManager.shaered.currentUserInfo!, status: 0)]
+            members = [MemberInfo(userInfo: CurrentInfoManager.shared.user!, status: 0)]
             
         case .edit:
             textField.isUserInteractionEnabled = false
-            textField.text = UserInfoManager.shaered.currentGroupInfo?.name
-            coverImageView.setUrlImage(UserInfoManager.shaered.currentGroupInfo?.coverURL ?? "")
+            textField.text = CurrentInfoManager.shared.group?.name
+            coverImageView.setUrlImage(CurrentInfoManager.shared.group?.coverURL ?? "")
 
             setCoverButton.isHidden = true
             
@@ -334,14 +334,14 @@ extension GroupViewController: UITableViewDelegate {
         if showType == .edit {
             let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
             
-            if demoGroupID == UserInfoManager.shaered.currentGroupInfo?.id {
+            if demoGroupID == CurrentInfoManager.shared.group?.id {
                 LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
                 return
             }
             
             guard showType == .edit else { return }
             
-            if availableMembers[indexPath.row].id == UserInfoManager.shaered.currentUserInfo?.id {
+            if availableMembers[indexPath.row].id == CurrentInfoManager.shared.user?.id {
                 presentAlertController(text: "退出", member: availableMembers[indexPath.row])
             } else {
                 presentAlertController(text: "刪除", member: availableMembers[indexPath.row])

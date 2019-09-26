@@ -41,7 +41,7 @@ class AuthManager: NSObject {
             
             guard let result = result else { return }
             
-            FirestoreManager.shared.getUserInfo(uid: result.user.uid) { [weak self] result in
+            FirestoreManager.shared.getUserInfo(uid: result.user.uid) { result in
                 switch result {
                     
                 case .success(let userInfo):

@@ -128,10 +128,14 @@ class ScrollSelectionView: UIView {
             guard let strongSelf = self, let dataSource = self?.dataSource else { return }
             
             for button in strongSelf.buttons {
-                button.setTitleColor(dataSource.colorOfTitleForItem(scrollSelectionView: strongSelf).withAlphaComponent(0.25), for: .normal)
+                button.setTitleColor(
+                    dataSource.colorOfTitleForItem(scrollSelectionView: strongSelf).withAlphaComponent(0.25),
+                    for: .normal)
             }
             
-            strongSelf.buttons[index].setTitleColor(dataSource.colorOfTitleForItem(scrollSelectionView: strongSelf), for: .normal)
+            strongSelf.buttons[index].setTitleColor(
+                dataSource.colorOfTitleForItem(scrollSelectionView: strongSelf),
+                for: .normal)
             strongSelf.indicator.center.x = strongSelf.buttons[index].center.x
         }
     }

@@ -49,7 +49,8 @@ class SearchViewModel {
             let annotation = STMKPointAnnotation()
             annotation.title = expense.desc
             annotation.identifier = "\(index)"
-            annotation.coordinate = CLLocationCoordinate2D(latitude: expense.position.latitude, longitude: expense.position.longitude)
+            annotation.coordinate = CLLocationCoordinate2D(latitude: expense.position.latitude,
+                                                           longitude: expense.position.longitude)
             annotations.append(annotation)
             index += 1
         }

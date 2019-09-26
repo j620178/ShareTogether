@@ -50,6 +50,7 @@ class SignUpViewController: UIViewController {
                                                         
                                                     case .success:
                                                         LKProgressHUD.dismiss()
+                                                        self.navigationController?.popViewController(animated: true)
                                                     case .failure:
                                                         print("錯誤LKProgressHUD")
                                                     }

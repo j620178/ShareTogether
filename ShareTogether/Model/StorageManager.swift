@@ -16,7 +16,7 @@ class StorageManager {
     
     func uploadImage(image: UIImage, completion: @escaping (String) -> Void) {
         
-        guard let groupID = UserInfoManager.shaered.currentGroupInfo?.id,
+        guard let groupID = CurrentInfoManager.shared.group?.id,
             let uploadData = image.fixOrientation().pngData()
         else { return }
             

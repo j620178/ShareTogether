@@ -17,7 +17,7 @@ class HomeViewController: STBaseViewController {
         case notebook = "記事本"
     }
     
-    let infoItems: [InfoType] = [.expense, .statistics, .result] //, .notebook
+    let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
     
     var expenseTableViewController: ExpenseViewController?
     
@@ -25,7 +25,7 @@ class HomeViewController: STBaseViewController {
     
     var resultTableViewController: ResultViewController?
     
-    var notebookTableViewController: NotebookViewController?
+    var notebookTableViewController: NoteViewController?
     
     var viewModel: HomeViewModel = {
         return HomeViewModel()
@@ -103,7 +103,7 @@ class HomeViewController: STBaseViewController {
     
     @objc func upadateCurrentGroup() {
         viewModel.fectchData()
-        groupNameButton.setTitle(UserInfoManager.shaered.currentGroupInfo?.name, for: .normal)
+        groupNameButton.setTitle(CurrentInfoManager.shared.group?.name, for: .normal)
     }
     
     override func viewDidAppear(_ animated: Bool) {

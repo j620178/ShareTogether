@@ -148,8 +148,8 @@ class LoginViewController: STBaseViewController {
                                           name: groups[0].name,
                                           coverURL: groups[0].coverURL,
                                           status: nil)
-                    UserInfoManager.shaered.setCurrentUserInfo(userInfo)
-                    UserInfoManager.shaered.setCurrentGroupInfo(group)
+                    CurrentInfoManager.shared.setCurrentUser(userInfo)
+                    CurrentInfoManager.shared.setCurrentGroup(group)
                     LKProgressHUD.dismiss()
                     self?.goHomeVC()
                 } else {
@@ -159,8 +159,8 @@ class LoginViewController: STBaseViewController {
                         case .success(let demoGroup):
                             var userInfo = authUserInfo
                             userInfo.groups = [demoGroup]
-                            UserInfoManager.shaered.setCurrentUserInfo(userInfo)
-                            UserInfoManager.shaered.setCurrentGroupInfo(demoGroup)
+                            CurrentInfoManager.shared.setCurrentUser(userInfo)
+                            CurrentInfoManager.shared.setCurrentGroup(demoGroup)
                             LKProgressHUD.dismiss()
                             self?.goHomeVC()
                         case .failure:
@@ -198,7 +198,8 @@ class LoginViewController: STBaseViewController {
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
         guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
         
         let credentialUser = CredentialUser(credentials: credentials)

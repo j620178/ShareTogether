@@ -19,7 +19,7 @@
                                 <rect key="frame" x="0.0" y="356" width="414" height="506"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LSv-gj-97q">
-                                        <rect key="frame" x="0.0" y="0.0" width="1242" height="506"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1656" height="506"/>
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sPW-nw-dk6">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="506"/>
@@ -39,6 +39,12 @@
                                                     <segue destination="qSc-1p-frt" kind="embed" id="dN6-Lp-rMW"/>
                                                 </connections>
                                             </containerView>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WAd-o2-tqA">
+                                                <rect key="frame" x="1242" y="0.0" width="414" height="506"/>
+                                                <connections>
+                                                    <segue destination="lHx-Xn-yVQ" kind="embed" id="WZb-Bp-alm"/>
+                                                </connections>
+                                            </containerView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -52,6 +58,7 @@
                                     <constraint firstAttribute="bottom" secondItem="LSv-gj-97q" secondAttribute="bottom" id="OVN-d4-NF1"/>
                                     <constraint firstItem="sPW-nw-dk6" firstAttribute="width" secondItem="NYj-ah-caq" secondAttribute="width" id="SQy-NW-iTX"/>
                                     <constraint firstItem="LSv-gj-97q" firstAttribute="leading" secondItem="NYj-ah-caq" secondAttribute="leading" id="lpK-Jz-jeu"/>
+                                    <constraint firstItem="WAd-o2-tqA" firstAttribute="width" secondItem="NYj-ah-caq" secondAttribute="width" id="uo4-SN-X3y"/>
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qDM-I4-a1C">
@@ -212,7 +219,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="506"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aGO-W9-6sb" customClass="EmptyInfoView" customModule="ShareTogether" customModuleProvider="target">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aGO-W9-6sb" customClass="EmptyInfoView" customModule="ShareTogether" customModuleProvider="target">
                                 <rect key="frame" x="138" y="115" width="138" height="138"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -244,23 +251,23 @@
             </objects>
             <point key="canvasLocation" x="2078" y="779"/>
         </scene>
-        <!--Notebook View Controller-->
+        <!--Note View Controller-->
         <scene sceneID="iRw-kG-OxO">
             <objects>
-                <viewController id="lHx-Xn-yVQ" customClass="NotebookViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lHx-Xn-yVQ" customClass="NoteViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aSg-NO-eL9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="506"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jih-d4-tiA" customClass="EmptyInfoView" customModule="ShareTogether" customModuleProvider="target">
-                                <rect key="frame" x="138" y="310" width="138" height="138"/>
+                                <rect key="frame" x="138" y="115" width="138" height="138"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jih-d4-tiA" secondAttribute="height" multiplier="1:1" id="iNi-jA-BVc"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="7AJ-Lg-83T">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="506"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
                         </subviews>
@@ -283,6 +290,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EDr-7k-3IR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2848" y="779"/>
+        </scene>
+        <!--Add Note View Controller-->
+        <scene sceneID="uNX-7P-ha8">
+            <objects>
+                <viewController storyboardIdentifier="AddNoteViewController" id="tzM-rh-ZKE" customClass="AddNoteViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wIj-lz-eIY">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="pw8-Sg-oOs"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ch5-7N-f3H" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3816" y="767"/>
         </scene>
     </scenes>
     <resources>

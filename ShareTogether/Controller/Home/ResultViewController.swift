@@ -46,7 +46,7 @@ class ResultViewController: UIViewController {
         
         fetchMember()
         
-        observation = viewModel.observe(\.cellViewModels, options: [.initial, .old, .new, .prior]) { [weak self] (child, change) in
+        observation = viewModel.observe(\.cellViewModels, options: [.initial, .new]) { [weak self] (_, _) in
             self?.viewModel.createResultInfo()
             self?.tableView.reloadData()
         }
@@ -61,7 +61,7 @@ class ResultViewController: UIViewController {
                 var index = 0
                 for member in members {
                     
-                    if member.id == UserInfoManager.shaered.currentUserInfo?.id {
+                    if member.id == CurrentInfoManager.shared.user?.id {
                         members.remove(at: index)
                         self?.members = members
                         break
@@ -83,7 +83,7 @@ class ResultViewController: UIViewController {
 extension ResultViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.numberOfSections == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
+        availableMembers.count == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
         return availableMembers.count
     }
     
@@ -91,7 +91,7 @@ extension ResultViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ResultTableViewCell.identifer, for: indexPath)
         
         guard let resultCell = cell as? ResultTableViewCell,
-            let currentUserInfo = UserInfoManager.shaered.currentUserInfo,
+            let currentUserInfo = CurrentInfoManager.shared.user,
             let amount = viewModel.getResultInfo(uid: availableMembers[indexPath.row].id)
         else { return cell }
         

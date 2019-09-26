@@ -45,7 +45,7 @@ class PayerController: NSObject, AddExpenseItem {
             }
         } else if payInfo == nil, members.count == 0 {
             payInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
-            guard let userInfo = UserInfoManager.shaered.currentUserInfo else { return }
+            guard let userInfo = CurrentInfoManager.shared.user else { return }
             payInfo?.amountDesc.append(AmountDesc(member: MemberInfo(userInfo: userInfo, status: 1), value: 1))
         } else {
             //Todo

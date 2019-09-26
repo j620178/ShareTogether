@@ -9,11 +9,11 @@
 import UIKit
 
 struct StatisticsCellViewModel {
-    let total: Double
-    let count: Int
-    let selfPay: Double
-    let selfLend: Double
-    let selfBorrow: Double
+    var total: Double
+    var count: Int
+    var selfPay: Double
+    var selfLend: Double
+    var selfBorrow: Double
 }
 
 class StatisticsTableViewCell: UITableViewCell {

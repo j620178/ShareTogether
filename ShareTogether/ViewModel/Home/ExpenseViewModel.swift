@@ -40,13 +40,11 @@ class HomeExpenseViewModel: NSObject {
     func getCellViewModel(at indexPath: IndexPath) -> HomeExpenseCellViewModel {
         
         if indexPath.row == 0 {
-            //cellViewModels[indexPath.section][indexPath.row].isFirst = true
             return cellViewModels[indexPath.section][indexPath.row]
         } else {
             for section in cellViewModels.indices {
                 let lastIndexPath = IndexPath(row: cellViewModels[section].count - 1, section: section)
                 if indexPath == lastIndexPath {
-                    //cellViewModels[indexPath.section][indexPath.row].isLast = true
                     return cellViewModels[indexPath.section][indexPath.row]
                 }
             }

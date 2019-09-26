@@ -112,6 +112,7 @@ class STTabBarController: UITabBarController {
         
         tabBar.tintColor = .STDarkGray
         //tabBar.addShadow()
+        tabBar.unselectedItemTintColor = UIColor.black.withAlphaComponent(0.25)
         
     }
     

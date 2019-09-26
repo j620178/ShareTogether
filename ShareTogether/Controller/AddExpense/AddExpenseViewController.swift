@@ -88,12 +88,12 @@ class AddExpenseViewController: STBaseViewController {
         
         let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
         
-        if demoGroupID == UserInfoManager.shaered.currentGroupInfo?.id {
+        if demoGroupID == CurrentInfoManager.shared.group?.id {
             LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
             return
         }
         
-        guard let uid = UserInfoManager.shaered.currentUserInfo?.id,
+        guard let uid = CurrentInfoManager.shared.user?.id,
             let amountText = expenseController.newExpenseInfo[0],
             let amount = Double(amountText),
             let desc = expenseController.newExpenseInfo[1],
@@ -210,7 +210,7 @@ class AddExpenseViewController: STBaseViewController {
                 
                 for member in members {
                     
-                    if member.id == UserInfoManager.shaered.currentUserInfo?.id {
+                    if member.id == CurrentInfoManager.shared.user?.id {
                         let temp = members.remove(at: index)
                         members.insert(temp, at: 0)
                         self?.members = members

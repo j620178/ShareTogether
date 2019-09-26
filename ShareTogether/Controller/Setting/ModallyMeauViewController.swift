@@ -81,8 +81,8 @@ extension ModallyMeauViewController: UITableViewDelegate {
             //self.present(safariVC, animated: true, completion: nil)
         } else {
             AuthManager.shared.signOut()
-            UserInfoManager.shaered.removeCurrentUserInfo()
-            UserInfoManager.shaered.removeCurrentGroupInfo()
+            CurrentInfoManager.shared.removeCurrentUser()
+            CurrentInfoManager.shared.removeCurrentGroup()
             let nextVC = UIStoryboard.login.instantiateInitialViewController()!
             nextVC.modalPresentationStyle = .fullScreen
             present(nextVC, animated: true)

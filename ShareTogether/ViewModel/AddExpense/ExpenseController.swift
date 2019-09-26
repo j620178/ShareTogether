@@ -25,7 +25,10 @@ class ExpenseController: NSObject, AddExpenseItem {
     var newExpenseInfo: [String?] {
         var newExpenseInfo = [String?]()
         for index in textfieldPlaceHolder.indices {
-            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 1)) as? TextFieldTableViewCell else { return [nil] }
+            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 1))
+                as? TextFieldTableViewCell
+            else { return [nil] }
+            
             newExpenseInfo.append(cell.textField.text)
         }
         return newExpenseInfo
@@ -85,7 +88,9 @@ extension ExpenseController: UITextFieldDelegate {
         
         for index in textfieldPlaceHolder.indices {
             
-            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 1)) as? TextFieldTableViewCell else { return }
+            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 1))
+                as? TextFieldTableViewCell
+            else { return }
             
             expenseInfo[index] = cell.textField.text
         }

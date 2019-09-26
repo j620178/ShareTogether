@@ -17,7 +17,13 @@ class HomeExpenseCellViewModel: NSObject {
     var isFirst: Bool
     var isLast: Bool
     
-    init(type: ExpenseType, title: String, img: String, time: String, amount: Double, isFirst: Bool = false, isLast: Bool = false) {
+    init(type: ExpenseType,
+         title: String,
+         img: String,
+         time: String,
+         amount: Double,
+         isFirst: Bool = false,
+         isLast: Bool = false) {
         self.type = type
         self.title = title
         self.userImg = img
@@ -27,21 +33,3 @@ class HomeExpenseCellViewModel: NSObject {
         self.isLast = isLast
     }
 }
-
-//class HomeStatisticsCellViewModel: NSObject {
-//    let total: Double
-//    let averageEach: Double
-//    let selfPay: String
-//    let selfLend: String
-//    let time: String
-//    
-//    init(type: ExpenseType, title: String, img: String, time: String, amount: Double, isFirst: Bool = false, isLast: Bool = false) {
-//        self.type = type
-//        self.title = title
-//        self.userImg = img
-//        self.time = time
-//        self.amount = amount
-//        self.isFirst = isFirst
-//        self.isLast = isLast
-//    }
-//}

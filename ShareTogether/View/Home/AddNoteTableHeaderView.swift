@@ -16,7 +16,7 @@ class AddNoteTableHeaderView: UITableViewHeaderFooterView {
         button.setTitle("想留下些什麼嗎？", for: .normal)
         button.contentHorizontalAlignment = .left
         button.titleLabel?.font = .systemFont(ofSize: 15)
-        button.setTitleColor(.STGray, for: .normal)
+        button.setTitleColor(UIColor.black.withAlphaComponent(0.25), for: .normal)
         button.addTarget(self, action: #selector(clickButton), for: .touchUpInside)
         return button
     }()

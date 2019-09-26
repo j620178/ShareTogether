@@ -119,4 +119,15 @@ struct Notebook: Codable {
     let content: String
     let auctorID: String
     let time: Timestamp
+    
+    init(id: String?,
+         content: String,
+         auctorID: String,
+         time: Date) {
+        
+        self.id = id
+        self.content = content
+        self.auctorID = auctorID
+        self.time = Timestamp(date: time)
+    }
 }

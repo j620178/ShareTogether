@@ -291,24 +291,93 @@
             </objects>
             <point key="canvasLocation" x="2848" y="779"/>
         </scene>
-        <!--Add Note View Controller-->
+        <!--新增貼文-->
         <scene sceneID="uNX-7P-ha8">
             <objects>
                 <viewController storyboardIdentifier="AddNoteViewController" id="tzM-rh-ZKE" customClass="AddNoteViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wIj-lz-eIY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="pe3-2f-1aa">
+                                <rect key="frame" x="16" y="104" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="4RT-cz-rFu"/>
+                                    <constraint firstAttribute="height" constant="30" id="WdZ-RS-S4F"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Z7K-DY-Ffa">
+                                <rect key="frame" x="16" y="150" width="382" height="712"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mtU-Kg-pUm">
+                                <rect key="frame" x="54" y="108.5" width="344" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="pw8-Sg-oOs" firstAttribute="trailing" secondItem="Z7K-DY-Ffa" secondAttribute="trailing" constant="16" id="ENA-cM-VHe"/>
+                            <constraint firstItem="pw8-Sg-oOs" firstAttribute="bottom" secondItem="Z7K-DY-Ffa" secondAttribute="bottom" id="EyB-lN-ona"/>
+                            <constraint firstItem="mtU-Kg-pUm" firstAttribute="leading" secondItem="pe3-2f-1aa" secondAttribute="trailing" constant="8" id="Ixt-Uy-G2B"/>
+                            <constraint firstItem="pe3-2f-1aa" firstAttribute="top" secondItem="pw8-Sg-oOs" secondAttribute="top" constant="16" id="dPB-1O-FMN"/>
+                            <constraint firstItem="Z7K-DY-Ffa" firstAttribute="top" secondItem="pe3-2f-1aa" secondAttribute="bottom" constant="16" id="hiU-ri-Kej"/>
+                            <constraint firstItem="pw8-Sg-oOs" firstAttribute="trailing" secondItem="mtU-Kg-pUm" secondAttribute="trailing" constant="16" id="htd-q9-xbp"/>
+                            <constraint firstItem="pe3-2f-1aa" firstAttribute="leading" secondItem="pw8-Sg-oOs" secondAttribute="leading" constant="16" id="rPn-sb-XDi"/>
+                            <constraint firstItem="mtU-Kg-pUm" firstAttribute="centerY" secondItem="pe3-2f-1aa" secondAttribute="centerY" id="wb4-2a-7iY"/>
+                            <constraint firstItem="Z7K-DY-Ffa" firstAttribute="leading" secondItem="pw8-Sg-oOs" secondAttribute="leading" constant="16" id="wvd-O6-uSO"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="pw8-Sg-oOs"/>
                     </view>
+                    <navigationItem key="navigationItem" title="新增貼文" id="jse-Lk-3wa">
+                        <barButtonItem key="leftBarButtonItem" title="取消" id="shq-go-KJB">
+                            <connections>
+                                <action selector="clickCloseButton:" destination="tzM-rh-ZKE" id="cuR-su-abC"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="發布" id="2HM-lj-2wm">
+                            <connections>
+                                <action selector="clickPublishButton:" destination="tzM-rh-ZKE" id="HeI-RM-Bgz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="textView" destination="Z7K-DY-Ffa" id="E9f-JP-uGE"/>
+                        <outlet property="userImageView" destination="pe3-2f-1aa" id="bMm-gn-Ylj"/>
+                        <outlet property="userNameLabel" destination="mtU-Kg-pUm" id="lLV-WG-hhg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ch5-7N-f3H" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3816" y="767"/>
+            <point key="canvasLocation" x="4976.811594202899" y="750.66964285714278"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="rHz-dM-4fz">
+            <objects>
+                <navigationController storyboardIdentifier="AddNoteNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="fdd-ZC-p4e" customClass="STNavigationController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="DKj-o5-hof">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="tzM-rh-ZKE" kind="relationship" relationship="rootViewController" id="kHG-wJ-UUB"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gPw-4N-8oy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4104" y="751"/>
         </scene>
     </scenes>
     <resources>
         <image name="down-arrow12x" width="12" height="12"/>
         <image name="search" width="30" height="30"/>
+        <image name="user" width="64.5" height="64.5"/>
     </resources>
 </document>

@@ -59,8 +59,8 @@ extension NoteViewController: UITableViewDataSource {
         noteHeaderView.userImageView.setUrlImage(userPhotoURL)
         
         noteHeaderView.clickHeaderViewHandler = { [weak self] in
-            guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: AddNoteViewController.identifier)
-                as? AddNoteViewController else { return }
+            guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: "AddNoteNavigationController")
+                as? STNavigationController else { return }
             
             self?.present(nextVC, animated: true, completion: nil)
         }
@@ -96,6 +96,13 @@ extension NoteViewController: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.tableViewDidScroll(viewController: self, offsetY: scrollView.contentOffset.y)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: AddNoteViewController.identifier)
+            as? AddNoteViewController else { return }
+        
+        show(nextVC, sender: nil)
     }
     
 }

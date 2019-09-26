@@ -37,12 +37,17 @@ class LoginViewController: STBaseViewController {
             
             AuthManager.shared.emailSignIn(email: emailTextField.text!,
                                             password: passwordTextField.text!) { [weak self] result in
+                                                
+                                                guard let strougSelf = self else { return }
+                                                
                                                 switch result {
                                                     
                                                 case .success(let userInfo):
                                                     self?.checkUserGroup(authUserInfo: userInfo)
-                                                case .failure:
-                                                    print("Error")
+                                                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
+                                                case .failure(let error):
+                                                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤", view: strougSelf.view)
+                                                    print(error.localizedDescription)
                                                 }
                 
             }
@@ -66,27 +71,35 @@ class LoginViewController: STBaseViewController {
     
     @IBAction func clickOAuthLogin(_ sender: UIButton) {
         
-        LKProgressHUD.showLoading(view: self.view)
-        
         if sender.tag == 1 {
             
             AuthManager.shared.googleSignIn(viewContorller: self) { [weak self] result in
+                
+                guard let strougSelf = self else { return }
+                
                 switch result {
                 case .success(let userInfo):
                     self?.checkUserGroup(authUserInfo: userInfo)
+                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
                 case .failure(let error):
-                    print(error)
+                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤", view: strougSelf.view)
+                    print(error.localizedDescription)
                 }
             }
             
         } else if sender.tag == 2 {
             
             AuthManager.shared.facebookSignIn(viewContorller: self) { [weak self] result in
+                
+                guard let strougSelf = self else { return }
+                
                 switch result {
                 case .success(let userInfo):
                     self?.checkUserGroup(authUserInfo: userInfo)
+                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
                 case .failure(let error):
-                    print(error)
+                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤", view: strougSelf.view)
+                    print(error.localizedDescription)
                 }
 
             }
@@ -139,6 +152,9 @@ class LoginViewController: STBaseViewController {
     func checkUserGroup(authUserInfo: UserInfo) {
 
         FirestoreManager.shared.getUserInfo(uid: authUserInfo.id) { [weak self] result in
+            
+            guard let strougSelf = self else { return }
+            
             switch result {
                 
             case .success(let userInfo):
@@ -150,7 +166,7 @@ class LoginViewController: STBaseViewController {
                                           status: nil)
                     CurrentInfoManager.shared.setCurrentUser(userInfo)
                     CurrentInfoManager.shared.setCurrentGroup(group)
-                    LKProgressHUD.dismiss()
+                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
                     self?.goHomeVC()
                 } else {
                     FirestoreManager.shared.insertNewUser(userInfo: authUserInfo) { result in
@@ -161,7 +177,7 @@ class LoginViewController: STBaseViewController {
                             userInfo.groups = [demoGroup]
                             CurrentInfoManager.shared.setCurrentUser(userInfo)
                             CurrentInfoManager.shared.setCurrentGroup(demoGroup)
-                            LKProgressHUD.dismiss()
+                            LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
                             self?.goHomeVC()
                         case .failure:
                             LKProgressHUD.dismiss()
@@ -200,7 +216,10 @@ class LoginViewController: STBaseViewController {
 extension LoginViewController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController,
                                  didCompleteWithAuthorization authorization: ASAuthorization) {
-        guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+        
+        guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential else {
+            return
+        }
         
         let credentialUser = CredentialUser(credentials: credentials)
         
@@ -209,7 +228,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                                 email: credentialUser.email,
                                 phone: nil, photoURL: "",
                                 groups: nil)
-        print(userInfo)
+
         checkUserGroup(authUserInfo: userInfo)
     }
 }

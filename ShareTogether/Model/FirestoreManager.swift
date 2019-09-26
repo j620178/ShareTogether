@@ -19,6 +19,7 @@ enum FirestoreError: Error {
     case getPlistFailed
     case insertFailed
     case joinDemoGroupFailed
+    case uploadFailed
 }
 
 struct Collection {
@@ -279,6 +280,7 @@ class FirestoreManager {
             let docData = try? FirestoreEncoder().encode(memberInfo),
             let currentUserInfo = CurrentInfoManager.shared.user
         else { return }
+        
         firestore.collection(Collection.group).document(group.id)
             .collection(Collection.Group.member).document(memberInfo.id).setData(docData)
             
@@ -350,6 +352,7 @@ class FirestoreManager {
     }
     
     func joinDemoGroup(uid: String, completion: @escaping (Result<GroupInfo, Error>) -> Void) {
+        
         guard let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String,
             let demoGroupCoverURL = Bundle.main.object(forInfoDictionaryKey: "DemoGroupCoverURL") as? String
         else {
@@ -428,8 +431,8 @@ class FirestoreManager {
         guard let groupID = groupID else { return }
         
         firestore.collection(Collection.group).document(groupID)
-            .collection(Collection.Group.notebook)
-            .getDocuments { (querySnapshot, error) in
+            .collection(Collection.Group.notebook).order(by: "time", descending: true)
+            .addSnapshotListener { (querySnapshot, error) in
                 
             guard let documents = querySnapshot?.documents else { return }
             
@@ -446,6 +449,27 @@ class FirestoreManager {
             }
             completion(Result.success(notebooks))
         }
+    }
+    
+    func addNotebook(groupID: String? = CurrentInfoManager.shared.group?.id,
+                     note: Notebook,
+                     completion: @escaping (Result<String, Error>) -> Void) {
+        
+        var reference: DocumentReference?
+        
+        guard let groupID = groupID,
+            let docData = try? FirestoreEncoder().encode(note) else { return }
+        
+        reference = firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.notebook).addDocument(data: docData) { error in
+                
+                if error != nil {
+                    completion(Result.failure(FirestoreError.uploadFailed))
+                }
+                
+                completion(Result.success(reference!.documentID))
+        }
+           
     }
     
 }

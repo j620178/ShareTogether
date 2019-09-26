@@ -14,6 +14,7 @@ import GoogleSignIn
 
 enum AuthManagerError: Error {
     case loginFailed
+    case getUserInfoFailed
     case getAccessTokenFailed
 }
 
@@ -39,6 +40,11 @@ class AuthManager: NSObject {
     func emailSignIn(email: String, password: String, completion: @escaping (Result<UserInfo, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             
+            if error != nil {
+                completion(Result.failure(AuthManagerError.loginFailed))
+                return
+            }
+            
             guard let result = result else { return }
             
             FirestoreManager.shared.getUserInfo(uid: result.user.uid) { result in
@@ -47,7 +53,7 @@ class AuthManager: NSObject {
                 case .success(let userInfo):
                     completion(Result.success(userInfo!))
                 case .failure:
-                    print("error")
+                    completion(Result.failure(AuthManagerError.getUserInfoFailed))
                 }
             }
 
@@ -58,14 +64,13 @@ class AuthManager: NSObject {
         let fbLoginManager = LoginManager()
 
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: viewContorller) { (result, error) in
-            
+        
             if error != nil {
                 completion(Result.failure(AuthManagerError.loginFailed))
                 return
             }
             
             if AccessToken.current == nil {
-                completion(Result.failure(AuthManagerError.getAccessTokenFailed))
                 return
             }
             
@@ -74,7 +79,7 @@ class AuthManager: NSObject {
             Auth.auth().signIn(with: credential, completion: { (user, error) in
                 
                 if error != nil {
-                    print((error?.localizedDescription)!)
+                    completion(Result.failure(AuthManagerError.loginFailed))
                     return
                 }
                 
@@ -82,7 +87,10 @@ class AuthManager: NSObject {
                     let name = user.user.displayName,
                     let email = user.user.email,
                     let photoURL = user.user.photoURL
-                else { return }
+                else {
+                    completion(Result.failure(AuthManagerError.getUserInfoFailed))
+                    return
+                }
                 
                 let userInfo = UserInfo(id: user.user.uid,
                                         name: name,
@@ -102,7 +110,6 @@ class AuthManager: NSObject {
                       completion: @escaping ((Result<UserInfo, Error>) -> Void)) {
         
         GIDSignIn.sharedInstance().uiDelegate = viewContorller
-        //GIDSignIn.sharedInstance().signInSilently()
         GIDSignIn.sharedInstance()?.signIn()
         
         googleSignInHandler = completion

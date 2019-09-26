@@ -10,9 +10,7 @@ import UIKit
 import MapKit
 
 class SearchViewController: STBaseViewController {
-    
-    let data = ["增加一筆消費", "修改了紀錄", "增加一筆消費", "增加一筆消費", "增加一筆消費", "增加一筆消費", "增加一筆消費", "增加一筆消費"]
-    
+        
     let locationManager = CLLocationManager()
     
     var viewModel = SearchViewModel()
@@ -38,9 +36,8 @@ class SearchViewController: STBaseViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.dataSource = self
-            tableView.delegate = self
-            tableView.registerWithNib(indentifer: ActivityTableViewCell.identifer)
+//            tableView.dataSource = self
+//            tableView.delegate = self
         }
     }
     
@@ -59,17 +56,17 @@ class SearchViewController: STBaseViewController {
         setupMap()
         //mapView?.isHidden = true
     
-        view.bringSubviewToFront(goSearchButton)
-        view.bringSubviewToFront(switchTypeButton)
-        
-        switchTypeButton.alpha = 0
-        goSearchButton.alpha = 0
-        goSearchButton.layer.borderWidth = 1.0
-        goSearchButton.layer.borderColor = UIColor.backgroundLightGray.cgColor
-        goSearchButton.clipsToBounds = true
-        goSearchButton.backgroundColor = .white
-        goSearchButton.setImage(.getIcon(code: "ios-search", color: .darkGray, size: 20), for: .normal)
-        
+//        view.bringSubviewToFront(goSearchButton)
+//        view.bringSubviewToFront(switchTypeButton)
+//
+//        switchTypeButton.alpha = 0
+//        goSearchButton.alpha = 0
+//        goSearchButton.layer.borderWidth = 1.0
+//        goSearchButton.layer.borderColor = UIColor.backgroundLightGray.cgColor
+//        goSearchButton.clipsToBounds = true
+//        goSearchButton.backgroundColor = .white
+//        goSearchButton.setImage(.getIcon(code: "ios-search", color: .darkGray, size: 20), for: .normal)
+
         viewModel.reloadMapHandler = { [weak self] annotations in
             self?.annotations = annotations
         }
@@ -113,32 +110,32 @@ class SearchViewController: STBaseViewController {
 
 }
 
-extension SearchViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifer, for: indexPath)
-        
-        guard let activityCell = cell as? ActivityTableViewCell else { return cell }
-        
-        activityCell.contentLabel.text = data[indexPath.row]
-        activityCell.timeLabel.text = "2019/09/02"
-        
-        return activityCell
-    }
-    
-}
-
-extension SearchViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-}
+//extension SearchViewController: UITableViewDataSource {
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return data.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifer, for: indexPath)
+//
+//        guard let activityCell = cell as? ActivityTableViewCell else { return cell }
+//
+//        activityCell.contentLabel.text = data[indexPath.row]
+//        activityCell.timeLabel.text = "2019/09/02"
+//
+//        return activityCell
+//    }
+//
+//}
+//
+//extension SearchViewController: UITableViewDelegate {
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
+//
+//}
 
 extension SearchViewController: CLLocationManagerDelegate {
     

@@ -64,7 +64,7 @@ class ActivityViewModel {
                                                   mainPhotoImageURL: groupInfo.coverURL,
                                                   userImageURL: activity.pushUser.photoURL,
                                                   desc: text,
-                                                  time: activity.time.toSimpleFormat(),
+                                                  time: activity.time.toSimpleFormat,
                                                   status: activity.status)
             cellViewModels.append(viewModel)
         }

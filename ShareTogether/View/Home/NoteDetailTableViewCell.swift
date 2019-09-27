@@ -8,8 +8,33 @@
 
 import UIKit
 
-class NoteDetailTableViewCell: UITableViewCell {
+struct NoteDetaiCellViewModel {
+    let userImageURL: String?
+    let userName: String
+    let content: String
+    let time: String
+}
 
+class NoteDetailTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var userImageView: UIImageView!
+    
+    @IBOutlet weak var userNameLabel: UILabel!
+    
+    @IBOutlet weak var contentLabel: UILabel!
+    
+    @IBOutlet weak var timeLabel: UILabel!
+    
+    var viewModel: NoteDetaiCellViewModel? {
+        didSet {
+            guard let viewModel = viewModel else { return }
+            userImageView.setUrlImage(viewModel.userImageURL ?? "")
+            userNameLabel.text = viewModel.userName
+            contentLabel.text =  viewModel.content
+            timeLabel.text = viewModel.time
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,6 +44,12 @@ class NoteDetailTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        userImageView.layer.cornerRadius = userImageView.frame.height / 2
     }
 
 }

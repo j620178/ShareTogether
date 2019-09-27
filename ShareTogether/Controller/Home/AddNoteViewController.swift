@@ -28,9 +28,9 @@ class AddNoteViewController: STBaseViewController {
         
         guard let user = user else { return }
         
-        let note = Notebook(id: nil, content: textView.text, auctorID: user.id, time: Date())
+        let note = Note(id: nil, content: textView.text, auctorID: user.id, comments: nil, time: Date())
         
-        FirestoreManager.shared.addNotebook(note: note) { result in
+        FirestoreManager.shared.addNote(note: note) { result in
             switch result {
                 
             case .success:
@@ -51,14 +51,14 @@ class AddNoteViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //textView.becomeFirstResponder()
+        textView.becomeFirstResponder()
         
         user = CurrentInfoManager.shared.user
         
         userImageView.setUrlImage(user!.photoURL)
         
         userNameLabel.text = user?.name
-
+        
     }
     
     override func viewDidLayoutSubviews() {

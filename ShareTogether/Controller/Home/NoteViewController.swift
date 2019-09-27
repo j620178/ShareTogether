@@ -17,7 +17,7 @@ class NoteViewController: STBaseViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.estimatedSectionHeaderHeight = 100
+            tableView.estimatedSectionHeaderHeight = 50
             tableView.register(AddNoteTableHeaderView.self, forHeaderFooterViewReuseIdentifier: String(describing: AddNoteTableHeaderView.self))
             tableView.registerWithNib(indentifer: NotebookTableViewCell.identifer)
         }
@@ -57,6 +57,7 @@ extension NoteViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.notebookCellViewModel.count == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
+        print(viewModel.notebookCellViewModel.count)
         return viewModel.notebookCellViewModel.count
     }
     
@@ -74,8 +75,8 @@ extension NoteViewController: UITableViewDataSource {
         noteHeaderView.userImageView.setUrlImage(userPhotoURL)
         
         noteHeaderView.clickHeaderViewHandler = { [weak self] in
-            guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: "AddNoteNavigationController")
-                as? STNavigationController else { return }
+            let nextVC = UIStoryboard.home.instantiateViewController(identifier: "AddNoteNavigationController")
+                //as? STNavigationController else { return }
 
             self?.present(nextVC, animated: true, completion: nil)
         }
@@ -117,6 +118,8 @@ extension NoteViewController: UITableViewDelegate {
         
         guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: NoteDetailViewController.identifier)
             as? NoteDetailViewController else { return }
+        
+        nextVC.note = viewModel.getNote(index: indexPath.row)
 
         show(nextVC, sender: nil)
 

@@ -57,7 +57,7 @@ class HomeViewModel: NSObject {
         return HomeExpenseCellViewModel(type: ExpenseType(rawValue: expense.type)!,
                                         title: expense.desc,
                                         img: expense.payerInfo.amountDesc[0].member.photoURL,
-                                        time: expense.time.toFullFormat(),
+                                        time: expense.time.toFullFormat,
                                         amount: expense.amount,
                                         isFirst: false,
                                         isLast: false)
@@ -95,17 +95,17 @@ class HomeViewModel: NSObject {
         
         if !expenses.isEmpty {
             
-            titleOfSections.append(expenses[0].time.toSimpleFormat())
+            titleOfSections.append(expenses[0].time.toSimpleFormat)
             
             var index = 0
             
             for expense in expenses {
                 
-                if titleOfSections[index] == expense.time.toSimpleFormat() {
+                if titleOfSections[index] == expense.time.toSimpleFormat {
                     viewModelsSection.append(createExpenseCellViewModel(expense: expense))
                 } else {
                     viewModels.append(viewModelsSection)
-                    titleOfSections.append(expense.time.toSimpleFormat())
+                    titleOfSections.append(expense.time.toSimpleFormat)
                     viewModelsSection = [HomeExpenseCellViewModel]()
                     viewModelsSection.append(createExpenseCellViewModel(expense: expense))
                     index += 1

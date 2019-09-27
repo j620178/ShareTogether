@@ -11,7 +11,11 @@ import UIKit
 
 class NoteViewModel: NSObject {
     
-    var notebooks = [Notebook]()
+    private var notes = [Note]() {
+        didSet {
+            print(notes.count)
+        }
+    }
     
     var notebookCellViewModel = [NotebookCellViewModel]() {
         didSet {
@@ -23,11 +27,11 @@ class NoteViewModel: NSObject {
     
     func fectchData() {
         
-        FirestoreManager.shared.getNotebooks { [weak self] result in
+        FirestoreManager.shared.getNotes { [weak self] result in
             switch result {
                 
-            case .success(let notebooks):
-                self?.notebooks = notebooks
+            case .success(let notes):
+                self?.notes = notes
                 self?.processData()
             case .failure(let error):
                 LKProgressHUD.showFailure(text: error.localizedDescription)
@@ -40,12 +44,12 @@ class NoteViewModel: NSObject {
         
         var notebookCellViewModel = [NotebookCellViewModel]()
         
-        for notebook in notebooks {
+        for notebook in notes {
             
             let user = CurrentInfoManager.shared.getMemberInfo(uid: notebook.auctorID)
             let viewModel = NotebookCellViewModel(userImageURL: user?.photoURL,
                                                   userName: user?.name ?? "",
-                                                  content: notebook.content, time: notebook.time.toFullFormat())
+                                                  content: notebook.content, time: notebook.time.toFullTimeFormat)
             notebookCellViewModel.append(viewModel)
         }
         
@@ -55,6 +59,10 @@ class NoteViewModel: NSObject {
     
     func getViewModel(indexPath: IndexPath) -> NotebookCellViewModel {
         return notebookCellViewModel[indexPath.row]
+    }
+    
+    func getNote(index: Int) -> Note {
+        return notes[index]
     }
     
 }

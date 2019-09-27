@@ -58,7 +58,7 @@ class HomeExpenseViewModel: NSObject {
         return HomeExpenseCellViewModel(type: ExpenseType(rawValue: expense.type)!,
                                         title: expense.desc,
                                         img: expense.splitInfo.amountDesc[0].member.photoURL,
-                                        time: expense.time.toFullFormat(),
+                                        time: expense.time.toFullFormat,
                                         amount: expense.amount,
                                         isFirst: false,
                                         isLast: false)
@@ -96,15 +96,15 @@ class HomeExpenseViewModel: NSObject {
         
         titleOfSections = [String]()
         
-        titleOfSections.append(expenses[0].time.toSimpleFormat())
+        titleOfSections.append(expenses[0].time.toSimpleFormat)
         
         for expense in expenses {
             
-            if titleOfSections[index] == expense.time.toSimpleFormat() {
+            if titleOfSections[index] == expense.time.toSimpleFormat {
                 viewModelsSection.append(createCellViewModels(expense: expense))
             } else {
                 viewModels.append(viewModelsSection)
-                titleOfSections.append(expense.time.toSimpleFormat())
+                titleOfSections.append(expense.time.toSimpleFormat)
                 viewModelsSection = [HomeExpenseCellViewModel]()
                 viewModelsSection.append(createCellViewModels(expense: expense))
                 index += 1

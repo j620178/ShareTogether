@@ -36,6 +36,11 @@ struct Collection {
         static let member = "member"
         static let notebook = "notebook"
     }
+    
+    struct GroupNotebook {
+        static let comment = "comment"
+    }
+    
 }
 
 class FirestoreManager {
@@ -246,7 +251,7 @@ class FirestoreManager {
         
         reference = firestore.collection(Collection.group).addDocument(data: docData) { [weak self] error in
             if error != nil {
-                print(error?.localizedDescription)
+                print(error)
             }
             
             guard let groupID = reference?.documentID else { return }
@@ -425,8 +430,8 @@ class FirestoreManager {
             .collection(Collection.User.activity).document(id).updateData(data)
     }
     
-    func getNotebooks(groupID: String? = CurrentInfoManager.shared.group?.id,
-                      completion: @escaping (Result<[Notebook], Error>) -> Void) {
+    func getNotes(groupID: String? = CurrentInfoManager.shared.group?.id,
+                  completion: @escaping (Result<[Note], Error>) -> Void) {
         
         guard let groupID = groupID else { return }
         
@@ -435,25 +440,73 @@ class FirestoreManager {
             .addSnapshotListener { (querySnapshot, error) in
                 
             guard let documents = querySnapshot?.documents else { return }
-            
-            var notebooks = [Notebook]()
-            
+
+            var notes = [Note]()
+
             for document in documents {
                 do {
-                    var notebook = try FirestoreDecoder().decode(Notebook.self, from: document.data())
-                    notebook.id = document.documentID
-                    notebooks.append(notebook)
+                    var note = try FirestoreDecoder().decode(Note.self, from: document.data())
+                    note.id = document.documentID
+                    notes.append(note)
+
                 } catch {
                     completion(Result.failure(FirestoreError.decodeFailed))
                 }
             }
-            completion(Result.success(notebooks))
+                
+            for index in notes.indices {
+
+                self.getNoteComment(noteID: notes[index].id) { result in
+                    switch result {
+
+                    case .success(let noteComments):
+                        notes[index].comments = noteComments
+                        if index == (notes.count - 1) {
+                            completion(Result.success(notes))
+                        }
+                    case .failure:
+                        completion(Result.failure(FirestoreError.decodeFailed))
+                    }
+                }
+            }
+                
         }
+        
     }
     
-    func addNotebook(groupID: String? = CurrentInfoManager.shared.group?.id,
-                     note: Notebook,
-                     completion: @escaping (Result<String, Error>) -> Void) {
+    func getNoteComment(groupID: String? = CurrentInfoManager.shared.group?.id,
+                        noteID: String,
+                        completion: @escaping (Result<[NoteComment], Error>) -> Void) {
+        
+        guard let groupID = groupID else { return }
+        
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.notebook)
+            .document(noteID)
+            .collection(Collection.GroupNotebook.comment)
+            .addSnapshotListener { (querySnapshot, error) in
+                
+            guard let documents = querySnapshot?.documents else { return }
+            
+            var noteComments = [NoteComment]()
+            
+            for document in documents {
+                do {
+                    var noteComment = try FirestoreDecoder().decode(NoteComment.self, from: document.data())
+                    noteComment.id = document.documentID
+                    noteComments.append(noteComment)
+                } catch {
+                    completion(Result.failure(FirestoreError.decodeFailed))
+                }
+            }
+            completion(Result.success(noteComments))
+        }
+            
+     }
+    
+    func addNote(groupID: String? = CurrentInfoManager.shared.group?.id,
+                 note: Note,
+                 completion: @escaping (Result<String, Error>) -> Void) {
         
         var reference: DocumentReference?
         
@@ -472,11 +525,43 @@ class FirestoreManager {
            
     }
     
+    func addNoteComment(groupID: String? = CurrentInfoManager.shared.group?.id,
+                        noteID: String,
+                        noteComments: NoteComment,
+                        completion: @escaping (Result<String, Error>) -> Void) {
+        
+        var reference: DocumentReference?
+        
+        guard let groupID = groupID,
+            let docData = try? FirestoreEncoder().encode(noteComments) else { return }
+        
+        reference = firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.notebook).document(noteID)
+            .collection(Collection.GroupNotebook.comment).addDocument(data: docData) { error in
+                
+            if error != nil {
+                completion(Result.failure(FirestoreError.uploadFailed))
+            }
+            
+            completion(Result.success(reference!.documentID))
+
+        }
+            
+    }
+    
 }
 
 extension Timestamp {
     
-    func toFullFormat() -> String {
+    var toFullTimeFormat: String {
+        let date = self.dateValue()
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm"
+        return formatter.string(from: date)
+    }
+    
+    var toFullFormat: String {
         let date = self.dateValue()
         
         let formatter = DateFormatter()
@@ -484,7 +569,7 @@ extension Timestamp {
         return formatter.string(from: date)
     }
     
-    func toSimpleFormat() -> String {
+    var toSimpleFormat: String {
         let date = self.dateValue()
         
         let formatter = DateFormatter()

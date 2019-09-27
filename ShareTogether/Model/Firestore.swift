@@ -114,20 +114,44 @@ enum ActivityStatus: Int {
     case used = 2
 }
 
-struct Notebook: Codable {
-    var id: String?
+struct Note: Codable {
+    var id: String!
     let content: String
     let auctorID: String
+    var comments: [NoteComment]?
     let time: Timestamp
     
     init(id: String?,
          content: String,
          auctorID: String,
+         comments: [NoteComment]?,
          time: Date) {
         
         self.id = id
         self.content = content
         self.auctorID = auctorID
+        self.comments = comments
+        self.time = Timestamp(date: time)
+    }
+}
+
+struct NoteComment: Codable {
+    var id: String?
+    let auctorID: String
+    let content: String?
+    let gifURL: String?
+    let time: Timestamp
+    
+    init(id: String?,
+         auctorID: String,
+         content: String?,
+         gifURL: String?,
+         time: Date) {
+        
+        self.id = id
+        self.auctorID = auctorID
+        self.content = content
+        self.gifURL = gifURL
         self.time = Timestamp(date: time)
     }
 }

@@ -43,19 +43,19 @@ class CurrentInfoManager {
                 UserDefaults.standard.set(data, forKey: CurrentInfoConstant.group)
             }
             
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CurrentGroup"),
-                                            object: self,
-                                            userInfo: nil)
-            
             FirestoreManager.shared.getMembers { [weak self] result in
                 switch result {
                     
                 case .success(let members):
                     self?.members = members
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CurrentGroup"),
+                                                    object: self,
+                                                    userInfo: nil)
                 case .failure(let error):
                     LKProgressHUD.showFailure(text: error.localizedDescription)
                 }
             }
+
         }
 
     }

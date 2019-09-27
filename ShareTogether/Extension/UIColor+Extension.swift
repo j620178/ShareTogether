@@ -27,6 +27,10 @@ extension UIColor {
         return UIColor(red: 102/255, green: 114/255, blue: 130/255, alpha: 1)
     }
     
+    static var STLightGray: UIColor {
+        return UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+    }
+    
     static var STDarkBlue: UIColor {
         return UIColor(red: 10/255, green: 22/255, blue: 52/255, alpha: 1)
     }

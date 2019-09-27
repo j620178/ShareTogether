@@ -10,6 +10,10 @@ import UIKit
 
 class HomeViewController: STBaseViewController {
     
+    override var isHideNavigationBar: Bool {
+        return true
+    }
+    
     enum InfoType: String {
         case expense = "交易紀錄"
         case statistics = "金額統計"

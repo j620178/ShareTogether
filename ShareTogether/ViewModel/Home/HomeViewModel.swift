@@ -91,27 +91,31 @@ class HomeViewModel: NSObject {
         
         var viewModelsSection = [HomeExpenseCellViewModel]()
         
-        var index = 0
-        
         titleOfSections = [String]()
         
-        titleOfSections.append(expenses[0].time.toSimpleFormat())
-        
-        for expense in expenses {
+        if !expenses.isEmpty {
             
-            if titleOfSections[index] == expense.time.toSimpleFormat() {
-                viewModelsSection.append(createExpenseCellViewModel(expense: expense))
-            } else {
-                viewModels.append(viewModelsSection)
-                titleOfSections.append(expense.time.toSimpleFormat())
-                viewModelsSection = [HomeExpenseCellViewModel]()
-                viewModelsSection.append(createExpenseCellViewModel(expense: expense))
-                index += 1
+            titleOfSections.append(expenses[0].time.toSimpleFormat())
+            
+            var index = 0
+            
+            for expense in expenses {
+                
+                if titleOfSections[index] == expense.time.toSimpleFormat() {
+                    viewModelsSection.append(createExpenseCellViewModel(expense: expense))
+                } else {
+                    viewModels.append(viewModelsSection)
+                    titleOfSections.append(expense.time.toSimpleFormat())
+                    viewModelsSection = [HomeExpenseCellViewModel]()
+                    viewModelsSection.append(createExpenseCellViewModel(expense: expense))
+                    index += 1
+                }
+                
             }
             
+            viewModels.append(viewModelsSection)
+            
         }
-        
-        viewModels.append(viewModelsSection)
         
         self.cellViewModels = viewModels
         

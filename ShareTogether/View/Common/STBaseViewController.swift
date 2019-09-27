@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 class STBaseViewController: UIViewController {
     
@@ -20,6 +21,16 @@ class STBaseViewController: UIViewController {
         return false
     }
 
+    var isEnableResignOnTouchOutside: Bool {
+        
+        return false
+    }
+    
+    var isEnableIQKeyboard: Bool {
+
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,6 +43,15 @@ class STBaseViewController: UIViewController {
         if isHideNavigationBar {
             navigationController?.setNavigationBarHidden(true, animated: true)
         }
+        
+        if !isEnableIQKeyboard {
+            IQKeyboardManager.shared.enable = false
+        }
+
+        if !isEnableResignOnTouchOutside {
+            IQKeyboardManager.shared.shouldResignOnTouchOutside = false
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -40,6 +60,15 @@ class STBaseViewController: UIViewController {
         if isHideNavigationBar {
             navigationController?.setNavigationBarHidden(false, animated: true)
         }
+        
+        if !isEnableIQKeyboard {
+            IQKeyboardManager.shared.enable = true
+        }
+
+        if !isEnableResignOnTouchOutside {
+            IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        }
+        
     }
 
 }

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
-class NoteViewController: UIViewController {
+class NoteViewController: STBaseViewController {
     
     let viewModel = NoteViewModel()
     
@@ -26,13 +27,27 @@ class NoteViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewModel.fectchData()
         
         viewModel.reloadTableViewHandler = { [weak self] in
             self?.tableView.reloadData()
         }
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(upadateCurrentGroup),
+                                               name: NSNotification.Name(rawValue: "CurrentGroup"),
+                                               object: nil)
+        
+        upadateCurrentGroup()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
+    @objc func upadateCurrentGroup() {
+        viewModel.fectchData()
     }
 
 }
@@ -61,7 +76,7 @@ extension NoteViewController: UITableViewDataSource {
         noteHeaderView.clickHeaderViewHandler = { [weak self] in
             guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: "AddNoteNavigationController")
                 as? STNavigationController else { return }
-            
+
             self?.present(nextVC, animated: true, completion: nil)
         }
         
@@ -99,10 +114,12 @@ extension NoteViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: AddNoteViewController.identifier)
-            as? AddNoteViewController else { return }
         
+        guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: NoteDetailViewController.identifier)
+            as? NoteDetailViewController else { return }
+
         show(nextVC, sender: nil)
+
     }
     
 }

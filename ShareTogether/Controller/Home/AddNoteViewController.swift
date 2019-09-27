@@ -19,6 +19,8 @@ class AddNoteViewController: STBaseViewController {
     @IBOutlet weak var textView: UITextView! {
         didSet {
             textView.delegate = self
+            textView.text = "請輸入欲記錄內容"
+            textView.textColor = .lightGray
         }
     }
     
@@ -49,7 +51,7 @@ class AddNoteViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textView.becomeFirstResponder()
+        //textView.becomeFirstResponder()
         
         user = CurrentInfoManager.shared.user
         

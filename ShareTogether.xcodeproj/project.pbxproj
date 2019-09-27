@@ -49,6 +49,9 @@
 		747AB90B2324F38A00007A32 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AB90A2324F38A00007A32 /* SignUpViewController.swift */; };
 		747AE9A7232E3C50007D855B /* Kingfisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AE9A6232E3C50007D855B /* Kingfisher.swift */; };
 		747B6EDC2334CE76000FE48B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747B6EDB2334CE76000FE48B /* HomeViewModel.swift */; };
+		74857003233D91AF00357349 /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74857002233D91AF00357349 /* NoteDetailViewController.swift */; };
+		74857005233DADEF00357349 /* NoteDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74857004233DADEF00357349 /* NoteDetailTableViewCell.swift */; };
+		74857009233DBAE300357349 /* NoteCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74857008233DBAE300357349 /* NoteCommentTableViewCell.swift */; };
 		748A84F62319216B00EE00A0 /* Expense.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 748A84F52319216B00EE00A0 /* Expense.storyboard */; };
 		748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */; };
 		749573972337D442003997BD /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749573962337D442003997BD /* ActivityViewModel.swift */; };
@@ -154,6 +157,9 @@
 		747AB90A2324F38A00007A32 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		747AE9A6232E3C50007D855B /* Kingfisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kingfisher.swift; sourceTree = "<group>"; };
 		747B6EDB2334CE76000FE48B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		74857002233D91AF00357349 /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
+		74857004233DADEF00357349 /* NoteDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailTableViewCell.swift; sourceTree = "<group>"; };
+		74857008233DBAE300357349 /* NoteCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCommentTableViewCell.swift; sourceTree = "<group>"; };
 		748A84F52319216B00EE00A0 /* Expense.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Expense.storyboard; sourceTree = "<group>"; };
 		748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		749573962337D442003997BD /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
@@ -275,8 +281,9 @@
 		744BBF9E2315F73100434D7A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				742E5F4C23302CF8001EDF54 /* Storyboard */,
 				74B5C4C3231DE3E200EB916D /* Home */,
-				74B5C4ED231E5C8700EB916D /* Expense */,
+				74B5C4ED231E5C8700EB916D /* AddExpense */,
 				745CC9802321060200426D1A /* Activity */,
 				74B5C4C4231DE3E800EB916D /* Group */,
 				74B5C4C0231DE3A100EB916D /* Common */,
@@ -345,13 +352,13 @@
 		7492067A2317DDAB0049357B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				743F4E5E232F2FDB009BA6BA /* Home */,
 				74D00520233246A10079D68E /* AddExpense */,
 				741E2B95232E361700350F42 /* GroupListViewModel.swift */,
 				743F4E65232F923D009BA6BA /* InviteViewModel.swift */,
 				742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */,
 				749573962337D442003997BD /* ActivityViewModel.swift */,
 				74B9AE0E2338BA1F0029A8BE /* SearchViewModel.swift */,
-				743F4E5E232F2FDB009BA6BA /* Home */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -389,7 +396,6 @@
 				7492067A2317DDAB0049357B /* ViewModel */,
 				74B5C4BE231DE37700EB916D /* Controller */,
 				744BBF9E2315F73100434D7A /* View */,
-				742E5F4C23302CF8001EDF54 /* Storyboard */,
 				74960EA923150838006BF12C /* Assets.xcassets */,
 				74960EAE23150838006BF12C /* Info.plist */,
 			);
@@ -437,6 +443,8 @@
 				744232BB233CAFFA00139C7C /* AddNoteTableHeaderView.swift */,
 				74641F412320FB3A0059B265 /* NotebookTableViewCell.swift */,
 				74641F422320FB3A0059B265 /* NotebookTableViewCell.xib */,
+				74857004233DADEF00357349 /* NoteDetailTableViewCell.swift */,
+				74857008233DBAE300357349 /* NoteCommentTableViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -452,7 +460,7 @@
 			path = Group;
 			sourceTree = "<group>";
 		};
-		74B5C4ED231E5C8700EB916D /* Expense */ = {
+		74B5C4ED231E5C8700EB916D /* AddExpense */ = {
 			isa = PBXGroup;
 			children = (
 				74B5C4EE231E5CB600EB916D /* CategoryCollectionViewCell.swift */,
@@ -467,7 +475,7 @@
 				7455837323265D2E008C1690 /* SplitTextFieldTableViewCell.swift */,
 				7455837423265D2E008C1690 /* SplitTextFieldTableViewCell.xib */,
 			);
-			path = Expense;
+			path = AddExpense;
 			sourceTree = "<group>";
 		};
 		74BAAEA22328FA8B008623FF /* Home */ = {
@@ -479,6 +487,7 @@
 				74A1A0DC232B8535007C717A /* ResultViewController.swift */,
 				74A1A0DE232B8675007C717A /* NoteViewController.swift */,
 				744232BF233CC2D200139C7C /* AddNoteViewController.swift */,
+				74857002233D91AF00357349 /* NoteDetailViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -731,6 +740,7 @@
 				741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */,
 				74D0052723324AC30079D68E /* PayerController.swift in Sources */,
 				744232BE233CB26E00139C7C /* UImage+Extension.swift in Sources */,
+				74857009233DBAE300357349 /* NoteCommentTableViewCell.swift in Sources */,
 				747B6EDC2334CE76000FE48B /* HomeViewModel.swift in Sources */,
 				745CC990232249CE00426D1A /* Animatable.swift in Sources */,
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
@@ -752,6 +762,7 @@
 				749573972337D442003997BD /* ActivityViewModel.swift in Sources */,
 				74A1A0E7232D93C6007C717A /* ExpenseType.swift in Sources */,
 				74B5C4CD231DE47B00EB916D /* AddExpenseViewController.swift in Sources */,
+				74857005233DADEF00357349 /* NoteDetailTableViewCell.swift in Sources */,
 				74D00522233246C50079D68E /* AmountTypeController.swift in Sources */,
 				748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */,
 				74D0051C23320E4B0079D68E /* GroupViewController.swift in Sources */,
@@ -763,6 +774,7 @@
 				74D611D3231D008D00A301E9 /* SwiftIconFont.swift in Sources */,
 				74B5C4E4231DE48F00EB916D /* STTabBarController.swift in Sources */,
 				74D0052B23324B5F0079D68E /* PayDateController.swift in Sources */,
+				74857003233D91AF00357349 /* NoteDetailViewController.swift in Sources */,
 				7451C46323272B4800EA0AEB /* InviteViewController.swift in Sources */,
 				745CC98E232249CE00426D1A /* NavigationController.swift in Sources */,
 				74D005252332490E0079D68E /* ExpenseController.swift in Sources */,

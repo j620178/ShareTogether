@@ -27,7 +27,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGG-Ip-aQz">
-                                <rect key="frame" x="48" y="16" width="244" height="18"/>
+                                <rect key="frame" x="48" y="16" width="222" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -44,14 +44,23 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6zp-Xc-Dh9">
+                                <rect key="frame" x="278" y="14" width="12" height="22"/>
+                                <state key="normal" image="down-arrow12x"/>
+                                <connections>
+                                    <action selector="clickMoreButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="S4e-WA-o1t"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="6zp-Xc-Dh9" firstAttribute="centerY" secondItem="nB9-5e-0kz" secondAttribute="centerY" id="392-yH-HK0"/>
                             <constraint firstAttribute="bottom" secondItem="6ql-st-0Xm" secondAttribute="bottom" constant="10" id="6mK-Ie-7rS"/>
                             <constraint firstItem="6ql-st-0Xm" firstAttribute="top" secondItem="Dhy-NW-JPo" secondAttribute="bottom" constant="8" id="Blv-GL-eIS"/>
+                            <constraint firstItem="6zp-Xc-Dh9" firstAttribute="trailing" secondItem="Dhy-NW-JPo" secondAttribute="trailing" id="DBG-KQ-wrd"/>
                             <constraint firstItem="cGG-Ip-aQz" firstAttribute="centerY" secondItem="nB9-5e-0kz" secondAttribute="centerY" id="I1P-br-rdT"/>
                             <constraint firstAttribute="trailing" secondItem="Dhy-NW-JPo" secondAttribute="trailing" constant="10" id="Qji-JZ-c3K"/>
-                            <constraint firstAttribute="trailing" secondItem="cGG-Ip-aQz" secondAttribute="trailing" constant="8" id="aru-yo-fgf"/>
+                            <constraint firstItem="6zp-Xc-Dh9" firstAttribute="leading" secondItem="cGG-Ip-aQz" secondAttribute="trailing" constant="8" id="WhU-JI-O9z"/>
                             <constraint firstItem="nB9-5e-0kz" firstAttribute="top" secondItem="R58-qX-cov" secondAttribute="top" constant="10" id="c6h-GO-hwP"/>
                             <constraint firstAttribute="trailing" secondItem="6ql-st-0Xm" secondAttribute="trailing" constant="10" id="e6e-X7-xfS"/>
                             <constraint firstItem="cGG-Ip-aQz" firstAttribute="leading" secondItem="nB9-5e-0kz" secondAttribute="trailing" constant="8" id="hxa-CH-TrK"/>
@@ -75,6 +84,7 @@
             <connections>
                 <outlet property="contentLabel" destination="Dhy-NW-JPo" id="e6d-rK-BQw"/>
                 <outlet property="insetContentView" destination="R58-qX-cov" id="5NJ-cY-G0v"/>
+                <outlet property="moreButton" destination="6zp-Xc-Dh9" id="D0Z-Wz-zDl"/>
                 <outlet property="timeLabel" destination="6ql-st-0Xm" id="peo-q3-CrR"/>
                 <outlet property="userImage" destination="nB9-5e-0kz" id="QwB-Qb-E6d"/>
                 <outlet property="userNameLabel" destination="cGG-Ip-aQz" id="CbL-1V-VbU"/>
@@ -83,6 +93,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="down-arrow12x" width="12" height="12"/>
         <image name="user" width="64.5" height="64.5"/>
     </resources>
 </document>

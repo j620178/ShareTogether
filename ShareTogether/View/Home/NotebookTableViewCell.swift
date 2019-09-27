@@ -27,6 +27,18 @@ class NotebookTableViewCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     
+    @IBOutlet weak var moreButton: UIButton! {
+        didSet {
+            moreButton.setImage(.getIcon(code: "ios-more",
+                                         color: .darkGray,
+                                         size: 30),
+                                for: .normal)
+        }
+    }
+    
+    @IBAction func clickMoreButton(_ sender: UIButton) {
+    }
+    
     var cellViewModel: NotebookCellViewModel? {
         didSet {
             guard let cellViewModel = cellViewModel else { return }

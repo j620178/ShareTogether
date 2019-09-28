@@ -139,19 +139,19 @@ struct NoteComment: Codable {
     var id: String?
     let auctorID: String
     let content: String?
-    let gifURL: String?
+    let mediaID: String?
     let time: Timestamp
     
     init(id: String?,
          auctorID: String,
          content: String?,
-         gifURL: String?,
+         mediaID: String?,
          time: Date) {
         
         self.id = id
         self.auctorID = auctorID
         self.content = content
-        self.gifURL = gifURL
+        self.mediaID = mediaID
         self.time = Timestamp(date: time)
     }
 }

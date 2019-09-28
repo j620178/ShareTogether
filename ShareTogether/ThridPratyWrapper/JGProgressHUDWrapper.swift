@@ -38,7 +38,9 @@ class LKProgressHUD {
         }
     }
     
-    static func showLoading(text: String = "處理中", view: UIView = shared.view) {
+    static func showLoading(text: String = "處理中", view: UIView? = shared.view) {
+        
+        guard let view = view else { return }
 
         if !Thread.isMainThread {
 
@@ -57,7 +59,9 @@ class LKProgressHUD {
 
     }
     
-    static func showSuccess(text: String = "Success", view: UIView = shared.view) {
+    static func showSuccess(text: String = "Success", view: UIView? = shared.view) {
+        
+        guard let view = view else { return }
 
         if !Thread.isMainThread {
 
@@ -77,7 +81,9 @@ class LKProgressHUD {
         shared.hud.dismiss(afterDelay: 1.5)
     }
 
-    static func showFailure(text: String = "Failure", view: UIView = shared.view) {
+    static func showFailure(text: String = "Failure", view: UIView? = shared.view) {
+        
+        guard let view = view else { return }
 
         if !Thread.isMainThread {
 

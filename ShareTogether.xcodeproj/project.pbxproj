@@ -35,9 +35,6 @@
 		745CC9862321164E00426D1A /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CC9852321164E00426D1A /* Direction.swift */; };
 		745CC989232146F700426D1A /* MemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CC987232146F700426D1A /* MemberTableViewCell.swift */; };
 		745CC98A232146F700426D1A /* MemberTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 745CC988232146F700426D1A /* MemberTableViewCell.xib */; };
-		745CC98E232249CE00426D1A /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CC98B232249CD00426D1A /* NavigationController.swift */; };
-		745CC98F232249CE00426D1A /* CustomTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CC98C232249CD00426D1A /* CustomTransitionAnimation.swift */; };
-		745CC990232249CE00426D1A /* Animatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CC98D232249CE00426D1A /* Animatable.swift */; };
 		745CC9942322863500426D1A /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745CC9932322863500426D1A /* UIView+Extension.swift */; };
 		74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74641F39232096B00059B265 /* SplitTableViewCell.swift */; };
 		74641F3C232096B00059B265 /* SplitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74641F3A232096B00059B265 /* SplitTableViewCell.xib */; };
@@ -99,6 +96,7 @@
 		74B9AE0F2338BA1F0029A8BE /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B9AE0E2338BA1F0029A8BE /* SearchViewModel.swift */; };
 		74BA2AE12325D58A0010799E /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA2AE02325D58A0010799E /* CalculatorViewController.swift */; };
 		74BA2AE32326517E0010799E /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA2AE22326517E0010799E /* SelectionView.swift */; };
+		74BAC51B233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BAC51A233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift */; };
 		74D0051C23320E4B0079D68E /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0051B23320E4B0079D68E /* GroupViewController.swift */; };
 		74D00522233246C50079D68E /* AmountTypeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D00521233246C50079D68E /* AmountTypeController.swift */; };
 		74D005252332490E0079D68E /* ExpenseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D005242332490E0079D68E /* ExpenseController.swift */; };
@@ -143,9 +141,6 @@
 		745CC9852321164E00426D1A /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		745CC987232146F700426D1A /* MemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableViewCell.swift; sourceTree = "<group>"; };
 		745CC988232146F700426D1A /* MemberTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberTableViewCell.xib; sourceTree = "<group>"; };
-		745CC98B232249CD00426D1A /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
-		745CC98C232249CD00426D1A /* CustomTransitionAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransitionAnimation.swift; sourceTree = "<group>"; };
-		745CC98D232249CE00426D1A /* Animatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animatable.swift; sourceTree = "<group>"; };
 		745CC9932322863500426D1A /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		74641F39232096B00059B265 /* SplitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitTableViewCell.swift; sourceTree = "<group>"; };
 		74641F3A232096B00059B265 /* SplitTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SplitTableViewCell.xib; sourceTree = "<group>"; };
@@ -210,6 +205,7 @@
 		74B9AE0E2338BA1F0029A8BE /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		74BA2AE02325D58A0010799E /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
 		74BA2AE22326517E0010799E /* SelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
+		74BAC51A233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteGiphyTableViewCell.swift; sourceTree = "<group>"; };
 		74D0051B23320E4B0079D68E /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		74D00521233246C50079D68E /* AmountTypeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountTypeController.swift; sourceTree = "<group>"; };
 		74D005242332490E0079D68E /* ExpenseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseController.swift; sourceTree = "<group>"; };
@@ -386,9 +382,6 @@
 			children = (
 				74B9AE0D2338A6EC0029A8BE /* ShareTogether.entitlements */,
 				74975EB32327764A008FC7B0 /* GoogleService-Info.plist */,
-				745CC98D232249CE00426D1A /* Animatable.swift */,
-				745CC98C232249CD00426D1A /* CustomTransitionAnimation.swift */,
-				745CC98B232249CD00426D1A /* NavigationController.swift */,
 				74960EA223150834006BF12C /* AppDelegate.swift */,
 				74D611D1231D006700A301E9 /* ThridPratyWrapper */,
 				744BBFA623162ADB00434D7A /* Extension */,
@@ -440,11 +433,7 @@
 				74B5C4D4231DE48800EB916D /* StatisticsTableViewCell.xib */,
 				74B5C4D5231DE48800EB916D /* ResultTableViewCell.swift */,
 				74B5C4D3231DE48800EB916D /* ResultTableViewCell.xib */,
-				744232BB233CAFFA00139C7C /* AddNoteTableHeaderView.swift */,
-				74641F412320FB3A0059B265 /* NotebookTableViewCell.swift */,
-				74641F422320FB3A0059B265 /* NotebookTableViewCell.xib */,
-				74857004233DADEF00357349 /* NoteDetailTableViewCell.swift */,
-				74857008233DBAE300357349 /* NoteCommentTableViewCell.swift */,
+				74BAC51C233F1B3000644CB2 /* Note */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -490,6 +479,19 @@
 				74857002233D91AF00357349 /* NoteDetailViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		74BAC51C233F1B3000644CB2 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				744232BB233CAFFA00139C7C /* AddNoteTableHeaderView.swift */,
+				74641F412320FB3A0059B265 /* NotebookTableViewCell.swift */,
+				74641F422320FB3A0059B265 /* NotebookTableViewCell.xib */,
+				74857004233DADEF00357349 /* NoteDetailTableViewCell.swift */,
+				74857008233DBAE300357349 /* NoteCommentTableViewCell.swift */,
+				74BAC51A233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift */,
+			);
+			path = Note;
 			sourceTree = "<group>";
 		};
 		74D0051D2332378B0079D68E /* AddExpense */ = {
@@ -733,16 +735,15 @@
 				74B5C4EC231E044800EB916D /* STBaseViewController.swift in Sources */,
 				74B5C4DF231DE48800EB916D /* StatisticsTableViewCell.swift in Sources */,
 				74A1A0DF232B8675007C717A /* NoteViewController.swift in Sources */,
-				745CC98F232249CE00426D1A /* CustomTransitionAnimation.swift in Sources */,
 				74A1A0E3232CD5F8007C717A /* CurrentInfoManager.swift in Sources */,
 				74D0052923324B2D0079D68E /* SplitController.swift in Sources */,
 				74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */,
 				741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */,
 				74D0052723324AC30079D68E /* PayerController.swift in Sources */,
+				74BAC51B233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift in Sources */,
 				744232BE233CB26E00139C7C /* UImage+Extension.swift in Sources */,
 				74857009233DBAE300357349 /* NoteCommentTableViewCell.swift in Sources */,
 				747B6EDC2334CE76000FE48B /* HomeViewModel.swift in Sources */,
-				745CC990232249CE00426D1A /* Animatable.swift in Sources */,
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
 				74BA2AE32326517E0010799E /* SelectionView.swift in Sources */,
 				742468C12338425800528202 /* SearchViewController.swift in Sources */,
@@ -776,7 +777,6 @@
 				74D0052B23324B5F0079D68E /* PayDateController.swift in Sources */,
 				74857003233D91AF00357349 /* NoteDetailViewController.swift in Sources */,
 				7451C46323272B4800EA0AEB /* InviteViewController.swift in Sources */,
-				745CC98E232249CE00426D1A /* NavigationController.swift in Sources */,
 				74D005252332490E0079D68E /* ExpenseController.swift in Sources */,
 				74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */,
 				74A1A0DD232B8535007C717A /* ResultViewController.swift in Sources */,

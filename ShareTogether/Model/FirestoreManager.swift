@@ -484,6 +484,7 @@ class FirestoreManager {
             .collection(Collection.Group.notebook)
             .document(noteID)
             .collection(Collection.GroupNotebook.comment)
+            .order(by: "time", descending: false)
             .addSnapshotListener { (querySnapshot, error) in
                 
             guard let documents = querySnapshot?.documents else { return }

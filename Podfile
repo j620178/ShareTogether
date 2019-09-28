@@ -19,4 +19,5 @@ target 'ShareTogether' do
   pod 'CodableFirebase'
   pod 'Kingfisher', '~> 5.0'
   pod 'JGProgressHUD'
+  pod 'Giphy'
 end

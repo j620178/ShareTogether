@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import GiphyUISDK
+import GiphyCoreSDK
 
 class NoteDetailViewController: STBaseViewController {
     
@@ -16,6 +18,23 @@ class NoteDetailViewController: STBaseViewController {
     
     var note: Note?
     
+    var noteComments = [NoteComment]() {
+        didSet {
+            tableView.reloadData()
+            if !oldValue.isEmpty {
+                let indexPath = IndexPath(row: noteComments.count - 1, section: 1)
+                tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
+        }
+    }
+    
+    lazy var giphy: GiphyViewController = {
+        let giphy = GiphyViewController()
+        giphy.delegate = self
+        giphy.layout = .carousel
+        return giphy
+    }()
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.delegate = self
@@ -23,46 +42,21 @@ class NoteDetailViewController: STBaseViewController {
         }
     }
     
-    @IBOutlet weak var textFieldContainerView: UIView!
-    
-    @IBOutlet weak var textField: UITextField!
-    
-    @IBAction func clickPostButton(_ sender: UIButton) {
-        
-        guard let uid = CurrentInfoManager.shared.user?.id,
-            let note = note else { return }
-        
-        let noteComment = NoteComment(id: nil, auctorID: uid, content: textField.text, gifURL: nil, time: Date())
-        
-        FirestoreManager.shared.addNoteComment(noteID: note.id, noteComments: noteComment) { [weak self] result in
-            switch result {
-                
-            case .success(_):
-                print("success")
-                self?.textField.resignFirstResponder()
-                self?.textField.text = nil
-                if self?.note?.comments == nil { //|| self?.note?.comments!.isEmpty
-                    self?.note?.comments = [noteComment]
-                } else {
-                    self?.note?.comments?.append(noteComment)
-                }
-                self?.tableView?.reloadData()
-                let indexPath = IndexPath(row: self!.note!.comments!.count - 1, section: 1)
-                self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-                
-            case .failure(_):
-                print("failure")
-            }
+    @IBOutlet weak var textField: UITextField! {
+        didSet {
+            textField.delegate = self
         }
-        
     }
+    
+    @IBOutlet weak var giphyButton: UIButton! {
+        didSet {
+            giphyButton.setImage(.getIcon(code: "ios-happy", color: .STDarkGray, size: 25), for: .normal)
+        }
+    }
+    
+    @IBOutlet weak var postButtonWidthConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var textFieldBottomConstraint: NSLayoutConstraint!
-    
-    static var kBottomSafeHeight: CGFloat {
-        return UIApplication.shared.statusBarFrame.height == 44 ? 34 : 0
-       //return isFullScreen ? 34 : 0
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,14 +72,30 @@ class NoteDetailViewController: STBaseViewController {
                                                object: nil)
         textField.becomeFirstResponder()
         
+        postButtonWidthConstraint.constant = 0
+        
+        GiphyUISDK.configure(apiKey: "XSl7ujy13Z2ukhWYipP96Y9PJ5YCWAQS")
+        
+        getComment()
         
     }
     
+    @IBAction func clickPostButton(_ sender: UIButton) {
+        
+        uploadNoteComment(content: textField.text, mediaID: nil)
+        
+    }
+    
+    @IBAction func clickGiphyButton(_ sender: UIButton) {
+        
+        present(giphy, animated: true, completion: nil)
+        
+    }
+
     @objc func keyboardWillChangeFrame(_ notification: Notification) {
 
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
-            print(keyboardRectangle.height)
             textFieldBottomConstraint.constant = keyboardRectangle.height - (self.view.safeAreaInsets.bottom > 0 ? 34 : 0)
         }
         
@@ -93,6 +103,45 @@ class NoteDetailViewController: STBaseViewController {
     
     @objc func keyboardWillHide(_ notification: Notification) {
         textFieldBottomConstraint.constant = 0
+    }
+    
+    func uploadNoteComment(content: String?, mediaID: String?) {
+        
+        LKProgressHUD.showLoading(view: self.view)
+        
+        guard let uid = CurrentInfoManager.shared.user?.id,
+             let note = note else { return }
+         
+        let noteComment = NoteComment(id: nil, auctorID: uid, content: content, mediaID: mediaID, time: Date())
+         
+        FirestoreManager.shared.addNoteComment(noteID: note.id, noteComments: noteComment) { [weak self] result in
+            switch result {
+                 
+            case .success:
+                
+            self?.textField.resignFirstResponder()
+            self?.textField.text = nil
+            LKProgressHUD.showSuccess(text: "發布成功", view: self?.view)
+                
+            case .failure:
+            LKProgressHUD.showFailure(view: self?.view)
+            }
+        }
+    }
+    
+    func getComment() {
+        
+        guard let note = note else { return }
+        
+        FirestoreManager.shared.getNoteComment(noteID: note.id) { [weak self] result in
+            switch result {
+                
+            case .success(let noteComments):
+                self?.noteComments = noteComments
+            case .failure:
+                LKProgressHUD.showFailure()
+            }
+        }
     }
     
 }
@@ -104,7 +153,7 @@ extension NoteDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : note?.comments?.count ?? 0
+        return section == 0 ? 1 : noteComments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -127,23 +176,40 @@ extension NoteDetailViewController: UITableViewDataSource {
             
         } else {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: NoteCommentTableViewCell.identifer, for: indexPath)
-            
-            guard let noteInfoCell = cell as? NoteCommentTableViewCell,
-                let note = note,
-                let comments = note.comments,
-                let content = comments[indexPath.row].content,
-                let user = CurrentInfoManager.shared.getMemberInfo(uid: comments[indexPath.row].auctorID) else {
-                return cell
+            if noteComments[indexPath.row].mediaID == nil {
+                let cell = tableView.dequeueReusableCell(withIdentifier: NoteCommentTableViewCell.identifer, for: indexPath)
+                
+                guard let noteInfoCell = cell as? NoteCommentTableViewCell,
+                    let content = noteComments[indexPath.row].content,
+                    let user = CurrentInfoManager.shared.getMemberInfo(uid: noteComments[indexPath.row].auctorID) else {
+                    return cell
+                }
+                
+                noteInfoCell.viewModel = NoteCommentCellViewModel(userImageURL: user.photoURL,
+                                                                  userName: user.name,
+                                                                  content: content,
+                                                                  time: noteComments[indexPath.row].time.toFullTimeFormat)
+                
+                return noteInfoCell
+            } else {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: NoteGiphyTableViewCell.identifer, for: indexPath)
+                
+                guard let noteGiphyCell = cell as? NoteGiphyTableViewCell,
+                    let mediaID = noteComments[indexPath.row].mediaID,
+                    let user = CurrentInfoManager.shared.getMemberInfo(uid: noteComments[indexPath.row].auctorID) else {
+                    return cell
+                }
+                
+                noteGiphyCell.viewModel = NoteGiphyCellViewModel(userImageURL: user.photoURL,
+                                                                  userName: user.name,
+                                                                  mediaID: mediaID,
+                                                                  time: noteComments[indexPath.row].time.toFullTimeFormat)
+                
+                return noteGiphyCell
+                
             }
-            
-            noteInfoCell.viewModel = NoteCommentCellViewModel(userImageURL: user.photoURL,
-                                                              userName: user.name,
-                                                              content: content,
-                                                              time: comments[indexPath.row].time.toFullTimeFormat)
-            
-            return noteInfoCell
-
+        
         }
 
     }
@@ -151,5 +217,43 @@ extension NoteDetailViewController: UITableViewDataSource {
 }
 
 extension NoteDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let user = CurrentInfoManager.shared.user else { return }
+        
+    }
+}
+
+extension NoteDetailViewController: UITextFieldDelegate {
+
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        
+        if range.lowerBound != 0 || string != "" {
+            postButtonWidthConstraint.constant = 45
+        } else {
+            postButtonWidthConstraint.constant = 0
+        }
+        
+        return true
+    }
+    
+}
+
+extension NoteDetailViewController: GiphyDelegate {
+    
+    func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia) {
+        print(media.id)
+        
+        uploadNoteComment(content: nil, mediaID: media.id)
+        
+        giphyViewController.dismiss(animated: true, completion: nil)
+        textField.resignFirstResponder()
+    }
+    
+    func didDismiss(controller: GiphyViewController?) {
+        controller?.dismiss(animated: true, completion: nil)
+    }
     
 }

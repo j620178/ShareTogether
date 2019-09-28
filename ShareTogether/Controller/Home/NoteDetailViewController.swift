@@ -50,7 +50,7 @@ class NoteDetailViewController: STBaseViewController {
     
     @IBOutlet weak var giphyButton: UIButton! {
         didSet {
-            giphyButton.setImage(.getIcon(code: "ios-happy", color: .STDarkGray, size: 25), for: .normal)
+            giphyButton.setImage(.getIcon(code: "md-happy", color: .STDarkGray, size: 25), for: .normal)
         }
     }
     
@@ -78,6 +78,8 @@ class NoteDetailViewController: STBaseViewController {
         
         getComment()
         
+        title = "貼文"
+    
     }
     
     @IBAction func clickPostButton(_ sender: UIButton) {
@@ -170,7 +172,7 @@ extension NoteDetailViewController: UITableViewDataSource {
             noteInfoCell.viewModel = NoteDetaiCellViewModel(userImageURL: user.photoURL,
                                                             userName: user.name,
                                                             content: note.content,
-                                                            time: note.time.toFullTimeFormat)
+                                                            time: note.time.toNowFormat)
             
             return noteInfoCell
             
@@ -188,7 +190,7 @@ extension NoteDetailViewController: UITableViewDataSource {
                 noteInfoCell.viewModel = NoteCommentCellViewModel(userImageURL: user.photoURL,
                                                                   userName: user.name,
                                                                   content: content,
-                                                                  time: noteComments[indexPath.row].time.toFullTimeFormat)
+                                                                  time: noteComments[indexPath.row].time.toNowFormat)
                 
                 return noteInfoCell
             } else {
@@ -204,10 +206,9 @@ extension NoteDetailViewController: UITableViewDataSource {
                 noteGiphyCell.viewModel = NoteGiphyCellViewModel(userImageURL: user.photoURL,
                                                                   userName: user.name,
                                                                   mediaID: mediaID,
-                                                                  time: noteComments[indexPath.row].time.toFullTimeFormat)
+                                                                  time: noteComments[indexPath.row].time.toNowFormat)
                 
                 return noteGiphyCell
-                
             }
         
         }
@@ -232,7 +233,6 @@ extension NoteDetailViewController: UITableViewDelegate {
             
             present(alertVC, animated: true, completion: nil)
         }
-        
     }
 }
 
@@ -256,7 +256,6 @@ extension NoteDetailViewController: UITextFieldDelegate {
 extension NoteDetailViewController: GiphyDelegate {
     
     func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia) {
-        print(media.id)
         
         uploadNoteComment(content: nil, mediaID: media.id)
         
@@ -265,6 +264,7 @@ extension NoteDetailViewController: GiphyDelegate {
     }
     
     func didDismiss(controller: GiphyViewController?) {
+        
         controller?.dismiss(animated: true, completion: nil)
     }
     

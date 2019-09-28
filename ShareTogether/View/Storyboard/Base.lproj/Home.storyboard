@@ -66,7 +66,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="356"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZZ-F8-1la">
-                                        <rect key="frame" x="16" y="116" width="306" height="174"/>
+                                        <rect key="frame" x="16" y="116" width="336" height="174"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="27"/>
                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="讀取中..." image="down-arrow12x">
@@ -84,7 +84,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uUY-dS-577">
-                                        <rect key="frame" x="338" y="173" width="60" height="60"/>
+                                        <rect key="frame" x="368" y="188" width="30" height="30"/>
                                         <state key="normal" image="search"/>
                                         <connections>
                                             <action selector="clickEditGroupButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IeM-JL-SAt"/>
@@ -118,7 +118,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="o57-Zr-v6h"/>
+                    <navigationItem key="navigationItem" id="o57-Zr-v6h">
+                        <barButtonItem key="backBarButtonItem" title=" " id="7h8-3K-4yO"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="bannerTopConstraint" destination="5Q3-XK-jBi" id="j3I-nZ-DLd"/>
                         <outlet property="bannerView" destination="qDM-I4-a1C" id="njv-oq-T9y"/>
@@ -421,10 +423,10 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="NoteDetailTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NoteDetailTableViewCell" id="ANG-Zr-XO2" customClass="NoteDetailTableViewCell" customModule="ShareTogether" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="146"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ANG-Zr-XO2" id="Iud-L2-xCp">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="146"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="130"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="Unp-cn-eBq">
@@ -437,7 +439,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CV4-Yq-isC">
                                                     <rect key="frame" x="54" y="22" width="344" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" name="STDarkGray"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gzx-1X-fOe">
@@ -471,7 +473,7 @@
                                                 <constraint firstItem="dgs-ti-ahl" firstAttribute="leading" secondItem="Iud-L2-xCp" secondAttribute="leading" id="baT-HA-Tmi"/>
                                                 <constraint firstItem="dgs-ti-ahl" firstAttribute="leading" secondItem="Iud-L2-xCp" secondAttribute="leading" id="i0X-Ko-skC"/>
                                                 <constraint firstItem="CV4-Yq-isC" firstAttribute="leading" secondItem="Unp-cn-eBq" secondAttribute="trailing" constant="8" id="msS-fE-pxN"/>
-                                                <constraint firstAttribute="bottom" secondItem="dgs-ti-ahl" secondAttribute="bottom" constant="24" id="rb6-c2-mHe"/>
+                                                <constraint firstAttribute="bottom" secondItem="dgs-ti-ahl" secondAttribute="bottom" constant="8" id="rb6-c2-mHe"/>
                                                 <constraint firstItem="Unp-cn-eBq" firstAttribute="top" secondItem="Iud-L2-xCp" secondAttribute="top" constant="16" id="sl4-3h-ygD"/>
                                                 <constraint firstItem="gzx-1X-fOe" firstAttribute="top" secondItem="Unp-cn-eBq" secondAttribute="bottom" constant="16" id="tu4-gX-s8S"/>
                                                 <constraint firstItem="dgs-ti-ahl" firstAttribute="top" secondItem="05R-gs-rEf" secondAttribute="bottom" constant="16" id="van-Wc-zcR"/>
@@ -488,7 +490,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NoteCommentTableViewCell" id="7hw-RH-3M7" customClass="NoteCommentTableViewCell" customModule="ShareTogether" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="174" width="414" height="96.5"/>
+                                        <rect key="frame" x="0.0" y="158" width="414" height="96.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7hw-RH-3M7" id="u3n-ax-g7J">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="96.5"/>
@@ -543,7 +545,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NoteGiphyTableViewCell" id="de1-9d-tQ9" customClass="NoteGiphyTableViewCell" customModule="ShareTogether" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="270.5" width="414" height="274.5"/>
+                                        <rect key="frame" x="0.0" y="254.5" width="414" height="274.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="de1-9d-tQ9" id="Ulc-8F-RxH">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="274.5"/>

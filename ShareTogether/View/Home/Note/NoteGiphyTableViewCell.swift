@@ -34,6 +34,7 @@ class NoteGiphyTableViewCell: UITableViewCell {
             self.userImageView.setUrlImage(viewModel?.userImageURL ?? "")
             self.userNameLabel.text = viewModel?.userName
             self.timeLabel.text = viewModel?.time
+            self.mediaView.media = nil
             loadGif(mediaID: viewModel?.mediaID ?? "")
         }
     }

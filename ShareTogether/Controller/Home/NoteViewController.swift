@@ -129,7 +129,9 @@ extension NoteViewController: UITableViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        delegate?.tableViewDidScroll(viewController: self, offsetY: scrollView.contentOffset.y)
+        delegate?.tableViewDidScroll(viewController: self,
+                                     offsetY: scrollView.contentOffset.y,
+                                     contentSize: scrollView.contentSize)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

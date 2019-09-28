@@ -576,6 +576,25 @@ class FirestoreManager {
 
 extension Timestamp {
     
+    var toNowFormat: String {
+        let date = self.dateValue()
+        let now = Date()
+        
+        let components = Calendar.current.dateComponents([.day, .minute, .hour],
+                                                         from: now,
+                                                         to: date)
+        
+        if let day = components.day, day != 0 {
+            return "\(abs(day)) 天前"
+        } else if let hour = components.hour, hour != 0 {
+            return "\(abs(hour)) 小時前"
+        } else if let minute = components.minute, minute != 0 {
+            return "\(abs(minute)) 分鐘前"
+        } else {
+            return "剛剛"
+        }
+    }
+    
     var toFullTimeFormat: String {
         let date = self.dateValue()
         

@@ -26,6 +26,8 @@ class AddNoteViewController: STBaseViewController {
     
     @IBAction func clickPublishButton(_ sender: UIBarButtonItem) {
         
+        LKProgressHUD.showLoading(view: self.view)
+        
         guard let user = user else { return }
         
         let note = Note(id: nil, content: textView.text, auctorID: user.id, comments: nil, time: Date())
@@ -35,10 +37,10 @@ class AddNoteViewController: STBaseViewController {
                 
             case .success:
                 self.dismiss(animated: true) {
-                    LKProgressHUD.showSuccess()
+                    LKProgressHUD.showSuccess(view: self.view)
                 }
             case .failure:
-                LKProgressHUD.showFailure()
+                LKProgressHUD.showFailure(view: self.view)
             }
         }
         

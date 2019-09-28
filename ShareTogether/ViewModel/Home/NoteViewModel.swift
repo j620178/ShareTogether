@@ -44,12 +44,14 @@ class NoteViewModel: NSObject {
         
         var notebookCellViewModel = [NotebookCellViewModel]()
         
-        for notebook in notes {
+        for note in notes {
             
-            let user = CurrentInfoManager.shared.getMemberInfo(uid: notebook.auctorID)
+            let user = CurrentInfoManager.shared.getMemberInfo(uid: note.auctorID)
             let viewModel = NotebookCellViewModel(userImageURL: user?.photoURL,
                                                   userName: user?.name ?? "",
-                                                  content: notebook.content, time: notebook.time.toFullTimeFormat)
+                                                  content: note.content,
+                                                  commentCount: note.comments?.count ?? 0,
+                                                  time: note.time.toNowFormat)
             notebookCellViewModel.append(viewModel)
         }
         

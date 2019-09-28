@@ -9,7 +9,7 @@
 import UIKit
 
 protocol HomeViewControllerDelegate: AnyObject {
-    func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat)
+    func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat, contentSize: CGSize)
 }
 
 class ExpenseViewController: UIViewController {
@@ -95,7 +95,9 @@ extension ExpenseViewController: UITableViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        delegate?.tableViewDidScroll(viewController: self, offsetY: scrollView.contentOffset.y)
+        delegate?.tableViewDidScroll(viewController: self,
+                                     offsetY: scrollView.contentOffset.y,
+                                     contentSize: scrollView.contentSize)
     }
     
 }

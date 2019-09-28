@@ -103,6 +103,7 @@ class HomeViewController: STBaseViewController {
                                                object: nil)
 
         upadateCurrentGroup()
+        
     }
     
     @objc func upadateCurrentGroup() {
@@ -128,10 +129,10 @@ class HomeViewController: STBaseViewController {
             resultVC.delegate = self
             resultVC.viewModel = viewModel
             resultTableViewController = resultVC
-        } //else if let notebookVC = segue.destination as? NotebookTableViewController {
-//            notebookVC.delegate = self
-//            notebookTableViewController = notebookVC
-//        }
+        } else if let notebookVC = segue.destination as? NoteViewController {
+            notebookVC.delegate = self
+            notebookTableViewController = notebookVC
+        }
     }
 
 }
@@ -170,13 +171,21 @@ extension HomeViewController: ScrollSelectionViewDelegate {
 
 extension HomeViewController: HomeViewControllerDelegate {
     
-    func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat) {
-        let offset = min(max(offsetY, 0), 65)
+    func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat, contentSize: CGSize) {
+        
+        if contentSize.height > UIScreen.main.bounds.height - 120 {
+            let offset = min(max(offsetY, 0), 65)
+        
+            groupNameButton.alpha = 1 - (offset / 65)
+            editGroupButton.alpha = 1 - (offset / 65)
+            bannerTopConstraint.constant = 20 - offset
+            view.layoutIfNeeded()
+        } else {
+            groupNameButton.alpha = 1
+            editGroupButton.alpha = 1
+            bannerTopConstraint.constant = 20
+        }
     
-        groupNameButton.alpha = 1 - (offset / 65)
-        editGroupButton.alpha = 1 - (offset / 65)
-        bannerTopConstraint.constant = 20 - offset
-        view.layoutIfNeeded()
     }
 
 }

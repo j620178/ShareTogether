@@ -12,6 +12,7 @@ struct NotebookCellViewModel {
     var userImageURL: String?
     var userName: String
     var content: String
+    var commentCount: Int
     var time: String
 }
 
@@ -24,6 +25,8 @@ class NotebookTableViewCell: UITableViewCell {
     @IBOutlet weak var userNameLabel: UILabel!
     
     @IBOutlet weak var contentLabel: UILabel!
+    
+    @IBOutlet weak var commentCountLabel: UILabel!
     
     @IBOutlet weak var timeLabel: UILabel!
     
@@ -48,6 +51,7 @@ class NotebookTableViewCell: UITableViewCell {
             userImage.setUrlImage(cellViewModel.userImageURL ?? "")
             userNameLabel.text = cellViewModel.userName
             contentLabel.text = cellViewModel.content
+            commentCountLabel.text = cellViewModel.commentCount > 0 ? "\(cellViewModel.commentCount) 個留言" : nil
             timeLabel.text = cellViewModel.time
         }
     }

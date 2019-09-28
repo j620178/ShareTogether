@@ -17,7 +17,7 @@
 		743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E63232F4317009BA6BA /* StorageManager.swift */; };
 		743F4E66232F923D009BA6BA /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E65232F923D009BA6BA /* InviteViewModel.swift */; };
 		744232BC233CAFFA00139C7C /* AddNoteTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744232BB233CAFFA00139C7C /* AddNoteTableHeaderView.swift */; };
-		744232BE233CB26E00139C7C /* UImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744232BD233CB26E00139C7C /* UImage+Extension.swift */; };
+		744232BE233CB26E00139C7C /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744232BD233CB26E00139C7C /* UIImage+Extension.swift */; };
 		744232C0233CC2D200139C7C /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744232BF233CC2D200139C7C /* AddNoteViewController.swift */; };
 		744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744BBFA723162B1900434D7A /* UIColor+Extension.swift */; };
 		7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */; };
@@ -40,6 +40,7 @@
 		74641F3C232096B00059B265 /* SplitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74641F3A232096B00059B265 /* SplitTableViewCell.xib */; };
 		74641F432320FB3A0059B265 /* NotebookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74641F412320FB3A0059B265 /* NotebookTableViewCell.swift */; };
 		74641F442320FB3A0059B265 /* NotebookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74641F422320FB3A0059B265 /* NotebookTableViewCell.xib */; };
+		7469FA32233F58E900DE6A7E /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7469FA31233F58E900DE6A7E /* UIAlertController+Extension.swift */; };
 		747AB9052324D38C00007A32 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 747AB9042324D38C00007A32 /* Login.storyboard */; };
 		747AB9072324DFED00007A32 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AB9062324DFED00007A32 /* LoginViewController.swift */; };
 		747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747AB9082324EC7500007A32 /* UITexField+Extension.swift */; };
@@ -123,7 +124,7 @@
 		743F4E63232F4317009BA6BA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		743F4E65232F923D009BA6BA /* InviteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewModel.swift; sourceTree = "<group>"; };
 		744232BB233CAFFA00139C7C /* AddNoteTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteTableHeaderView.swift; sourceTree = "<group>"; };
-		744232BD233CB26E00139C7C /* UImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UImage+Extension.swift"; sourceTree = "<group>"; };
+		744232BD233CB26E00139C7C /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		744232BF233CC2D200139C7C /* AddNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteViewController.swift; sourceTree = "<group>"; };
 		744BBFA723162B1900434D7A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModallyMeauViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +147,7 @@
 		74641F3A232096B00059B265 /* SplitTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SplitTableViewCell.xib; sourceTree = "<group>"; };
 		74641F412320FB3A0059B265 /* NotebookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookTableViewCell.swift; sourceTree = "<group>"; };
 		74641F422320FB3A0059B265 /* NotebookTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotebookTableViewCell.xib; sourceTree = "<group>"; };
+		7469FA31233F58E900DE6A7E /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		747AB9042324D38C00007A32 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		747AB9062324DFED00007A32 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		747AB9082324EC7500007A32 /* UITexField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITexField+Extension.swift"; sourceTree = "<group>"; };
@@ -290,8 +292,9 @@
 		744BBFA623162ADB00434D7A /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				7469FA31233F58E900DE6A7E /* UIAlertController+Extension.swift */,
 				744BBFA723162B1900434D7A /* UIColor+Extension.swift */,
-				744232BD233CB26E00139C7C /* UImage+Extension.swift */,
+				744232BD233CB26E00139C7C /* UIImage+Extension.swift */,
 				745CC9932322863500426D1A /* UIView+Extension.swift */,
 				745CACC1231672810055A60C /* UITableView+Extension.swift */,
 				747AB9082324EC7500007A32 /* UITexField+Extension.swift */,
@@ -741,7 +744,7 @@
 				741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */,
 				74D0052723324AC30079D68E /* PayerController.swift in Sources */,
 				74BAC51B233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift in Sources */,
-				744232BE233CB26E00139C7C /* UImage+Extension.swift in Sources */,
+				744232BE233CB26E00139C7C /* UIImage+Extension.swift in Sources */,
 				74857009233DBAE300357349 /* NoteCommentTableViewCell.swift in Sources */,
 				747B6EDC2334CE76000FE48B /* HomeViewModel.swift in Sources */,
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
@@ -794,6 +797,7 @@
 				745CC983232106C200426D1A /* ActivityTableViewCell.swift in Sources */,
 				742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */,
 				74B5C4C7231DE46B00EB916D /* NewGroupCollectionViewCell.swift in Sources */,
+				7469FA32233F58E900DE6A7E /* UIAlertController+Extension.swift in Sources */,
 				743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */,
 				745CC989232146F700426D1A /* MemberTableViewCell.swift in Sources */,
 				745CACDE2317C9D60055A60C /* NoteViewModel.swift in Sources */,

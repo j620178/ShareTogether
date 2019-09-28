@@ -1,5 +1,5 @@
 //
-//  UImage+Extension.swift
+//  UIImage+Extension.swift
 //  ShareTogether
 //
 //  Created by littlema on 2019/9/26.

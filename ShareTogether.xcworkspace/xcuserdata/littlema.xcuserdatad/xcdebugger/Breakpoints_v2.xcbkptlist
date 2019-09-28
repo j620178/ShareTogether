@@ -378,10 +378,10 @@
             filePath = "ShareTogether/Controller/Home/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "scrollViewDidScroll(_:)"
-            landmarkType = "7">
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "NoteViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -394,9 +394,9 @@
             filePath = "ShareTogether/Model/FirestoreManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "535"
-            endingLineNumber = "535"
-            landmarkName = "addNoteComment(groupID:noteID:noteComments:completion:)"
+            startingLineNumber = "544"
+            endingLineNumber = "544"
+            landmarkName = "deleteNote(groupID:noteID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -410,8 +410,8 @@
             filePath = "ShareTogether/Model/FirestoreManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "538"
-            endingLineNumber = "538"
+            startingLineNumber = "547"
+            endingLineNumber = "547"
             landmarkName = "addNoteComment(groupID:noteID:noteComments:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -426,9 +426,9 @@
             filePath = "ShareTogether/Controller/Home/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "tableView(_:didSelectRowAt:)"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "tableView(_:willDisplay:forRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

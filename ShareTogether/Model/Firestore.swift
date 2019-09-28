@@ -136,7 +136,7 @@ struct Note: Codable {
 }
 
 struct NoteComment: Codable {
-    var id: String?
+    var id: String!
     let auctorID: String
     let content: String?
     let mediaID: String?

@@ -34,7 +34,7 @@ struct Collection {
     struct Group {
         static let expense = "expense"
         static let member = "member"
-        static let notebook = "notebook"
+        static let note = "notebook"
     }
     
     struct GroupNotebook {
@@ -436,7 +436,7 @@ class FirestoreManager {
         guard let groupID = groupID else { return }
         
         firestore.collection(Collection.group).document(groupID)
-            .collection(Collection.Group.notebook).order(by: "time", descending: true)
+            .collection(Collection.Group.note).order(by: "time", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
                 
             guard let documents = querySnapshot?.documents else { return }
@@ -481,7 +481,7 @@ class FirestoreManager {
         guard let groupID = groupID else { return }
         
         firestore.collection(Collection.group).document(groupID)
-            .collection(Collection.Group.notebook)
+            .collection(Collection.Group.note)
             .document(noteID)
             .collection(Collection.GroupNotebook.comment)
             .order(by: "time", descending: false)
@@ -515,7 +515,7 @@ class FirestoreManager {
             let docData = try? FirestoreEncoder().encode(note) else { return }
         
         reference = firestore.collection(Collection.group).document(groupID)
-            .collection(Collection.Group.notebook).addDocument(data: docData) { error in
+            .collection(Collection.Group.note).addDocument(data: docData) { error in
                 
                 if error != nil {
                     completion(Result.failure(FirestoreError.uploadFailed))
@@ -524,6 +524,15 @@ class FirestoreManager {
                 completion(Result.success(reference!.documentID))
         }
            
+    }
+    
+    func deleteNote(groupID: String? = CurrentInfoManager.shared.group?.id,
+                 noteID: String) {
+        
+        guard let groupID = groupID else { return }
+        
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.note).document(noteID).delete()
     }
     
     func addNoteComment(groupID: String? = CurrentInfoManager.shared.group?.id,
@@ -537,7 +546,7 @@ class FirestoreManager {
             let docData = try? FirestoreEncoder().encode(noteComments) else { return }
         
         reference = firestore.collection(Collection.group).document(groupID)
-            .collection(Collection.Group.notebook).document(noteID)
+            .collection(Collection.Group.note).document(noteID)
             .collection(Collection.GroupNotebook.comment).addDocument(data: docData) { error in
                 
             if error != nil {
@@ -548,6 +557,19 @@ class FirestoreManager {
 
         }
             
+    }
+    
+    func deleteNoteComment(groupID: String? = CurrentInfoManager.shared.group?.id,
+                           noteID: String,
+                           noteCommentID: String) {
+        
+        guard let groupID = groupID else { return }
+    
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.note).document(noteID)
+            .collection(Collection.GroupNotebook.comment).document(noteCommentID)
+            .delete()
+
     }
     
 }

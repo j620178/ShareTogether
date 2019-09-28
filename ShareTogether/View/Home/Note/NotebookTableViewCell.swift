@@ -37,7 +37,10 @@ class NotebookTableViewCell: UITableViewCell {
     }
     
     @IBAction func clickMoreButton(_ sender: UIButton) {
+        clickMoreButtonHandler?()
     }
+    
+    var clickMoreButtonHandler: (() -> Void)?
     
     var cellViewModel: NotebookCellViewModel? {
         didSet {

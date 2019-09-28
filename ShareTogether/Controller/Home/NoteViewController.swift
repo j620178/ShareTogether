@@ -56,16 +56,18 @@ class NoteViewController: STBaseViewController {
 extension NoteViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         viewModel.notebookCellViewModel.count == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
-        print(viewModel.notebookCellViewModel.count)
         return viewModel.notebookCellViewModel.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
         return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: AddNoteTableHeaderView.self))
         
         guard let noteHeaderView = headerView as? AddNoteTableHeaderView,
@@ -76,7 +78,6 @@ extension NoteViewController: UITableViewDataSource {
         
         noteHeaderView.clickHeaderViewHandler = { [weak self] in
             let nextVC = UIStoryboard.home.instantiateViewController(identifier: "AddNoteNavigationController")
-                //as? STNavigationController else { return }
 
             self?.present(nextVC, animated: true, completion: nil)
         }
@@ -88,9 +89,26 @@ extension NoteViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: NotebookTableViewCell.identifer, for: indexPath)
         guard let notebookCell = cell as? NotebookTableViewCell else { return cell }
+        
         notebookCell.cellViewModel = viewModel.getViewModel(indexPath: indexPath)
+        
+        notebookCell.clickMoreButtonHandler = { [weak self] in
+            
+            guard let user = CurrentInfoManager.shared.user,
+                let note = self?.viewModel.getNote(index: indexPath.row) else { return }
+            
+            if user.id == note.auctorID {
+                
+                let alertVC = UIAlertController.deleteAlert { _ in
+                                    
+                    FirestoreManager.shared.deleteNote(noteID: note.id)
+                }
+                
+                self?.present(alertVC, animated: true, completion: nil)
+            }
+        }
+        
         return notebookCell
-
     }
     
 }

@@ -219,7 +219,19 @@ extension NoteDetailViewController: UITableViewDataSource {
 extension NoteDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let user = CurrentInfoManager.shared.user else { return }
+        guard let user = CurrentInfoManager.shared.user,
+            let note = note else { return }
+        
+        if user.id == noteComments[indexPath.row].auctorID {
+            let alertVC = UIAlertController.deleteAlert { [weak self] alertAction in
+                
+                guard let strougSelf = self else { return }
+                
+                FirestoreManager.shared.deleteNoteComment(noteID: note.id, noteCommentID: strougSelf.noteComments[indexPath.row].id)
+            }
+            
+            present(alertVC, animated: true, completion: nil)
+        }
         
     }
 }

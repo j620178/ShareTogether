@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74082B5C23402CC100565434 /* PayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74082B5723402CC100565434 /* PayerController.swift */; };
+		74082B5D23402CC100565434 /* SplitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74082B5823402CC100565434 /* SplitController.swift */; };
+		74082B5E23402CC100565434 /* AmountTypeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74082B5923402CC100565434 /* AmountTypeController.swift */; };
+		74082B5F23402CC100565434 /* ExpenseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74082B5A23402CC100565434 /* ExpenseController.swift */; };
+		74082B6023402CC100565434 /* PayDateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74082B5B23402CC100565434 /* PayDateController.swift */; };
 		741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E2B95232E361700350F42 /* GroupListViewModel.swift */; };
 		742468BE2338422D00528202 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742468BD2338422D00528202 /* Search.storyboard */; };
 		742468C12338425800528202 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742468C02338425800528202 /* SearchViewController.swift */; };
 		742E5F4E23304E8E001EDF54 /* AddGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */; };
 		742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4F23306373001EDF54 /* MemberStatusType.swift */; };
 		742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */; };
+		74368318233F7C050049C1BE /* Timestamp+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74368317233F7C050049C1BE /* Timestamp+Extension.swift */; };
+		7436831A233F7C420049C1BE /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74368319233F7C420049C1BE /* Double+Extension.swift */; };
 		743F4E62232F3FA3009BA6BA /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 743F4E61232F3FA3009BA6BA /* Menu.storyboard */; };
 		743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E63232F4317009BA6BA /* StorageManager.swift */; };
 		743F4E66232F923D009BA6BA /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743F4E65232F923D009BA6BA /* InviteViewModel.swift */; };
@@ -99,11 +106,6 @@
 		74BA2AE32326517E0010799E /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BA2AE22326517E0010799E /* SelectionView.swift */; };
 		74BAC51B233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74BAC51A233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift */; };
 		74D0051C23320E4B0079D68E /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0051B23320E4B0079D68E /* GroupViewController.swift */; };
-		74D00522233246C50079D68E /* AmountTypeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D00521233246C50079D68E /* AmountTypeController.swift */; };
-		74D005252332490E0079D68E /* ExpenseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D005242332490E0079D68E /* ExpenseController.swift */; };
-		74D0052723324AC30079D68E /* PayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0052623324AC30079D68E /* PayerController.swift */; };
-		74D0052923324B2D0079D68E /* SplitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0052823324B2D0079D68E /* SplitController.swift */; };
-		74D0052B23324B5F0079D68E /* PayDateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0052A23324B5F0079D68E /* PayDateController.swift */; };
 		74D611D0231CEF7600A301E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74D611CF231CEF7600A301E9 /* Main.storyboard */; };
 		74D611D3231D008D00A301E9 /* SwiftIconFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D611D2231D008D00A301E9 /* SwiftIconFont.swift */; };
 		74F92B952338CF7000FD7DE2 /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */; };
@@ -114,12 +116,19 @@
 /* Begin PBXFileReference section */
 		35E2FFF816BE8EA55FE2021B /* Pods-ShareTogether.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.debug.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.debug.xcconfig"; sourceTree = "<group>"; };
 		6EE45046B2151DE911C1D99A /* Pods-ShareTogether.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareTogether.release.xcconfig"; path = "Target Support Files/Pods-ShareTogether/Pods-ShareTogether.release.xcconfig"; sourceTree = "<group>"; };
+		74082B5723402CC100565434 /* PayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayerController.swift; sourceTree = "<group>"; };
+		74082B5823402CC100565434 /* SplitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitController.swift; sourceTree = "<group>"; };
+		74082B5923402CC100565434 /* AmountTypeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountTypeController.swift; sourceTree = "<group>"; };
+		74082B5A23402CC100565434 /* ExpenseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpenseController.swift; sourceTree = "<group>"; };
+		74082B5B23402CC100565434 /* PayDateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayDateController.swift; sourceTree = "<group>"; };
 		741E2B95232E361700350F42 /* GroupListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupListViewModel.swift; path = ../Model/GroupListViewModel.swift; sourceTree = "<group>"; };
 		742468BD2338422D00528202 /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		742468C02338425800528202 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupViewModel.swift; sourceTree = "<group>"; };
 		742E5F4F23306373001EDF54 /* MemberStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStatusType.swift; sourceTree = "<group>"; };
 		742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHeaderFooterView.swift; sourceTree = "<group>"; };
+		74368317233F7C050049C1BE /* Timestamp+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Timestamp+Extension.swift"; sourceTree = "<group>"; };
+		74368319233F7C420049C1BE /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		743F4E61232F3FA3009BA6BA /* Menu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
 		743F4E63232F4317009BA6BA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		743F4E65232F923D009BA6BA /* InviteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewModel.swift; sourceTree = "<group>"; };
@@ -209,11 +218,6 @@
 		74BA2AE22326517E0010799E /* SelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		74BAC51A233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteGiphyTableViewCell.swift; sourceTree = "<group>"; };
 		74D0051B23320E4B0079D68E /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
-		74D00521233246C50079D68E /* AmountTypeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountTypeController.swift; sourceTree = "<group>"; };
-		74D005242332490E0079D68E /* ExpenseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseController.swift; sourceTree = "<group>"; };
-		74D0052623324AC30079D68E /* PayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayerController.swift; sourceTree = "<group>"; };
-		74D0052823324B2D0079D68E /* SplitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitController.swift; sourceTree = "<group>"; };
-		74D0052A23324B5F0079D68E /* PayDateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayDateController.swift; sourceTree = "<group>"; };
 		74D611CF231CEF7600A301E9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		74D611D2231D008D00A301E9 /* SwiftIconFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftIconFont.swift; sourceTree = "<group>"; };
 		74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
@@ -301,7 +305,9 @@
 				74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */,
 				748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */,
 				74A1A0E4232D8C76007C717A /* Date+Extension.swift */,
+				74368319233F7C420049C1BE /* Double+Extension.swift */,
 				745CACC9231784DF0055A60C /* String+Extension.swift */,
+				74368317233F7C050049C1BE /* Timestamp+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -352,7 +358,6 @@
 			isa = PBXGroup;
 			children = (
 				743F4E5E232F2FDB009BA6BA /* Home */,
-				74D00520233246A10079D68E /* AddExpense */,
 				741E2B95232E361700350F42 /* GroupListViewModel.swift */,
 				743F4E65232F923D009BA6BA /* InviteViewModel.swift */,
 				742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */,
@@ -501,6 +506,11 @@
 			isa = PBXGroup;
 			children = (
 				74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */,
+				74082B5923402CC100565434 /* AmountTypeController.swift */,
+				74082B5A23402CC100565434 /* ExpenseController.swift */,
+				74082B5723402CC100565434 /* PayerController.swift */,
+				74082B5823402CC100565434 /* SplitController.swift */,
+				74082B5B23402CC100565434 /* PayDateController.swift */,
 				74BA2AE02325D58A0010799E /* CalculatorViewController.swift */,
 			);
 			path = AddExpense;
@@ -522,18 +532,6 @@
 				7451C46223272B4800EA0AEB /* InviteViewController.swift */,
 			);
 			path = Group;
-			sourceTree = "<group>";
-		};
-		74D00520233246A10079D68E /* AddExpense */ = {
-			isa = PBXGroup;
-			children = (
-				74D00521233246C50079D68E /* AmountTypeController.swift */,
-				74D005242332490E0079D68E /* ExpenseController.swift */,
-				74D0052623324AC30079D68E /* PayerController.swift */,
-				74D0052823324B2D0079D68E /* SplitController.swift */,
-				74D0052A23324B5F0079D68E /* PayDateController.swift */,
-			);
-			path = AddExpense;
 			sourceTree = "<group>";
 		};
 		74D611D1231D006700A301E9 /* ThridPratyWrapper */ = {
@@ -728,6 +726,7 @@
 				74A1A0DB232B6EFF007C717A /* StatisticsViewController.swift in Sources */,
 				747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */,
 				74B5C4CE231DE47B00EB916D /* GroupListViewController.swift in Sources */,
+				74082B6023402CC100565434 /* PayDateController.swift in Sources */,
 				745CACC823169FD30055A60C /* HomeExpenseCellViewModel.swift in Sources */,
 				74B9AE0F2338BA1F0029A8BE /* SearchViewModel.swift in Sources */,
 				747AB9072324DFED00007A32 /* LoginViewController.swift in Sources */,
@@ -739,13 +738,14 @@
 				74B5C4DF231DE48800EB916D /* StatisticsTableViewCell.swift in Sources */,
 				74A1A0DF232B8675007C717A /* NoteViewController.swift in Sources */,
 				74A1A0E3232CD5F8007C717A /* CurrentInfoManager.swift in Sources */,
-				74D0052923324B2D0079D68E /* SplitController.swift in Sources */,
 				74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */,
 				741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */,
-				74D0052723324AC30079D68E /* PayerController.swift in Sources */,
 				74BAC51B233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift in Sources */,
+				74082B5D23402CC100565434 /* SplitController.swift in Sources */,
+				7436831A233F7C420049C1BE /* Double+Extension.swift in Sources */,
 				744232BE233CB26E00139C7C /* UIImage+Extension.swift in Sources */,
 				74857009233DBAE300357349 /* NoteCommentTableViewCell.swift in Sources */,
+				74368318233F7C050049C1BE /* Timestamp+Extension.swift in Sources */,
 				747B6EDC2334CE76000FE48B /* HomeViewModel.swift in Sources */,
 				74A1A0E5232D8C76007C717A /* Date+Extension.swift in Sources */,
 				74BA2AE32326517E0010799E /* SelectionView.swift in Sources */,
@@ -753,11 +753,13 @@
 				74F92B9923396C3F00FD7DE2 /* EmptyInfoView.swift in Sources */,
 				74960EA323150834006BF12C /* AppDelegate.swift in Sources */,
 				745CACC423169E530055A60C /* ExpenseViewModel.swift in Sources */,
+				74082B5F23402CC100565434 /* ExpenseController.swift in Sources */,
 				74B5C4DA231DE48800EB916D /* ExpenseTableViewCell.swift in Sources */,
 				74A1A0E1232B8F6E007C717A /* FirestoreManager.swift in Sources */,
 				743F4E66232F923D009BA6BA /* InviteViewModel.swift in Sources */,
 				74525B0C231C9B2500670D6E /* UICollectionView+Extension.swift in Sources */,
 				74B5C4EF231E5CB600EB916D /* CategoryCollectionViewCell.swift in Sources */,
+				74082B5E23402CC100565434 /* AmountTypeController.swift in Sources */,
 				74B5C4CF231DE47B00EB916D /* HomeViewController.swift in Sources */,
 				742E5F4E23304E8E001EDF54 /* AddGroupViewModel.swift in Sources */,
 				745CC9942322863500426D1A /* UIView+Extension.swift in Sources */,
@@ -767,7 +769,6 @@
 				74A1A0E7232D93C6007C717A /* ExpenseType.swift in Sources */,
 				74B5C4CD231DE47B00EB916D /* AddExpenseViewController.swift in Sources */,
 				74857005233DADEF00357349 /* NoteDetailTableViewCell.swift in Sources */,
-				74D00522233246C50079D68E /* AmountTypeController.swift in Sources */,
 				748A84F82319244000EE00A0 /* UIStoryboard+Extension.swift in Sources */,
 				74D0051C23320E4B0079D68E /* GroupViewController.swift in Sources */,
 				74AEC9012320837C003A6F01 /* CheckBoxTableViewCell.swift in Sources */,
@@ -777,15 +778,14 @@
 				74A1A0D9232B6728007C717A /* ExpenseViewController.swift in Sources */,
 				74D611D3231D008D00A301E9 /* SwiftIconFont.swift in Sources */,
 				74B5C4E4231DE48F00EB916D /* STTabBarController.swift in Sources */,
-				74D0052B23324B5F0079D68E /* PayDateController.swift in Sources */,
 				74857003233D91AF00357349 /* NoteDetailViewController.swift in Sources */,
 				7451C46323272B4800EA0AEB /* InviteViewController.swift in Sources */,
-				74D005252332490E0079D68E /* ExpenseController.swift in Sources */,
 				74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */,
 				74A1A0DD232B8535007C717A /* ResultViewController.swift in Sources */,
 				742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */,
 				747AE9A7232E3C50007D855B /* Kingfisher.swift in Sources */,
 				74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */,
+				74082B5C23402CC100565434 /* PayerController.swift in Sources */,
 				7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */,
 				74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */,
 				744232BC233CAFFA00139C7C /* AddNoteTableHeaderView.swift in Sources */,

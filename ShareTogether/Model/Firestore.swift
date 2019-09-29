@@ -55,7 +55,7 @@ struct MemberInfo: Codable {
 }
 
 struct Expense: Codable {
-    var id: String?
+    var id: String!
     let type: Int
     let desc: String
     let userID: String

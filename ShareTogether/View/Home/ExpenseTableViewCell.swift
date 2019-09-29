@@ -37,56 +37,10 @@ class ExpenseTableViewCell: UITableViewCell {
             expenseTypeImageView.image = viewModel.type.getImage(color: .STTintColor)
             userImageView.setUrlImage(viewModel.userImg)
             expenseTitleLabel.text = viewModel.title
-            amountLabel.text = String(viewModel.amount)
+            amountLabel.text = viewModel.amount.amountString
             timeLabel.text = viewModel.time
             
-            resetLayout()
-            
-            if viewModel.isFirst {
-                self.setupFirstCellLayout()
-            }
-            
-            if viewModel.isLast {
-                self.setupLastCellLayout()
-            }
-            
         }
-    }
-    
-    func resetLayout() {
-        insetContentView.layer.cornerRadius = 0
-    }
-    
-    func setupFirstCellLayout(cornerRadius: CGFloat = 10) {
-        
-//        let constant = userImageTopConstraint.constant
-//
-//        userImageTopConstraint.isActive = false
-//        userImageTopConstraint.constant = constant * 2
-//        userImageTopConstraint.isActive = true
-//
-//        layoutIfNeeded()
-
-        insetContentView.layer.cornerRadius = cornerRadius
-        insetContentView.layer.maskedCorners = [
-            .layerMinXMinYCorner,
-            .layerMaxXMinYCorner
-        ]
-    }
-    
-    func setupLastCellLayout(cornerRadius: CGFloat = 10) {
-//        let constant = userImageBottomConstraint.constant
-//
-//        userImageBottomConstraint.isActive = false
-//        userImageBottomConstraint.constant = constant * 2
-//        userImageBottomConstraint.isActive = true
-
-        insetContentView.layer.cornerRadius = cornerRadius
-        insetContentView.layer.maskedCorners = [
-            .layerMinXMaxYCorner,
-            .layerMaxXMaxYCorner
-        ]
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

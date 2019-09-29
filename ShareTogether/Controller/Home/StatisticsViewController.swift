@@ -14,6 +14,7 @@ class StatisticsViewController: UIViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
+            tableView.registerWithNib(indentifer: StatisticsTableViewCell.identifer)
         }
     }
     
@@ -25,8 +26,6 @@ class StatisticsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.registerWithNib(indentifer: StatisticsTableViewCell.identifer)
         
         observation = viewModel.observe(\.cellViewModels, options: [.initial, .new]) { (_, _) in
             self.tableView.reloadData()
@@ -36,7 +35,6 @@ class StatisticsViewController: UIViewController {
     
 }
 
-// MARK: - Table view data source
 extension StatisticsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,7 +54,6 @@ extension StatisticsViewController: UITableViewDataSource {
     
 }
 
-// MARK: - Table view delegate
 extension StatisticsViewController: UITableViewDelegate {
     
     func tableView(

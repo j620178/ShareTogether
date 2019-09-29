@@ -12,32 +12,39 @@ class PayDateController: NSObject, AddExpenseItem {
     
     var tableView: UITableView
     
-    var selectDate: Date? {
-        
-        for weekDay in weekDaysData where weekDay.isSelect == true {
-            return weekDay.date
-        }
-        return nil
-    }
+    var selectDate: Date?
     
     var weekDaysData = [(date: Date, isSelect: Bool)]() {
         didSet {
+            for weekDay in weekDaysData where weekDay.isSelect == true {
+                selectDate = weekDay.date
+            }
             tableView.reloadData()
         }
     }
     
-    func fetchDayOfWeek() {
+    func initDayOfWeek() {
+        
+        if let selectDate = selectDate {
+            weekDaysData = createDayOfWeekData(startOfDay: selectDate)
+        } else {
+            weekDaysData = createDayOfWeekData(startOfDay: Date())
+        }
+
+    }
+    
+    func createDayOfWeekData(startOfDay: Date) -> [(Date, Bool)] {
         let cal = Calendar.current
         var days = [(Date, Bool)]()
         
-        for index in -3...3 {
-              var date = cal.startOfDay(for: Date())
+        for index in -7...7 {
+              var date = cal.startOfDay(for: startOfDay)
             date = cal.date(byAdding: .day, value: index, to: date)!
             
-            index == 0 ? days.append((Date(), true)) : days.append((date, false))
+            index == 0 ? days.append((startOfDay, true)) : days.append((date, false))
         }
         
-        weekDaysData = days
+        return days
     }
 
     init(tableView: UITableView) {
@@ -67,6 +74,12 @@ extension PayDateController: UITableViewDataSource {
         selectionCell.collectionView.dataSource = self
         
         selectionCell.collectionView.reloadData()
+        
+        selectionCell.collectionView.layoutIfNeeded()
+        
+        selectionCell.collectionView.scrollToItem(at: IndexPath(row: 7, section: 0),
+                                                  at: .centeredHorizontally,
+                                                  animated: true)
         
         return selectionCell
     }

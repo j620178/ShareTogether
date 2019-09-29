@@ -123,7 +123,7 @@ extension STTabBarController: UITabBarControllerDelegate {
         _ tabBarController: UITabBarController,
         shouldSelect viewController: UIViewController) -> Bool {
         
-        if viewController.isKind(of: UINavigationController.self),
+        if viewController.isKind(of: STNavigationController.self),
             viewController.children[0] is AddExpenseViewController {
             let nextVC = UIStoryboard.expense.instantiateInitialViewController()!
             nextVC.modalPresentationStyle = .overFullScreen

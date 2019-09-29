@@ -11,11 +11,7 @@ import UIKit
 
 class NoteViewModel: NSObject {
     
-    private var notes = [Note]() {
-        didSet {
-            print(notes.count)
-        }
-    }
+    private var notes = [Note]()
     
     var notebookCellViewModel = [NotebookCellViewModel]() {
         didSet {

@@ -9,27 +9,24 @@
 import Foundation
 
 class HomeExpenseCellViewModel: NSObject {
+    let id: String
     let type: ExpenseType
     let title: String
     let userImg: String
     let time: String
     let amount: Double
-    var isFirst: Bool
-    var isLast: Bool
     
-    init(type: ExpenseType,
+    init(id: String,
+         type: ExpenseType,
          title: String,
          img: String,
          time: String,
-         amount: Double,
-         isFirst: Bool = false,
-         isLast: Bool = false) {
+         amount: Double) {
+        self.id = id
         self.type = type
         self.title = title
         self.userImg = img
         self.time = time
         self.amount = amount
-        self.isFirst = isFirst
-        self.isLast = isLast
     }
 }

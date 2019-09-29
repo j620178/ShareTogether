@@ -15,13 +15,11 @@ protocol PayerControllerDelegate: AnyObject {
 class PayerController: NSObject, AddExpenseItem {
     
     var tableView: UITableView
-    
-    weak var delegate: PayerControllerDelegate?
-    
-    var members = [MemberInfo]() {
-        didSet {
-            initPayInfo()
-        }
+
+    weak var delegate: PayerControllerDelegate? {
+       didSet {
+           initPayInfo()
+       }
     }
     
     var payInfo: AmountInfo? {
@@ -31,24 +29,20 @@ class PayerController: NSObject, AddExpenseItem {
     }
 
     func initPayInfo() {
-        
+        let members = CurrentInfoManager.shared.availableMembers
+                
         if payInfo == nil, members.count > 0 {
-            payInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
+            var payInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
             var index = 0
             for member in members {
                 if index == 0 {
-                    payInfo?.amountDesc.append(AmountDesc(member: member, value: 1))
+                    payInfo.amountDesc.append(AmountDesc(member: member, value: 1))
                 } else {
-                    payInfo?.amountDesc.append(AmountDesc(member: member, value: nil))
+                    payInfo.amountDesc.append(AmountDesc(member: member, value: nil))
                 }
                 index += 1
             }
-        } else if payInfo == nil, members.count == 0 {
-            payInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
-            guard let userInfo = CurrentInfoManager.shared.user else { return }
-            payInfo?.amountDesc.append(AmountDesc(member: MemberInfo(userInfo: userInfo, status: 1), value: 1))
-        } else {
-            //Todo
+            self.payInfo = payInfo
         }
         
     }
@@ -84,8 +78,8 @@ extension PayerController: UITableViewDataSource {
             let payInfo = payInfo
         else { return cell }
         
-        for amount in payInfo.amountDesc where amount.value != nil {
-            splitCell.setupContent(title: amount.member.name, type: "")
+        for amountDesc in payInfo.amountDesc where amountDesc.value != nil {
+            splitCell.setupContent(title: amountDesc.member.name, type: "")
         }
         
         return splitCell

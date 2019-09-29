@@ -20,19 +20,19 @@ class AddExpenseViewController: STBaseViewController {
         return true
     }
     
-    let locationManager = CLLocationManager()
-    
     let titleString = ["類型", "消費", "付款", "分帳", "日期"]
     
-    var members = [MemberInfo]() {
-        didSet {
-            payerController.members = members
-            splitController.members = members
-            tableView.reloadData()
-        }
+    let locationManager = CLLocationManager()
+    
+    var availableMembers: [MemberInfo] {
+        return CurrentInfoManager.shared.availableMembers
     }
     
     var lastVelocityYSign = 0
+    
+    let annotation = MKPointAnnotation()
+    
+    var expense: Expense?
     
     lazy var amountTypeController = AmountTypeController(tableView: tableView)
     
@@ -49,8 +49,6 @@ class AddExpenseViewController: STBaseViewController {
                                         payerController,
                                         splitController,
                                         payDateController]
-    
-    let annotation = MKPointAnnotation()
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -79,75 +77,28 @@ class AddExpenseViewController: STBaseViewController {
         }
     }
     
-    @IBAction func clickCancelButton(_ sender: UIButton) {
-
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func clickAddButton(_ sender: UIButton) {
-        
-        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-        
-        if demoGroupID == CurrentInfoManager.shared.group?.id {
-            LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
-            return
-        }
-        
-        guard let uid = CurrentInfoManager.shared.user?.id,
-            let amountText = expenseController.newExpenseInfo[0],
-            let amount = Double(amountText),
-            let desc = expenseController.newExpenseInfo[1],
-            desc != "",
-            let payerInfo = payerController.payInfo,
-            let splitInfo = splitController.splitInfo,
-            let date = payDateController.selectDate
-        else {
-            LKProgressHUD.showFailure(text: "請輸入消費金額與說明", view: self.view)
-            return
-        }
-        
-        LKProgressHUD.show(view: self.view)
-        let expense = Expense(type: amountTypeController.amountTypeIndex,
-                              desc: desc, userID: uid,
-                              amount: amount,
-                              payerInfo: payerInfo,
-                              splitInfo: splitInfo,
-                              location: annotation.coordinate,
-                              time: date)
-        
-        FirestoreManager.shared.addExpense(expense: expense) { result in
-            switch result {
-
-            case .success:
-                LKProgressHUD.dismiss()
-                self.dismiss(animated: true, completion: nil)
-            case .failure(let error):
-                LKProgressHUD.showFailure(text: error.localizedDescription)
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupBase()
         
-        setupMap()
-        
-        fetchMember()
-
-        let gestureUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction))
-        gestureUp.direction = .up
-        self.containerView.addGestureRecognizer(gestureUp)
-    
         expenseController.delegate = self
         payerController.delegate = self
         splitController.delegate = self
         
-        payDateController.fetchDayOfWeek()
-        
-        mapHeightConstraint.constant = UIScreen.main.bounds.height - 430
-        
+        if let expense = expense {
+            amountTypeController.selectIndex = expense.type
+            expenseController.expenseInfo[0] = "\(expense.amount)"
+            expenseController.expenseInfo[1] = "\(expense.desc)"
+            payerController.payInfo = expense.payerInfo
+            splitController.splitInfo = expense.splitInfo
+            payDateController.selectDate = expense.time.dateValue()
+        }
+
+        payDateController.initDayOfWeek()
+                
+        setupMap()
+
     }
     
     override func viewWillLayoutSubviews() {
@@ -159,92 +110,87 @@ class AddExpenseViewController: STBaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if CLLocationManager.authorizationStatus()
-            == .notDetermined {
-            // 取得定位服務授權
-            locationManager.requestWhenInUseAuthorization()
+        if expense == nil {
             
-            // 開始定位自身位置
-            locationManager.startUpdatingLocation()
+            if CLLocationManager.authorizationStatus()
+                == .notDetermined {
+
+                locationManager.requestWhenInUseAuthorization()
+
+                locationManager.startUpdatingLocation()
+
+            } else if CLLocationManager.authorizationStatus()
+                == .denied {
+
+                let alertController = UIAlertController(
+                    title: "定位權限已關閉",
+                    message:
+                    "如要變更權限，請至 設定 > 隱私權 > 定位服務 開啟",
+                    preferredStyle: .alert)
+                let okAction = UIAlertAction(
+                    title: "確認", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(
+                    alertController,
+                    animated: true, completion: nil)
+
+            } else if CLLocationManager.authorizationStatus()
+                == .authorizedWhenInUse {
+
+                locationManager.startUpdatingLocation()
+            }
+            
         }
-            // 使用者已經拒絕定位自身位置權限
-        else if CLLocationManager.authorizationStatus()
-            == .denied {
-            // 提示可至[設定]中開啟權限
-            let alertController = UIAlertController(
-                title: "定位權限已關閉",
-                message:
-                "如要變更權限，請至 設定 > 隱私權 > 定位服務 開啟",
-                preferredStyle: .alert)
-            let okAction = UIAlertAction(
-                title: "確認", style: .default, handler: nil)
-            alertController.addAction(okAction)
-            self.present(
-                alertController,
-                animated: true, completion: nil)
-        }
-            // 使用者已經同意定位自身位置權限
-        else if CLLocationManager.authorizationStatus()
-            == .authorizedWhenInUse {
-            // 開始定位自身位置
-            locationManager.startUpdatingLocation()
-        }
+        
+//        amountTypeController.collectionView?.scrollToItem(at: IndexPath(row: 10, section: 0), at: .centeredHorizontally, animated: true)
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        // 停止定位自身位置
         locationManager.stopUpdatingLocation()
-    }
-    
-    func fetchMember() {
-        FirestoreManager.shared.getMembers { [weak self] result in
-            switch result {
-                
-            case .success(var members):
-                
-                self?.members = [MemberInfo]()
-                
-                var index = 0
-                
-                for member in members {
-                    
-                    if member.id == CurrentInfoManager.shared.user?.id {
-                        let temp = members.remove(at: index)
-                        members.insert(temp, at: 0)
-                        self?.members = members
-                        break
-                    }
-                    
-                    index += 1
-
-                }
-
-            case .failure:
-                print("error")
-            }
-        }
-        
     }
     
     func setupBase() {
         
+        let gestureUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction))
+        gestureUp.direction = .up
+        self.containerView.addGestureRecognizer(gestureUp)
+        
         containerView.addCornerAndShadow(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+        
+        mapHeightConstraint.constant = UIScreen.main.bounds.height - 430
     
     }
     
     func setupMap() {
         
-        locationManager.delegate = self
-        locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
         mapView.delegate = self
-        mapView.showsUserLocation = true
-        mapView.userTrackingMode = .follow
         
-        //annotation.title = "消費位置"
+        if let expense = expense {
+
+            mapView.showsUserLocation = false
+            mapView.userTrackingMode = .none
+
+            let expensePos = CLLocationCoordinate2D(latitude: expense.position.latitude,
+                                             longitude: expense.position.longitude)
+
+            let region = MKCoordinateRegion(center: expensePos,
+                                            latitudinalMeters: CLLocationDistance(exactly: 200)!,
+                                            longitudinalMeters: CLLocationDistance(exactly: 200)!)
+
+            mapView.setRegion(mapView.regionThatFits(region), animated: true)
+
+        } else {
+
+            locationManager.delegate = self
+            locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+
+            mapView.showsUserLocation = true
+            mapView.userTrackingMode = .follow
+        }
         
     }
     
@@ -281,6 +227,53 @@ class AddExpenseViewController: STBaseViewController {
             switchMapHeight(direction: .up)
         }
     
+    }
+    
+    @IBAction func clickCancelButton(_ sender: UIButton) {
+
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func clickAddButton(_ sender: UIButton) {
+        
+        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
+        
+        if demoGroupID == CurrentInfoManager.shared.group?.id {
+            LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
+            return
+        }
+        
+        guard let uid = CurrentInfoManager.shared.user?.id,
+            let amount = Double(expenseController.expenseInfo[0]),
+            expenseController.expenseInfo[1] != "",
+            let payerInfo = payerController.payInfo,
+            let splitInfo = splitController.splitInfo,
+            let date = payDateController.selectDate
+        else {
+            LKProgressHUD.showFailure(text: "請輸入消費金額與說明", view: self.view)
+            return
+        }
+        
+        LKProgressHUD.show(view: self.view)
+        let expense = Expense(type: amountTypeController.selectIndex,
+                              desc: expenseController.expenseInfo[1],
+                              userID: uid,
+                              amount: amount,
+                              payerInfo: payerInfo,
+                              splitInfo: splitInfo,
+                              location: annotation.coordinate,
+                              time: date)
+        
+        FirestoreManager.shared.addExpense(expense: expense) { result in
+            switch result {
+
+            case .success:
+                LKProgressHUD.dismiss()
+                self.dismiss(animated: true, completion: nil)
+            case .failure(let error):
+                LKProgressHUD.showFailure(text: error.localizedDescription)
+            }
+        }
     }
     
 }
@@ -348,11 +341,9 @@ extension AddExpenseViewController: UITableViewDelegate {
 extension AddExpenseViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        // 印出目前所在位置座標
         let currentLocation = locations[0] as CLLocation
         
         annotation.coordinate = currentLocation.coordinate
-        //mapView.showAnnotations([annotation], animated: true)
     }
     
 }
@@ -379,14 +370,15 @@ extension AddExpenseViewController: PayerControllerDelegate {
 
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        for member in members {
+        for member in availableMembers {
+            
             let action = UIAlertAction(title: member.name, style: .default) { [weak self] action in
                 
                 guard let strongSelf = self else { return }
                 
                 var payInfo = AmountInfo(type: 0, amountDesc: [AmountDesc]())
                 
-                for member in strongSelf.members {
+                for member in strongSelf.availableMembers {
                     
                     if member.name == action.title {
                         payInfo.amountDesc.append(AmountDesc(member: member, value: 1))

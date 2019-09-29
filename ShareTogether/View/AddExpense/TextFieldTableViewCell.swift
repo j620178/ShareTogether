@@ -10,14 +10,15 @@ import UIKit
 
 class TextFieldTableViewCell: UITableViewCell {
     
-    var amountPassHandler: ((Int) -> Void)?
+    var infoPassHandler: ((String) -> Void)?
     
-    var descPassHandler: ((Int) -> Void)?
+    var didBeginEditing: (() -> Void)?
 
     @IBOutlet weak var textField: UITextField! {
         didSet {
             textField.layer.cornerRadius = 10.0
             textField.clipsToBounds = true
+            textField.delegate = self
             textField.addLeftSpace()
         }
     }
@@ -36,6 +37,29 @@ class TextFieldTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.selectionStyle = .none
+    }
+    
+}
+
+extension TextFieldTableViewCell: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        didBeginEditing?()
+    }
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else { return false }
+        
+        if string == "" {
+            infoPassHandler?("\(text.dropLast())")
+        } else {
+            infoPassHandler?(text + string)
+        }
+        
+        return true
     }
     
 }

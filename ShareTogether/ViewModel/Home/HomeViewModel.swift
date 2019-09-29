@@ -10,7 +10,7 @@ import Foundation
 
 class HomeViewModel: NSObject {
     
-    var expenses = [Expense]()
+    private var expenses = [Expense]()
     
     @objc dynamic var cellViewModels = [[HomeExpenseCellViewModel]]()
     
@@ -36,31 +36,34 @@ class HomeViewModel: NSObject {
         return titleOfSections[section]
     }
     
-    func getExpenseCellViewModel(at indexPath: IndexPath) -> HomeExpenseCellViewModel {
+    func getExpense(at indexPath: IndexPath) -> Expense? {
         
-        if indexPath.row == 0 {
-            return cellViewModels[indexPath.section][indexPath.row]
-        } else {
-            for section in cellViewModels.indices {
-                let lastIndexPath = IndexPath(row: cellViewModels[section].count - 1, section: section)
-                if indexPath == lastIndexPath {
-                    return cellViewModels[indexPath.section][indexPath.row]
-                }
+        let id = cellViewModels[indexPath.section][indexPath.row].id
+        
+        var result: Expense?
+        
+        expenses.forEach { expense in
+            if expense.id == id {
+                result = expense
+                return
             }
         }
         
+        return result
+    }
+    
+    func getExpenseCellViewModel(at indexPath: IndexPath) -> HomeExpenseCellViewModel {
         return cellViewModels[indexPath.section][indexPath.row]
     }
     
     func createExpenseCellViewModel(expense: Expense) -> HomeExpenseCellViewModel {
         
-        return HomeExpenseCellViewModel(type: ExpenseType(rawValue: expense.type)!,
+        return HomeExpenseCellViewModel(id: expense.id,
+                                        type: ExpenseType(rawValue: expense.type)!,
                                         title: expense.desc,
                                         img: expense.payerInfo.amountDesc[0].member.photoURL,
                                         time: expense.time.toFullFormat,
-                                        amount: expense.amount,
-                                        isFirst: false,
-                                        isLast: false)
+                                        amount: expense.amount)
     }
     
     func fectchData() {

@@ -54,14 +54,13 @@ class HomeExpenseViewModel: NSObject {
     }
     
     func createCellViewModels(expense: Expense) -> HomeExpenseCellViewModel {
-        
-        return HomeExpenseCellViewModel(type: ExpenseType(rawValue: expense.type)!,
+                
+        return HomeExpenseCellViewModel(id: expense.id,
+                                        type: ExpenseType(rawValue: expense.type)!,
                                         title: expense.desc,
                                         img: expense.splitInfo.amountDesc[0].member.photoURL,
                                         time: expense.time.toFullFormat,
-                                        amount: expense.amount,
-                                        isFirst: false,
-                                        isLast: false)
+                                        amount: expense.amount)
     }
     
     func fectchData() {

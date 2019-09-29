@@ -18,6 +18,9 @@ class ExpenseViewController: UIViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
+            tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
+            tableView.register(ExpenseFooterView.self,
+                               forHeaderFooterViewReuseIdentifier: ExpenseFooterView.reuseIdentifier)
         }
     }
     
@@ -30,33 +33,30 @@ class ExpenseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
-        tableView.register(ExpenseFooterView.self,
-                           forHeaderFooterViewReuseIdentifier: ExpenseFooterView.reuseIdentifier)
-
         observation = viewModel.observe(\.cellViewModels, options: [.initial, .new]) { (_, _) in
             self.tableView.reloadData()
         }
         
         viewModel.fectchData()
-
     }
 
 }
 
-// MARK: - Table view data source
 extension ExpenseViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         viewModel.numberOfSections == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
         return viewModel.numberOfSections
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         return viewModel.titleOfSections(section: section)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return viewModel.numberOfCells(section: section)
     }
 
@@ -64,20 +64,19 @@ extension ExpenseViewController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseTableViewCell.identifer, for: indexPath)
 
-        guard let recodeCell = cell as? ExpenseTableViewCell else { return cell }
+        guard let expenseCell = cell as? ExpenseTableViewCell else { return cell }
 
-        recodeCell.viewModel = viewModel.getExpenseCellViewModel(at: indexPath)
+        expenseCell.viewModel = viewModel.getExpenseCellViewModel(at: indexPath)
 
-        return recodeCell
-
+        return expenseCell
     }
 
 }
 
-// MARK: - Table view delegate
 extension ExpenseViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
         let header = view as? UITableViewHeaderFooterView
         header?.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
     }
@@ -91,13 +90,26 @@ extension ExpenseViewController: UITableViewDelegate {
         UIView.animate(withDuration: 0.5) {
             cell.alpha = 1
         }
-        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         delegate?.tableViewDidScroll(viewController: self,
                                      offsetY: scrollView.contentOffset.y,
                                      contentSize: scrollView.contentSize)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let nextVC = UIStoryboard.expense.instantiateInitialViewController() as? STNavigationController,
+            let addExpenseVC = nextVC.viewControllers[0] as? AddExpenseViewController else { return }
+        
+        addExpenseVC.expense = viewModel.getExpense(at: indexPath)
+        
+        nextVC.modalPresentationStyle = .overFullScreen
+        
+        self.present(nextVC, animated: true, completion: nil)
+        
     }
     
 }

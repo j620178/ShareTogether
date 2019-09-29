@@ -34,22 +34,23 @@ class SplitController: NSObject, AddExpenseItem {
     
     var tableView: UITableView
     
-    weak var delegate: SplitControllerDelegate?
-    
-    var members = [MemberInfo]() {
-        didSet {
-            initSplitInfo()
-        }
+    weak var delegate: SplitControllerDelegate? {
+       didSet {
+           initSplitInfo()
+       }
     }
-    
+
     var splitInfo: AmountInfo? {
         didSet {
             tableView.reloadData()
         }
     }
+    
     var splitDetail = [Int]()
     
     func initSplitInfo() {
+        
+        let members = CurrentInfoManager.shared.availableMembers
         
         if splitInfo == nil || splitInfo!.amountDesc.isEmpty {
             splitInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
@@ -57,10 +58,6 @@ class SplitController: NSObject, AddExpenseItem {
             for member in members {
                 splitInfo?.amountDesc.append(AmountDesc(member: member, value: 1))
             }
-        } else {
-            
-            //guard let spliteInfo = spliteInfo else { return }
-            
         }
         
     }

@@ -20,19 +20,7 @@ class ExpenseController: NSObject, AddExpenseItem {
     
     weak var delegate: ExpenseTextFieldDelegate?
     
-    var expenseInfo: [String?] = [nil, nil]
-    
-    var newExpenseInfo: [String?] {
-        var newExpenseInfo = [String?]()
-        for index in textfieldPlaceHolder.indices {
-            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 1))
-                as? TextFieldTableViewCell
-            else { return [nil] }
-            
-            newExpenseInfo.append(cell.textField.text)
-        }
-        return newExpenseInfo
-    }
+    var expenseInfo: [String] = ["", ""]
     
     init(tableView: UITableView) {
         self.tableView = tableView
@@ -56,7 +44,20 @@ extension ExpenseController: UITableViewDataSource {
         
         guard let textfieldCell = cell as? TextFieldTableViewCell else { return cell }
         
-        textfieldCell.textField.delegate = self
+        if indexPath.row == 0 {
+            textfieldCell.infoPassHandler = { [weak self] text in
+                self?.expenseInfo[0] = text
+            }
+        } else {
+            textfieldCell.infoPassHandler = { [weak self] text in
+                self?.expenseInfo[1] = text
+            }
+        }
+        
+        textfieldCell.didBeginEditing = { [weak self] in
+            guard let strougSelf = self else { return }
+            strougSelf.delegate?.keyboardBeginEditing(controller: strougSelf)
+        }
         
         textfieldCell.textField.text = expenseInfo[indexPath.row]
         
@@ -67,34 +68,6 @@ extension ExpenseController: UITableViewDataSource {
         }
         
         return textfieldCell
-    }
-    
-}
-
-extension ExpenseController: UITextFieldDelegate {
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        var superView = textField.superview
-        
-        while superView is UITableViewCell {
-            superView = superView?.superview
-        }
-        
-        delegate?.keyboardBeginEditing(controller: self)
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        for index in textfieldPlaceHolder.indices {
-            
-            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 1))
-                as? TextFieldTableViewCell
-            else { return }
-            
-            expenseInfo[index] = cell.textField.text
-        }
-        
     }
     
 }

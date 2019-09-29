@@ -12,21 +12,26 @@ class AmountTypeController: NSObject, AddExpenseItem {
     
     var tableView: UITableView
     
-    var expenseTypeData: [(data: ExpenseType, isSelect: Bool)] = [
+    var expenseTypes: [(data: ExpenseType, isSelect: Bool)] = [
         (.null, true),
         (.car, false),
         (.subway, false),
         (.bicycle, false),
+        (.bus, false),
         (.gasStation, false),
         (.parking, false),
         (.hotel, false),
-        (.bus, false),
         (.gift, false),
         (.restaurant, false),
         (.wine, false)
     ]
     
-    var amountTypeIndex = 0
+    var selectIndex = 0 {
+        didSet {
+            expenseTypes[oldValue].isSelect = false
+            expenseTypes[selectIndex].isSelect = true
+        }
+    }
     
     init(tableView: UITableView) {
         self.tableView = tableView
@@ -55,7 +60,13 @@ extension AmountTypeController: UITableViewDataSource {
         selectionCell.collectionView.dataSource = self
         
         selectionCell.collectionView.reloadData()
+                
+        selectionCell.collectionView.layoutIfNeeded()
         
+        selectionCell.collectionView.scrollToItem(at: IndexPath(row: selectIndex, section: 0),
+                                                  at: .left,
+                                                  animated: true)
+                
         return selectionCell
     }
     
@@ -65,7 +76,7 @@ extension AmountTypeController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return expenseTypeData.count
+        return expenseTypes.count
 
     }
     
@@ -78,12 +89,12 @@ extension AmountTypeController: UICollectionViewDataSource {
         
         guard let categoryCell = cell as? CategoryCollectionViewCell else { return cell }
 
-        if expenseTypeData[indexPath.row].isSelect {
-            categoryCell.setupImage(image: expenseTypeData[indexPath.row].data.getImage(color: .white),
-                                    isSelected: expenseTypeData[indexPath.row].isSelect)
+        if expenseTypes[indexPath.row].isSelect {
+            categoryCell.setupImage(image: expenseTypes[indexPath.row].data.getImage(color: .white),
+                                    isSelected: expenseTypes[indexPath.row].isSelect)
         } else {
-            categoryCell.setupImage(image: expenseTypeData[indexPath.row].data.getImage(color: .STTintColor),
-                                    isSelected: expenseTypeData[indexPath.row].isSelect)
+            categoryCell.setupImage(image: expenseTypes[indexPath.row].data.getImage(color: .STTintColor),
+                                    isSelected: expenseTypes[indexPath.row].isSelect)
         }
 
         return categoryCell
@@ -95,12 +106,12 @@ extension AmountTypeController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        amountTypeIndex = indexPath.row
+        selectIndex = indexPath.row
     
-        for index in expenseTypeData.indices {
-            expenseTypeData[index].isSelect = false
+        for index in expenseTypes.indices {
+            expenseTypes[index].isSelect = false
             if index == indexPath.row {
-                expenseTypeData[index].isSelect = true
+                expenseTypes[index].isSelect = true
             }
         }
         

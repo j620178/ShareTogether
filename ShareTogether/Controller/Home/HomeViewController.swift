@@ -62,18 +62,15 @@ class HomeViewController: STBaseViewController {
     @IBAction func clickGroupNameButton(_ sender: UIButton) {
         
         let nextVC = UIStoryboard.group.instantiateInitialViewController()!
-        nextVC.modalPresentationStyle = .fullScreen
         present(nextVC, animated: true, completion: nil)
         
     }
     
     @IBAction func clickEditGroupButton(_ sender: UIButton) {
-        
-        let groupStoryboard = UIStoryboard.group
-        
+                
         let navigationController = STNavigationController()
         
-        guard let nextVC = groupStoryboard.instantiateViewController(
+        guard let nextVC = UIStoryboard.group.instantiateViewController(
             withIdentifier: GroupViewController.identifier)
             as? GroupViewController
         else { return }

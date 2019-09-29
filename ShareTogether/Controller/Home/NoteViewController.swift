@@ -41,18 +41,13 @@ class NoteViewController: STBaseViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
     @objc func upadateCurrentGroup() {
+        
         viewModel.fectchData()
     }
 
 }
 
-// MARK: - Table view data source
 extension NoteViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -113,7 +108,6 @@ extension NoteViewController: UITableViewDataSource {
     
 }
 
-// MARK: - Table view delegate
 extension NoteViewController: UITableViewDelegate {
     
     func tableView(

@@ -37,14 +37,14 @@ enum ExpenseType: Int {
                 return .getIcon(code: "ios-subway", color: color, size: size)
             case .bicycle:
                 return .getIcon(code: "ios-bicycle", color: color, size: size)
+            case .bus:
+                return .getIcon(code: "ios-bus", color: color, size: size)
             case .gasStation:
                 return .getIcon(from: .materialIcon, code: "local.gas.station", color: color, size: size)
             case .parking:
                 return .getIcon(from: .materialIcon, code: "local.parking", color: color, size: size)
             case .hotel:
                 return .getIcon(code: "ios-bed", color: color, size: size)
-            case .bus:
-                return .getIcon(code: "ios-bus", color: color, size: size)
             case .gift:
                 return .getIcon(code: "ios-gift", color: color, size: size)
             case .restaurant:

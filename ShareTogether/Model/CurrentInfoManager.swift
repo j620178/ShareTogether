@@ -75,6 +75,34 @@ class CurrentInfoManager {
     
     var members = [MemberInfo]()
     
+    var availableMembers: [MemberInfo] {
+        var availableMembers = [MemberInfo]()
+        
+        for member in members {
+            if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
+                MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
+            } else {
+                availableMembers.append(member)
+            }
+        }
+        
+        return availableMembers
+    }
+    
+    var availableMembersWithoutSelf: [MemberInfo] {
+        var availableMembers = [MemberInfo]()
+        
+        for member in members {
+            if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
+                MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
+            } else if member.id != CurrentInfoManager.shared.user?.id {
+                availableMembers.append(member)
+            }
+        }
+        
+        return availableMembers
+    }
+    
     func getMemberInfo(uid: String) -> MemberInfo? {
         for member in members where member.id == uid {
             return member

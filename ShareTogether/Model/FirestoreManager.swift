@@ -208,6 +208,25 @@ class FirestoreManager {
         }
     }
     
+    func upadteExpense(groupID: String? = CurrentInfoManager.shared.group?.id,
+                       expense: Expense,
+                       completion: @escaping (Result<String, Error>) -> Void) {
+        
+        guard let groupID = groupID,
+            let docData = try? FirestoreEncoder().encode(expense) else { return }
+        
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.expense).document(expense.id)
+            .setData(docData) { (error) in
+            if let error = error {
+                completion(Result.failure(error))
+            } else {
+                completion(Result.success("success"))
+            }
+            
+        }
+    }
+    
     func searchUser(email: String?,
                     phone: String?,
                     completion: @escaping (Result<UserInfo?, Error>) -> Void) {

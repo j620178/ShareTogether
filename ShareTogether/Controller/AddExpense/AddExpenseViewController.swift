@@ -255,7 +255,7 @@ class AddExpenseViewController: STBaseViewController {
         }
         
         LKProgressHUD.show(view: self.view)
-        let expense = Expense(type: amountTypeController.selectIndex,
+        var expense = Expense(type: amountTypeController.selectIndex,
                               desc: expenseController.expenseInfo[1],
                               userID: uid,
                               amount: amount,
@@ -264,16 +264,36 @@ class AddExpenseViewController: STBaseViewController {
                               location: annotation.coordinate,
                               time: date)
         
-        FirestoreManager.shared.addExpense(expense: expense) { result in
-            switch result {
+        if self.expense != nil {
+            
+            expense.id = self.expense!.id
+            
+            FirestoreManager.shared.upadteExpense(expense: expense) { result in
+                switch result {
 
-            case .success:
-                LKProgressHUD.dismiss()
-                self.dismiss(animated: true, completion: nil)
-            case .failure(let error):
-                LKProgressHUD.showFailure(text: error.localizedDescription)
+                case .success:
+                    LKProgressHUD.dismiss()
+                    self.dismiss(animated: true, completion: nil)
+                case .failure(let error):
+                    LKProgressHUD.showFailure(text: error.localizedDescription)
+                }
             }
+            
+        } else {
+            
+            FirestoreManager.shared.addExpense(expense: expense) { result in
+                switch result {
+
+                case .success:
+                    LKProgressHUD.dismiss()
+                    self.dismiss(animated: true, completion: nil)
+                case .failure(let error):
+                    LKProgressHUD.showFailure(text: error.localizedDescription)
+                }
+            }
+            
         }
+
     }
     
 }

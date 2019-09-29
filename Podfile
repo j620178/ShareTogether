@@ -20,4 +20,6 @@ target 'ShareTogether' do
   pod 'Kingfisher', '~> 5.0'
   pod 'JGProgressHUD'
   pod 'Giphy'
+  pod 'Fabric', '~> 1.10.2'
+  pod 'Crashlytics', '~> 3.13.4'
 end

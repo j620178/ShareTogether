@@ -566,6 +566,7 @@
 				74F9DD67231555B200A87673 /* ShellScript */,
 				2EC8BFE67D2B06E8B18B8901 /* [CP] Embed Pods Frameworks */,
 				2A7D4E26695E4905E92507B5 /* [CP] Copy Pods Resources */,
+				7495BEA42340ECE500CA946D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -675,6 +676,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ShareTogether/Pods-ShareTogether-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		7495BEA42340ECE500CA946D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/ShareTogether/Info.plist",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
 		};
 		74F9DD67231555B200A87673 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

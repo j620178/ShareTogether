@@ -270,6 +270,11 @@ class AddExpenseViewController: STBaseViewController {
                 switch result {
 
                 case .success:
+                    
+                    for member in CurrentInfoManager.shared.availableMembersWithoutSelf {
+                        FirestoreManager.shared.addActivity(type: 1, targetMember: member, amount: expense.amount)
+                    }
+                    
                     LKProgressHUD.dismiss()
                     
                     self?.dismiss(animated: true, completion: nil)
@@ -289,6 +294,10 @@ class AddExpenseViewController: STBaseViewController {
                 switch result {
 
                 case .success:
+                    
+                    for member in CurrentInfoManager.shared.availableMembersWithoutSelf {
+                        FirestoreManager.shared.addActivity(type: 1, targetMember: member, amount: expense.amount)
+                    }
                     LKProgressHUD.dismiss()
                     self?.dismiss(animated: true, completion: nil)
                 case .failure(let error):

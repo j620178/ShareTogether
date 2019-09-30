@@ -28,7 +28,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGG-Ip-aQz">
-                                <rect key="frame" x="48" y="16" width="222" height="18"/>
+                                <rect key="frame" x="48" y="16" width="210" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6zp-Xc-Dh9">
-                                <rect key="frame" x="278" y="14" width="12" height="22"/>
+                                <rect key="frame" x="266" y="13" width="24" height="24"/>
                                 <state key="normal" image="down-arrow12x"/>
                                 <connections>
                                     <action selector="clickMoreButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="S4e-WA-o1t"/>

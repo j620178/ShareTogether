@@ -16,34 +16,37 @@ class InviteViewModel {
     
     var inviteMemberData = [MemberInfo]()
     
+    var type = 0
+    
     var userInfo: UserInfo? {
         didSet {
             if let userInfo = userInfo {
                 
-                FirestoreManager.shared.getMembers { [weak self] result in
-                    switch result {
-                        
-                    case .success(let members):
-                        
-                        let isContainMember = members.contains { memberInfo -> Bool in
-                            memberInfo.id == userInfo.id
-                        }
-                        
-                        if isContainMember {
-                            self?.delegate?.updateView(text: userInfo.name,
-                                                       imageURL: userInfo.photoURL,
-                                                       isButtonHidden: false,
-                                                       isEnable: false)
-                        } else {
-                            self?.delegate?.updateView(text: userInfo.name,
-                                                       imageURL: userInfo.photoURL,
-                                                       isButtonHidden: false,
-                                                       isEnable: true)
-                        }
-                        
-                    case .failure:
-                        print("error")
+                if ShowType(rawValue: type) == .new {
+                    delegate?.updateView(text: userInfo.name,
+                                        imageURL: userInfo.photoURL,
+                                        isButtonHidden: false,
+                                        isEnable: true)
+                } else {
+                    
+                    let members = CurrentInfoManager.shared.availableMembers
+                    
+                    let isContainMember = members.contains { memberInfo -> Bool in
+                        memberInfo.id == userInfo.id
                     }
+                    
+                    if isContainMember {
+                        delegate?.updateView(text: userInfo.name,
+                                                   imageURL: userInfo.photoURL,
+                                                   isButtonHidden: false,
+                                                   isEnable: false)
+                    } else {
+                        delegate?.updateView(text: userInfo.name,
+                                                   imageURL: userInfo.photoURL,
+                                                   isButtonHidden: false,
+                                                   isEnable: true)
+                    }
+                    
                 }
                 
             } else {
@@ -54,13 +57,14 @@ class InviteViewModel {
     
     weak var delegate: InviteViewModelDelegete?
     
-    func searchUser(email: String?, phone: String?) {
+    func searchUser(type: Int, email: String?, phone: String?) {
         
         FirestoreManager.shared.searchUser(email: email, phone: phone) { [weak self] result in
             switch result {
                 
             case .success(let userInfo):
                 self?.userInfo = userInfo
+                self?.type = type
             case .failure(let error):
                 print(error)
             }

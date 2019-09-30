@@ -102,7 +102,7 @@ extension InviteViewController: UITextFieldDelegate {
         
         textField.resignFirstResponder()
         
-        viewModel.searchUser(email: textField.text, phone: nil)
+        viewModel.searchUser(type: showType.rawValue, email: textField.text, phone: nil)
         
         return true
     }

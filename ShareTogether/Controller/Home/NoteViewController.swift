@@ -18,8 +18,8 @@ class NoteViewController: STBaseViewController {
             tableView.dataSource = self
             tableView.delegate = self
             tableView.estimatedSectionHeaderHeight = 50
-            tableView.register(AddNoteTableHeaderView.self, forHeaderFooterViewReuseIdentifier: String(describing: AddNoteTableHeaderView.self))
             tableView.registerWithNib(indentifer: NotebookTableViewCell.identifer)
+            tableView.registerWithNib(indentifer: AddNoteTableViewCell.identifer)
         }
     }
     
@@ -50,60 +50,59 @@ class NoteViewController: STBaseViewController {
 
 extension NoteViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        viewModel.notebookCellViewModel.count == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
-        return viewModel.notebookCellViewModel.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: AddNoteTableHeaderView.self))
-        
-        guard let noteHeaderView = headerView as? AddNoteTableHeaderView,
-            let userPhotoURL = CurrentInfoManager.shared.user?.photoURL
-        else { return headerView }
-        
-        noteHeaderView.userImageView.setUrlImage(userPhotoURL)
-        
-        noteHeaderView.clickHeaderViewHandler = { [weak self] in
-            let nextVC = UIStoryboard.home.instantiateViewController(identifier: "AddNoteNavigationController")
-
-            self?.present(nextVC, animated: true, completion: nil)
+        if section == 0 {
+            return 1
+        } else {
+            return viewModel.notebookCellViewModel.count
         }
-        
-        return headerView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: NotebookTableViewCell.identifer, for: indexPath)
-        guard let notebookCell = cell as? NotebookTableViewCell else { return cell }
-        
-        notebookCell.cellViewModel = viewModel.getViewModel(indexPath: indexPath)
-        
-        notebookCell.clickMoreButtonHandler = { [weak self] in
+        if indexPath.section == 0 {
             
-            guard let user = CurrentInfoManager.shared.user,
-                let note = self?.viewModel.getNote(index: indexPath.row) else { return }
+            let cell = tableView.dequeueReusableCell(withIdentifier: AddNoteTableViewCell.identifer, for: indexPath)
             
-            if user.id == note.auctorID {
+            guard let userPhotoURL = CurrentInfoManager.shared.user?.photoURL,
+                let addNoteCell = cell as? AddNoteTableViewCell
+            else { return cell }
+    
+            addNoteCell.userImageView.setUrlImage(userPhotoURL)
+            
+            return addNoteCell
+            
+        } else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: NotebookTableViewCell.identifer, for: indexPath)
+            guard let notebookCell = cell as? NotebookTableViewCell else { return cell }
+            
+            notebookCell.cellViewModel = viewModel.getViewModel(indexPath: indexPath)
+            
+            notebookCell.clickMoreButtonHandler = { [weak self] in
                 
-                let alertVC = UIAlertController.deleteAlert { _ in
-                                    
-                    FirestoreManager.shared.deleteNote(noteID: note.id)
+                guard let user = CurrentInfoManager.shared.user,
+                    let note = self?.viewModel.getNote(index: indexPath.row) else { return }
+                
+                if user.id == note.auctorID {
+                    
+                    let alertVC = UIAlertController.deleteAlert { _ in
+                                        
+                        FirestoreManager.shared.deleteNote(noteID: note.id)
+                    }
+                    
+                    self?.present(alertVC, animated: true, completion: nil)
                 }
-                
-                self?.present(alertVC, animated: true, completion: nil)
             }
+            
+            return notebookCell
+            
         }
-        
-        return notebookCell
+         
     }
     
 }
@@ -130,12 +129,29 @@ extension NoteViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: NoteDetailViewController.identifier)
-            as? NoteDetailViewController else { return }
-        
-        nextVC.note = viewModel.getNote(index: indexPath.row)
+        if indexPath.section == 0 {
+            
+            let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
+            
+            if demoGroupID == CurrentInfoManager.shared.group?.id {
+                LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
+                return
+            }
+            
+            let nextVC = UIStoryboard.home.instantiateViewController(identifier: "AddNoteNavigationController")
+            
+            present(nextVC, animated: true, completion: nil)
+            
+        } else {
+            
+            guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: NoteDetailViewController.identifier)
+                as? NoteDetailViewController else { return }
+            
+            nextVC.note = viewModel.getNote(index: indexPath.row)
 
-        show(nextVC, sender: nil)
+            show(nextVC, sender: nil)
+            
+        }
 
     }
     

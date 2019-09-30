@@ -113,6 +113,8 @@
 		74D611D0231CEF7600A301E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74D611CF231CEF7600A301E9 /* Main.storyboard */; };
 		74D611D3231D008D00A301E9 /* SwiftIconFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D611D2231D008D00A301E9 /* SwiftIconFont.swift */; };
 		74D968522341C3EE008A7F3D /* ExpenseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D968512341C3EE008A7F3D /* ExpenseDetailViewController.swift */; };
+		74D968552342765D008A7F3D /* AddNoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D968532342765D008A7F3D /* AddNoteTableViewCell.swift */; };
+		74D968562342765D008A7F3D /* AddNoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74D968542342765D008A7F3D /* AddNoteTableViewCell.xib */; };
 		74F92B952338CF7000FD7DE2 /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */; };
 		74F92B9923396C3F00FD7DE2 /* EmptyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F92B9823396C3F00FD7DE2 /* EmptyInfoView.swift */; };
 		EDC6CC7D8B7BE0C2AC75B3D9 /* Pods_ShareTogether.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E018E2029FD73E0459A7E1 /* Pods_ShareTogether.framework */; };
@@ -230,6 +232,8 @@
 		74D611CF231CEF7600A301E9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		74D611D2231D008D00A301E9 /* SwiftIconFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftIconFont.swift; sourceTree = "<group>"; };
 		74D968512341C3EE008A7F3D /* ExpenseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailViewController.swift; sourceTree = "<group>"; };
+		74D968532342765D008A7F3D /* AddNoteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteTableViewCell.swift; sourceTree = "<group>"; };
+		74D968542342765D008A7F3D /* AddNoteTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNoteTableViewCell.xib; sourceTree = "<group>"; };
 		74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		74F92B9823396C3F00FD7DE2 /* EmptyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyInfoView.swift; sourceTree = "<group>"; };
 		E0E018E2029FD73E0459A7E1 /* Pods_ShareTogether.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareTogether.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -513,8 +517,8 @@
 				74D968512341C3EE008A7F3D /* ExpenseDetailViewController.swift */,
 				74A1A0DA232B6EFF007C717A /* StatisticsViewController.swift */,
 				74A1A0DC232B8535007C717A /* ResultViewController.swift */,
-				744232BF233CC2D200139C7C /* AddNoteViewController.swift */,
 				74A1A0DE232B8675007C717A /* NoteViewController.swift */,
+				744232BF233CC2D200139C7C /* AddNoteViewController.swift */,
 				74857002233D91AF00357349 /* NoteDetailViewController.swift */,
 			);
 			path = Home;
@@ -524,6 +528,8 @@
 			isa = PBXGroup;
 			children = (
 				744232BB233CAFFA00139C7C /* AddNoteTableHeaderView.swift */,
+				74D968532342765D008A7F3D /* AddNoteTableViewCell.swift */,
+				74D968542342765D008A7F3D /* AddNoteTableViewCell.xib */,
 				74641F412320FB3A0059B265 /* NotebookTableViewCell.swift */,
 				74641F422320FB3A0059B265 /* NotebookTableViewCell.xib */,
 				74857004233DADEF00357349 /* NoteDetailTableViewCell.swift */,
@@ -658,6 +664,7 @@
 				74641F3C232096B00059B265 /* SplitTableViewCell.xib in Resources */,
 				747AB9052324D38C00007A32 /* Login.storyboard in Resources */,
 				744F51FF234193960098A323 /* ExepenseSplitTableViewCell.xib in Resources */,
+				74D968562342765D008A7F3D /* AddNoteTableViewCell.xib in Resources */,
 				74960EAD23150838006BF12C /* LaunchScreen.storyboard in Resources */,
 				74641F442320FB3A0059B265 /* NotebookTableViewCell.xib in Resources */,
 				74B5C4D9231DE48800EB916D /* ExpenseTableViewCell.xib in Resources */,
@@ -818,6 +825,7 @@
 				745CC9942322863500426D1A /* UIView+Extension.swift in Sources */,
 				74D968522341C3EE008A7F3D /* ExpenseDetailViewController.swift in Sources */,
 				7455837523265D2E008C1690 /* SplitTextFieldTableViewCell.swift in Sources */,
+				74D968552342765D008A7F3D /* AddNoteTableViewCell.swift in Sources */,
 				744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */,
 				749573972337D442003997BD /* ActivityViewModel.swift in Sources */,
 				74A1A0E7232D93C6007C717A /* ExpenseType.swift in Sources */,

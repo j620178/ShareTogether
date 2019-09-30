@@ -8,8 +8,8 @@
 
 import UIKit
 
-enum ShowType {
-    case new
+enum ShowType: Int {
+    case new = 0
     case edit
 }
 

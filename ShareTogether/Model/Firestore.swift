@@ -13,6 +13,8 @@ import MapKit
 enum ActivityType: Int {
     case addMember = 0
     case addExpense = 1
+    case editExpense = 2
+    case addNote = 3
 }
 
 struct UserInfo: Codable {

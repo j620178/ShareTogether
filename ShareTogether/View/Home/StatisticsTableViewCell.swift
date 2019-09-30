@@ -34,11 +34,11 @@ class StatisticsTableViewCell: UITableViewCell {
         didSet {
             guard let cellViewModel = cellViewModel else { return }
             
-            self.totalLabel.text = "\(cellViewModel.total)"
+            self.totalLabel.text = cellViewModel.total.toAmountText
             self.expenseCountLabel.text = "\(cellViewModel.count)"
-            self.selfPayLabel.text = "\(cellViewModel.selfPay)"
-            self.lendLabel.text = "\(cellViewModel.selfLend)"
-            self.borrowLabel.text = "\(cellViewModel.selfBorrow)"
+            self.selfPayLabel.text = cellViewModel.selfPay.toAmountText
+            self.lendLabel.text = cellViewModel.selfLend.toAmountText
+            self.borrowLabel.text = cellViewModel.selfBorrow.toAmountText
         }
     }
     

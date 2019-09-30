@@ -45,12 +45,36 @@ extension ResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         availableMembers.count == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
+        
+        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
+        
+        if demoGroupID == CurrentInfoManager.shared.group?.id {
+            return availableMembers.count - 1
+        }
+        
         return availableMembers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ResultTableViewCell.identifer, for: indexPath)
+        
+        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
+        
+        if demoGroupID == CurrentInfoManager.shared.group?.id {
+            guard let resultCell = cell as? ResultTableViewCell//,
+                //let currentUserInfo = CurrentInfoManager.shared.user//,
+                //let amount = viewModel.getResultInfo(uid: availableMembers[indexPath.row].id)
+            else { return cell }
+            
+            resultCell.setupContent(leftUserImageURL: availableMembers[0].photoURL,
+                                    leftUserName: availableMembers[0].name,
+                                    rightUserImageURL: availableMembers[1].photoURL,
+                                    rightUserName: availableMembers[1].name,
+                                    amount: 5650.0.toAmountText)
+            
+            return resultCell
+        }
         
         guard let resultCell = cell as? ResultTableViewCell,
             let currentUserInfo = CurrentInfoManager.shared.user,
@@ -61,7 +85,7 @@ extension ResultViewController: UITableViewDataSource {
                                 leftUserName: availableMembers[indexPath.row].name,
                                 rightUserImageURL: currentUserInfo.photoURL,
                                 rightUserName: currentUserInfo.name,
-                                amount: "\(amount)")
+                                amount: amount.toAmountText)
         
         return resultCell
     }

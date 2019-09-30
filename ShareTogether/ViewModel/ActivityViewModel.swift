@@ -54,19 +54,25 @@ class ActivityViewModel {
             
             var text = ""
             
-            if ActivityType(rawValue: activity.type) == ActivityType.addExpense {
-                text = "\(activity.pushUser.name) 於 \(groupInfo.name) 增加了一筆消費"
-            } else if ActivityType(rawValue: activity.type) == ActivityType.addMember {
+            if ActivityType(rawValue: activity.type) == ActivityType.addMember {
                 text = "\(activity.pushUser.name) 邀請您加入 \(groupInfo.name) 群組"
+            } else if ActivityType(rawValue: activity.type) == ActivityType.addExpense {
+                text = "\(activity.pushUser.name) 於 \(groupInfo.name) 增加了一筆消費"
+            } else if ActivityType(rawValue: activity.type) == ActivityType.editExpense {
+                text = "\(activity.pushUser.name) 於 \(groupInfo.name) 編輯了一筆消費"
+            } else if ActivityType(rawValue: activity.type) == ActivityType.addNote {
+                text = "\(activity.pushUser.name) 於 \(groupInfo.name) 編輯了一筆消費"
             }
             
             let viewModel = ActivityCellViewModel(type: activity.type,
                                                   mainPhotoImageURL: groupInfo.coverURL,
                                                   userImageURL: activity.pushUser.photoURL,
                                                   desc: text,
-                                                  time: activity.time.toSimpleFormat,
+                                                  time: activity.time.toNowFormat,
                                                   status: activity.status)
+            
             cellViewModels.append(viewModel)
+
         }
         
         self.cellViewModels = cellViewModels

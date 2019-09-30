@@ -403,7 +403,14 @@ class FirestoreManager {
         }
     }
     
-    func addActivity(type: Int, targetMember: MemberInfo, pushUser: UserInfo, groupInfo: GroupInfo?, amount: Double?) {
+    func addActivity(type: Int,
+                     targetMember: MemberInfo,
+                     pushUser: UserInfo? = CurrentInfoManager.shared.user,
+                     groupInfo: GroupInfo? = CurrentInfoManager.shared.group,
+                     amount: Double?) {
+        
+        guard let pushUser = pushUser,
+            let groupInfo = groupInfo else { return }
         
         let activity = Activity(type: type,
                                 targetMember: targetMember,
@@ -414,9 +421,9 @@ class FirestoreManager {
                                 status: 0)
         
         guard let docData = try? FirestoreEncoder().encode(activity) else { return }
+        
         firestore.collection(Collection.user).document(targetMember.id)
             .collection(Collection.User.activity).addDocument(data: docData)
-        
     }
     
     func getActivity(uid: String, completion: @escaping (Result<[Activity], Error>) -> Void) {

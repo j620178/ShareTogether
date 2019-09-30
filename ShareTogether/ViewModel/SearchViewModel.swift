@@ -49,17 +49,14 @@ class SearchViewModel {
         isLoading = true
         FirestoreManager.shared.getExpenses { [weak self] result in
             self?.isLoading = false
+            
             switch result {
                 
             case .success(let expenses):
-                
-                if expenses.isEmpty {
-                    self?.expenses = [Expense]()
-                    self?.annotations = [STMKPointAnnotation]()
-                } else {
-                    self?.expenses = expenses
-                    self?.processData()
-                }
+                //refator
+                self?.expenses = expenses
+                self?.backupExpenses = expenses
+                self?.processData()
 
             case .failure(let error):
                 print(error)

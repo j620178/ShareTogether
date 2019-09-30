@@ -207,20 +207,10 @@ extension SearchViewController: UITextFieldDelegate {
         return true
     }
     
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        
-        viewModel.resetExpenses()
-        
-        return true
-    }
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        print(textField.text)
-        if textField.text == nil {
-            print("1")
-        } else if textField.text == "" {
-            print("2")
+        if textField.text == nil || textField.text == "" {
+            viewModel.resetExpenses()
         }
         
     }

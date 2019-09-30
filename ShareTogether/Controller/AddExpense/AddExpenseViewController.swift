@@ -142,8 +142,6 @@ class AddExpenseViewController: STBaseViewController {
             
         }
         
-//        amountTypeController.collectionView?.scrollToItem(at: IndexPath(row: 10, section: 0), at: .centeredHorizontally, animated: true)
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -268,12 +266,18 @@ class AddExpenseViewController: STBaseViewController {
             
             expense.id = self.expense!.id
             
-            FirestoreManager.shared.upadteExpense(expense: expense) { result in
+            FirestoreManager.shared.upadteExpense(expense: expense) { [weak self] result in
                 switch result {
 
                 case .success:
                     LKProgressHUD.dismiss()
-                    self.dismiss(animated: true, completion: nil)
+                    
+                    self?.dismiss(animated: true, completion: nil)
+                    
+                    if let previousVC = self?.navigationController?.presentingViewController as? STNavigationController {
+                        previousVC.popViewController(animated: true)
+                    }
+                    
                 case .failure(let error):
                     LKProgressHUD.showFailure(text: error.localizedDescription)
                 }
@@ -281,12 +285,12 @@ class AddExpenseViewController: STBaseViewController {
             
         } else {
             
-            FirestoreManager.shared.addExpense(expense: expense) { result in
+            FirestoreManager.shared.addExpense(expense: expense) { [weak self] result in
                 switch result {
 
                 case .success:
                     LKProgressHUD.dismiss()
-                    self.dismiss(animated: true, completion: nil)
+                    self?.dismiss(animated: true, completion: nil)
                 case .failure(let error):
                     LKProgressHUD.showFailure(text: error.localizedDescription)
                 }

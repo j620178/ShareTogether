@@ -36,7 +36,6 @@ class SearchViewController: STBaseViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
-            tableView.delegate = self
             tableView.registerWithNib(indentifer: ExpenseInfoTableViewCell.identifer, bundle: nil)
             tableView.registerWithNib(indentifer: ExepenseSplitTableViewCell.identifer, bundle: nil)
         }
@@ -184,14 +183,6 @@ extension SearchViewController: UITableViewDataSource {
             return exepenseSplitCell
         }
     }
-}
-
-extension SearchViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-
 }
 
 extension SearchViewController: UITextFieldDelegate {

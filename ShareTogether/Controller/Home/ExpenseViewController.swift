@@ -101,14 +101,12 @@ extension ExpenseViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let nextVC = UIStoryboard.expense.instantiateInitialViewController() as? STNavigationController,
-            let addExpenseVC = nextVC.viewControllers[0] as? AddExpenseViewController else { return }
+        guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: ExpenseDetailViewController.identifier) as? ExpenseDetailViewController
+        else { return }
         
-        addExpenseVC.expense = viewModel.getExpense(at: indexPath)
+        nextVC.expense = viewModel.getExpense(at: indexPath)
         
-        nextVC.modalPresentationStyle = .overFullScreen
-        
-        self.present(nextVC, animated: true, completion: nil)
+        show(nextVC, sender: nil)
         
     }
     

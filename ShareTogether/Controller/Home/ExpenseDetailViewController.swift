@@ -25,20 +25,56 @@ class ExpenseDetailViewController: STBaseViewController {
         
         self.navigationItem.title = "消費內容"
         
-        let barItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editExpense))
+        let barItem = UIBarButtonItem(title: "編輯", style: .plain, target: self, action: #selector(editExpense))
         
         self.navigationItem.rightBarButtonItem = barItem
     }
     
     @objc func editExpense() {
-        guard let nextVC = UIStoryboard.expense.instantiateInitialViewController() as? STNavigationController,
-            let addExpenseVC = nextVC.viewControllers[0] as? AddExpenseViewController else { return }
+        
+        if isEditAvailable() {
+            guard let nextVC = UIStoryboard.expense.instantiateInitialViewController() as? STNavigationController,
+                let addExpenseVC = nextVC.viewControllers[0] as? AddExpenseViewController else { return }
 
-        addExpenseVC.expense = expense
+            addExpenseVC.expense = expense
 
-        nextVC.modalPresentationStyle = .overCurrentContext
+            nextVC.modalPresentationStyle = .overCurrentContext
 
-        self.present(nextVC, animated: true, completion: nil)
+            self.present(nextVC, animated: true, completion: nil)
+        } else {
+            LKProgressHUD.showFailure(text: "本筆消費包含已退出成員，無法修改。請將其加回，即可進行修改。", view: self.view)
+        }
+        
+    }
+    
+    func isEditAvailable() -> Bool {
+        
+        guard let expense = expense,
+            let payerUid = expense.payerInfo.amountDesc.first?.member.id else { return false }
+        
+        let availableMembers = CurrentInfoManager.shared.availableMembers
+        
+        let payerResult = availableMembers.filter { member -> Bool in
+            payerUid == member.id
+        }
+        
+        if payerResult.isEmpty {
+            return false
+        }
+
+        for spliter in expense.splitInfo.amountDesc {
+            
+            let spliterResult = availableMembers.filter { member -> Bool in
+                spliter.member.id == member.id
+            }
+            
+            if spliterResult.isEmpty {
+                return false
+            }
+        }
+        
+        return true
+        
     }
     
 }

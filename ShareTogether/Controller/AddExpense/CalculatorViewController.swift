@@ -65,9 +65,10 @@ class CalculatorViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "分帳方式"
+        title = "分帳方式選擇"
         
-        let barItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveDate(_:)))
+        let barItem = UIBarButtonItem(title: "完成", style: .plain, target: self, action: #selector(saveDate(_:)))
+            
         navigationItem.rightBarButtonItem = barItem
 
     }
@@ -79,23 +80,55 @@ class CalculatorViewController: STBaseViewController {
     }
     
     @objc func saveDate(_ sender: UIBarButtonItem) {
-        
+    
         guard var splitInfo = splitInfo else { return }
         
-        if SplitType(rawValue: splitInfo.type) == .average {
-            for index in splitInfo.amountDesc.indices {
-                guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)),
-                    let textfieldCell = cell as? SplitTextFieldTableViewCell,
-                    let text = textfieldCell.textField.text
-                else { return }
-                
-                splitInfo.amountDesc[index].value = Double(text)
+        for index in splitInfo.amountDesc.indices {
+            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)),
+                let textfieldCell = cell as? SplitTextFieldTableViewCell,
+                let text = textfieldCell.textField.text
+            else { return }
+            
+            if let number = Double(text) {
+                splitInfo.amountDesc[index].value = number
+            } else {
+                splitInfo.amountDesc[index].value = 0
             }
+            
         }
+        
+        if isSaveAvailable(splitInfo: splitInfo) {
+            passCalculateDateHandler?(splitInfo)
+            navigationController?.popViewController(animated: true)
+        } else {
+            LKProgressHUD.showFailure(text: "輸入數值異常", view: self.view)
+        }
+        
+    }
     
-        passCalculateDateHandler?(splitInfo)
-        navigationController?.popViewController(animated: true)
-        return
+    func isSaveAvailable(splitInfo: AmountInfo) -> Bool {
+        
+        guard let amount = amount else { return false }
+        
+        var result: Double = 0
+        
+        if SplitType(rawValue: splitInfo.type) == SplitType.percentage {
+            
+            for aAmountDesc in splitInfo.amountDesc {
+                result += aAmountDesc.value ?? 0
+            }
+            
+            return result == 100.0 ? true : false
+        } else if SplitType(rawValue: splitInfo.type) == SplitType.amount {
+            
+            for aAmountDesc in splitInfo.amountDesc {
+                result += aAmountDesc.value ?? 0
+            }
+            
+            return result == amount ? true : false
+        }
+        
+        return true
         
     }
     

@@ -429,17 +429,25 @@ extension AddExpenseViewController: PayerControllerDelegate {
 extension AddExpenseViewController: SplitControllerDelegate {
     
     func didSelectSplitTypeAt(_ indexPath: IndexPath) {
-        guard let nextVC = storyboard?.instantiateViewController(withIdentifier: CalculatorViewController.identifier),
-            let calculatorVC = nextVC as? CalculatorViewController
-        else { return }
         
-        calculatorVC.splitInfo = splitController.splitInfo
-        
-        calculatorVC.passCalculateDateHandler = { [weak self] spliteInfo in
-            self?.splitController.splitInfo = spliteInfo
+        if let amount = Double(expenseController.expenseInfo[0]) {
+            guard let nextVC = storyboard?.instantiateViewController(withIdentifier: CalculatorViewController.identifier),
+                let calculatorVC = nextVC as? CalculatorViewController
+            else { return }
+            
+            calculatorVC.amount = amount
+            
+            calculatorVC.splitInfo = splitController.splitInfo
+            
+            calculatorVC.passCalculateDateHandler = { [weak self] spliteInfo in
+                self?.splitController.splitInfo = spliteInfo
+            }
+            
+            show(calculatorVC, sender: nil)
+        } else {
+            LKProgressHUD.showFailure(text: "分帳前請先填妥消費金額", view: self.view)
         }
-        
-        show(calculatorVC, sender: nil)
+
     }
     
 }

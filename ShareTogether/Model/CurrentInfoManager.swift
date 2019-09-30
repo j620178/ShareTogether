@@ -46,7 +46,8 @@ class CurrentInfoManager {
             FirestoreManager.shared.getMembers { [weak self] result in
                 switch result {
                     
-                case .success(let members):
+                case .success(var members):
+                    self?.sortMembers(members: &members)
                     self?.members = members
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CurrentGroup"),
                                                     object: self,
@@ -121,6 +122,15 @@ class CurrentInfoManager {
 
         UserDefaults.standard.removeObject(forKey: CurrentInfoConstant.user)
 
+    }
+    
+    func sortMembers(members: inout [MemberInfo]) {
+        guard let user = CurrentInfoManager.shared.user else { return }
+        
+        for index in members.indices where members[index].id == user.id {
+            let temp = members.remove(at: index)
+            members.insert(temp, at: 0)
+        }
     }
 
 }

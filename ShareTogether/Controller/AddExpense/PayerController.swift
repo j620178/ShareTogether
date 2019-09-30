@@ -33,18 +33,15 @@ class PayerController: NSObject, AddExpenseItem {
                 
         if payInfo == nil, members.count > 0 {
             var payInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())
-            var index = 0
-            for member in members {
+            for index in members.indices {
                 if index == 0 {
-                    payInfo.amountDesc.append(AmountDesc(member: member, value: 1))
+                    payInfo.amountDesc.append(AmountDesc(member: members[index], value: 1))
                 } else {
-                    payInfo.amountDesc.append(AmountDesc(member: member, value: nil))
+                    payInfo.amountDesc.append(AmountDesc(member: members[index], value: nil))
                 }
-                index += 1
             }
             self.payInfo = payInfo
         }
-        
     }
     
     init(tableView: UITableView) {
@@ -79,7 +76,7 @@ extension PayerController: UITableViewDataSource {
         else { return cell }
         
         for amountDesc in payInfo.amountDesc where amountDesc.value != nil {
-            splitCell.setupContent(title: amountDesc.member.name, type: "")
+            splitCell.setupContent(title: "1 人支付", type: amountDesc.member.name)
         }
         
         return splitCell

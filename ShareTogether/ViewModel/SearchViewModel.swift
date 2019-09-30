@@ -10,26 +10,52 @@ import Foundation
 import MapKit
 
 class SearchViewModel {
+    
     var expenses = [Expense]()
     
-    var annotations = [MKPointAnnotation]() {
+    var backupExpenses = [Expense]()
+    
+    var selectedExpense: Expense? {
         didSet {
-            reloadMapHandler?(annotations)
+            guard let selectedExpense = selectedExpense else { return }
+            reloadInfoWindowHandler?(selectedExpense.desc)
         }
     }
     
-    var reloadMapHandler: (([MKPointAnnotation]) -> Void)?
+    var annotations = [STMKPointAnnotation]() {
+        willSet {
+            removeAnnotationHandler?()
+        }
+        didSet {
+            showAnnotationHandler?()
+        }
+    }
+    
+    var isLoading: Bool = false {
+        didSet {
+            self.updateLoadingHandler?()
+        }
+    }
+    
+    var removeAnnotationHandler: (() -> Void)?
+    
+    var showAnnotationHandler: (() -> Void)?
+    
+    var updateLoadingHandler: (() -> Void)?
+    
+    var reloadInfoWindowHandler: ((String) -> Void)?
     
     func fectchData() {
-        
+        isLoading = true
         FirestoreManager.shared.getExpenses { [weak self] result in
+            self?.isLoading = false
             switch result {
                 
             case .success(let expenses):
                 
                 if expenses.isEmpty {
                     self?.expenses = [Expense]()
-                    self?.annotations = [MKPointAnnotation]()
+                    self?.annotations = [STMKPointAnnotation]()
                 } else {
                     self?.expenses = expenses
                     self?.processData()
@@ -43,16 +69,14 @@ class SearchViewModel {
     }
     
     func processData() {
-        var annotations = [MKPointAnnotation]()
-        var index = 0
-        for expense in expenses {
+        var annotations = [STMKPointAnnotation]()
+        for index in expenses.indices {
             let annotation = STMKPointAnnotation()
-            annotation.title = expense.desc
-            annotation.identifier = "\(index)"
-            annotation.coordinate = CLLocationCoordinate2D(latitude: expense.position.latitude,
-                                                           longitude: expense.position.longitude)
+            annotation.title = expenses[index].desc
+            annotation.identifier = index
+            annotation.coordinate = CLLocationCoordinate2D(latitude: expenses[index].position.latitude,
+                                                           longitude: expenses[index].position.longitude)
             annotations.append(annotation)
-            index += 1
         }
     
         self.annotations = annotations
@@ -60,6 +84,63 @@ class SearchViewModel {
 
 }
 
+extension SearchViewModel {
+    func userPressed(at index: Int) {
+        self.selectedExpense = self.expenses[index]
+    }
+    
+    func getSelectedExpenseViewModel() -> ExpenseInfoCellViewModel? {
+        guard let selectedExpense = selectedExpense ,
+            let group = CurrentInfoManager.shared.group,
+            let payerUid = selectedExpense.payerInfo.amountDesc[0].member.id,
+            let payer = CurrentInfoManager.shared.getMemberInfo(uid: payerUid) else { return nil }
+        return ExpenseInfoCellViewModel(desc: selectedExpense.desc,
+                                        amount: selectedExpense.amount.toAmountText,
+                                        amountType: ExpenseType(rawValue: selectedExpense.type) ?? .null,
+                                        groupName: group.name,
+                                        userImageURL: payer.photoURL,
+                                        payer: "由 \(payer.name) 支付 \(selectedExpense.amount.toAmountText)",
+                                        time: selectedExpense.time.toFullFormat)
+    }
+    
+    func getSelectedSplitViewModel(at indexPath: IndexPath) -> ExepenseSplitCellViewModel? {
+        guard let selectedExpense = selectedExpense ,
+            let spliterUid = selectedExpense.splitInfo.amountDesc[indexPath.row].member.id,
+            let spliter = CurrentInfoManager.shared.getMemberInfo(uid: spliterUid) else { return nil }
+        
+        let splitAmount = selectedExpense.splitInfo.getAmount(amount: selectedExpense.amount,
+                                                        index: indexPath.row)
+        
+        return ExepenseSplitCellViewModel(userImageURL: spliter.photoURL,
+                                          userName: spliter.name + " 支付 \(splitAmount.toAmountText)")
+    }
+    
+    func searchExpense(keyWord text: String) {
+        isLoading = true
+        
+        backupExpenses = expenses
+        
+        var tempExpenses = [Expense]()
+        
+        expenses.forEach { expense in
+            if expense.desc.contains(text) {
+                tempExpenses.append(expense)
+            }
+        }
+        
+        expenses = tempExpenses
+        processData()
+        isLoading = false
+        
+    }
+    
+    func resetExpenses() {
+        expenses = backupExpenses
+        processData()
+    }
+    
+}
+
 class STMKPointAnnotation: MKPointAnnotation {
-    var identifier: String = ""
+    var identifier: Int = 0
 }

@@ -10,7 +10,7 @@ import Foundation
 
 extension Double {
     
-    var amountString: String {
+    var toAmountText: String {
         
         let formatter = NumberFormatter()
         

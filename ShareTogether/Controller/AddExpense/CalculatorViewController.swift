@@ -11,6 +11,24 @@ import UIKit
 struct AmountInfo: Codable {
     var type: Int
     var amountDesc: [AmountDesc]
+    
+    func getAmount(amount: Double, index: Int) -> Double {
+        if self.type == 0 {
+            return amount / Double(amountDesc.count)
+        } else if self.type == 1 {
+            if let value = amountDesc[index].value {
+                return amount * value / 100
+            } else {
+                return 0
+            }
+        } else {
+            if let value = amountDesc[index].value {
+                return value
+            } else {
+                return 0
+            }
+        }
+    }
 }
 
 struct AmountDesc: Codable {

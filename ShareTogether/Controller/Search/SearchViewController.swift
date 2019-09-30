@@ -9,74 +9,94 @@
 import UIKit
 import MapKit
 
+class STAnnotation: MKPointAnnotation {
+    var identifier: String!
+}
+
 class SearchViewController: STBaseViewController {
         
     let locationManager = CLLocationManager()
     
     var viewModel = SearchViewModel()
-    
-    var mapView: MKMapView?
-    
-    var annotations = [MKPointAnnotation]() {
-        willSet {
-            mapView?.removeAnnotations(annotations)
-        }
+        
+    @IBOutlet weak var textField: UITextField! {
         didSet {
-            mapView?.showAnnotations(annotations, animated: true)
+            textField.delegate = self
         }
     }
     
-    @IBOutlet weak var goSearchButton: UIButton!
-    
-    @IBOutlet weak var scrollSelectionView: ScrollSelectionView! {
+    @IBOutlet weak var mapView: MKMapView! {
         didSet {
-            scrollSelectionView.dataSource = self
+            mapView?.delegate = self
+            mapView?.showsUserLocation = false
+            mapView?.userTrackingMode = .none
         }
     }
-
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-//            tableView.dataSource = self
-//            tableView.delegate = self
+            tableView.dataSource = self
+            tableView.delegate = self
+            tableView.registerWithNib(indentifer: ExpenseInfoTableViewCell.identifer, bundle: nil)
+            tableView.registerWithNib(indentifer: ExepenseSplitTableViewCell.identifer, bundle: nil)
         }
     }
     
-    @IBOutlet weak var switchTypeButton: UIButton!
+    @IBOutlet weak var infoWindow: UIView!
     
-    @IBAction func switchType(_ sender: UIButton) {
-        switchType()
-    }
-    
+    @IBOutlet weak var infoWindowBottomConstraint: NSLayoutConstraint!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        mapView = MKMapView(frame: view.frame)
 
-        view.addSubview(mapView!)
-        setupMap()
-        //mapView?.isHidden = true
-    
-//        view.bringSubviewToFront(goSearchButton)
-//        view.bringSubviewToFront(switchTypeButton)
-//
-//        switchTypeButton.alpha = 0
-//        goSearchButton.alpha = 0
-//        goSearchButton.layer.borderWidth = 1.0
-//        goSearchButton.layer.borderColor = UIColor.backgroundLightGray.cgColor
-//        goSearchButton.clipsToBounds = true
-//        goSearchButton.backgroundColor = .white
-//        goSearchButton.setImage(.getIcon(code: "ios-search", color: .darkGray, size: 20), for: .normal)
-
-        viewModel.reloadMapHandler = { [weak self] annotations in
-            self?.annotations = annotations
-        }
+        setupView()
+        
+        setupViewModel()
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(upadateCurrentGroup),
                                                name: NSNotification.Name(rawValue: "CurrentGroup"),
                                                object: nil)
+    }
+    
+    func setupView() {
+        
+        textField.addSearchIconOnLeft()
+        
+        infoWindow.addCornerAndShadow(maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+        infoWindowBottomConstraint.constant = -300
+    }
+    
+    func setupViewModel() {
+        
+        viewModel.removeAnnotationHandler = { [weak self] in
+            guard let strougSelf = self else { return }
+            strougSelf.mapView?.removeAnnotations(strougSelf.viewModel.annotations)
+        }
 
-        upadateCurrentGroup()
+        viewModel.showAnnotationHandler = { [weak self] in
+            guard let strougSelf = self else { return }
+            strougSelf.mapView?.showAnnotations(strougSelf.viewModel.annotations, animated: true)
+        }
+        
+        viewModel.updateLoadingHandler = { [weak self] in
+            
+            let isLoading = self?.viewModel.isLoading ?? false
+            
+            if isLoading {
+                LKProgressHUD.showLoading()
+            } else {
+                LKProgressHUD.dismiss()
+            }
+            
+        }
+        
+        viewModel.reloadInfoWindowHandler = { [weak self] text in
+            self?.textField.text = text
+            self?.tableView.reloadData()
+        }
+        
+        viewModel.fectchData()
         
     }
 
@@ -84,79 +104,125 @@ class SearchViewController: STBaseViewController {
         viewModel.fectchData()
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        goSearchButton.layer.cornerRadius = goSearchButton.frame.height / 4
-    }
-    
-    func setupMap() {
-        
-        mapView?.delegate = self
-        mapView?.showsUserLocation = false
-        mapView?.userTrackingMode = .none
-        
-    }
-    
-    func switchType() {
-        if mapView!.isHidden {
-            mapView?.isHidden = false
-            switchTypeButton.setTitle("列表", for: .normal)
-        } else {
-            mapView?.isHidden = true
-            switchTypeButton.setTitle("地圖", for: .normal)
-        }
-    }
-
 }
-
-//extension SearchViewController: UITableViewDataSource {
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return data.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifer, for: indexPath)
-//
-//        guard let activityCell = cell as? ActivityTableViewCell else { return cell }
-//
-//        activityCell.contentLabel.text = data[indexPath.row]
-//        activityCell.timeLabel.text = "2019/09/02"
-//
-//        return activityCell
-//    }
-//
-//}
-//
-//extension SearchViewController: UITableViewDelegate {
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
-//
-//}
 
 extension SearchViewController: CLLocationManagerDelegate {
     
 }
 
 extension SearchViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier:
+            MKMapViewDefaultAnnotationViewReuseIdentifier,
+            for: annotation)
+        annotationView.clusteringIdentifier = "STClustering"
+        return annotationView
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let annotation = view.annotation as? STMKPointAnnotation else { return }
+        
+        viewModel.userPressed(at: annotation.identifier)
+        
+        UIViewPropertyAnimator
+            .runningPropertyAnimator(withDuration: 0.5,
+                                     delay: 0,
+                                     animations: { [weak self] in
+                                        self?.infoWindowBottomConstraint.constant = 0
+                                        self?.view.layoutIfNeeded()
+                                     })
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        textField.text = nil
+        
+        UIViewPropertyAnimator
+            .runningPropertyAnimator(withDuration: 0.5,
+                                     delay: 0,
+                                     animations: { [weak self] in
+                                        self?.infoWindowBottomConstraint.constant = -300
+                                        self?.view.layoutIfNeeded()
+                                     })
+    }
+    
+}
+
+extension SearchViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        } else {
+            return viewModel.selectedExpense?.splitInfo.amountDesc.count ?? 0
+        }
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseInfoTableViewCell.identifer, for: indexPath)
+
+            guard let expenseInfoCell = cell as? ExpenseInfoTableViewCell,
+                let viewModel = viewModel.getSelectedExpenseViewModel() else { return cell }
+
+            expenseInfoCell.viewModel = viewModel
+
+            return expenseInfoCell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ExepenseSplitTableViewCell.identifer, for: indexPath)
+
+            guard let exepenseSplitCell = cell as? ExepenseSplitTableViewCell,
+                let viewModel = viewModel.getSelectedSplitViewModel(at: indexPath) else { return cell }
+
+            exepenseSplitCell.viewModel = viewModel
+
+            return exepenseSplitCell
+        }
+    }
+}
+
+extension SearchViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
 }
 
-extension SearchViewController: ScrollSelectionViewDataSource {
+extension SearchViewController: UITextFieldDelegate {
     
-    func numberOfItems(scrollSelectionView: ScrollSelectionView) -> Int {
-        return 10
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        guard let text = textField.text else { return false }
+        
+        viewModel.searchExpense(keyWord: text)
+                
+        return true
     }
     
-    func titleForItem(scrollSelectionView: ScrollSelectionView, index: Int) -> String {
-        return "12345"
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        
+        viewModel.resetExpenses()
+        
+        return true
     }
     
-    func colorOfTitleForItem(scrollSelectionView: ScrollSelectionView) -> UIColor {
-        return .STTintColor
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        print(textField.text)
+        if textField.text == nil {
+            print("1")
+        } else if textField.text == "" {
+            print("2")
+        }
+        
     }
     
 }

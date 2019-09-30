@@ -50,8 +50,6 @@ class LKProgressHUD {
 
             return
         }
-
-        shared.hud.indicatorView = JGProgressHUDPieIndicatorView()
         
         shared.hud.textLabel.text = text
 
@@ -132,6 +130,6 @@ class LKProgressHUD {
             return
         }
 
-        shared.hud.dismiss()
+        shared.hud.dismiss(afterDelay: 1.5)
     }
 }

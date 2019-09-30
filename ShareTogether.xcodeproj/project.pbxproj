@@ -27,6 +27,10 @@
 		744232BE233CB26E00139C7C /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744232BD233CB26E00139C7C /* UIImage+Extension.swift */; };
 		744232C0233CC2D200139C7C /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744232BF233CC2D200139C7C /* AddNoteViewController.swift */; };
 		744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744BBFA723162B1900434D7A /* UIColor+Extension.swift */; };
+		744F51FA234188B50098A323 /* ExpenseInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F51F8234188B50098A323 /* ExpenseInfoTableViewCell.swift */; };
+		744F51FB234188B50098A323 /* ExpenseInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 744F51F9234188B50098A323 /* ExpenseInfoTableViewCell.xib */; };
+		744F51FE234193960098A323 /* ExepenseSplitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F51FC234193960098A323 /* ExepenseSplitTableViewCell.swift */; };
+		744F51FF234193960098A323 /* ExepenseSplitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 744F51FD234193960098A323 /* ExepenseSplitTableViewCell.xib */; };
 		7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */; };
 		7451C46323272B4800EA0AEB /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C46223272B4800EA0AEB /* InviteViewController.swift */; };
 		74525B0C231C9B2500670D6E /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */; };
@@ -121,7 +125,7 @@
 		74082B5923402CC100565434 /* AmountTypeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountTypeController.swift; sourceTree = "<group>"; };
 		74082B5A23402CC100565434 /* ExpenseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpenseController.swift; sourceTree = "<group>"; };
 		74082B5B23402CC100565434 /* PayDateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayDateController.swift; sourceTree = "<group>"; };
-		741E2B95232E361700350F42 /* GroupListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GroupListViewModel.swift; path = ../Model/GroupListViewModel.swift; sourceTree = "<group>"; };
+		741E2B95232E361700350F42 /* GroupListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewModel.swift; sourceTree = "<group>"; };
 		742468BD2338422D00528202 /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		742468C02338425800528202 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupViewModel.swift; sourceTree = "<group>"; };
@@ -136,6 +140,10 @@
 		744232BD233CB26E00139C7C /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		744232BF233CC2D200139C7C /* AddNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteViewController.swift; sourceTree = "<group>"; };
 		744BBFA723162B1900434D7A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		744F51F8234188B50098A323 /* ExpenseInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseInfoTableViewCell.swift; sourceTree = "<group>"; };
+		744F51F9234188B50098A323 /* ExpenseInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpenseInfoTableViewCell.xib; sourceTree = "<group>"; };
+		744F51FC234193960098A323 /* ExepenseSplitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExepenseSplitTableViewCell.swift; sourceTree = "<group>"; };
+		744F51FD234193960098A323 /* ExepenseSplitTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExepenseSplitTableViewCell.xib; sourceTree = "<group>"; };
 		7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModallyMeauViewController.swift; sourceTree = "<group>"; };
 		7451C46223272B4800EA0AEB /* InviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -285,6 +293,7 @@
 			children = (
 				742E5F4C23302CF8001EDF54 /* Storyboard */,
 				74B5C4C3231DE3E200EB916D /* Home */,
+				744F51F7234188810098A323 /* Search */,
 				74B5C4ED231E5C8700EB916D /* AddExpense */,
 				745CC9802321060200426D1A /* Activity */,
 				74B5C4C4231DE3E800EB916D /* Group */,
@@ -319,6 +328,17 @@
 				747AB90A2324F38A00007A32 /* SignUpViewController.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		744F51F7234188810098A323 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				744F51F8234188B50098A323 /* ExpenseInfoTableViewCell.swift */,
+				744F51F9234188B50098A323 /* ExpenseInfoTableViewCell.xib */,
+				744F51FC234193960098A323 /* ExepenseSplitTableViewCell.swift */,
+				744F51FD234193960098A323 /* ExepenseSplitTableViewCell.xib */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		745CACC523169FB80055A60C /* Model */ = {
@@ -358,13 +378,21 @@
 			isa = PBXGroup;
 			children = (
 				743F4E5E232F2FDB009BA6BA /* Home */,
-				741E2B95232E361700350F42 /* GroupListViewModel.swift */,
-				743F4E65232F923D009BA6BA /* InviteViewModel.swift */,
-				742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */,
+				7495BEA523416ACC00CA946D /* Group */,
 				749573962337D442003997BD /* ActivityViewModel.swift */,
 				74B9AE0E2338BA1F0029A8BE /* SearchViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7495BEA523416ACC00CA946D /* Group */ = {
+			isa = PBXGroup;
+			children = (
+				741E2B95232E361700350F42 /* GroupListViewModel.swift */,
+				743F4E65232F923D009BA6BA /* InviteViewModel.swift */,
+				742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */,
+			);
+			path = Group;
 			sourceTree = "<group>";
 		};
 		74960E9623150834006BF12C = {
@@ -407,10 +435,10 @@
 			isa = PBXGroup;
 			children = (
 				74BAAEA22328FA8B008623FF /* Home */,
+				74D0051F233237E30079D68E /* Group */,
 				742468BF2338424600528202 /* Search */,
 				74D0051D2332378B0079D68E /* AddExpense */,
 				747B6EDD2335987E000FE48B /* Activity */,
-				74D0051F233237E30079D68E /* Group */,
 				74D0051E233237C00079D68E /* Setting */,
 				744C9C332328F9AD00661252 /* Login */,
 			);
@@ -620,11 +648,13 @@
 				74AEC9022320837C003A6F01 /* CheckBoxTableViewCell.xib in Resources */,
 				748A84F62319216B00EE00A0 /* Expense.storyboard in Resources */,
 				745CC98A232146F700426D1A /* MemberTableViewCell.xib in Resources */,
+				744F51FB234188B50098A323 /* ExpenseInfoTableViewCell.xib in Resources */,
 				7455837623265D2E008C1690 /* SplitTextFieldTableViewCell.xib in Resources */,
 				74AEC8FA231FAFF0003A6F01 /* SelectionTableViewCell.xib in Resources */,
 				74B5C4DB231DE48800EB916D /* ResultTableViewCell.xib in Resources */,
 				74641F3C232096B00059B265 /* SplitTableViewCell.xib in Resources */,
 				747AB9052324D38C00007A32 /* Login.storyboard in Resources */,
+				744F51FF234193960098A323 /* ExepenseSplitTableViewCell.xib in Resources */,
 				74960EAD23150838006BF12C /* LaunchScreen.storyboard in Resources */,
 				74641F442320FB3A0059B265 /* NotebookTableViewCell.xib in Resources */,
 				74B5C4D9231DE48800EB916D /* ExpenseTableViewCell.xib in Resources */,
@@ -749,6 +779,7 @@
 				745CACC823169FD30055A60C /* HomeExpenseCellViewModel.swift in Sources */,
 				74B9AE0F2338BA1F0029A8BE /* SearchViewModel.swift in Sources */,
 				747AB9072324DFED00007A32 /* LoginViewController.swift in Sources */,
+				744F51FE234193960098A323 /* ExepenseSplitTableViewCell.swift in Sources */,
 				747AB90B2324F38A00007A32 /* SignUpViewController.swift in Sources */,
 				745CACCA231784DF0055A60C /* String+Extension.swift in Sources */,
 				74AEC8FD231FC5E9003A6F01 /* TextFieldTableViewCell.swift in Sources */,
@@ -813,6 +844,7 @@
 				74F92B952338CF7000FD7DE2 /* JGProgressHUDWrapper.swift in Sources */,
 				74BA2AE12325D58A0010799E /* CalculatorViewController.swift in Sources */,
 				745CC9862321164E00426D1A /* Direction.swift in Sources */,
+				744F51FA234188B50098A323 /* ExpenseInfoTableViewCell.swift in Sources */,
 				745CC983232106C200426D1A /* ActivityTableViewCell.swift in Sources */,
 				742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */,
 				74B5C4C7231DE46B00EB916D /* NewGroupCollectionViewCell.swift in Sources */,

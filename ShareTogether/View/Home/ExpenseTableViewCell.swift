@@ -37,7 +37,7 @@ class ExpenseTableViewCell: UITableViewCell {
             expenseTypeImageView.image = viewModel.type.getImage(color: .STTintColor)
             userImageView.setUrlImage(viewModel.userImg)
             expenseTitleLabel.text = viewModel.title
-            amountLabel.text = viewModel.amount.amountString
+            amountLabel.text = viewModel.amount.toAmountText
             timeLabel.text = viewModel.time
             
         }

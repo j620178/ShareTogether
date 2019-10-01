@@ -15,6 +15,7 @@
 		741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E2B95232E361700350F42 /* GroupListViewModel.swift */; };
 		742468BE2338422D00528202 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 742468BD2338422D00528202 /* Search.storyboard */; };
 		742468C12338425800528202 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742468C02338425800528202 /* SearchViewController.swift */; };
+		74297249234321D500A25084 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74297248234321D500A25084 /* GoogleService-Info.plist */; };
 		742E5F4E23304E8E001EDF54 /* AddGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */; };
 		742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4F23306373001EDF54 /* MemberStatusType.swift */; };
 		742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */; };
@@ -70,7 +71,6 @@
 		74960EA823150834006BF12C /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74960EA623150834006BF12C /* Home.storyboard */; };
 		74960EAA23150838006BF12C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74960EA923150838006BF12C /* Assets.xcassets */; };
 		74960EAD23150838006BF12C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74960EAB23150838006BF12C /* LaunchScreen.storyboard */; };
-		74975EB42327764A008FC7B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74975EB32327764A008FC7B0 /* GoogleService-Info.plist */; };
 		74975EB623277A61008FC7B0 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74975EB523277A61008FC7B0 /* AuthManager.swift */; };
 		749A2346233C3B8700273786 /* Firestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749A2345233C3B8700273786 /* Firestore.swift */; };
 		74A1A0D9232B6728007C717A /* ExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A1A0D8232B6728007C717A /* ExpenseViewController.swift */; };
@@ -133,6 +133,7 @@
 		741E2B95232E361700350F42 /* GroupListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewModel.swift; sourceTree = "<group>"; };
 		742468BD2338422D00528202 /* Search.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		742468C02338425800528202 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		74297248234321D500A25084 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		742E5F4D23304E8E001EDF54 /* AddGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupViewModel.swift; sourceTree = "<group>"; };
 		742E5F4F23306373001EDF54 /* MemberStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStatusType.swift; sourceTree = "<group>"; };
 		742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -190,7 +191,6 @@
 		74960EA923150838006BF12C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		74960EAC23150838006BF12C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		74960EAE23150838006BF12C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		74975EB32327764A008FC7B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		74975EB523277A61008FC7B0 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		749A2345233C3B8700273786 /* Firestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Firestore.swift; sourceTree = "<group>"; };
 		74A1A0D8232B6728007C717A /* ExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewController.swift; sourceTree = "<group>"; };
@@ -429,8 +429,8 @@
 			isa = PBXGroup;
 			children = (
 				74B9AE0D2338A6EC0029A8BE /* ShareTogether.entitlements */,
-				74975EB32327764A008FC7B0 /* GoogleService-Info.plist */,
 				74960EA223150834006BF12C /* AppDelegate.swift */,
+				74297248234321D500A25084 /* GoogleService-Info.plist */,
 				74D611D1231D006700A301E9 /* ThridPratyWrapper */,
 				744BBFA623162ADB00434D7A /* Extension */,
 				745CACC523169FB80055A60C /* Model */,
@@ -671,6 +671,7 @@
 				74641F3C232096B00059B265 /* SplitTableViewCell.xib in Resources */,
 				747AB9052324D38C00007A32 /* Login.storyboard in Resources */,
 				744F51FF234193960098A323 /* ExepenseSplitTableViewCell.xib in Resources */,
+				74297249234321D500A25084 /* GoogleService-Info.plist in Resources */,
 				74D968562342765D008A7F3D /* AddNoteTableViewCell.xib in Resources */,
 				74960EAD23150838006BF12C /* LaunchScreen.storyboard in Resources */,
 				74641F442320FB3A0059B265 /* NotebookTableViewCell.xib in Resources */,
@@ -682,7 +683,6 @@
 				743F4E62232F3FA3009BA6BA /* Menu.storyboard in Resources */,
 				74B5C4DC231DE48800EB916D /* StatisticsTableViewCell.xib in Resources */,
 				74960EA823150834006BF12C /* Home.storyboard in Resources */,
-				74975EB42327764A008FC7B0 /* GoogleService-Info.plist in Resources */,
 				742468BE2338422D00528202 /* Search.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

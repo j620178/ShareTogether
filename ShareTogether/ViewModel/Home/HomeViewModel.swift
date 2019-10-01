@@ -58,10 +58,13 @@ class HomeViewModel: NSObject {
     
     func createExpenseCellViewModel(expense: Expense) -> HomeExpenseCellViewModel {
         
+        let payerUid = expense.payerInfo.getPayer()
+        let user = CurrentInfoManager.shared.getMemberInfo(uid: payerUid ?? "")
+        
         return HomeExpenseCellViewModel(id: expense.id,
                                         type: ExpenseType(rawValue: expense.type)!,
                                         title: expense.desc,
-                                        img: expense.payerInfo.amountDesc[0].member.photoURL,
+                                        img: user?.photoURL,
                                         time: expense.time.toFullFormat,
                                         amount: expense.amount)
     }

@@ -22,6 +22,22 @@ class ExpenseController: NSObject, AddExpenseItem {
     
     var expenseInfo: [String] = ["", ""]
     
+    var getTextFieldInfo: [String] {
+        var expenseInfo = ["", ""]
+        
+        for index in textfieldPlaceHolder.indices {
+            guard let textFieldCell = tableView.cellForRow(at: IndexPath(row: index, section: 1)) as? TextFieldTableViewCell,
+                let text = textFieldCell.textField.text
+            else { return expenseInfo }
+            
+            textFieldCell.textField.resignFirstResponder()
+            
+            expenseInfo[index] = text
+        }
+        
+        return expenseInfo
+    }
+    
     init(tableView: UITableView) {
         self.tableView = tableView
         self.tableView.registerWithNib(indentifer: TextFieldTableViewCell.identifer)

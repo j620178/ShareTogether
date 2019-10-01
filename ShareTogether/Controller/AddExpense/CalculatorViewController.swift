@@ -29,6 +29,13 @@ struct AmountInfo: Codable {
             }
         }
     }
+    
+    func getPayer() -> String? {
+        for aAmountDesc in amountDesc where aAmountDesc.value != nil {
+            return aAmountDesc.member.id
+        }
+        return nil
+    }
 }
 
 struct AmountDesc: Codable {

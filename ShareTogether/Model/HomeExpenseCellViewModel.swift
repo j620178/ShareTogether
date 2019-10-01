@@ -12,14 +12,14 @@ class HomeExpenseCellViewModel: NSObject {
     let id: String
     let type: ExpenseType
     let title: String
-    let userImg: String
+    let userImg: String?
     let time: String
     let amount: Double
     
     init(id: String,
          type: ExpenseType,
          title: String,
-         img: String,
+         img: String?,
          time: String,
          amount: Double) {
         self.id = id

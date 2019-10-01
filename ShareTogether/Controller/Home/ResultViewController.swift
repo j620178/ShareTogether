@@ -59,22 +59,22 @@ extension ResultViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ResultTableViewCell.identifer, for: indexPath)
         
-        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-        
-        if demoGroupID == CurrentInfoManager.shared.group?.id {
-            guard let resultCell = cell as? ResultTableViewCell//,
-                //let currentUserInfo = CurrentInfoManager.shared.user//,
-                //let amount = viewModel.getResultInfo(uid: availableMembers[indexPath.row].id)
-            else { return cell }
-            
-            resultCell.setupContent(leftUserImageURL: availableMembers[0].photoURL,
-                                    leftUserName: availableMembers[0].name,
-                                    rightUserImageURL: availableMembers[1].photoURL,
-                                    rightUserName: availableMembers[1].name,
-                                    amount: 5650.0.toAmountText)
-            
-            return resultCell
-        }
+//        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
+//        
+//        if demoGroupID == CurrentInfoManager.shared.group?.id {
+//            guard let resultCell = cell as? ResultTableViewCell//,
+//                //let currentUserInfo = CurrentInfoManager.shared.user//,
+//                //let amount = viewModel.getResultInfo(uid: availableMembers[indexPath.row].id)
+//            else { return cell }
+//            
+//            resultCell.setupContent(leftUserImageURL: availableMembers[0].photoURL,
+//                                    leftUserName: availableMembers[0].name,
+//                                    rightUserImageURL: availableMembers[1].photoURL,
+//                                    rightUserName: availableMembers[1].name,
+//                                    amount: 5650.0.toAmountText)
+//            
+//            return resultCell
+//        }
         
         guard let resultCell = cell as? ResultTableViewCell,
             let currentUserInfo = CurrentInfoManager.shared.user,

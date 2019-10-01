@@ -18,6 +18,7 @@ class ActivityViewController: STBaseViewController {
             tableView.dataSource = self
             tableView.delegate = self
             tableView.registerWithNib(indentifer: ActivityTableViewCell.identifer)
+            tableView.registerWithNib(indentifer: ActivityInfoTableViewCell.identifer)
         }
     }
     
@@ -56,19 +57,31 @@ extension ActivityViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifer, for: indexPath)
         
-        guard let activityCell = cell as? ActivityTableViewCell else { return cell }
-        
-        activityCell.cellViewModel = viewModel.getViewModelAt(indexPath)
-        
-        activityCell.clickCellHandler = { [weak self] cell in
-            guard let indexPath = tableView.indexPath(for: cell) else { return }
+        if viewModel.activities[indexPath.row].type == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifer, for: indexPath)
             
-            self?.viewModel.addGroupButton(indexPath: indexPath)
+            guard let activityCell = cell as? ActivityTableViewCell else { return cell }
+            
+            activityCell.cellViewModel = viewModel.getViewModelAt(indexPath)
+            
+            activityCell.clickCellHandler = { [weak self] cell in
+                guard let indexPath = tableView.indexPath(for: cell) else { return }
+                
+                self?.viewModel.addGroupButton(indexPath: indexPath)
+            }
+            
+            return activityCell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityInfoTableViewCell.identifer, for: indexPath)
+            
+            guard let activityCell = cell as? ActivityInfoTableViewCell else { return cell }
+            
+            activityCell.cellViewModel = viewModel.getViewModelAt(indexPath)
+            
+            return activityCell
         }
-        
-        return activityCell
+
     }
     
 }

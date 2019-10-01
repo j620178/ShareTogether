@@ -79,24 +79,31 @@ extension NoteViewController: UITableViewDataSource {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: NotebookTableViewCell.identifer, for: indexPath)
-            guard let notebookCell = cell as? NotebookTableViewCell else { return cell }
+            
+            guard let notebookCell = cell as? NotebookTableViewCell,
+                let user = CurrentInfoManager.shared.user else { return cell }
             
             notebookCell.cellViewModel = viewModel.getViewModel(indexPath: indexPath)
             
-            notebookCell.clickMoreButtonHandler = { [weak self] in
+            let note = viewModel.getNote(index: indexPath.row)
+            
+            if user.id == note.auctorID {
                 
-                guard let user = CurrentInfoManager.shared.user,
-                    let note = self?.viewModel.getNote(index: indexPath.row) else { return }
-                
-                if user.id == note.auctorID {
-                    
+                notebookCell.moreButton.alpha = 1
+            
+                notebookCell.clickMoreButtonHandler = { [weak self] in
+                                        
                     let alertVC = UIAlertController.deleteAlert { _ in
                                         
                         FirestoreManager.shared.deleteNote(noteID: note.id)
                     }
                     
                     self?.present(alertVC, animated: true, completion: nil)
+                    
                 }
+                
+            } else {
+                notebookCell.moreButton.alpha = 0
             }
             
             return notebookCell

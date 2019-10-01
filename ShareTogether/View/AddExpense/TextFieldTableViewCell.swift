@@ -54,9 +54,12 @@ extension TextFieldTableViewCell: UITextFieldDelegate {
         guard let text = textField.text else { return false }
         
         if string == "" {
+            print(text.dropLast())
             infoPassHandler?("\(text.dropLast())")
+            
         } else {
-            infoPassHandler?(text + string)
+            print(text)
+            infoPassHandler?(text)
         }
         
         return true

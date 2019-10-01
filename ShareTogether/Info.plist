@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>DemoGroupCoverURL</key>
 	<string>https://firebasestorage.googleapis.com/v0/b/sharetogether-4c747.appspot.com/o/GroupCover%2Ftaipei.jpg?alt=media&amp;token=619645b6-959a-4bdd-8c69-b72b3ae9890c</string>
 	<key>DemoGroupID</key>
@@ -55,9 +55,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>請允許使用相機進行 QRcode 掃描</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>允許後我們將使用您的位置，作為紀錄消費地點資訊</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>請允許使用相簿以上傳相片</string>
+	<string>允許後我們將使用你的相簿以上傳相片作為群組封面</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

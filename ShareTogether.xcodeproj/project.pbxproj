@@ -31,6 +31,8 @@
 		744F51FB234188B50098A323 /* ExpenseInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 744F51F9234188B50098A323 /* ExpenseInfoTableViewCell.xib */; };
 		744F51FE234193960098A323 /* ExepenseSplitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744F51FC234193960098A323 /* ExepenseSplitTableViewCell.swift */; };
 		744F51FF234193960098A323 /* ExepenseSplitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 744F51FD234193960098A323 /* ExepenseSplitTableViewCell.xib */; };
+		7450681C23427CD100896C96 /* ActivityInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7450681A23427CD100896C96 /* ActivityInfoTableViewCell.swift */; };
+		7450681D23427CD100896C96 /* ActivityInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7450681B23427CD100896C96 /* ActivityInfoTableViewCell.xib */; };
 		7451C4592326EA6D00EA0AEB /* ModallyMeauViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */; };
 		7451C46323272B4800EA0AEB /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451C46223272B4800EA0AEB /* InviteViewController.swift */; };
 		74525B0C231C9B2500670D6E /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */; };
@@ -147,6 +149,8 @@
 		744F51F9234188B50098A323 /* ExpenseInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpenseInfoTableViewCell.xib; sourceTree = "<group>"; };
 		744F51FC234193960098A323 /* ExepenseSplitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExepenseSplitTableViewCell.swift; sourceTree = "<group>"; };
 		744F51FD234193960098A323 /* ExepenseSplitTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExepenseSplitTableViewCell.xib; sourceTree = "<group>"; };
+		7450681A23427CD100896C96 /* ActivityInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityInfoTableViewCell.swift; sourceTree = "<group>"; };
+		7450681B23427CD100896C96 /* ActivityInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityInfoTableViewCell.xib; sourceTree = "<group>"; };
 		7451C4582326EA6D00EA0AEB /* ModallyMeauViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModallyMeauViewController.swift; sourceTree = "<group>"; };
 		7451C46223272B4800EA0AEB /* InviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		74525B0B231C9B2500670D6E /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -366,6 +370,8 @@
 		745CC9802321060200426D1A /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				7450681A23427CD100896C96 /* ActivityInfoTableViewCell.swift */,
+				7450681B23427CD100896C96 /* ActivityInfoTableViewCell.xib */,
 				745CC981232106C200426D1A /* ActivityTableViewCell.swift */,
 				745CC982232106C200426D1A /* ActivityTableViewCell.xib */,
 			);
@@ -660,6 +666,7 @@
 				744F51FB234188B50098A323 /* ExpenseInfoTableViewCell.xib in Resources */,
 				7455837623265D2E008C1690 /* SplitTextFieldTableViewCell.xib in Resources */,
 				74AEC8FA231FAFF0003A6F01 /* SelectionTableViewCell.xib in Resources */,
+				7450681D23427CD100896C96 /* ActivityInfoTableViewCell.xib in Resources */,
 				74B5C4DB231DE48800EB916D /* ResultTableViewCell.xib in Resources */,
 				74641F3C232096B00059B265 /* SplitTableViewCell.xib in Resources */,
 				747AB9052324D38C00007A32 /* Login.storyboard in Resources */,
@@ -781,6 +788,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7450681C23427CD100896C96 /* ActivityInfoTableViewCell.swift in Sources */,
 				744232C0233CC2D200139C7C /* AddNoteViewController.swift in Sources */,
 				74A1A0DB232B6EFF007C717A /* StatisticsViewController.swift in Sources */,
 				747AB9092324EC7500007A32 /* UITexField+Extension.swift in Sources */,
@@ -1016,6 +1024,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ShareTogether/ShareTogether.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 2NZHQL2FPV;
 				INFOPLIST_FILE = ShareTogether/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1023,6 +1032,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.littlema.ShareTogether;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1037,6 +1047,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ShareTogether/ShareTogether.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 2NZHQL2FPV;
 				INFOPLIST_FILE = ShareTogether/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1044,6 +1055,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.littlema.ShareTogether;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

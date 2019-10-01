@@ -96,12 +96,13 @@ extension ExpenseDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseInfoTableViewCell.identifer, for: indexPath)
-
+            
             guard let expenseInfoCell = cell as? ExpenseInfoTableViewCell,
                 let expense = expense,
                 let group = CurrentInfoManager.shared.group,
-                let payerUid = expense.payerInfo.amountDesc[0].member.id,
-                let payer = CurrentInfoManager.shared.getMemberInfo(uid: payerUid) else { return cell }
+                let payerUid = expense.payerInfo.getPayer(),
+                let payer = CurrentInfoManager.shared.getMemberInfo(uid: payerUid)
+            else { return cell }
             
             let cellViewModel = ExpenseInfoCellViewModel(desc: expense.desc,
                                             amount: expense.amount.toAmountText,

@@ -235,15 +235,15 @@ class AddExpenseViewController: STBaseViewController {
     @IBAction func clickAddButton(_ sender: UIButton) {
         
         let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-        
+
         if demoGroupID == CurrentInfoManager.shared.group?.id {
             LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
             return
         }
         
         guard let uid = CurrentInfoManager.shared.user?.id,
-            let amount = Double(expenseController.expenseInfo[0]),
-            expenseController.expenseInfo[1] != "",
+            let amount = Double(expenseController.getTextFieldInfo[0]),
+            expenseController.getTextFieldInfo[1] != "",
             let payerInfo = payerController.payInfo,
             let splitInfo = splitController.splitInfo,
             let date = payDateController.selectDate
@@ -254,12 +254,12 @@ class AddExpenseViewController: STBaseViewController {
         
         LKProgressHUD.show(view: self.view)
         var expense = Expense(type: amountTypeController.selectIndex,
-                              desc: expenseController.expenseInfo[1],
+                              desc: expenseController.getTextFieldInfo[1],
                               userID: uid,
                               amount: amount,
                               payerInfo: payerInfo,
                               splitInfo: splitInfo,
-                              location: annotation.coordinate,
+                              location: mapView.centerCoordinate,
                               time: date)
         
         if self.expense != nil {

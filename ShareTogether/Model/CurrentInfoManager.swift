@@ -53,7 +53,8 @@ class CurrentInfoManager {
                                                     object: self,
                                                     userInfo: nil)
                 case .failure(let error):
-                    LKProgressHUD.showFailure(text: error.localizedDescription)
+                    print(error.localizedDescription)
+                    //LKProgressHUD.showFailure(text: error.localizedDescription)
                 }
             }
 

@@ -106,15 +106,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 將 Data 轉成 String
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         print("deviceTokenString: \(deviceTokenString)")
-
-        // 將 Device Token 送到 Server 端...
-
+        
     }
+}
+
+extension AppDelegate {
     
     func showExpenseDetail(expenseID: String) {
         
         guard let tabbarVC = window?.rootViewController as? STTabBarController,
-            let homeVC = tabbarVC.viewControllers?[0] as? STNavigationController else { return }
+            let homeNC = tabbarVC.viewControllers?[0] as? STNavigationController else { return }
             
         FirestoreManager.shared.getExpense(expenseID: expenseID) { result in
             switch result {
@@ -126,12 +127,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 nextVC.expense = expense
                 
-                homeVC.pushViewController(nextVC, animated: true)
+                homeNC.pushViewController(nextVC, animated: true)
             case .failure:
                 print("ERROR")
             }
         }
     }
+    
+    func showActivity() {
+        
+        guard let tabbarVC = window?.rootViewController as? STTabBarController else { return }
+        
+        tabbarVC.selectedIndex = 3
+        
+    }
+    
 }
 
 @available(iOS 10, *)
@@ -152,7 +162,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if let expenseID = response.notification.request.content.userInfo["expenseID"] as? String {
             showExpenseDetail(expenseID: expenseID)
         } else {
-            
+            showActivity()
         }
     
         completionHandler()

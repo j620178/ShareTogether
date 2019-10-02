@@ -18,7 +18,7 @@ class SplitTextFieldTableViewCell: UITableViewCell {
    
     @IBOutlet weak var textField: UITextField!
     
-    func setupContent(text: String?, name: String, photoURL: String, unit: String) {
+    func setupContent(text: String?, name: String, photoURL: String?, unit: String) {
         
         textField.text = text
         userNameLabel.text = name

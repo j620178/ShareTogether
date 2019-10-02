@@ -9,6 +9,19 @@
 import UIKit
 import MapKit
 
+enum ActivityType: Int {
+    case addMember = 0
+    case addExpense = 1
+    case editExpense = 2
+    case addNote = 3
+}
+
+enum ActivityStatus: Int {
+    case new = 0
+    case readed = 1
+    case used = 2
+}
+
 class ActivityViewController: STBaseViewController {
     
     var viewModel = ActivityViewModel()

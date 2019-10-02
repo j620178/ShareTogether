@@ -40,7 +40,7 @@ class SignUpViewController: UIViewController {
             
             AuthManager.shared.createNewUser(email: emailTextField.text!,
                                               password: passwordTextField.text!) { uid in
-                                                FirestoreManager.shared.insertNewUser(userInfo: UserInfo(id: uid,
+                                                FirestoreManager.shared.addNewUser(userInfo: UserInfo(id: uid,
                                                                                                          name: userName,
                                                                                                          email: email,
                                                                                                          phone: nil,

@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct CurrentInfoConstant {
+struct DefaultConstant {
     static let user = "currentUserInfo"
     static let group = "currentGroupInfo"
 }
 
-class CurrentInfoManager {
+class CurrentManager {
     
-    static let shared = CurrentInfoManager()
+    static let shared = CurrentManager()
     
     let userDefault = UserDefaults.standard
     
@@ -24,9 +24,15 @@ class CurrentInfoManager {
     func setCurrentUser(_ userInfo: UserInfo) {
         print(userInfo)
         if userInfo.id != user?.id {
-            user = userInfo
-            if let data = try? JSONEncoder().encode(userInfo) {
-                UserDefaults.standard.set(data, forKey: CurrentInfoConstant.user)
+            var tempUserInfo = userInfo
+            tempUserInfo.fcmToken = fcmToken
+            user = tempUserInfo
+            if let data = try? JSONEncoder().encode(tempUserInfo) {
+                UserDefaults.standard.set(data, forKey: DefaultConstant.user)
+            }
+            
+            if let fcmToken = fcmToken {
+                FirestoreManager.shared.updateFCMToken(token: fcmToken)
             }
         }
     }
@@ -40,7 +46,7 @@ class CurrentInfoManager {
             group = groupInfo
             
             if let data = try? JSONEncoder().encode(groupInfo) {
-                UserDefaults.standard.set(data, forKey: CurrentInfoConstant.group)
+                UserDefaults.standard.set(data, forKey: DefaultConstant.group)
             }
             
             FirestoreManager.shared.getMembers { [weak self] result in
@@ -61,20 +67,7 @@ class CurrentInfoManager {
         }
 
     }
-    
-    var groupStatus: Int? {
-        
-        guard let currentGroupID = group?.id,
-            let userGroups = user?.groups
-        else { return nil }
-        
-        for userGroup in userGroups where userGroup.id == currentGroupID {
-            return userGroup.status
-        }
-        
-        return nil
-    }
-    
+
     var members = [MemberInfo]()
     
     var availableMembers: [MemberInfo] {
@@ -97,7 +90,7 @@ class CurrentInfoManager {
         for member in members {
             if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
                 MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
-            } else if member.id != CurrentInfoManager.shared.user?.id {
+            } else if member.id != CurrentManager.shared.user?.id {
                 availableMembers.append(member)
             }
         }
@@ -113,25 +106,32 @@ class CurrentInfoManager {
         return nil
     }
     
-    func removeCurrentGroup() {
-
-        UserDefaults.standard.removeObject(forKey: CurrentInfoConstant.group)
-  
-    }
-    
-    func removeCurrentUser() {
-
-        UserDefaults.standard.removeObject(forKey: CurrentInfoConstant.user)
-
-    }
-    
     func sortMembers(members: inout [MemberInfo]) {
-        guard let user = CurrentInfoManager.shared.user else { return }
+        guard let user = CurrentManager.shared.user else { return }
         
         for index in members.indices where members[index].id == user.id {
             let temp = members.remove(at: index)
             members.insert(temp, at: 0)
         }
+    }
+    
+    var fcmToken: String? {
+        didSet {
+            guard let fcmToken = fcmToken else { return }
+            FirestoreManager.shared.updateFCMToken(token: fcmToken)
+        }
+    }
+
+    func removeCurrentGroup() {
+
+      UserDefaults.standard.removeObject(forKey: DefaultConstant.group)
+
+    }
+
+    func removeCurrentUser() {
+
+      UserDefaults.standard.removeObject(forKey: DefaultConstant.user)
+
     }
 
 }

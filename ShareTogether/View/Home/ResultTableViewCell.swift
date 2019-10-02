@@ -47,9 +47,9 @@ class ResultTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupContent(leftUserImageURL: String,
+    func setupContent(leftUserImageURL: String?,
                       leftUserName: String,
-                      rightUserImageURL: String,
+                      rightUserImageURL: String?,
                       rightUserName: String,
                       amount: String) {
         

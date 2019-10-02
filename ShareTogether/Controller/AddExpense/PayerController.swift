@@ -29,7 +29,7 @@ class PayerController: NSObject, AddExpenseItem {
     }
 
     func initPayInfo() {
-        let members = CurrentInfoManager.shared.availableMembers
+        let members = CurrentManager.shared.availableMembers
                 
         if payInfo == nil, members.count > 0 {
             var payInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())

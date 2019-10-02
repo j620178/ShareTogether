@@ -9,7 +9,7 @@
 import UIKit
 
 struct NoteCommentCellViewModel {
-    let userImageURL: String
+    let userImageURL: String?
     let userName: String
     let content: String
     let time: String

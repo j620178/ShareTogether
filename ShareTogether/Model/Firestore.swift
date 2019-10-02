@@ -10,27 +10,14 @@ import Foundation
 import FirebaseFirestore
 import MapKit
 
-enum ActivityType: Int {
-    case addMember = 0
-    case addExpense = 1
-    case editExpense = 2
-    case addNote = 3
-}
-
 struct UserInfo: Codable {
     var id: String!
     let name: String
     let email: String
     let phone: String?
-    let photoURL: String
+    let photoURL: String?
     var groups: [GroupInfo]!
-}
-
-struct UploadUserInfo: Codable {
-    let name: String
-    let email: String
-    let phone: String?
-    let photoURL: String
+    var fcmToken: String?
 }
 
 struct GroupInfo: Codable {
@@ -44,8 +31,9 @@ struct MemberInfo: Codable {
     var id: String!
     let name: String
     let email: String
-    let photoURL: String
+    let photoURL: String?
     var status: Int
+    var fcmToken: String?
     
     init(userInfo: UserInfo, status: Int) {
         self.id = userInfo.id
@@ -108,12 +96,6 @@ struct Activity: Codable {
         self.time = Timestamp(date: time)
         self.status = status
     }
-}
-
-enum ActivityStatus: Int {
-    case new = 0
-    case readed = 1
-    case used = 2
 }
 
 struct Note: Codable {

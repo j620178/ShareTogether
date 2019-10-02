@@ -50,7 +50,7 @@ class SplitController: NSObject, AddExpenseItem {
     
     func initSplitInfo() {
         
-        let members = CurrentInfoManager.shared.availableMembers
+        let members = CurrentManager.shared.availableMembers
         
         if splitInfo == nil || splitInfo!.amountDesc.isEmpty {
             splitInfo = AmountInfo(type: SplitType.average.rawValue, amountDesc: [AmountDesc]())

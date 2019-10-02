@@ -59,7 +59,7 @@ class HomeViewModel: NSObject {
     func createExpenseCellViewModel(expense: Expense) -> HomeExpenseCellViewModel {
         
         let payerUid = expense.payerInfo.getPayer()
-        let user = CurrentInfoManager.shared.getMemberInfo(uid: payerUid ?? "")
+        let user = CurrentManager.shared.getMemberInfo(uid: payerUid ?? "")
         
         return HomeExpenseCellViewModel(id: expense.id,
                                         type: ExpenseType(rawValue: expense.type)!,
@@ -144,7 +144,7 @@ class HomeViewModel: NSObject {
             
             guard let first = expense.payerInfo.amountDesc.first else { return viewModel }
             
-            if first.member.id == CurrentInfoManager.shared.user?.id {
+            if first.member.id == CurrentManager.shared.user?.id {
                 viewModel.selfPay += expense.amount
             }
         }
@@ -155,7 +155,7 @@ class HomeViewModel: NSObject {
                 return viewModel
             }
             
-            let selfID = CurrentInfoManager.shared.user?.id
+            let selfID = CurrentManager.shared.user?.id
             
             if first.member.id == selfID {
             
@@ -182,7 +182,7 @@ class HomeViewModel: NSObject {
             
             guard let payer = expense.payerInfo.amountDesc.first else { return viewModel }
             
-            let selfID = CurrentInfoManager.shared.user?.id
+            let selfID = CurrentManager.shared.user?.id
             
             if payer.member.id != selfID {
             

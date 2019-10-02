@@ -67,17 +67,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window!.overrideUserInterfaceStyle = .light
         
-        if let data = UserDefaults.standard.value(forKey: CurrentInfoConstant.user) as? Data,
+        if let data = UserDefaults.standard.value(forKey: DefaultConstant.user) as? Data,
             let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
-            CurrentInfoManager.shared.setCurrentUser(userInfo)
+            CurrentManager.shared.setCurrentUser(userInfo)
         }
         //refator
-        if let data = UserDefaults.standard.value(forKey: CurrentInfoConstant.group) as? Data,
+        if let data = UserDefaults.standard.value(forKey: DefaultConstant.group) as? Data,
             let groupInfo = try? JSONDecoder().decode(GroupInfo.self, from: data) {
-            CurrentInfoManager.shared.setCurrentGroup(groupInfo)
+            CurrentManager.shared.setCurrentGroup(groupInfo)
         }
         
-        if CurrentInfoManager.shared.user != nil {
+        if CurrentManager.shared.user != nil {
             self.window?.rootViewController = UIStoryboard.main.instantiateInitialViewController()!
         } else {
             self.window?.rootViewController = UIStoryboard.login.instantiateInitialViewController()!
@@ -93,22 +93,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         -> Bool {
             return ApplicationDelegate.shared.application(app, open: url, options: options)
     }
-    
-//    /// iOS10 以下的版本接收推播訊息的 delegate
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-//
-//        // 印出後台送出的推播訊息(JOSN 格式)
-//        print("userInfo: \(userInfo)")
-//    }
-//
-//    /// iOS10 以下的版本接收推播訊息的 delegate
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-//
-//        // 印出後台送出的推播訊息(JOSN 格式)
-//        print("userInfo: \(userInfo)")
-//
-//        completionHandler(UIBackgroundFetchResult.newData)
-//    }
       
     /// 推播失敗的訊息
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -146,7 +130,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     /// App 在關掉的狀態下或 App 在背景或前景的狀態下，點擊推播訊息時所會觸發的 delegate
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        // 印出後台送出的推播訊息(JOSN 格式)
+        // 印出後台送出的推播訊息(JSON 格式)
         let userInfo = response.notification.request.content.userInfo
         print("userInfo: \(userInfo)")
         
@@ -162,6 +146,19 @@ extension AppDelegate: MessagingDelegate {
         
         // 用來從 firebase 後台推送單一裝置所必須的 firebase token
         print("Firebase registration token: \(fcmToken)")
+        
+        CurrentManager.shared.fcmToken = fcmToken
+        
+//        let pushNotificationProvider = PushNotificationProvider()
+//        pushNotificationProvider.send(to: fcmToken, title: "Pony", body: "Ker") { result in
+//            switch result {
+//
+//            case .success(let respond):
+//                print(respond)
+//            case .failure:
+//                print("error")
+//            }
+//        }
     }
     
 }

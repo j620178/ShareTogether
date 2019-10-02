@@ -16,7 +16,7 @@ class CheckBoxTableViewCell: UITableViewCell {
     
     @IBOutlet weak var checkBoxImageView: UIImageView!
     
-    func setupContent(name: String, photoURL: String) {
+    func setupContent(name: String, photoURL: String?) {
         
         userNameLabel.text = name
         userImageView.setUrlImage(photoURL)

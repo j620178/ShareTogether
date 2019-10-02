@@ -68,7 +68,7 @@ extension NoteViewController: UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: AddNoteTableViewCell.identifer, for: indexPath)
             
-            guard let userPhotoURL = CurrentInfoManager.shared.user?.photoURL,
+            guard let userPhotoURL = CurrentManager.shared.user?.photoURL,
                 let addNoteCell = cell as? AddNoteTableViewCell
             else { return cell }
     
@@ -81,7 +81,7 @@ extension NoteViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: NotebookTableViewCell.identifer, for: indexPath)
             
             guard let notebookCell = cell as? NotebookTableViewCell,
-                let user = CurrentInfoManager.shared.user else { return cell }
+                let user = CurrentManager.shared.user else { return cell }
             
             notebookCell.cellViewModel = viewModel.getViewModel(indexPath: indexPath)
             
@@ -140,7 +140,7 @@ extension NoteViewController: UITableViewDelegate {
             
             let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
             
-            if demoGroupID == CurrentInfoManager.shared.group?.id {
+            if demoGroupID == CurrentManager.shared.group?.id {
                 LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
                 return
             }

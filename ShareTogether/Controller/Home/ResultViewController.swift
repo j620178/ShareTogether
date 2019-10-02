@@ -11,7 +11,7 @@ import UIKit
 class ResultViewController: UIViewController {
     
     var availableMembers: [MemberInfo] {
-        return CurrentInfoManager.shared.availableMembersWithoutSelf
+        return CurrentManager.shared.availableMembersWithoutSelf
     }
     
     var viewModel: HomeViewModel!
@@ -48,7 +48,7 @@ extension ResultViewController: UITableViewDataSource {
         
         let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
         
-        if demoGroupID == CurrentInfoManager.shared.group?.id {
+        if demoGroupID == CurrentManager.shared.group?.id {
             return availableMembers.count - 1
         }
         
@@ -77,7 +77,7 @@ extension ResultViewController: UITableViewDataSource {
 //        }
         
         guard let resultCell = cell as? ResultTableViewCell,
-            let currentUserInfo = CurrentInfoManager.shared.user,
+            let currentUserInfo = CurrentManager.shared.user,
             let amount = viewModel.getResultInfo(uid: availableMembers[indexPath.row].id)
         else { return cell }
         

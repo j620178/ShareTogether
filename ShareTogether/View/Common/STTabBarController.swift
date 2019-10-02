@@ -131,10 +131,10 @@ extension STTabBarController: UITabBarControllerDelegate {
             
             return false
             
-        } else if viewController.isKind(of: ModallyMeauViewController.self) {
+        } else if viewController.isKind(of: SettingViewController.self) {
             
             guard let nextVC = UIStoryboard.menu.instantiateInitialViewController()!
-                as? ModallyMeauViewController
+                as? SettingViewController
             else { return false }
             
             nextVC.modalPresentationStyle = .overFullScreen

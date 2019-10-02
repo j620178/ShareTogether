@@ -85,8 +85,6 @@ class HomeViewController: STBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("viewDidLoad")
 
         bannerView.addShadow()
         bannerView.backgroundColor = .STTintColor

@@ -121,6 +121,16 @@ class CurrentManager {
             FirestoreManager.shared.updateFCMToken(token: fcmToken)
         }
     }
+    
+    func isDemoGroup() -> Bool {
+        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
+
+        if demoGroupID == CurrentManager.shared.group?.id {
+            return true
+        } else {
+            return false
+        }
+    }
 
     func removeCurrentGroup() {
 

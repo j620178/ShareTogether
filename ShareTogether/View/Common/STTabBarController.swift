@@ -111,8 +111,30 @@ class STTabBarController: UITabBarController {
         viewControllers = tabs.map({ $0.controller() })
         
         tabBar.tintColor = .STDarkGray
-        //tabBar.addShadow()
+
         tabBar.unselectedItemTintColor = UIColor.black.withAlphaComponent(0.25)
+        
+        FirestoreManager.shared.getActivityBadge { [weak self] result in
+            
+            switch result {
+                
+            case .success(let count):
+                
+                if count == 0 {
+                    
+                    self?.viewControllers?[3].tabBarItem.badgeValue = nil
+                    
+                } else {
+                    
+                    self?.viewControllers?[3].tabBarItem.badgeValue = "\(count)"
+                    
+                }
+            case .failure(let error):
+                
+                print(error)
+                
+            }
+        }
         
     }
     

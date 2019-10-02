@@ -26,6 +26,12 @@ class ActivityInfoTableViewCell: UITableViewCell {
             userImageView.setUrlImage(cellViewModel.userImageURL)
             contentLabel.text = cellViewModel.desc
             timeLabel.text = cellViewModel.time
+            
+            if cellViewModel.status == 0 {
+                self.contentView.backgroundColor = .backgroundLightYellow
+            } else {
+                self.contentView.backgroundColor = .white
+            }
         }
     }
     

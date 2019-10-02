@@ -161,6 +161,8 @@ extension CalculatorViewController: UITableViewDataSource {
            
             if splitInfo.amountDesc[indexPath.row].value != nil {
                 tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+            } else {
+                tableView.deselectRow(at: indexPath, animated: true)
             }
             
             return checkBoxCell
@@ -171,7 +173,10 @@ extension CalculatorViewController: UITableViewDataSource {
                 for: indexPath)
             
             guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
-            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value == nil ? "" : String(splitInfo.amountDesc[indexPath.row].value!),
+                        
+            textFieldCell.delegate = self
+                        
+            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value?.toText ?? "",
                                        name: splitInfo.amountDesc[indexPath.row].member.name,
                                        photoURL: splitInfo.amountDesc[indexPath.row].member.photoURL,
                                        unit: "%")
@@ -184,7 +189,10 @@ extension CalculatorViewController: UITableViewDataSource {
                 for: indexPath)
             
             guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
-            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value == nil ? "" : String(splitInfo.amountDesc[indexPath.row].value!),
+            
+            textFieldCell.delegate = self
+            
+            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value?.toText ?? "",
                                        name: splitInfo.amountDesc[indexPath.row].member.name,
                                        photoURL: splitInfo.amountDesc[indexPath.row].member.photoURL,
                                        unit: "元")
@@ -256,4 +264,28 @@ extension CalculatorViewController: SelectionViewDelegate {
         
     }
     
+}
+
+extension CalculatorViewController: SplitTextFieldCellDelegate {
+    
+    func splitTextFieldTableViewCell(cell: SplitTextFieldTableViewCell, didChangeText: String) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+                
+        splitInfo?.amountDesc[indexPath.row].value = Double(didChangeText) 
+    }
+    
+}
+
+extension CalculatorViewController: CheckBoxTableViewCellDelegate {
+    
+    func checkBoxTableViewCell(cell: CheckBoxTableViewCell, isSelectedDidChange: Bool) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        if isSelectedDidChange {
+            splitInfo?.amountDesc[indexPath.row].value = 1
+        } else {
+            splitInfo?.amountDesc[indexPath.row].value = nil
+
+        }
+    }
 }

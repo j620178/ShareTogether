@@ -10,16 +10,18 @@ import UIKit
 import MapKit
 
 enum ActivityType: Int {
-    case addMember = 0
+    case invite = 0
     case addExpense = 1
     case editExpense = 2
     case addNote = 3
+    case acceptMember = 4
+    case rejectMember = 5
 }
 
 enum ActivityStatus: Int {
     case new = 0
-    case readed = 1
-    case used = 2
+    case loaded = 1
+    case readed = 2
 }
 
 class ActivityViewController: STBaseViewController {
@@ -51,6 +53,15 @@ class ActivityViewController: STBaseViewController {
         upadateCurrentGroup()
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print("viewDidAppear")
+
+        UIApplication.shared.applicationIconBadgeNumber = 0
+
+    }
 
     @objc func upadateCurrentGroup() {
         viewModel.fectchData()
@@ -71,7 +82,10 @@ extension ActivityViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if viewModel.activities[indexPath.row].type == 0 {
+        if viewModel.activities[indexPath.row].type == ActivityType.invite.rawValue ||
+            viewModel.activities[indexPath.row].type == ActivityType.acceptMember.rawValue ||
+            viewModel.activities[indexPath.row].type == ActivityType.rejectMember.rawValue {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifer, for: indexPath)
             
             guard let activityCell = cell as? ActivityTableViewCell else { return cell }
@@ -79,6 +93,7 @@ extension ActivityViewController: UITableViewDataSource {
             activityCell.cellViewModel = viewModel.getViewModelAt(indexPath)
             
             activityCell.clickCellHandler = { [weak self] cell in
+                
                 guard let indexPath = tableView.indexPath(for: cell) else { return }
                 
                 self?.viewModel.addGroupButton(indexPath: indexPath)

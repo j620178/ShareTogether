@@ -51,6 +51,13 @@ class ActivityTableViewCell: UITableViewCell {
                 addGroupButton.setTitleColor(.STGray, for: .normal)
                 addGroupButton.isEnabled = false
             }
+            
+            if cellViewModel.status == 0 {
+                self.contentView.backgroundColor = .backgroundLightYellow
+            } else {
+                self.contentView.backgroundColor = .white
+            }
+            
         }
     }
     

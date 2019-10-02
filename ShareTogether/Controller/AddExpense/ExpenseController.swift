@@ -58,32 +58,32 @@ extension ExpenseController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifer, for: indexPath)
         
-        guard let textfieldCell = cell as? TextFieldTableViewCell else { return cell }
+        guard let textFieldCell = cell as? TextFieldTableViewCell else { return cell }
         
         if indexPath.row == 0 {
-            textfieldCell.infoPassHandler = { [weak self] text in
+            textFieldCell.infoPassHandler = { [weak self] text in
                 self?.expenseInfo[0] = text
             }
         } else {
-            textfieldCell.infoPassHandler = { [weak self] text in
+            textFieldCell.infoPassHandler = { [weak self] text in
                 self?.expenseInfo[1] = text
             }
         }
         
-        textfieldCell.didBeginEditing = { [weak self] in
+        textFieldCell.didBeginEditing = { [weak self] in
             guard let strougSelf = self else { return }
             strougSelf.delegate?.keyboardBeginEditing(controller: strougSelf)
         }
         
-        textfieldCell.textField.text = expenseInfo[indexPath.row]
+        textFieldCell.textField.text = expenseInfo[indexPath.row]
         
-        textfieldCell.textField.placeholder = textfieldPlaceHolder[indexPath.row]
+        textFieldCell.textField.placeholder = textfieldPlaceHolder[indexPath.row]
         
         if indexPath.row == 0 {
-            textfieldCell.textField.keyboardType = .numberPad
+            textFieldCell.textField.keyboardType = .numberPad
         }
         
-        return textfieldCell
+        return textFieldCell
     }
     
 }

@@ -167,7 +167,7 @@ class LoginViewController: STBaseViewController {
                     CurrentManager.shared.setCurrentUser(userInfo)
                     CurrentManager.shared.setCurrentGroup(group)
                     LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                    self?.goHomeVC()
+                    self?.showHomeVC()
                 } else {
                     FirestoreManager.shared.addNewUser(userInfo: authUserInfo) { result in
                         switch result {
@@ -178,7 +178,7 @@ class LoginViewController: STBaseViewController {
                             CurrentManager.shared.setCurrentUser(userInfo)
                             CurrentManager.shared.setCurrentGroup(demoGroup)
                             LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                            self?.goHomeVC()
+                            self?.showHomeVC()
                         case .failure:
                             LKProgressHUD.dismiss()
                             print("error")
@@ -196,7 +196,7 @@ class LoginViewController: STBaseViewController {
         
     }
     
-    func goHomeVC() {
+    func showHomeVC() {
         
         if presentingViewController != nil {
             let presentingVC = presentingViewController

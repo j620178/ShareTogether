@@ -52,7 +52,7 @@ extension UIColor {
     }
     
     static var STYellow: UIColor {
-        return UIColor(red: 255/255, green: 191/255, blue: 54/255, alpha: 1)
+        return UIColor(red: 251/255, green: 191/255, blue: 54/255, alpha: 1)
     }
     
     static var STLightYellow: UIColor {
@@ -73,6 +73,10 @@ extension UIColor {
 
     static var backgroundLightGray: UIColor {
         return UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+    }
+    
+    static var backgroundLightYellow: UIColor {
+        return UIColor(red: 245/255, green: 240/255, blue: 236/255, alpha: 1)
     }
     
     static var backgroundLightBrown: UIColor {

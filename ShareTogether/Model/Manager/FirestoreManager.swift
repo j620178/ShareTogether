@@ -131,6 +131,31 @@ class FirestoreManager {
         }
     }
     
+    func getExpense(groupID: String? = CurrentManager.shared.group?.id,
+                    expenseID: String,
+                    completion: @escaping (Result<Expense?, Error>) -> Void) {
+        
+        guard let groupID = groupID else { return }
+        
+        firestore.collection(Collection.group).document(groupID)
+            .collection(Collection.Group.expense).document(expenseID)
+            .getDocument { (documentSnapshot, error) in
+                guard let document = documentSnapshot,
+                    let docData = document.data(),
+                    var expense = try? FirestoreDecoder().decode(Expense.self, from: docData)
+                else {
+                    completion(Result.success(nil))
+                    return
+                }
+                
+                expense.id = document.documentID
+                
+                completion(Result.success(expense))
+                
+        }
+        
+    }
+    
     func getExpenses(groupID: String? = CurrentManager.shared.group?.id,
                      completion: @escaping (Result<[Expense], Error>) -> Void) {
         
@@ -309,7 +334,7 @@ class FirestoreManager {
             .collection(Collection.Group.member).document(memberInfo.id).setData(docData)
             
         if !isBuilder {
-            addActivity(type: ActivityType.addMember.rawValue,
+            addActivity(type: ActivityType.invite.rawValue,
                         targetMember: memberInfo,
                         pushUser: currentUserInfo,
                         groupInfo: group,
@@ -321,7 +346,7 @@ class FirestoreManager {
     func updateGroupMemberStatus(groupID: String? = CurrentManager.shared.group?.id,
                                  memberInfo: MemberInfo,
                                  status: MemberStatusType,
-                                 completion: @escaping (Result<Int, Error>) -> Void) {
+                                 completion: ((Result<Int, Error>) -> Void)?) {
         
         let data = ["status": status.rawValue]
         
@@ -428,18 +453,34 @@ class FirestoreManager {
         let pushNotificationProvider = PushNotificationProvider()
         
         for member in CurrentManager.shared.availableMembersWithoutSelf {
+            
             guard let fcmToken = member.fcmToken else { return }
             
-            if ActivityType(rawValue: activity.type) == ActivityType.addExpense {
-                pushNotificationProvider.send(to: fcmToken,
-                                              title: "新增消費",
-                                              body: "\(pushUser.name) 於 \(groupInfo.name) 新增一筆消費",
-                                              completion: nil)
-            } else if ActivityType(rawValue: activity.type) == ActivityType.addMember {
-                pushNotificationProvider.send(to: fcmToken,
-                                              title: "交友邀請",
-                                              body: "\(pushUser.name) 邀請您加入 \(groupInfo.name)",
-                                              completion: nil)
+            FirestoreManager.shared.getActivityBadge(uid: member.id) { [weak self] result in
+                
+                switch result {
+                    
+                case .success(let count):
+                    
+                    if ActivityType(rawValue: activity.type) == ActivityType.addExpense {
+                        pushNotificationProvider.send(to: fcmToken,
+                                                      title: "新增消費",
+                                                      body: "\(pushUser.name) 於 \(groupInfo.name) 新增一筆消費",
+                                                      badge: count,
+                                                      completion: nil)
+                    } else if ActivityType(rawValue: activity.type) == ActivityType.invite {
+                        pushNotificationProvider.send(to: fcmToken,
+                                                      title: "交友邀請",
+                                                      body: "\(pushUser.name) 邀請您加入 \(groupInfo.name)",
+                                                      badge: count,
+                                                      completion: nil)
+                    }
+                    
+                case .failure(let error):
+                    
+                    print(error)
+                    
+                }
             }
 
         }
@@ -450,7 +491,7 @@ class FirestoreManager {
         
         firestore.collection(Collection.user).document(uid)
             .collection(Collection.User.activity).order(by: "time", descending: true)
-            .addSnapshotListener { (querySnapshot, error) in
+            .getDocuments { (querySnapshot, error) in
             
             guard let documents = querySnapshot?.documents else { return }
             
@@ -470,7 +511,41 @@ class FirestoreManager {
         
     }
     
-    func updateActivityStatus(uid: String, id: String, status: ActivityStatus) {
+    func getActivityBadge(uid: String? = CurrentManager.shared.user?.id,
+                          completion: @escaping (Result<Int, Error>) -> Void) {
+    
+        guard let uid = uid else { return }
+        
+        firestore.collection(Collection.user).document(uid)
+            .collection(Collection.User.activity).whereField("status", isEqualTo: 0)
+            .getDocuments { (querySnapshot, error) in
+                 
+                if let error = error {
+                    completion(Result.failure(error))
+                    return
+                }
+            
+                guard let documents = querySnapshot?.documents else { return }
+                
+                completion(Result.success(documents.count))
+            
+        }
+        
+    }
+    
+    func updateActivityType(uid: String? = CurrentManager.shared.user?.id, id: String, type: ActivityType) {
+        
+        guard let uid = uid else { return }
+        
+        let data = ["type": type.rawValue]
+        firestore.collection(Collection.user).document(uid)
+            .collection(Collection.User.activity).document(id).updateData(data)
+    }
+    
+    func updateActivityStatus(uid: String? = CurrentManager.shared.user?.id, id: String, status: ActivityStatus) {
+        
+        guard let uid = uid else { return }
+        
         let data = ["status": status.rawValue]
         firestore.collection(Collection.user).document(uid)
             .collection(Collection.User.activity).document(id).updateData(data)

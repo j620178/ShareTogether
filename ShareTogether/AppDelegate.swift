@@ -15,6 +15,7 @@ import FirebaseMessaging
 import GoogleSignIn
 import FBSDKLoginKit
 import FBSDKCoreKit
+import SafariServices
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -109,31 +110,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 將 Device Token 送到 Server 端...
 
     }
+    
+    func showExpenseDetail(expenseID: String) {
+        
+        guard let tabbarVC = window?.rootViewController as? STTabBarController,
+            let homeVC = tabbarVC.viewControllers?[0] as? STNavigationController else { return }
+            
+        FirestoreManager.shared.getExpense(expenseID: expenseID) { result in
+            switch result {
+                
+            case .success(let expense):
+                guard let expense = expense,
+                    let nextVC = UIStoryboard.home.instantiateViewController(identifier: ExpenseDetailViewController.identifier) as? ExpenseDetailViewController
+                else { return }
+                
+                nextVC.expense = expense
+                
+                homeVC.pushViewController(nextVC, animated: true)
+            case .failure:
+                print("ERROR")
+            }
+        }
+    }
 }
 
 @available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
-    /// App 在前景時，推播送出時即會觸發的 delegate
+    /// App 在前景時推播送出時即會觸發的 delegate
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        // 印出後台送出的推播訊息(JOSN 格式)
-        let userInfo = notification.request.content.userInfo
-        print("userInfo: \(userInfo)")
-        
-        // 可設定要收到什麼樣式的推播訊息，至少要打開 alert，不然會收不到推播訊息
-        completionHandler([.badge, .sound, .alert])
+        completionHandler([.alert])//.badge, .sound,
     }
     
-    /// App 在關掉的狀態下或 App 在背景或前景的狀態下，點擊推播訊息時所會觸發的 delegate
+    /// 點擊推播訊息時所會觸發的 delegate
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
         // 印出後台送出的推播訊息(JSON 格式)
-        let userInfo = response.notification.request.content.userInfo
-        print("userInfo: \(userInfo)")
-        
+        if let expenseID = response.notification.request.content.userInfo["expenseID"] as? String {
+            showExpenseDetail(expenseID: expenseID)
+        } else {
+            
+        }
+    
         completionHandler()
     }
 
@@ -148,17 +169,7 @@ extension AppDelegate: MessagingDelegate {
         print("Firebase registration token: \(fcmToken)")
         
         CurrentManager.shared.fcmToken = fcmToken
-        
-//        let pushNotificationProvider = PushNotificationProvider()
-//        pushNotificationProvider.send(to: fcmToken, title: "Pony", body: "Ker") { result in
-//            switch result {
-//
-//            case .success(let respond):
-//                print(respond)
-//            case .failure:
-//                print("error")
-//            }
-//        }
+
     }
     
 }

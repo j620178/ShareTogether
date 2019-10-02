@@ -234,9 +234,7 @@ class AddExpenseViewController: STBaseViewController {
     
     @IBAction func clickAddButton(_ sender: UIButton) {
         
-        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-
-        if demoGroupID == CurrentManager.shared.group?.id {
+        guard !CurrentManager.shared.isDemoGroup() else {
             LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
             return
         }

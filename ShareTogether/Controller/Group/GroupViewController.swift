@@ -66,9 +66,8 @@ class GroupViewController: STBaseViewController {
     
     @IBAction func clickAddMemberButton(_ sender: UIButton) {
         if showType == .edit {
-            let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
             
-            if demoGroupID == CurrentManager.shared.group?.id {
+            guard !CurrentManager.shared.isDemoGroup() else {
                 LKProgressHUD.showFailure(text: "範例群組無法新增成員，請建立新群組", view: self.view)
                 return
             }
@@ -332,9 +331,8 @@ extension GroupViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if showType == .edit {
-            let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
             
-            if demoGroupID == CurrentManager.shared.group?.id {
+            guard !CurrentManager.shared.isDemoGroup() else {
                 LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
                 return
             }

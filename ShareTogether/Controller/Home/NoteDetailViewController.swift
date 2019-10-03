@@ -111,7 +111,7 @@ class NoteDetailViewController: STBaseViewController {
         
         LKProgressHUD.showLoading(view: self.view)
         
-        guard let uid = CurrentInfoManager.shared.user?.id,
+        guard let uid = CurrentManager.shared.user?.id,
              let note = note else { return }
          
         let noteComment = NoteComment(id: nil, auctorID: uid, content: content, mediaID: mediaID, time: Date())
@@ -165,7 +165,7 @@ extension NoteDetailViewController: UITableViewDataSource {
             
             guard let noteInfoCell = cell as? NoteDetailTableViewCell,
                 let note = note,
-                let user = CurrentInfoManager.shared.getMemberInfo(uid: note.auctorID) else {
+                let user = CurrentManager.shared.getMemberInfo(uid: note.auctorID) else {
                 return cell
             }
             
@@ -183,7 +183,7 @@ extension NoteDetailViewController: UITableViewDataSource {
                 
                 guard let noteInfoCell = cell as? NoteCommentTableViewCell,
                     let content = noteComments[indexPath.row].content,
-                    let user = CurrentInfoManager.shared.getMemberInfo(uid: noteComments[indexPath.row].auctorID) else {
+                    let user = CurrentManager.shared.getMemberInfo(uid: noteComments[indexPath.row].auctorID) else {
                     return cell
                 }
                 
@@ -199,7 +199,7 @@ extension NoteDetailViewController: UITableViewDataSource {
                 
                 guard let noteGiphyCell = cell as? NoteGiphyTableViewCell,
                     let mediaID = noteComments[indexPath.row].mediaID,
-                    let user = CurrentInfoManager.shared.getMemberInfo(uid: noteComments[indexPath.row].auctorID) else {
+                    let user = CurrentManager.shared.getMemberInfo(uid: noteComments[indexPath.row].auctorID) else {
                     return cell
                 }
                 
@@ -220,7 +220,7 @@ extension NoteDetailViewController: UITableViewDataSource {
 extension NoteDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let user = CurrentInfoManager.shared.user,
+        guard let user = CurrentManager.shared.user,
             let note = note else { return }
         
         if user.id == noteComments[indexPath.row].auctorID {

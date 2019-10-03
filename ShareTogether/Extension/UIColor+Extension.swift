@@ -16,11 +16,11 @@ extension UIColor {
     }
     
     static var STBlack: UIColor {
-        return UIColor(red: 26/255, green: 36/255, blue: 51/255, alpha: 1)
+        return UIColor(red: 49/255, green: 49/255, blue: 49/255, alpha: 1)
     }
     
     static var STDarkGray: UIColor {
-        return UIColor(red: 88/255, green: 82/255, blue: 82/255, alpha: 1)
+        return UIColor(red: 82/255, green: 82/255, blue: 82/255, alpha: 1)
     }
     
     static var STGray: UIColor {
@@ -37,19 +37,14 @@ extension UIColor {
     
     static var STBlue: UIColor {
         return UIColor(red: 20/255, green: 9/255, blue: 240/255, alpha: 1)
-            //UIColor(red: 5/255, green: 75/255, blue: 255/255, alpha: 1)
-            //UIColor(red: 49/255, green: 75/255, blue: 229/255, alpha: 1)
-            //UIColor(red: 10/255, green: 94/255, blue: 242/255, alpha: 1)
     }
     
     static var STLightBlue: UIColor {
         return UIColor(red: 57/255, green: 171/255, blue: 238/255, alpha: 1)
-        //UIColor(red: 10/255, green: 94/255, blue: 242/255, alpha: 1)
     }
     
     static var STRed: UIColor {
         return UIColor(red: 251/255, green: 72/255, blue: 80/255, alpha: 1)
-            //UIColor(red: 239/255, green: 0/255, blue: 62/255, alpha: 1)
     }
     
     static var STOrange: UIColor {
@@ -57,13 +52,11 @@ extension UIColor {
     }
     
     static var STYellow: UIColor {
-        return UIColor(red: 255/255, green: 191/255, blue: 54/255, alpha: 1)
-            //UIColor(red: 216/255, green: 161/255, blue: 21/255, alpha: 1)
+        return UIColor(red: 251/255, green: 191/255, blue: 54/255, alpha: 1)
     }
     
     static var STLightYellow: UIColor {
         return UIColor(red: 252/255, green: 221/255, blue: 158/255, alpha: 1)
-        //UIColor(red: 216/255, green: 161/255, blue: 21/255, alpha: 1)
     }
     
     static var STCyan: UIColor {
@@ -72,7 +65,6 @@ extension UIColor {
     
     static var STGreen: UIColor {
         return UIColor(red: 85/255, green: 176/255, blue: 116/255, alpha: 1)
-            //UIColor(red: 38/255, green: 200/255, blue: 79/255, alpha: 1)
     }
     
     static var STArmyGreen: UIColor {
@@ -83,8 +75,12 @@ extension UIColor {
         return UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
     }
     
+    static var backgroundLightYellow: UIColor {
+        return UIColor(red: 245/255, green: 240/255, blue: 236/255, alpha: 1)
+    }
+    
     static var backgroundLightBrown: UIColor {
-        return     UIColor(red: 244/255, green: 240/255, blue: 236/255, alpha: 1)
+        return UIColor(red: 244/255, green: 240/255, blue: 236/255, alpha: 1)
     }
     
 }

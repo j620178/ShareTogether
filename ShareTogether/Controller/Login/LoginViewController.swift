@@ -164,21 +164,21 @@ class LoginViewController: STBaseViewController {
                                           name: groups[0].name,
                                           coverURL: groups[0].coverURL,
                                           status: nil)
-                    CurrentInfoManager.shared.setCurrentUser(userInfo)
-                    CurrentInfoManager.shared.setCurrentGroup(group)
+                    CurrentManager.shared.setCurrentUser(userInfo)
+                    CurrentManager.shared.setCurrentGroup(group)
                     LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                    self?.goHomeVC()
+                    self?.showHomeVC()
                 } else {
-                    FirestoreManager.shared.insertNewUser(userInfo: authUserInfo) { result in
+                    FirestoreManager.shared.addNewUser(userInfo: authUserInfo) { result in
                         switch result {
                             
                         case .success(let demoGroup):
                             var userInfo = authUserInfo
                             userInfo.groups = [demoGroup]
-                            CurrentInfoManager.shared.setCurrentUser(userInfo)
-                            CurrentInfoManager.shared.setCurrentGroup(demoGroup)
+                            CurrentManager.shared.setCurrentUser(userInfo)
+                            CurrentManager.shared.setCurrentGroup(demoGroup)
                             LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                            self?.goHomeVC()
+                            self?.showHomeVC()
                         case .failure:
                             LKProgressHUD.dismiss()
                             print("error")
@@ -196,7 +196,7 @@ class LoginViewController: STBaseViewController {
         
     }
     
-    func goHomeVC() {
+    func showHomeVC() {
         
         if presentingViewController != nil {
             let presentingVC = presentingViewController

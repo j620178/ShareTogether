@@ -42,7 +42,7 @@ class NoteViewModel: NSObject {
         
         for note in notes {
             
-            let user = CurrentInfoManager.shared.getMemberInfo(uid: note.auctorID)
+            let user = CurrentManager.shared.getMemberInfo(uid: note.auctorID)
             let viewModel = NotebookCellViewModel(userImageURL: user?.photoURL,
                                                   userName: user?.name ?? "",
                                                   content: note.content,

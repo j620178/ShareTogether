@@ -9,7 +9,7 @@
 import UIKit
 
 struct ExepenseSplitCellViewModel {
-    let userImageURL: String
+    let userImageURL: String?
     let userName: String
 }
 

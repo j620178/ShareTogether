@@ -26,12 +26,13 @@ class ActivityViewModel {
     
     func fectchData() {
         
-        guard let userInfo = CurrentInfoManager.shared.user else { return }
+        guard let userInfo = CurrentManager.shared.user else { return }
         
         FirestoreManager.shared.getActivity(uid: userInfo.id) { [weak self] result in
             switch result {
                 
             case .success(let activities):
+                activities.map({ $0.status == ActivityStatus.loaded.rawValue })
                 self?.activities = activities
                 self?.processViewModel()
             case .failure:
@@ -54,7 +55,7 @@ class ActivityViewModel {
             
             var text = ""
             
-            if ActivityType(rawValue: activity.type) == ActivityType.addMember {
+            if ActivityType(rawValue: activity.type) == ActivityType.invite {
                 text = "\(activity.pushUser.name) 邀請您加入 \(groupInfo.name) 群組"
             } else if ActivityType(rawValue: activity.type) == ActivityType.addExpense {
                 text = "\(activity.pushUser.name) 於 \(groupInfo.name) 增加了一筆消費"
@@ -91,18 +92,11 @@ class ActivityViewModel {
                 
                 FirestoreManager.shared.updateGroupMemberStatus(groupID: groupInfo.id,
                                                            memberInfo: strongSelf.activities[indexPath.row].targetMember,
-                                                           status: .joined) { result in
-                    switch result {
-                        
-                    case .success:
-                        print("success")
-                    case .failure: print("failure")
-                    }
-                }
-                
-                FirestoreManager.shared.updateActivityStatus(uid: strongSelf.activities[indexPath.row].targetMember.id,
-                                                       id: strongSelf.activities[indexPath.row].id,
-                                                       status: .used)
+                                                           status: .joined,
+                                                           completion: nil)
+            
+                FirestoreManager.shared.updateActivityType(id: strongSelf.activities[indexPath.row].id,
+                                                           type: .acceptMember)
                 
             case .failure:
                 print("failure")

@@ -100,12 +100,12 @@ class HomeViewController: STBaseViewController {
                                                object: nil)
 
         upadateCurrentGroup()
-        
+            
     }
     
     @objc func upadateCurrentGroup() {
         viewModel.fectchData()
-        groupNameButton.setTitle(CurrentInfoManager.shared.group?.name, for: .normal)
+        groupNameButton.setTitle(CurrentManager.shared.group?.name, for: .normal)
     }
     
     override func viewDidAppear(_ animated: Bool) {

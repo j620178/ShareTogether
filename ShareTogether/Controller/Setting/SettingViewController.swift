@@ -1,5 +1,5 @@
 //
-//  ModallyMeauViewController.swift
+//  SettingViewController.swift
 //  ShareTogether
 //
 //  Created by littlema on 2019/9/10.
@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-class ModallyMeauViewController: STBaseViewController {
+class SettingViewController: STBaseViewController {
     
     let itemString = ["隱私權政策", "登出"] // "圖示順序", "通知", "已封存群組",
     
@@ -48,7 +48,7 @@ class ModallyMeauViewController: STBaseViewController {
 
 }
 
-extension ModallyMeauViewController: UITableViewDataSource {
+extension SettingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemString.count
     }
@@ -69,7 +69,7 @@ extension ModallyMeauViewController: UITableViewDataSource {
     
 }
 
-extension ModallyMeauViewController: UITableViewDelegate {
+extension SettingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -81,8 +81,8 @@ extension ModallyMeauViewController: UITableViewDelegate {
             //self.present(safariVC, animated: true, completion: nil)
         } else {
             AuthManager.shared.signOut()
-            CurrentInfoManager.shared.removeCurrentUser()
-            CurrentInfoManager.shared.removeCurrentGroup()
+            CurrentManager.shared.removeCurrentUser()
+            CurrentManager.shared.removeCurrentGroup()
             let nextVC = UIStoryboard.login.instantiateInitialViewController()!
             nextVC.modalPresentationStyle = .fullScreen
             present(nextVC, animated: true)
@@ -92,7 +92,7 @@ extension ModallyMeauViewController: UITableViewDelegate {
     
 }
 
-extension ModallyMeauViewController: SFSafariViewControllerDelegate {
+extension SettingViewController: SFSafariViewControllerDelegate {
 
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         controller.dismiss(animated: true, completion: nil)

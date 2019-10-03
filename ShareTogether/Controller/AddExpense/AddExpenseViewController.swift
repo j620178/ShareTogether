@@ -25,7 +25,7 @@ class AddExpenseViewController: STBaseViewController {
     let locationManager = CLLocationManager()
     
     var availableMembers: [MemberInfo] {
-        return CurrentInfoManager.shared.availableMembers
+        return CurrentManager.shared.availableMembers
     }
     
     var lastVelocityYSign = 0
@@ -234,14 +234,12 @@ class AddExpenseViewController: STBaseViewController {
     
     @IBAction func clickAddButton(_ sender: UIButton) {
         
-        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-
-        if demoGroupID == CurrentInfoManager.shared.group?.id {
+        guard !CurrentManager.shared.isDemoGroup() else {
             LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
             return
         }
         
-        guard let uid = CurrentInfoManager.shared.user?.id,
+        guard let uid = CurrentManager.shared.user?.id,
             let amount = Double(expenseController.getTextFieldInfo[0]),
             expenseController.getTextFieldInfo[1] != "",
             let payerInfo = payerController.payInfo,
@@ -271,7 +269,7 @@ class AddExpenseViewController: STBaseViewController {
 
                 case .success:
                     
-                    for member in CurrentInfoManager.shared.availableMembersWithoutSelf {
+                    for member in CurrentManager.shared.availableMembersWithoutSelf {
                         FirestoreManager.shared.addActivity(type: 1, targetMember: member, amount: expense.amount)
                     }
                     
@@ -295,7 +293,7 @@ class AddExpenseViewController: STBaseViewController {
 
                 case .success:
                     
-                    for member in CurrentInfoManager.shared.availableMembersWithoutSelf {
+                    for member in CurrentManager.shared.availableMembersWithoutSelf {
                         FirestoreManager.shared.addActivity(type: 1, targetMember: member, amount: expense.amount)
                     }
                     LKProgressHUD.dismiss()

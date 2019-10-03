@@ -111,8 +111,30 @@ class STTabBarController: UITabBarController {
         viewControllers = tabs.map({ $0.controller() })
         
         tabBar.tintColor = .STDarkGray
-        //tabBar.addShadow()
+
         tabBar.unselectedItemTintColor = UIColor.black.withAlphaComponent(0.25)
+        
+        FirestoreManager.shared.getActivityBadge { [weak self] result in
+            
+            switch result {
+                
+            case .success(let count):
+                
+                if count == 0 {
+                    
+                    self?.viewControllers?[3].tabBarItem.badgeValue = nil
+                    
+                } else {
+                    
+                    self?.viewControllers?[3].tabBarItem.badgeValue = "\(count)"
+                    
+                }
+            case .failure(let error):
+                
+                print(error)
+                
+            }
+        }
         
     }
     
@@ -131,10 +153,10 @@ extension STTabBarController: UITabBarControllerDelegate {
             
             return false
             
-        } else if viewController.isKind(of: ModallyMeauViewController.self) {
+        } else if viewController.isKind(of: SettingViewController.self) {
             
             guard let nextVC = UIStoryboard.menu.instantiateInitialViewController()!
-                as? ModallyMeauViewController
+                as? SettingViewController
             else { return false }
             
             nextVC.modalPresentationStyle = .overFullScreen

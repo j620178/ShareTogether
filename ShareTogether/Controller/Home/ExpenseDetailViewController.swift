@@ -52,7 +52,7 @@ class ExpenseDetailViewController: STBaseViewController {
         guard let expense = expense,
             let payerUid = expense.payerInfo.amountDesc.first?.member.id else { return false }
         
-        let availableMembers = CurrentInfoManager.shared.availableMembers
+        let availableMembers = CurrentManager.shared.availableMembers
         
         let payerResult = availableMembers.filter { member -> Bool in
             payerUid == member.id
@@ -99,9 +99,9 @@ extension ExpenseDetailViewController: UITableViewDataSource {
             
             guard let expenseInfoCell = cell as? ExpenseInfoTableViewCell,
                 let expense = expense,
-                let group = CurrentInfoManager.shared.group,
+                let group = CurrentManager.shared.group,
                 let payerUid = expense.payerInfo.getPayer(),
-                let payer = CurrentInfoManager.shared.getMemberInfo(uid: payerUid)
+                let payer = CurrentManager.shared.getMemberInfo(uid: payerUid)
             else { return cell }
             
             let cellViewModel = ExpenseInfoCellViewModel(desc: expense.desc,
@@ -121,7 +121,7 @@ extension ExpenseDetailViewController: UITableViewDataSource {
             guard let exepenseSplitCell = cell as? ExepenseSplitTableViewCell,
                 let expense = expense,
                 let spliterUid = expense.splitInfo.amountDesc[indexPath.row].member.id,
-                let spliter = CurrentInfoManager.shared.getMemberInfo(uid: spliterUid)
+                let spliter = CurrentManager.shared.getMemberInfo(uid: spliterUid)
             else { return cell }
                 
             let splitAmount = expense.splitInfo.getAmount(amount: expense.amount,

@@ -55,7 +55,7 @@ class AddNoteViewController: STBaseViewController {
         
         textView.becomeFirstResponder()
         
-        user = CurrentInfoManager.shared.user
+        user = CurrentManager.shared.user
         
         userImageView.setUrlImage(user!.photoURL)
         

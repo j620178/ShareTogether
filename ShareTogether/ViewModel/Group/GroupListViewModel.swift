@@ -28,7 +28,7 @@ class GroupListViewModel {
  
     func createCellViewModel(group: GroupInfo) -> GroupCellViewModel {
         
-        if CurrentInfoManager.shared.group?.id == group.id {
+        if CurrentManager.shared.group?.id == group.id {
             return GroupCellViewModel(name: group.name,
                                       groupID: group.id,
                                       coverURL: group.coverURL,

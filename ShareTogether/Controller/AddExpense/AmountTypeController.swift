@@ -51,6 +51,7 @@ extension AmountTypeController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: SelectionTableViewCell.identifer, for: indexPath)
         
         guard let selectionCell = cell as? SelectionTableViewCell else { return cell }
@@ -109,9 +110,13 @@ extension AmountTypeController: UICollectionViewDelegate {
         selectIndex = indexPath.row
     
         for index in expenseTypes.indices {
+            
             expenseTypes[index].isSelect = false
+            
             if index == indexPath.row {
+                
                 expenseTypes[index].isSelect = true
+                
             }
         }
         

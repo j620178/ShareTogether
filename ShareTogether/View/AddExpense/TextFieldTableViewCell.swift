@@ -8,11 +8,17 @@
 
 import UIKit
 
+protocol TextFieldTableViewCellDelegate {
+    func didBeginEditing(cell: TextFieldTableViewCell)
+    func didEndEditing(cell: TextFieldTableViewCell, text: String?)
+}
+
+
 class TextFieldTableViewCell: UITableViewCell {
     
-    var infoPassHandler: ((String) -> Void)?
-    
     var didBeginEditing: (() -> Void)?
+    
+    var delegate: TextFieldTableViewCellDelegate?
 
     @IBOutlet weak var textField: UITextField! {
         didSet {
@@ -25,17 +31,17 @@ class TextFieldTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         self.selectionStyle = .none
     }
     
@@ -44,25 +50,15 @@ class TextFieldTableViewCell: UITableViewCell {
 extension TextFieldTableViewCell: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        didBeginEditing?()
+        
+        delegate?.didBeginEditing(cell: self)
+        
     }
     
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String) -> Bool {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         
-        guard let text = textField.text else { return false }
+        delegate?.didEndEditing(cell: self, text: textField.text)
         
-        if string == "" {
-            print(text.dropLast())
-            infoPassHandler?("\(text.dropLast())")
-            
-        } else {
-            print(text)
-            infoPassHandler?(text)
-        }
-        
-        return true
     }
     
 }

@@ -265,20 +265,17 @@ class FirestoreManager {
                     return
                 }
                 
-                guard let documents = querySnapshot?.documents, let document = documents.first
+                guard let documents = querySnapshot?.documents,
+                    let document = documents.first,
+                    var userInfo = try? FirebaseDecoder().decode(UserInfo.self, from: document.data())
                 else {
                     completion(Result.success(nil))
                     return
                 }
 
-                do {
-                    var userInfo = try FirebaseDecoder().decode(UserInfo.self, from: document.data())
-                    userInfo.id = document.documentID
-                    completion(Result.success(userInfo))
-                } catch {
-                    print(error)
-                }
-
+                userInfo.id = document.documentID
+                    
+                completion(Result.success(userInfo))
             }
             
         } else if phone != nil {

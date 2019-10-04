@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SplitTextFieldCellDelegate: AnyObject {
+    func splitTextFieldTableViewCell(cell: SplitTextFieldTableViewCell, didChangeText: String)
+}
+
 class SplitTextFieldTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userImageView: UIImageView!
@@ -16,15 +20,25 @@ class SplitTextFieldTableViewCell: UITableViewCell {
     
     @IBOutlet weak var unitLabel: UILabel!
    
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textField: UITextField! {
+        didSet {
+            textField.addTarget(self, action: #selector(tapTextField(_:)), for: .editingChanged)
+        }
+    }
     
-    func setupContent(text: String?, name: String, photoURL: String, unit: String) {
+    weak var delegate: SplitTextFieldCellDelegate?
+    
+    func setupContent(text: String?, name: String, photoURL: String?, unit: String) {
         
         textField.text = text
         userNameLabel.text = name
         userImageView.setUrlImage(photoURL)
         unitLabel.text = unit
         
+    }
+    
+    @objc func tapTextField(_ sender: UITextField) {
+        delegate?.splitTextFieldTableViewCell(cell: self, didChangeText: sender.text ?? "")
     }
     
     override func awakeFromNib() {

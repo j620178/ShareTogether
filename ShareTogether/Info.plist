@@ -43,6 +43,8 @@
 	<string>517301969083851</string>
 	<key>FacebookDisplayName</key>
 	<string>ShareTogether</string>
+	<key>FirebasePushURL</key>
+	<string>https://fcm.googleapis.com/fcm/send</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

@@ -11,7 +11,7 @@ import UIKit
 struct ActivityCellViewModel {
     let type: Int
     let mainPhotoImageURL: String
-    let userImageURL: String
+    let userImageURL: String?
     let desc: String
     let time: String
     let status: Int
@@ -51,6 +51,13 @@ class ActivityTableViewCell: UITableViewCell {
                 addGroupButton.setTitleColor(.STGray, for: .normal)
                 addGroupButton.isEnabled = false
             }
+            
+            if cellViewModel.status == 0 {
+                self.contentView.backgroundColor = .backgroundLightYellow
+            } else {
+                self.contentView.backgroundColor = .white
+            }
+            
         }
     }
     

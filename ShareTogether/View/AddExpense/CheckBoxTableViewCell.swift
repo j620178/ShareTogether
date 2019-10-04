@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CheckBoxTableViewCellDelegate: AnyObject {
+    func checkBoxTableViewCell(cell: CheckBoxTableViewCell, isSelectedDidChange: Bool)
+}
+
 class CheckBoxTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userImageView: UIImageView!
@@ -16,7 +20,9 @@ class CheckBoxTableViewCell: UITableViewCell {
     
     @IBOutlet weak var checkBoxImageView: UIImageView!
     
-    func setupContent(name: String, photoURL: String) {
+    weak var delegate: CheckBoxTableViewCellDelegate?
+    
+    func setupContent(name: String, photoURL: String?) {
         
         userNameLabel.text = name
         userImageView.setUrlImage(photoURL)
@@ -31,12 +37,12 @@ class CheckBoxTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        switchIcon(isSelectd: selected)
-        // Configure the view for the selected state
+        switchIcon(isSelected: selected)
+        delegate?.checkBoxTableViewCell(cell: self, isSelectedDidChange: selected)
     }
     
-    func switchIcon(isSelectd: Bool) {
-        if isSelectd {
+    func switchIcon(isSelected: Bool) {
+        if isSelected {
             checkBoxImageView.setIcon(code: "ios-checkmark-circle", color: .STTintColor)
         } else {
             checkBoxImageView.setIcon(code: "ios-radio-button-off", color: .lightGray)

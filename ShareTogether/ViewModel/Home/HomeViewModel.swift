@@ -59,7 +59,7 @@ class HomeViewModel: NSObject {
     func createExpenseCellViewModel(expense: Expense) -> HomeExpenseCellViewModel {
         
         let payerUid = expense.payerInfo.getPayer()
-        let user = CurrentInfoManager.shared.getMemberInfo(uid: payerUid ?? "")
+        let user = CurrentManager.shared.getMemberInfo(uid: payerUid ?? "")
         
         return HomeExpenseCellViewModel(id: expense.id,
                                         type: ExpenseType(rawValue: expense.type)!,
@@ -69,7 +69,7 @@ class HomeViewModel: NSObject {
                                         amount: expense.amount)
     }
     
-    func fectchData() {
+    func fetchData() {
         
         FirestoreManager.shared.getExpenses { [weak self] result in
             switch result {
@@ -127,7 +127,7 @@ class HomeViewModel: NSObject {
         
     }
     
-    func getStatisticsgetCellViewModel() -> StatisticsCellViewModel {
+    func getStatisticsCellViewModel() -> StatisticsCellViewModel {
         
         //    //群組：總消費, 平均消費, 消費筆數
         //個人：總消費, 借出, 借入, 已收到 已支付
@@ -144,7 +144,7 @@ class HomeViewModel: NSObject {
             
             guard let first = expense.payerInfo.amountDesc.first else { return viewModel }
             
-            if first.member.id == CurrentInfoManager.shared.user?.id {
+            if first.member.id == CurrentManager.shared.user?.id {
                 viewModel.selfPay += expense.amount
             }
         }
@@ -155,7 +155,7 @@ class HomeViewModel: NSObject {
                 return viewModel
             }
             
-            let selfID = CurrentInfoManager.shared.user?.id
+            let selfID = CurrentManager.shared.user?.id
             
             if first.member.id == selfID {
             
@@ -182,7 +182,7 @@ class HomeViewModel: NSObject {
             
             guard let payer = expense.payerInfo.amountDesc.first else { return viewModel }
             
-            let selfID = CurrentInfoManager.shared.user?.id
+            let selfID = CurrentManager.shared.user?.id
             
             if payer.member.id != selfID {
             

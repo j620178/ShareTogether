@@ -13,7 +13,7 @@ struct ExpenseInfoCellViewModel {
     let amount: String
     let amountType: ExpenseType
     let groupName: String
-    let userImageURL: String
+    let userImageURL: String?
     let payer: String
     let time: String
 }

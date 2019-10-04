@@ -9,6 +9,21 @@
 import UIKit
 import MapKit
 
+enum ActivityType: Int {
+    case invite = 0
+    case addExpense = 1
+    case editExpense = 2
+    case addNote = 3
+    case acceptMember = 4
+    case rejectMember = 5
+}
+
+enum ActivityStatus: Int {
+    case new = 0
+    case loaded = 1
+    case readed = 2
+}
+
 class ActivityViewController: STBaseViewController {
     
     var viewModel = ActivityViewModel()
@@ -17,13 +32,16 @@ class ActivityViewController: STBaseViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: ActivityTableViewCell.identifer)
-            tableView.registerWithNib(indentifer: ActivityInfoTableViewCell.identifer)
+            tableView.registerWithNib(identifier: ActivityTableViewCell.identifier)
+            tableView.registerWithNib(identifier: ActivityInfoTableViewCell.identifier)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        navigationController?.tabBarItem.badgeValue = nil
         
         viewModel.fectchData()
         viewModel.reloadTableView = { [weak self] in
@@ -36,7 +54,6 @@ class ActivityViewController: STBaseViewController {
                                                object: nil)
 
         upadateCurrentGroup()
-        
     }
 
     @objc func upadateCurrentGroup() {
@@ -58,14 +75,18 @@ extension ActivityViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if viewModel.activities[indexPath.row].type == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifer, for: indexPath)
+        if viewModel.activities[indexPath.row].type == ActivityType.invite.rawValue ||
+            viewModel.activities[indexPath.row].type == ActivityType.acceptMember.rawValue ||
+            viewModel.activities[indexPath.row].type == ActivityType.rejectMember.rawValue {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifier, for: indexPath)
             
             guard let activityCell = cell as? ActivityTableViewCell else { return cell }
             
             activityCell.cellViewModel = viewModel.getViewModelAt(indexPath)
             
             activityCell.clickCellHandler = { [weak self] cell in
+                
                 guard let indexPath = tableView.indexPath(for: cell) else { return }
                 
                 self?.viewModel.addGroupButton(indexPath: indexPath)
@@ -73,7 +94,8 @@ extension ActivityViewController: UITableViewDataSource {
             
             return activityCell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityInfoTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityInfoTableViewCell.identifier,
+                                                     for: indexPath)
             
             guard let activityCell = cell as? ActivityInfoTableViewCell else { return cell }
             

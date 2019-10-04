@@ -11,7 +11,7 @@ import GiphyUISDK
 import GiphyCoreSDK
 
 struct NoteGiphyCellViewModel {
-    let userImageURL: String
+    let userImageURL: String?
     let userName: String
     let mediaID: String
     let time: String

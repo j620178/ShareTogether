@@ -29,7 +29,7 @@ class InviteViewModel {
                                         isEnable: true)
                 } else {
                     
-                    let members = CurrentInfoManager.shared.availableMembers
+                    let members = CurrentManager.shared.availableMembers
                     
                     let isContainMember = members.contains { memberInfo -> Bool in
                         memberInfo.id == userInfo.id

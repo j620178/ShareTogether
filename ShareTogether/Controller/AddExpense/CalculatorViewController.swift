@@ -9,7 +9,9 @@
 import UIKit
 
 struct AmountInfo: Codable {
+    
     var type: Int
+    
     var amountDesc: [AmountDesc]
     
     func getAmount(amount: Double, index: Int) -> Double {
@@ -64,20 +66,19 @@ class CalculatorViewController: STBaseViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: CheckBoxTableViewCell.identifer)
-            tableView.registerWithNib(indentifer: SplitTextFieldTableViewCell.identifer)
+            tableView.registerWithNib(identifier: CheckBoxTableViewCell.identifier)
+            tableView.registerWithNib(identifier: SplitTextFieldTableViewCell.identifier)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+                
         title = "分帳方式選擇"
         
         let barItem = UIBarButtonItem(title: "完成", style: .plain, target: self, action: #selector(saveDate(_:)))
             
         navigationItem.rightBarButtonItem = barItem
-
     }
     
     override func viewDidLayoutSubviews() {
@@ -88,29 +89,19 @@ class CalculatorViewController: STBaseViewController {
     
     @objc func saveDate(_ sender: UIBarButtonItem) {
     
-        guard var splitInfo = splitInfo else { return }
-        
-        for index in splitInfo.amountDesc.indices {
-            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)),
-                let textfieldCell = cell as? SplitTextFieldTableViewCell,
-                let text = textfieldCell.textField.text
-            else { return }
-            
-            if let number = Double(text) {
-                splitInfo.amountDesc[index].value = number
-            } else {
-                splitInfo.amountDesc[index].value = 0
-            }
-            
-        }
+        guard let splitInfo = splitInfo else { return }
         
         if isSaveAvailable(splitInfo: splitInfo) {
+            
             passCalculateDateHandler?(splitInfo)
+            
             navigationController?.popViewController(animated: true)
+            
         } else {
+            
             LKProgressHUD.showFailure(text: "輸入數值異常", view: self.view)
+            
         }
-        
     }
     
     func isSaveAvailable(splitInfo: AmountInfo) -> Bool {
@@ -122,21 +113,25 @@ class CalculatorViewController: STBaseViewController {
         if SplitType(rawValue: splitInfo.type) == SplitType.percentage {
             
             for aAmountDesc in splitInfo.amountDesc {
+                
                 result += aAmountDesc.value ?? 0
+                
             }
             
             return result == 100.0 ? true : false
+            
         } else if SplitType(rawValue: splitInfo.type) == SplitType.amount {
             
             for aAmountDesc in splitInfo.amountDesc {
+                
                 result += aAmountDesc.value ?? 0
+                
             }
-            
+
             return result == amount ? true : false
         }
         
         return true
-        
     }
     
 }
@@ -144,34 +139,46 @@ class CalculatorViewController: STBaseViewController {
 extension CalculatorViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return splitInfo?.amountDesc.count ?? 0
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let splitInfo = splitInfo else { return UITableViewCell() }
-        
         if selectionView.currentIndex == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CheckBoxTableViewCell.identifer, for: indexPath)
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: CheckBoxTableViewCell.identifier, for: indexPath)
     
-            guard let checkBoxCell = cell as? CheckBoxTableViewCell else { return cell }
+            guard let checkBoxCell = cell as? CheckBoxTableViewCell,
+                let splitInfo = splitInfo else { return cell }
     
             checkBoxCell.setupContent(name: splitInfo.amountDesc[indexPath.row].member.name,
                                       photoURL: splitInfo.amountDesc[indexPath.row].member.photoURL)
            
             if splitInfo.amountDesc[indexPath.row].value != nil {
+                
                 tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+                
+            } else {
+                
+                tableView.deselectRow(at: indexPath, animated: true)
+                
             }
             
             return checkBoxCell
             
         } else if selectionView.currentIndex == 1 {
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: SplitTextFieldTableViewCell.identifer,
+                withIdentifier: SplitTextFieldTableViewCell.identifier,
                 for: indexPath)
             
-            guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
-            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value == nil ? "" : String(splitInfo.amountDesc[indexPath.row].value!),
+            guard let textFieldCell = cell as? SplitTextFieldTableViewCell,
+                let splitInfo = splitInfo else { return cell }
+                        
+            textFieldCell.delegate = self
+                        
+            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value?.toText ?? "",
                                        name: splitInfo.amountDesc[indexPath.row].member.name,
                                        photoURL: splitInfo.amountDesc[indexPath.row].member.photoURL,
                                        unit: "%")
@@ -180,11 +187,15 @@ extension CalculatorViewController: UITableViewDataSource {
             
         } else {
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: SplitTextFieldTableViewCell.identifer,
+                withIdentifier: SplitTextFieldTableViewCell.identifier,
                 for: indexPath)
             
-            guard let textFieldCell = cell as? SplitTextFieldTableViewCell else { return cell }
-            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value == nil ? "" : String(splitInfo.amountDesc[indexPath.row].value!),
+            guard let textFieldCell = cell as? SplitTextFieldTableViewCell,
+                let splitInfo = splitInfo else { return cell }
+            
+            textFieldCell.delegate = self
+            
+            textFieldCell.setupContent(text: splitInfo.amountDesc[indexPath.row].value?.toText ?? "",
                                        name: splitInfo.amountDesc[indexPath.row].member.name,
                                        photoURL: splitInfo.amountDesc[indexPath.row].member.photoURL,
                                        unit: "元")
@@ -256,4 +267,28 @@ extension CalculatorViewController: SelectionViewDelegate {
         
     }
     
+}
+
+extension CalculatorViewController: SplitTextFieldCellDelegate {
+    
+    func splitTextFieldTableViewCell(cell: SplitTextFieldTableViewCell, didChangeText: String) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+                
+        splitInfo?.amountDesc[indexPath.row].value = Double(didChangeText) 
+    }
+    
+}
+
+extension CalculatorViewController: CheckBoxTableViewCellDelegate {
+    
+    func checkBoxTableViewCell(cell: CheckBoxTableViewCell, isSelectedDidChange: Bool) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        if isSelectedDidChange {
+            splitInfo?.amountDesc[indexPath.row].value = 1
+        } else {
+            splitInfo?.amountDesc[indexPath.row].value = nil
+
+        }
+    }
 }

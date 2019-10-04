@@ -8,17 +8,16 @@
 
 import UIKit
 
-protocol TextFieldTableViewCellDelegate {
+protocol TextFieldTableViewCellDelegate: AnyObject {
     func didBeginEditing(cell: TextFieldTableViewCell)
     func didEndEditing(cell: TextFieldTableViewCell, text: String?)
 }
-
 
 class TextFieldTableViewCell: UITableViewCell {
     
     var didBeginEditing: (() -> Void)?
     
-    var delegate: TextFieldTableViewCellDelegate?
+    weak var delegate: TextFieldTableViewCellDelegate?
 
     @IBOutlet weak var textField: UITextField! {
         didSet {

@@ -45,7 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Messaging.messaging().delegate = self
 
             // 在程式一啟動即詢問使用者是否接受圖文(alert)、聲音(sound)、數字(badge)三種類型的通知
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { granted, error in
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge],
+                                                                    completionHandler: { granted, error in
                     if granted {
                         print("允許...")
                     } else {
@@ -122,7 +123,8 @@ extension AppDelegate {
                 
             case .success(let expense):
                 guard let expense = expense,
-                    let nextVC = UIStoryboard.home.instantiateViewController(identifier: ExpenseDetailViewController.identifier) as? ExpenseDetailViewController
+                    let nextVC = UIStoryboard.home.instantiateViewController(identifier: ExpenseDetailViewController.identifier)
+                        as? ExpenseDetailViewController
                 else { return }
                 
                 nextVC.expense = expense
@@ -152,11 +154,30 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
+        UIApplication.shared.applicationIconBadgeNumber += 1
+        
+        if let tabVC = window?.rootViewController as? STTabBarController {
+            
+            if let badgeValue = tabVC.viewControllers?[3].tabBarItem.badgeValue,
+                let count = Int(badgeValue) {
+                
+                tabVC.viewControllers?[3].tabBarItem.badgeValue = "\(count + 1)"
+                
+            } else {
+                
+                tabVC.viewControllers?[3].tabBarItem.badgeValue = "1"
+                
+            }
+            
+        }
+        
         completionHandler([.alert])//.badge, .sound,
     }
     
     /// 點擊推播訊息時所會觸發的 delegate
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
         
         // 印出後台送出的推播訊息(JSON 格式)
         if let expenseID = response.notification.request.content.userInfo["expenseID"] as? String {

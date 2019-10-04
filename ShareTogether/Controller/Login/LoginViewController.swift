@@ -46,7 +46,8 @@ class LoginViewController: STBaseViewController {
                                                     self?.checkUserGroup(authUserInfo: userInfo)
                                                     LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
                                                 case .failure(let error):
-                                                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤", view: strougSelf.view)
+                                                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤",
+                                                                              view: strougSelf.view)
                                                     print(error.localizedDescription)
                                                 }
                 

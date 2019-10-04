@@ -36,8 +36,8 @@ class SearchViewController: STBaseViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
-            tableView.registerWithNib(indentifer: ExpenseInfoTableViewCell.identifer, bundle: nil)
-            tableView.registerWithNib(indentifer: ExepenseSplitTableViewCell.identifer, bundle: nil)
+            tableView.registerWithNib(identifier: ExpenseInfoTableViewCell.identifier, bundle: nil)
+            tableView.registerWithNib(identifier: ExpenseSplitTableViewCell.identifier, bundle: nil)
         }
     }
     
@@ -51,11 +51,13 @@ class SearchViewController: STBaseViewController {
         setupView()
         
         setupViewModel()
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(upadateCurrentGroup),
-                                               name: NSNotification.Name(rawValue: "CurrentGroup"),
-                                               object: nil)
+        viewModel.currentGroup = CurrentManager.shared.group
     }
     
     func setupView() {
@@ -69,13 +71,13 @@ class SearchViewController: STBaseViewController {
     func setupViewModel() {
         
         viewModel.removeAnnotationHandler = { [weak self] in
-            guard let strougSelf = self else { return }
-            strougSelf.mapView?.removeAnnotations(strougSelf.viewModel.annotations)
+            guard let strongSelf = self else { return }
+            strongSelf.mapView?.removeAnnotations(strongSelf.viewModel.annotations)
         }
 
         viewModel.showAnnotationHandler = { [weak self] in
-            guard let strougSelf = self else { return }
-            strougSelf.mapView?.showAnnotations(strougSelf.viewModel.annotations, animated: true)
+            guard let strongSelf = self else { return }
+            strongSelf.mapView?.showAnnotations(strongSelf.viewModel.annotations, animated: true)
         }
         
         viewModel.updateLoadingHandler = { [weak self] in
@@ -94,13 +96,6 @@ class SearchViewController: STBaseViewController {
             self?.textField.text = text
             self?.tableView.reloadData()
         }
-        
-        viewModel.fectchData()
-        
-    }
-
-    @objc func upadateCurrentGroup() {
-        viewModel.fectchData()
     }
     
 }
@@ -164,7 +159,8 @@ extension SearchViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseInfoTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseInfoTableViewCell.identifier,
+                                                     for: indexPath)
 
             guard let expenseInfoCell = cell as? ExpenseInfoTableViewCell,
                 let viewModel = viewModel.getSelectedExpenseViewModel() else { return cell }
@@ -173,14 +169,15 @@ extension SearchViewController: UITableViewDataSource {
 
             return expenseInfoCell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ExepenseSplitTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseSplitTableViewCell.identifier,
+                                                     for: indexPath)
 
-            guard let exepenseSplitCell = cell as? ExepenseSplitTableViewCell,
+            guard let expenseSplitCell = cell as? ExpenseSplitTableViewCell,
                 let viewModel = viewModel.getSelectedSplitViewModel(at: indexPath) else { return cell }
 
-            exepenseSplitCell.viewModel = viewModel
+            expenseSplitCell.viewModel = viewModel
 
-            return exepenseSplitCell
+            return expenseSplitCell
         }
     }
 }

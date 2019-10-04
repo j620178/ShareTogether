@@ -41,8 +41,10 @@ class AddNoteTableHeaderView: UITableViewHeaderFooterView {
         contentView.addSubview(addNoteButton)
         contentView.addSubview(userImageView)
         
-        let userImageViewBottomConstant = userImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
-        let addNoteButtonTrailingConstant = addNoteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+        let userImageViewBottomConstant = userImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                                                constant: -24)
+        let addNoteButtonTrailingConstant = addNoteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                                                    constant: -16)
         
         NSLayoutConstraint.activate([
             userImageView.heightAnchor.constraint(equalToConstant: 30),

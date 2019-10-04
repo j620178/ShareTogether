@@ -140,6 +140,12 @@ class FirestoreManager {
         firestore.collection(Collection.group).document(groupID)
             .collection(Collection.Group.expense).document(expenseID)
             .getDocument { (documentSnapshot, error) in
+                
+                if let error = error {
+                    completion(Result.failure(error))
+                    return
+                }
+                
                 guard let document = documentSnapshot,
                     let docData = document.data(),
                     var expense = try? FirestoreDecoder().decode(Expense.self, from: docData)
@@ -292,7 +298,7 @@ class FirestoreManager {
         
         reference = firestore.collection(Collection.group).addDocument(data: docData) { [weak self] error in
             if error != nil {
-                print(error)
+                return
             }
             
             guard let groupID = reference?.documentID else { return }
@@ -331,11 +337,11 @@ class FirestoreManager {
             .collection(Collection.Group.member).document(memberInfo.id).setData(docData)
             
         if !isBuilder {
-            addActivity(type: ActivityType.invite.rawValue,
+            addActivity(type: .invite,
                         targetMember: memberInfo,
                         pushUser: currentUserInfo,
                         groupInfo: group,
-                        amount: nil)
+                        expense: nil)
         }
 
     }
@@ -425,20 +431,20 @@ class FirestoreManager {
         }
     }
     
-    func addActivity(type: Int,
+    func addActivity(type: ActivityType,
                      targetMember: MemberInfo,
                      pushUser: UserInfo? = CurrentManager.shared.user,
                      groupInfo: GroupInfo? = CurrentManager.shared.group,
-                     amount: Double?) {
+                     expense: Expense?) {
         
         guard let pushUser = pushUser,
             let groupInfo = groupInfo else { return }
         
-        let activity = Activity(type: type,
+        let activity = Activity(type: type.rawValue,
                                 targetMember: targetMember,
                                 pushUser: pushUser,
                                 groupInfo: groupInfo,
-                                amount: amount,
+                                expense: expense,
                                 time: Date(),
                                 status: 0)
         
@@ -453,7 +459,7 @@ class FirestoreManager {
             
             guard let fcmToken = member.fcmToken else { return }
             
-            FirestoreManager.shared.getActivityBadge(uid: member.id) { [weak self] result in
+            FirestoreManager.shared.getActivityBadge(uid: member.id) { result in
                 
                 switch result {
                     
@@ -463,12 +469,14 @@ class FirestoreManager {
                         pushNotificationProvider.send(to: fcmToken,
                                                       title: "新增消費",
                                                       body: "\(pushUser.name) 於 \(groupInfo.name) 新增一筆消費",
+                                                      expenseID: expense?.id,
                                                       badge: count,
                                                       completion: nil)
                     } else if ActivityType(rawValue: activity.type) == ActivityType.invite {
                         pushNotificationProvider.send(to: fcmToken,
                                                       title: "交友邀請",
                                                       body: "\(pushUser.name) 邀請您加入 \(groupInfo.name)",
+                                                      expenseID: expense?.id,
                                                       badge: count,
                                                       completion: nil)
                     }
@@ -648,7 +656,7 @@ class FirestoreManager {
     }
     
     func deleteNote(groupID: String? = CurrentManager.shared.group?.id,
-                 noteID: String) {
+                    noteID: String) {
         
         guard let groupID = groupID else { return }
         

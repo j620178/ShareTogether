@@ -69,7 +69,7 @@ class HomeViewModel: NSObject {
                                         amount: expense.amount)
     }
     
-    func fectchData() {
+    func fetchData() {
         
         FirestoreManager.shared.getExpenses { [weak self] result in
             switch result {
@@ -127,7 +127,7 @@ class HomeViewModel: NSObject {
         
     }
     
-    func getStatisticsgetCellViewModel() -> StatisticsCellViewModel {
+    func getStatisticsCellViewModel() -> StatisticsCellViewModel {
         
         //    //群組：總消費, 平均消費, 消費筆數
         //個人：總消費, 借出, 借入, 已收到 已支付

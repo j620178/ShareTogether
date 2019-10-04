@@ -46,7 +46,7 @@ class PayerController: NSObject, AddExpenseItem {
     
     init(tableView: UITableView) {
         self.tableView = tableView
-        self.tableView.registerWithNib(indentifer: SplitTableViewCell.identifer)
+        self.tableView.registerWithNib(identifier: SplitTableViewCell.identifier)
     }
 
 }
@@ -69,7 +69,7 @@ extension PayerController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: SplitTableViewCell.identifer, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: SplitTableViewCell.identifier, for: indexPath)
         
         guard let splitCell = cell as? SplitTableViewCell,
             let payInfo = payInfo

@@ -10,14 +10,14 @@ import Foundation
 import UIKit
 
 extension UITableView {
-    func registerWithNib(indentifer: String, bundle: Bundle? = nil) {
-        let nib = UINib(nibName: indentifer, bundle: bundle)
-        register(nib, forCellReuseIdentifier: indentifer)
+    func registerWithNib(identifier: String, bundle: Bundle? = nil) {
+        let nib = UINib(nibName: identifier, bundle: bundle)
+        register(nib, forCellReuseIdentifier: identifier)
     }
 }
 
 extension UITableViewCell {
-    static var identifer: String {
+    static var identifier: String {
         return String(describing: self)
     }
 }

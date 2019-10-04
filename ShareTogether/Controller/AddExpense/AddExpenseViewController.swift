@@ -295,7 +295,7 @@ class AddExpenseViewController: STBaseViewController {
                     
                     for member in CurrentManager.shared.availableMembersWithoutSelf {
                         
-                        FirestoreManager.shared.addActivity(type: 1, targetMember: member, amount: expense.amount)
+                        FirestoreManager.shared.addActivity(type: .editExpense, targetMember: member, expense: expense)
                         
                     }
                     
@@ -303,7 +303,8 @@ class AddExpenseViewController: STBaseViewController {
                     
                     self?.dismiss(animated: true, completion: nil)
                     
-                    if let previousVC = self?.navigationController?.presentingViewController as? STNavigationController {
+                    if let previousVC = self?.navigationController?.presentingViewController
+                        as? STNavigationController {
                         
                         previousVC.popViewController(animated: true)
                         
@@ -326,7 +327,7 @@ class AddExpenseViewController: STBaseViewController {
                     
                     for member in CurrentManager.shared.availableMembersWithoutSelf {
                         
-                        FirestoreManager.shared.addActivity(type: 1, targetMember: member, amount: expense.amount)
+                        FirestoreManager.shared.addActivity(type: .addExpense, targetMember: member, expense: expense)
                         
                     }
                     

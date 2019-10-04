@@ -14,7 +14,7 @@ class StatisticsViewController: UIViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: StatisticsTableViewCell.identifer)
+            tableView.registerWithNib(identifier: StatisticsTableViewCell.identifier)
         }
     }
     
@@ -43,11 +43,11 @@ extension StatisticsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsTableViewCell.identifer, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsTableViewCell.identifier, for: indexPath)
         
         guard let statisticsCell = cell as? StatisticsTableViewCell else { return cell }
         
-        statisticsCell.cellViewModel = viewModel.getStatisticsgetCellViewModel()
+        statisticsCell.cellViewModel = viewModel.getStatisticsCellViewModel()
         
         return statisticsCell
     }

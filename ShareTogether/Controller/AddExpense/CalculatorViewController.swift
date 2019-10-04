@@ -66,16 +66,14 @@ class CalculatorViewController: STBaseViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: CheckBoxTableViewCell.identifer)
-            tableView.registerWithNib(indentifer: SplitTextFieldTableViewCell.identifer)
+            tableView.registerWithNib(identifier: CheckBoxTableViewCell.identifier)
+            tableView.registerWithNib(identifier: SplitTextFieldTableViewCell.identifier)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print(amount)
-        
+                
         title = "分帳方式選擇"
         
         let barItem = UIBarButtonItem(title: "完成", style: .plain, target: self, action: #selector(saveDate(_:)))
@@ -150,7 +148,7 @@ extension CalculatorViewController: UITableViewDataSource {
         
         if selectionView.currentIndex == 0 {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: CheckBoxTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: CheckBoxTableViewCell.identifier, for: indexPath)
     
             guard let checkBoxCell = cell as? CheckBoxTableViewCell,
                 let splitInfo = splitInfo else { return cell }
@@ -172,7 +170,7 @@ extension CalculatorViewController: UITableViewDataSource {
             
         } else if selectionView.currentIndex == 1 {
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: SplitTextFieldTableViewCell.identifer,
+                withIdentifier: SplitTextFieldTableViewCell.identifier,
                 for: indexPath)
             
             guard let textFieldCell = cell as? SplitTextFieldTableViewCell,
@@ -189,7 +187,7 @@ extension CalculatorViewController: UITableViewDataSource {
             
         } else {
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: SplitTextFieldTableViewCell.identifer,
+                withIdentifier: SplitTextFieldTableViewCell.identifier,
                 for: indexPath)
             
             guard let textFieldCell = cell as? SplitTextFieldTableViewCell,

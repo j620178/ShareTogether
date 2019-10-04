@@ -39,13 +39,13 @@ class SignUpViewController: UIViewController {
             guard let userName = userNameTextField.text, let email = emailTextField.text else { return }
             
             AuthManager.shared.createNewUser(email: emailTextField.text!,
-                                              password: passwordTextField.text!) { uid in
+                                             password: passwordTextField.text!) { uid in
                                                 FirestoreManager.shared.addNewUser(userInfo: UserInfo(id: uid,
-                                                                                                         name: userName,
-                                                                                                         email: email,
-                                                                                                         phone: nil,
-                                                                                                         photoURL: "",
-                                                                                                         groups: nil)) { result in
+                                                                                                      name: userName,
+                                                                                                      email: email,
+                                                                                                      phone: nil,
+                                                                                                      photoURL: "",
+                                                                                                      groups: nil)) { result in
                                                     switch result {
                                                         
                                                     case .success:

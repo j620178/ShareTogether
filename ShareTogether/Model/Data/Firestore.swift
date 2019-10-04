@@ -73,18 +73,18 @@ struct Expense: Codable {
 struct Activity: Codable {
     var id: String!
     let type: Int
-    let status: Int
+    var status: Int
     let targetMember: MemberInfo
     let pushUser: UserInfo
     let groupInfo: GroupInfo?
-    let amount: Double?
+    let expense: Expense?
     let time: Timestamp
     
     init(type: Int,
          targetMember: MemberInfo,
          pushUser: UserInfo,
          groupInfo: GroupInfo?,
-         amount: Double?,
+         expense: Expense?,
          time: Date,
          status: Int) {
         
@@ -92,7 +92,7 @@ struct Activity: Codable {
         self.targetMember = targetMember
         self.pushUser = pushUser
         self.groupInfo = groupInfo
-        self.amount = amount
+        self.expense = expense
         self.time = Timestamp(date: time)
         self.status = status
     }

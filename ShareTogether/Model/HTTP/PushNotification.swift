@@ -17,11 +17,13 @@ private struct FCMConstant {
     static let title = "title"
     static let body = "body"
     static let badge = "badge"
+    static let data = "data"
+    static let expenseID = "expenseID"
 }
 
 enum PushNotification: RestAPIRequest {
     
-    case send(token: String, title: String?, body: String?, badge: Int)
+    case send(token: String, title: String?, body: String?, expenseID: String?, badge: Int)
     
     var url: String {
         switch self {
@@ -50,26 +52,36 @@ enum PushNotification: RestAPIRequest {
     }
     
     var body: Data? {
+        
         switch self {
-        case .send(let token, let title, let body, let badge):
-            if let title = title, let body = body {
-                let body: [String: Any] = [FCMConstant.to: token, FCMConstant.notification:
-                                            [FCMConstant.title: title, FCMConstant.body: body, FCMConstant.badge: badge]
-                                          ]
-                return try? JSONSerialization.data(withJSONObject: body, options: [])
+            
+        case .send(let token, let title, let desc, let expenseID, let badge):
+            
+            var body = [String: Any]()
+            
+            if let title = title, let desc = desc {
+                body = [FCMConstant.to: token,
+                        FCMConstant.data: [FCMConstant.expenseID: expenseID],
+                        FCMConstant.notification: [FCMConstant.title: title,
+                                                   FCMConstant.body: desc,
+                                                   FCMConstant.badge: badge]]
             } else if let title = title {
-                let body: [String: Any] = [FCMConstant.to: token,
-                                           FCMConstant.notification: [FCMConstant.title: title, FCMConstant.badge: badge]]
-                return try? JSONSerialization.data(withJSONObject: body, options: [])
-            } else if let body = body {
-                let body: [String: Any] = [FCMConstant.to: token,
-                                           FCMConstant.notification: [FCMConstant.body: body, FCMConstant.badge: badge]]
-                return try? JSONSerialization.data(withJSONObject: body, options: [])
+                body = [FCMConstant.to: token,
+                        FCMConstant.data: [FCMConstant.expenseID: expenseID],
+                        FCMConstant.notification: [FCMConstant.title: title,
+                                                   FCMConstant.badge: badge]]
+            } else if let desc = desc {
+                body = [FCMConstant.to: token,
+                        FCMConstant.data: [FCMConstant.expenseID: expenseID],
+                        FCMConstant.notification: [FCMConstant.body: desc,
+                                                   FCMConstant.badge: badge]]
             } else {
-                let body: [String: Any] = [FCMConstant.to: token,
-                                           FCMConstant.notification: [FCMConstant.badge: badge]]
-                return try? JSONSerialization.data(withJSONObject: body, options: [])
+                body = [FCMConstant.to: token,
+                        FCMConstant.data: [FCMConstant.expenseID: expenseID],
+                        FCMConstant.notification: [FCMConstant.badge: badge]]
             }
+            
+             return try? JSONSerialization.data(withJSONObject: body, options: [])
         }
     }
     

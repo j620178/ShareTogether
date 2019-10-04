@@ -161,7 +161,7 @@ extension NoteDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: NoteDetailTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: NoteDetailTableViewCell.identifier, for: indexPath)
             
             guard let noteInfoCell = cell as? NoteDetailTableViewCell,
                 let note = note,
@@ -179,7 +179,8 @@ extension NoteDetailViewController: UITableViewDataSource {
         } else {
             
             if noteComments[indexPath.row].mediaID == nil {
-                let cell = tableView.dequeueReusableCell(withIdentifier: NoteCommentTableViewCell.identifer, for: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: NoteCommentTableViewCell.identifier,
+                                                         for: indexPath)
                 
                 guard let noteInfoCell = cell as? NoteCommentTableViewCell,
                     let content = noteComments[indexPath.row].content,
@@ -195,7 +196,8 @@ extension NoteDetailViewController: UITableViewDataSource {
                 return noteInfoCell
             } else {
                 
-                let cell = tableView.dequeueReusableCell(withIdentifier: NoteGiphyTableViewCell.identifer, for: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: NoteGiphyTableViewCell.identifier,
+                                                         for: indexPath)
                 
                 guard let noteGiphyCell = cell as? NoteGiphyTableViewCell,
                     let mediaID = noteComments[indexPath.row].mediaID,
@@ -224,11 +226,12 @@ extension NoteDetailViewController: UITableViewDelegate {
             let note = note else { return }
         
         if user.id == noteComments[indexPath.row].auctorID {
-            let alertVC = UIAlertController.deleteAlert { [weak self] alertAction in
+            let alertVC = UIAlertController.deleteAlert { [weak self] _ in
                 
                 guard let strougSelf = self else { return }
                 
-                FirestoreManager.shared.deleteNoteComment(noteID: note.id, noteCommentID: strougSelf.noteComments[indexPath.row].id)
+                FirestoreManager.shared.deleteNoteComment(noteID: note.id,
+                                                          noteCommentID: strougSelf.noteComments[indexPath.row].id)
             }
             
             present(alertVC, animated: true, completion: nil)

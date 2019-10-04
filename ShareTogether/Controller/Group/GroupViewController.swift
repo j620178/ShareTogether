@@ -45,7 +45,7 @@ class GroupViewController: STBaseViewController {
         
     @IBOutlet weak var textField: UITextField!
     
-    @IBOutlet weak var bannerViewConstaint: NSLayoutConstraint!
+    @IBOutlet weak var bannerViewConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var addMemberButton: UIButton!
     
@@ -60,7 +60,7 @@ class GroupViewController: STBaseViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: MemberTableViewCell.identifer)
+            tableView.registerWithNib(identifier: MemberTableViewCell.identifier)
         }
     }
     
@@ -132,7 +132,7 @@ class GroupViewController: STBaseViewController {
     func switchLayout(direction: Direction) {
         if direction == .up {
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.bannerViewConstaint.constant = 360
+                self?.bannerViewConstraint.constant = 360
                 self?.textField.alpha = 1
                 self?.setCoverButton.alpha = 1
                 self?.title = ""
@@ -142,7 +142,7 @@ class GroupViewController: STBaseViewController {
             textField.resignFirstResponder()
             
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.bannerViewConstaint.constant = 180
+                self?.bannerViewConstraint.constant = 180
                 self?.textField.alpha = 0
                 self?.setCoverButton.alpha = 0
                 self?.title = self?.textField.text
@@ -286,12 +286,12 @@ class GroupViewController: STBaseViewController {
 extension GroupViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return availableMembers.count ?? 0
+        return availableMembers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: MemberTableViewCell.identifer, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: MemberTableViewCell.identifier, for: indexPath)
         
         guard let memberCell = cell as? MemberTableViewCell else { return cell}
         

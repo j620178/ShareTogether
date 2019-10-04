@@ -32,8 +32,11 @@ class ActivityViewModel {
             switch result {
                 
             case .success(let activities):
-                activities.map({ $0.status == ActivityStatus.loaded.rawValue })
+                
+                _ = activities.map({ FirestoreManager.shared.updateActivityStatus(id: $0.id, status: .loaded) })
+                
                 self?.activities = activities
+                
                 self?.processViewModel()
             case .failure:
                 print("error")
@@ -91,9 +94,9 @@ class ActivityViewModel {
                 guard let strongSelf = self else { return }
                 
                 FirestoreManager.shared.updateGroupMemberStatus(groupID: groupInfo.id,
-                                                           memberInfo: strongSelf.activities[indexPath.row].targetMember,
-                                                           status: .joined,
-                                                           completion: nil)
+                                                                memberInfo: strongSelf.activities[indexPath.row].targetMember,
+                                                                status: .joined,
+                                                                completion: nil)
             
                 FirestoreManager.shared.updateActivityType(id: strongSelf.activities[indexPath.row].id,
                                                            type: .acceptMember)

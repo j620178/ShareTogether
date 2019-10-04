@@ -17,7 +17,7 @@ extension UICollectionView {
 }
 
 extension UICollectionViewCell {
-    static var identifer: String {
+    static var identifier: String {
         return String(describing: self)
     }
 }

@@ -35,7 +35,7 @@ class AmountTypeController: NSObject, AddExpenseItem {
     
     init(tableView: UITableView) {
         self.tableView = tableView
-        self.tableView.registerWithNib(indentifer: SelectionTableViewCell.identifer)
+        self.tableView.registerWithNib(identifier: SelectionTableViewCell.identifier)
     }
     
 }
@@ -52,7 +52,7 @@ extension AmountTypeController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: SelectionTableViewCell.identifer, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: SelectionTableViewCell.identifier, for: indexPath)
         
         guard let selectionCell = cell as? SelectionTableViewCell else { return cell }
         
@@ -85,7 +85,7 @@ extension AmountTypeController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CategoryCollectionViewCell.identifer,
+            withReuseIdentifier: CategoryCollectionViewCell.identifier,
             for: indexPath)
         
         guard let categoryCell = cell as? CategoryCollectionViewCell else { return cell }

@@ -21,27 +21,7 @@ class ExpenseController: NSObject, AddExpenseItem {
     weak var delegate: ExpenseTextFieldDelegate?
     
     var expenseInfo: [String] = ["", ""]
-    
-//    var getTextFieldInfo: [String] {
-//
-//        var expenseInfo = ["", ""]
-//
-//        for index in textfieldPlaceHolder.indices {
-//
-//            guard let textFieldCell = tableView.cellForRow(at: IndexPath(row: index, section: 1)) as? TextFieldTableViewCell,
-//                let text = textFieldCell.textField.text
-//            else { return expenseInfo }
-//
-//            textFieldCell.textField.resignFirstResponder()
-//
-//            expenseInfo[index] = text
-//
-//        }
-//
-//        return expenseInfo
-//
-//    }
-    
+        
     func resignAllTextField() {
         
         for index in textfieldPlaceHolder.indices {
@@ -60,7 +40,7 @@ class ExpenseController: NSObject, AddExpenseItem {
         
         self.tableView = tableView
         
-        self.tableView.registerWithNib(indentifer: TextFieldTableViewCell.identifer)
+        self.tableView.registerWithNib(identifier: TextFieldTableViewCell.identifier)
         
     }
     
@@ -74,7 +54,7 @@ extension ExpenseController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifer, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifier, for: indexPath)
         
         guard let textFieldCell = cell as? TextFieldTableViewCell else { return cell }
         

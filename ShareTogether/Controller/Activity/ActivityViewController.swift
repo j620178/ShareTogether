@@ -32,13 +32,16 @@ class ActivityViewController: STBaseViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: ActivityTableViewCell.identifer)
-            tableView.registerWithNib(indentifer: ActivityInfoTableViewCell.identifer)
+            tableView.registerWithNib(identifier: ActivityTableViewCell.identifier)
+            tableView.registerWithNib(identifier: ActivityInfoTableViewCell.identifier)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        navigationController?.tabBarItem.badgeValue = nil
         
         viewModel.fectchData()
         viewModel.reloadTableView = { [weak self] in
@@ -51,16 +54,6 @@ class ActivityViewController: STBaseViewController {
                                                object: nil)
 
         upadateCurrentGroup()
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print("viewDidAppear")
-
-        UIApplication.shared.applicationIconBadgeNumber = 0
-
     }
 
     @objc func upadateCurrentGroup() {
@@ -86,7 +79,7 @@ extension ActivityViewController: UITableViewDataSource {
             viewModel.activities[indexPath.row].type == ActivityType.acceptMember.rawValue ||
             viewModel.activities[indexPath.row].type == ActivityType.rejectMember.rawValue {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityTableViewCell.identifier, for: indexPath)
             
             guard let activityCell = cell as? ActivityTableViewCell else { return cell }
             
@@ -101,7 +94,8 @@ extension ActivityViewController: UITableViewDataSource {
             
             return activityCell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityInfoTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ActivityInfoTableViewCell.identifier,
+                                                     for: indexPath)
             
             guard let activityCell = cell as? ActivityInfoTableViewCell else { return cell }
             

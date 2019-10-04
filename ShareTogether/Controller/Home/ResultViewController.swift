@@ -24,7 +24,7 @@ class ResultViewController: UIViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: ResultTableViewCell.identifer)
+            tableView.registerWithNib(identifier: ResultTableViewCell.identifier)
         }
     }
 
@@ -46,18 +46,12 @@ extension ResultViewController: UITableViewDataSource {
 
         availableMembers.count == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
         
-        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-        
-        if demoGroupID == CurrentManager.shared.group?.id {
-            return availableMembers.count - 1
-        }
-        
         return availableMembers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: ResultTableViewCell.identifer, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ResultTableViewCell.identifier, for: indexPath)
         
         guard let resultCell = cell as? ResultTableViewCell,
             let currentUserInfo = CurrentManager.shared.user,

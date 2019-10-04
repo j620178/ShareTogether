@@ -11,6 +11,14 @@ import MapKit
 
 class SearchViewModel {
     
+    var currentGroup: GroupInfo? {
+        didSet {
+            if oldValue?.id != currentGroup?.id {
+                fetchData()
+            }
+        }
+    }
+    
     var expenses = [Expense]()
     
     var backupExpenses = [Expense]()
@@ -45,7 +53,7 @@ class SearchViewModel {
     
     var reloadInfoWindowHandler: ((String) -> Void)?
     
-    func fectchData() {
+    func fetchData() {
         isLoading = true
         FirestoreManager.shared.getExpenses { [weak self] result in
             self?.isLoading = false
@@ -53,7 +61,7 @@ class SearchViewModel {
             switch result {
                 
             case .success(let expenses):
-                //refator
+                //refactor
                 self?.expenses = expenses
                 self?.backupExpenses = expenses
                 self?.processData()
@@ -100,7 +108,7 @@ extension SearchViewModel {
                                         time: selectedExpense.time.toFullFormat)
     }
     
-    func getSelectedSplitViewModel(at indexPath: IndexPath) -> ExepenseSplitCellViewModel? {
+    func getSelectedSplitViewModel(at indexPath: IndexPath) -> ExpenseSplitCellViewModel? {
         guard let selectedExpense = selectedExpense ,
             let spliterUid = selectedExpense.splitInfo.amountDesc[indexPath.row].member.id,
             let spliter = CurrentManager.shared.getMemberInfo(uid: spliterUid) else { return nil }
@@ -108,7 +116,7 @@ extension SearchViewModel {
         let splitAmount = selectedExpense.splitInfo.getAmount(amount: selectedExpense.amount,
                                                         index: indexPath.row)
         
-        return ExepenseSplitCellViewModel(userImageURL: spliter.photoURL,
+        return ExpenseSplitCellViewModel(userImageURL: spliter.photoURL,
                                           userName: spliter.name + " 支付 \(splitAmount.toAmountText)")
     }
     

@@ -104,7 +104,7 @@ class HomeViewController: STBaseViewController {
     }
     
     @objc func upadateCurrentGroup() {
-        viewModel.fectchData()
+        viewModel.fetchData()
         groupNameButton.setTitle(CurrentManager.shared.group?.name, for: .normal)
     }
     

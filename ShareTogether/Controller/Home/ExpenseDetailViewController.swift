@@ -15,8 +15,8 @@ class ExpenseDetailViewController: STBaseViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
            tableView.dataSource = self
-           tableView.registerWithNib(indentifer: ExpenseInfoTableViewCell.identifer, bundle: nil)
-           tableView.registerWithNib(indentifer: ExepenseSplitTableViewCell.identifer, bundle: nil)
+           tableView.registerWithNib(identifier: ExpenseInfoTableViewCell.identifier, bundle: nil)
+           tableView.registerWithNib(identifier: ExpenseSplitTableViewCell.identifier, bundle: nil)
         }
     }
     
@@ -95,7 +95,8 @@ extension ExpenseDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseInfoTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseInfoTableViewCell.identifier,
+                                                     for: indexPath)
             
             guard let expenseInfoCell = cell as? ExpenseInfoTableViewCell,
                 let expense = expense,
@@ -116,9 +117,10 @@ extension ExpenseDetailViewController: UITableViewDataSource {
 
             return expenseInfoCell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ExepenseSplitTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseSplitTableViewCell.identifier,
+                                                     for: indexPath)
 
-            guard let exepenseSplitCell = cell as? ExepenseSplitTableViewCell,
+            guard let expenseSplitCell = cell as? ExpenseSplitTableViewCell,
                 let expense = expense,
                 let spliterUid = expense.splitInfo.amountDesc[indexPath.row].member.id,
                 let spliter = CurrentManager.shared.getMemberInfo(uid: spliterUid)
@@ -127,12 +129,12 @@ extension ExpenseDetailViewController: UITableViewDataSource {
             let splitAmount = expense.splitInfo.getAmount(amount: expense.amount,
                                                                 index: indexPath.row)
                 
-            let cellViewModel = ExepenseSplitCellViewModel(userImageURL: spliter.photoURL,
+            let cellViewModel = ExpenseSplitCellViewModel(userImageURL: spliter.photoURL,
                                                   userName: spliter.name + " 支付 \(splitAmount.toAmountText)")
 
-            exepenseSplitCell.viewModel = cellViewModel
+            expenseSplitCell.viewModel = cellViewModel
 
-            return exepenseSplitCell
+            return expenseSplitCell
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  ExepenseSplitTableViewCell.swift
+//  ExpenseSplitTableViewCell.swift
 //  ShareTogether
 //
 //  Created by littlema on 2019/9/30.
@@ -8,18 +8,18 @@
 
 import UIKit
 
-struct ExepenseSplitCellViewModel {
+struct ExpenseSplitCellViewModel {
     let userImageURL: String?
     let userName: String
 }
 
-class ExepenseSplitTableViewCell: UITableViewCell {
+class ExpenseSplitTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userImageView: UIImageView!
     
     @IBOutlet weak var userNameLabel: UILabel!
     
-    var viewModel: ExepenseSplitCellViewModel? {
+    var viewModel: ExpenseSplitCellViewModel? {
         didSet {
             userImageView.setUrlImage(viewModel?.userImageURL)
             userNameLabel.text = viewModel?.userName

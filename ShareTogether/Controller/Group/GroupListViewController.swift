@@ -72,7 +72,7 @@ extension GroupListViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: GroupCollectionViewCell.identifer, for: indexPath)
+            withReuseIdentifier: GroupCollectionViewCell.identifier, for: indexPath)
         
         guard let groupCell = cell as? GroupCollectionViewCell else { return cell }
         

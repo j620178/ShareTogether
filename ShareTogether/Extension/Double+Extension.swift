@@ -25,5 +25,13 @@ extension Double {
         }
                 
     }
+    
+    var toText: String {
+        if (self - Double(Int(self))) == 0 {
+            return String(Int(self))
+        } else {
+            return String(self)
+        }
+    }
 
 }

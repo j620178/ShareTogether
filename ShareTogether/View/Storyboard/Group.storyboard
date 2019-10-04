@@ -78,17 +78,9 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c3q-a6-Sv0">
-                                                    <rect key="frame" x="12" y="12" width="30" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="3bH-DH-3a9"/>
-                                                        <constraint firstAttribute="width" constant="30" id="l0v-6L-XID"/>
-                                                    </constraints>
-                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="c3q-a6-Sv0" secondAttribute="trailing" constant="8" id="1Zw-da-XuG"/>
                                             <constraint firstAttribute="bottom" secondItem="i6o-RL-UEP" secondAttribute="bottom" id="2UV-r2-6Ag"/>
                                             <constraint firstItem="i6o-RL-UEP" firstAttribute="top" secondItem="Zsg-jQ-4PM" secondAttribute="top" id="4eH-0N-J5T"/>
                                             <constraint firstItem="Vg3-Za-8gc" firstAttribute="leading" secondItem="Zsg-jQ-4PM" secondAttribute="leading" id="7nJ-uh-WNq"/>
@@ -100,12 +92,10 @@
                                             <constraint firstItem="i6o-RL-UEP" firstAttribute="leading" secondItem="Zsg-jQ-4PM" secondAttribute="leading" id="TVN-zC-pwl"/>
                                             <constraint firstItem="Vg3-Za-8gc" firstAttribute="top" secondItem="Zsg-jQ-4PM" secondAttribute="top" id="Tep-Ua-sLe"/>
                                             <constraint firstAttribute="trailing" secondItem="nhx-fw-mwe" secondAttribute="trailing" constant="8" id="W8L-mS-tws"/>
-                                            <constraint firstAttribute="bottom" secondItem="c3q-a6-Sv0" secondAttribute="bottom" constant="8" id="gby-Gy-zHU"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="groupImageView" destination="i6o-RL-UEP" id="peZ-jm-l7Y"/>
                                             <outlet property="groupNameLabel" destination="nhx-fw-mwe" id="zZ0-qr-xdj"/>
-                                            <outlet property="isSelectedImageView" destination="c3q-a6-Sv0" id="VVn-dE-iGC"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -264,7 +254,7 @@
                     <connections>
                         <outlet property="addMemberButton" destination="bIN-hk-tbw" id="bMv-WF-Tqt"/>
                         <outlet property="bannerView" destination="zwn-H5-95q" id="zSo-OD-zJn"/>
-                        <outlet property="bannerViewConstaint" destination="xxG-ys-AKF" id="0wt-aU-3yl"/>
+                        <outlet property="bannerViewConstraint" destination="xxG-ys-AKF" id="0wt-aU-3yl"/>
                         <outlet property="coverImageView" destination="MiU-h4-pqb" id="FZy-3i-Ced"/>
                         <outlet property="setCoverButton" destination="o1n-2S-TL4" id="6jF-JJ-HWt"/>
                         <outlet property="tableView" destination="e9G-Mk-ujE" id="f49-bu-vue"/>

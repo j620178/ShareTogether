@@ -18,8 +18,8 @@ class NoteViewController: STBaseViewController {
             tableView.dataSource = self
             tableView.delegate = self
             tableView.estimatedSectionHeaderHeight = 50
-            tableView.registerWithNib(indentifer: NotebookTableViewCell.identifer)
-            tableView.registerWithNib(indentifer: AddNoteTableViewCell.identifer)
+            tableView.registerWithNib(identifier: NotebookTableViewCell.identifier)
+            tableView.registerWithNib(identifier: AddNoteTableViewCell.identifier)
         }
     }
     
@@ -66,9 +66,9 @@ extension NoteViewController: UITableViewDataSource {
         
         if indexPath.section == 0 {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: AddNoteTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: AddNoteTableViewCell.identifier, for: indexPath)
             
-            guard let userPhotoURL = CurrentInfoManager.shared.user?.photoURL,
+            guard let userPhotoURL = CurrentManager.shared.user?.photoURL,
                 let addNoteCell = cell as? AddNoteTableViewCell
             else { return cell }
     
@@ -78,10 +78,10 @@ extension NoteViewController: UITableViewDataSource {
             
         } else {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: NotebookTableViewCell.identifer, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: NotebookTableViewCell.identifier, for: indexPath)
             
             guard let notebookCell = cell as? NotebookTableViewCell,
-                let user = CurrentInfoManager.shared.user else { return cell }
+                let user = CurrentManager.shared.user else { return cell }
             
             notebookCell.cellViewModel = viewModel.getViewModel(indexPath: indexPath)
             
@@ -138,9 +138,7 @@ extension NoteViewController: UITableViewDelegate {
         
         if indexPath.section == 0 {
             
-            let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-            
-            if demoGroupID == CurrentInfoManager.shared.group?.id {
+            guard !CurrentManager.shared.isDemoGroup() else {
                 LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
                 return
             }

@@ -18,7 +18,7 @@ class ExpenseViewController: UIViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: ExpenseTableViewCell.identifer)
+            tableView.registerWithNib(identifier: ExpenseTableViewCell.identifier)
             tableView.register(ExpenseFooterView.self,
                                forHeaderFooterViewReuseIdentifier: ExpenseFooterView.reuseIdentifier)
         }
@@ -37,7 +37,7 @@ class ExpenseViewController: UIViewController {
             self.tableView.reloadData()
         }
         
-        viewModel.fectchData()
+        viewModel.fetchData()
     }
 
 }
@@ -62,7 +62,7 @@ extension ExpenseViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseTableViewCell.identifer, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseTableViewCell.identifier, for: indexPath)
 
         guard let expenseCell = cell as? ExpenseTableViewCell else { return cell }
 
@@ -101,7 +101,8 @@ extension ExpenseViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: ExpenseDetailViewController.identifier) as? ExpenseDetailViewController
+        guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: ExpenseDetailViewController.identifier)
+            as? ExpenseDetailViewController
         else { return }
         
         nextVC.expense = viewModel.getExpense(at: indexPath)

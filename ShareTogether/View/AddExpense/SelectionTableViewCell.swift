@@ -23,7 +23,7 @@ class SelectionTableViewCell: UITableViewCell {
         
             collectionView.register(
                 CategoryCollectionViewCell.self,
-                forCellWithReuseIdentifier: CategoryCollectionViewCell.identifer)
+                forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
         }
     }
     

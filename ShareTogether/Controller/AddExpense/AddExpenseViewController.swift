@@ -23,16 +23,12 @@ class AddExpenseViewController: STBaseViewController {
     let titleString = ["類型", "消費", "付款", "分帳", "日期"]
     
     let locationManager = CLLocationManager()
-    
-    var availableMembers: [MemberInfo] {
-        return CurrentInfoManager.shared.availableMembers
-    }
-    
-    var lastVelocityYSign = 0
-    
+        
     let annotation = MKPointAnnotation()
     
     var expense: Expense?
+    
+    var lastVelocityYSign = 0
     
     lazy var amountTypeController = AmountTypeController(tableView: tableView)
     
@@ -153,7 +149,9 @@ class AddExpenseViewController: STBaseViewController {
     func setupBase() {
         
         let gestureUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction))
+        
         gestureUp.direction = .up
+        
         self.containerView.addGestureRecognizer(gestureUp)
         
         containerView.addCornerAndShadow(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
@@ -169,6 +167,7 @@ class AddExpenseViewController: STBaseViewController {
         if let expense = expense {
 
             mapView.showsUserLocation = false
+            
             mapView.userTrackingMode = .none
 
             let expensePos = CLLocationCoordinate2D(latitude: expense.position.latitude,
@@ -183,10 +182,13 @@ class AddExpenseViewController: STBaseViewController {
         } else {
 
             locationManager.delegate = self
+            
             locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
+            
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
 
             mapView.showsUserLocation = true
+            
             mapView.userTrackingMode = .follow
         }
         
@@ -195,26 +197,37 @@ class AddExpenseViewController: STBaseViewController {
     func switchMapHeight(direction: Direction) {
         
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)),
-            let textFieldCell = cell as? TextFieldTableViewCell else { return }
+            let textFieldCell = cell as? TextFieldTableViewCell
+        else { return }
         
         if direction == .up {
             
             UIView.animate(withDuration: 0.5) { [weak self] in
+                
                 self?.mapHeightConstraint.constant = 36
+                
                 self?.view.layoutIfNeeded()
+                
             }
+            
             tableView.isScrollEnabled = true
+            
         } else {
             
             if textFieldCell.textField.isFirstResponder {
+                
                 textFieldCell.textField.resignFirstResponder()
+                
             }
             
             tableView.isScrollEnabled = false
             
             UIView.animate(withDuration: 0.5) { [weak self] in
+                
                 self?.mapHeightConstraint.constant = UIScreen.main.bounds.height - 430
+                
                 self?.view.layoutIfNeeded()
+                
             }
         }
     }
@@ -222,7 +235,9 @@ class AddExpenseViewController: STBaseViewController {
     @objc func swipeAction(_ sender: UISwipeGestureRecognizer) {
  
         if sender.direction == .up {
+            
             switchMapHeight(direction: .up)
+            
         }
     
     }
@@ -234,27 +249,33 @@ class AddExpenseViewController: STBaseViewController {
     
     @IBAction func clickAddButton(_ sender: UIButton) {
         
-        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-
-        if demoGroupID == CurrentInfoManager.shared.group?.id {
+        expenseController.resignAllTextField()
+        
+        guard !CurrentManager.shared.isDemoGroup() else {
+            
             LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
+            
             return
+            
         }
         
-        guard let uid = CurrentInfoManager.shared.user?.id,
-            let amount = Double(expenseController.getTextFieldInfo[0]),
-            expenseController.getTextFieldInfo[1] != "",
+        guard let uid = CurrentManager.shared.user?.id,
+            let amount = Double(expenseController.expenseInfo[0]),
+            expenseController.expenseInfo[1] != "",
             let payerInfo = payerController.payInfo,
             let splitInfo = splitController.splitInfo,
             let date = payDateController.selectDate
         else {
+            
             LKProgressHUD.showFailure(text: "請輸入消費金額與說明", view: self.view)
+            
             return
         }
         
         LKProgressHUD.show(view: self.view)
+        
         var expense = Expense(type: amountTypeController.selectIndex,
-                              desc: expenseController.getTextFieldInfo[1],
+                              desc: expenseController.expenseInfo[1],
                               userID: uid,
                               amount: amount,
                               payerInfo: payerInfo,
@@ -267,40 +288,55 @@ class AddExpenseViewController: STBaseViewController {
             expense.id = self.expense!.id
             
             FirestoreManager.shared.upadteExpense(expense: expense) { [weak self] result in
+                
                 switch result {
 
                 case .success:
                     
-                    for member in CurrentInfoManager.shared.availableMembersWithoutSelf {
-                        FirestoreManager.shared.addActivity(type: 1, targetMember: member, amount: expense.amount)
+                    for member in CurrentManager.shared.availableMembersWithoutSelf {
+                        
+                        FirestoreManager.shared.addActivity(type: .editExpense, targetMember: member, expense: expense)
+                        
                     }
                     
                     LKProgressHUD.dismiss()
                     
                     self?.dismiss(animated: true, completion: nil)
                     
-                    if let previousVC = self?.navigationController?.presentingViewController as? STNavigationController {
+                    if let previousVC = self?.navigationController?.presentingViewController
+                        as? STNavigationController {
+                        
                         previousVC.popViewController(animated: true)
+                        
                     }
                     
                 case .failure(let error):
+                    
                     LKProgressHUD.showFailure(text: error.localizedDescription)
+                    
                 }
             }
             
         } else {
             
             FirestoreManager.shared.addExpense(expense: expense) { [weak self] result in
+                
                 switch result {
 
                 case .success:
                     
-                    for member in CurrentInfoManager.shared.availableMembersWithoutSelf {
-                        FirestoreManager.shared.addActivity(type: 1, targetMember: member, amount: expense.amount)
+                    for member in CurrentManager.shared.availableMembersWithoutSelf {
+                        
+                        FirestoreManager.shared.addActivity(type: .addExpense, targetMember: member, expense: expense)
+                        
                     }
+                    
                     LKProgressHUD.dismiss()
+                    
                     self?.dismiss(animated: true, completion: nil)
+                    
                 case .failure(let error):
+                    
                     LKProgressHUD.showFailure(text: error.localizedDescription)
                 }
             }
@@ -314,16 +350,21 @@ class AddExpenseViewController: STBaseViewController {
 extension AddExpenseViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         return items.count
+        
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         return titleString[section]
+        
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         
         guard let header = view as? UITableViewHeaderFooterView else { return }
+        
         header.textLabel?.textColor = .STGray
         
     }
@@ -347,10 +388,13 @@ extension AddExpenseViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if scrollView.contentOffset.y <= -75 {
+
             switchMapHeight(direction: .down)
+            
         }
         
         let currentVelocityY =  scrollView.panGestureRecognizer.velocity(in: scrollView.superview).y
+        
         let currentVelocityYSign = Int(currentVelocityY).signum()
         
         if currentVelocityYSign != lastVelocityYSign,
@@ -359,7 +403,9 @@ extension AddExpenseViewController: UITableViewDelegate {
         }
         
         if lastVelocityYSign < 0 {
+            
             switchMapHeight(direction: .up)
+            
         }
     }
     
@@ -374,9 +420,11 @@ extension AddExpenseViewController: UITableViewDelegate {
 extension AddExpenseViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         let currentLocation = locations[0] as CLLocation
         
         annotation.coordinate = currentLocation.coordinate
+        
     }
     
 }
@@ -384,7 +432,9 @@ extension AddExpenseViewController: CLLocationManagerDelegate {
 extension AddExpenseViewController: MKMapViewDelegate {
     
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        
         annotation.coordinate = mapView.centerCoordinate
+        
     }
     
 }
@@ -392,7 +442,9 @@ extension AddExpenseViewController: MKMapViewDelegate {
 extension AddExpenseViewController: ExpenseTextFieldDelegate {
     
     func keyboardBeginEditing(controller: ExpenseController) {
+        
         switchMapHeight(direction: .up)
+        
     }
 
 }
@@ -403,7 +455,7 @@ extension AddExpenseViewController: PayerControllerDelegate {
 
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        for member in availableMembers {
+        for member in CurrentManager.shared.availableMembers {
             
             let action = UIAlertAction(title: member.name, style: .default) { [weak self] action in
                 
@@ -411,13 +463,16 @@ extension AddExpenseViewController: PayerControllerDelegate {
                 
                 var payInfo = AmountInfo(type: 0, amountDesc: [AmountDesc]())
                 
-                for member in strongSelf.availableMembers {
+                for member in CurrentManager.shared.availableMembers {
                     
                     if member.name == action.title {
+                        
                         payInfo.amountDesc.append(AmountDesc(member: member, value: 1))
 
                     } else {
+                        
                         payInfo.amountDesc.append(AmountDesc(member: member, value: nil))
+                        
                     }
                     
                 }
@@ -425,12 +480,16 @@ extension AddExpenseViewController: PayerControllerDelegate {
                 strongSelf.payerController.payInfo = payInfo
 
             }
+            
             controller.addAction(action)
         }
         
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        
         controller.addAction(cancelAction)
+        
         present(controller, animated: true, completion: nil)
+        
     }
 
 }
@@ -440,6 +499,7 @@ extension AddExpenseViewController: SplitControllerDelegate {
     func didSelectSplitTypeAt(_ indexPath: IndexPath) {
         
         if let amount = Double(expenseController.expenseInfo[0]) {
+            
             guard let nextVC = storyboard?.instantiateViewController(withIdentifier: CalculatorViewController.identifier),
                 let calculatorVC = nextVC as? CalculatorViewController
             else { return }
@@ -449,12 +509,17 @@ extension AddExpenseViewController: SplitControllerDelegate {
             calculatorVC.splitInfo = splitController.splitInfo
             
             calculatorVC.passCalculateDateHandler = { [weak self] spliteInfo in
+                
                 self?.splitController.splitInfo = spliteInfo
+                
             }
             
             show(calculatorVC, sender: nil)
+            
         } else {
+            
             LKProgressHUD.showFailure(text: "分帳前請先填妥消費金額", view: self.view)
+            
         }
 
     }

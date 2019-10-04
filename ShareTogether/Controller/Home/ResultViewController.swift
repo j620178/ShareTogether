@@ -11,7 +11,7 @@ import UIKit
 class ResultViewController: UIViewController {
     
     var availableMembers: [MemberInfo] {
-        return CurrentInfoManager.shared.availableMembersWithoutSelf
+        return CurrentManager.shared.availableMembersWithoutSelf
     }
     
     var viewModel: HomeViewModel!
@@ -24,7 +24,7 @@ class ResultViewController: UIViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: ResultTableViewCell.identifer)
+            tableView.registerWithNib(identifier: ResultTableViewCell.identifier)
         }
     }
 
@@ -46,38 +46,15 @@ extension ResultViewController: UITableViewDataSource {
 
         availableMembers.count == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
         
-        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-        
-        if demoGroupID == CurrentInfoManager.shared.group?.id {
-            return availableMembers.count - 1
-        }
-        
         return availableMembers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: ResultTableViewCell.identifer, for: indexPath)
-        
-//        let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
-//        
-//        if demoGroupID == CurrentInfoManager.shared.group?.id {
-//            guard let resultCell = cell as? ResultTableViewCell//,
-//                //let currentUserInfo = CurrentInfoManager.shared.user//,
-//                //let amount = viewModel.getResultInfo(uid: availableMembers[indexPath.row].id)
-//            else { return cell }
-//            
-//            resultCell.setupContent(leftUserImageURL: availableMembers[0].photoURL,
-//                                    leftUserName: availableMembers[0].name,
-//                                    rightUserImageURL: availableMembers[1].photoURL,
-//                                    rightUserName: availableMembers[1].name,
-//                                    amount: 5650.0.toAmountText)
-//            
-//            return resultCell
-//        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: ResultTableViewCell.identifier, for: indexPath)
         
         guard let resultCell = cell as? ResultTableViewCell,
-            let currentUserInfo = CurrentInfoManager.shared.user,
+            let currentUserInfo = CurrentManager.shared.user,
             let amount = viewModel.getResultInfo(uid: availableMembers[indexPath.row].id)
         else { return cell }
         

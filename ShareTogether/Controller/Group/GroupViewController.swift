@@ -45,7 +45,7 @@ class GroupViewController: STBaseViewController {
         
     @IBOutlet weak var textField: UITextField!
     
-    @IBOutlet weak var bannerViewConstaint: NSLayoutConstraint!
+    @IBOutlet weak var bannerViewConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var addMemberButton: UIButton!
     
@@ -60,15 +60,14 @@ class GroupViewController: STBaseViewController {
         didSet {
             tableView.dataSource = self
             tableView.delegate = self
-            tableView.registerWithNib(indentifer: MemberTableViewCell.identifer)
+            tableView.registerWithNib(identifier: MemberTableViewCell.identifier)
         }
     }
     
     @IBAction func clickAddMemberButton(_ sender: UIButton) {
         if showType == .edit {
-            let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
             
-            if demoGroupID == CurrentInfoManager.shared.group?.id {
+            guard !CurrentManager.shared.isDemoGroup() else {
                 LKProgressHUD.showFailure(text: "範例群組無法新增成員，請建立新群組", view: self.view)
                 return
             }
@@ -133,7 +132,7 @@ class GroupViewController: STBaseViewController {
     func switchLayout(direction: Direction) {
         if direction == .up {
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.bannerViewConstaint.constant = 360
+                self?.bannerViewConstraint.constant = 360
                 self?.textField.alpha = 1
                 self?.setCoverButton.alpha = 1
                 self?.title = ""
@@ -143,7 +142,7 @@ class GroupViewController: STBaseViewController {
             textField.resignFirstResponder()
             
             UIView.animate(withDuration: 0.5) { [weak self] in
-                self?.bannerViewConstaint.constant = 180
+                self?.bannerViewConstraint.constant = 180
                 self?.textField.alpha = 0
                 self?.setCoverButton.alpha = 0
                 self?.title = self?.textField.text
@@ -167,12 +166,12 @@ class GroupViewController: STBaseViewController {
             rightButton.addTarget(self, action: #selector(addGroup(_:)), for: .touchUpInside)
             navigationItem.rightBarButtonItem = .customItem(button: rightButton, code: "ios-add")
             
-            members = [MemberInfo(userInfo: CurrentInfoManager.shared.user!, status: 0)]
+            members = [MemberInfo(userInfo: CurrentManager.shared.user!, status: 0)]
             
         case .edit:
             textField.isUserInteractionEnabled = false
-            textField.text = CurrentInfoManager.shared.group?.name
-            coverImageView.setUrlImage(CurrentInfoManager.shared.group?.coverURL ?? "")
+            textField.text = CurrentManager.shared.group?.name
+            coverImageView.setUrlImage(CurrentManager.shared.group?.coverURL ?? "")
 
             setCoverButton.isHidden = true
             
@@ -287,12 +286,12 @@ class GroupViewController: STBaseViewController {
 extension GroupViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return availableMembers.count ?? 0
+        return availableMembers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: MemberTableViewCell.identifer, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: MemberTableViewCell.identifier, for: indexPath)
         
         guard let memberCell = cell as? MemberTableViewCell else { return cell}
         
@@ -332,16 +331,15 @@ extension GroupViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if showType == .edit {
-            let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
             
-            if demoGroupID == CurrentInfoManager.shared.group?.id {
+            guard !CurrentManager.shared.isDemoGroup() else {
                 LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
                 return
             }
             
             guard showType == .edit else { return }
             
-            if availableMembers[indexPath.row].id == CurrentInfoManager.shared.user?.id {
+            if availableMembers[indexPath.row].id == CurrentManager.shared.user?.id {
                 presentAlertController(text: "退出", member: availableMembers[indexPath.row])
             } else {
                 presentAlertController(text: "刪除", member: availableMembers[indexPath.row])

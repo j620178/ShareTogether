@@ -21,31 +21,28 @@ class ExpenseController: NSObject, AddExpenseItem {
     weak var delegate: ExpenseTextFieldDelegate?
     
     var expenseInfo: [String] = ["", ""]
-    
-    var getTextFieldInfo: [String] {
-        var expenseInfo = ["", ""]
+        
+    func resignAllTextField() {
         
         for index in textfieldPlaceHolder.indices {
-            guard let textFieldCell = tableView.cellForRow(at: IndexPath(row: index, section: 1)) as? TextFieldTableViewCell,
-                let text = textFieldCell.textField.text
-            else { return expenseInfo }
+            
+            guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 1)),
+                let textFieldCell = cell as? TextFieldTableViewCell
+            else { return }
             
             textFieldCell.textField.resignFirstResponder()
-            
-            expenseInfo[index] = text
+
         }
         
-        return expenseInfo
     }
     
     init(tableView: UITableView) {
+        
         self.tableView = tableView
-        self.tableView.registerWithNib(indentifer: TextFieldTableViewCell.identifer)
+        
+        self.tableView.registerWithNib(identifier: TextFieldTableViewCell.identifier)
+        
     }
-    
-}
-
-extension ExpenseController: UITableViewDelegate {
     
 }
 
@@ -56,34 +53,40 @@ extension ExpenseController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifer, for: indexPath)
         
-        guard let textfieldCell = cell as? TextFieldTableViewCell else { return cell }
+        let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.identifier, for: indexPath)
         
-        if indexPath.row == 0 {
-            textfieldCell.infoPassHandler = { [weak self] text in
-                self?.expenseInfo[0] = text
-            }
-        } else {
-            textfieldCell.infoPassHandler = { [weak self] text in
-                self?.expenseInfo[1] = text
-            }
-        }
+        guard let textFieldCell = cell as? TextFieldTableViewCell else { return cell }
         
-        textfieldCell.didBeginEditing = { [weak self] in
-            guard let strougSelf = self else { return }
-            strougSelf.delegate?.keyboardBeginEditing(controller: strougSelf)
-        }
+        textFieldCell.textField.text = expenseInfo[indexPath.row]
         
-        textfieldCell.textField.text = expenseInfo[indexPath.row]
+        textFieldCell.delegate = self
         
-        textfieldCell.textField.placeholder = textfieldPlaceHolder[indexPath.row]
+        textFieldCell.textField.placeholder = textfieldPlaceHolder[indexPath.row]
         
         if indexPath.row == 0 {
-            textfieldCell.textField.keyboardType = .numberPad
+            
+            textFieldCell.textField.keyboardType = .numberPad
+            
         }
         
-        return textfieldCell
+        return textFieldCell
+    }
+    
+}
+
+extension ExpenseController: TextFieldTableViewCellDelegate {
+    
+    func didBeginEditing(cell: TextFieldTableViewCell) {
+        delegate?.keyboardBeginEditing(controller: self)
+    }
+    
+    func didEndEditing(cell: TextFieldTableViewCell, text: String?) {
+        
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        expenseInfo[indexPath.row] = text ?? ""
+    
     }
     
 }

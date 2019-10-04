@@ -8,6 +8,29 @@
 
 import UIKit
 
+class HomeExpenseCellViewModel: NSObject {
+    let id: String
+    let type: ExpenseType
+    let title: String
+    let userImg: String?
+    let time: String
+    let amount: Double
+    
+    init(id: String,
+         type: ExpenseType,
+         title: String,
+         img: String?,
+         time: String,
+         amount: Double) {
+        self.id = id
+        self.type = type
+        self.title = title
+        self.userImg = img
+        self.time = time
+        self.amount = amount
+    }
+}
+
 class ExpenseTableViewCell: UITableViewCell {
     
     @IBOutlet weak var insetContentView: UIView!

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 
 class NoteViewModel: NSObject {
     
@@ -21,7 +20,7 @@ class NoteViewModel: NSObject {
     
     var reloadTableViewHandler: (() -> Void)?
     
-    func fectchData() {
+    func fetchData() {
         
         FirestoreManager.shared.getNotes { [weak self] result in
             switch result {

@@ -6,8 +6,6 @@
 //  Copyright © 2019 littema. All rights reserved.
 //
 
-import Foundation
-
 class ActivityViewModel {
     
     var activities = [Activity]()
@@ -24,7 +22,7 @@ class ActivityViewModel {
     
     var reloadTableView: (() -> Void)?
     
-    func fectchData() {
+    func fetchData() {
         
         guard let userInfo = CurrentManager.shared.user else { return }
         
@@ -44,8 +42,8 @@ class ActivityViewModel {
         }
     }
     
-    func getViewModelAt(_ indexPath: IndexPath) -> ActivityCellViewModel {
-        return cellViewModels[indexPath.row]
+    func getViewModelAt(_ index: Int) -> ActivityCellViewModel {
+        return cellViewModels[index]
     }
     
     func processViewModel() {
@@ -83,9 +81,9 @@ class ActivityViewModel {
         
     }
     
-    func addGroupButton(indexPath: IndexPath) {
+    func clickJoinButtonAt(_ index: Int) {
         
-        guard let groupInfo = activities[indexPath.row].groupInfo else { return }
+        guard let groupInfo = activities[index].groupInfo else { return }
         
         FirestoreManager.shared.joinGroup(group: groupInfo) { [weak self] result in
             switch result {
@@ -94,11 +92,11 @@ class ActivityViewModel {
                 guard let strongSelf = self else { return }
                 
                 FirestoreManager.shared.updateGroupMemberStatus(groupID: groupInfo.id,
-                                                                memberInfo: strongSelf.activities[indexPath.row].targetMember,
+                                                                memberInfo: strongSelf.activities[index].targetMember,
                                                                 status: .joined,
                                                                 completion: nil)
             
-                FirestoreManager.shared.updateActivityType(id: strongSelf.activities[indexPath.row].id,
+                FirestoreManager.shared.updateActivityType(id: strongSelf.activities[index].id,
                                                            type: .acceptMember)
                 
             case .failure:

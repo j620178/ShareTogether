@@ -6,8 +6,6 @@
 //  Copyright © 2019 littema. All rights reserved.
 //
 
-import Foundation
-
 class GroupListViewModel {
     
     var userGroups = [GroupInfo]()

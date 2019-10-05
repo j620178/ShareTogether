@@ -6,8 +6,6 @@
 //  Copyright © 2019 littema. All rights reserved.
 //
 
-import Foundation
-
 protocol InviteViewModelDelegete: AnyObject {
     func updateView(text: String, imageURL: String?, isButtonHidden: Bool, isEnable: Bool)
 }

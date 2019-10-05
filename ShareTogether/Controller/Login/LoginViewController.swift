@@ -27,87 +27,9 @@ class LoginViewController: STBaseViewController {
     
     @IBOutlet weak var appleSignInButton: ASAuthorizationAppleIDButton!
     
-    @IBAction func clickLoginButton(_ sender: UIButton) {
-        
-        if emailTextField.text == "" || passwordTextField.text == "" {
-            LKProgressHUD.showFailure(text: "請輸入完整資訊", view: self.view)
-        } else {
-            
-            LKProgressHUD.showLoading(view: self.view)
-            
-            AuthManager.shared.emailSignIn(email: emailTextField.text!,
-                                            password: passwordTextField.text!) { [weak self] result in
-                                                
-                                                guard let strougSelf = self else { return }
-                                                
-                                                switch result {
-                                                    
-                                                case .success(let userInfo):
-                                                    self?.checkUserGroup(authUserInfo: userInfo)
-                                                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                                                case .failure(let error):
-                                                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤",
-                                                                              view: strougSelf.view)
-                                                    print(error.localizedDescription)
-                                                }
-                
-            }
-            
-        }
-        
-    }
-
-    @objc func clickAppleSignInButton() {
-        let provider = ASAuthorizationAppleIDProvider()
-        let request = provider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        
-        let controller = ASAuthorizationController(authorizationRequests: [request])
-        
-        controller.delegate = self
-        controller.presentationContextProvider = self
-        
-        controller.performRequests()
-    }
+    var coordinatorDelegate: LoginCoordinatorDelegate?
     
-    @IBAction func clickOAuthLogin(_ sender: UIButton) {
-        
-        if sender.tag == 1 {
-            
-            AuthManager.shared.googleSignIn(viewContorller: self) { [weak self] result in
-                
-                guard let strougSelf = self else { return }
-                
-                switch result {
-                case .success(let userInfo):
-                    self?.checkUserGroup(authUserInfo: userInfo)
-                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                case .failure(let error):
-                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤", view: strougSelf.view)
-                    print(error.localizedDescription)
-                }
-            }
-            
-        } else if sender.tag == 2 {
-            
-            AuthManager.shared.facebookSignIn(viewContorller: self) { [weak self] result in
-                
-                guard let strougSelf = self else { return }
-                
-                switch result {
-                case .success(let userInfo):
-                    self?.checkUserGroup(authUserInfo: userInfo)
-                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                case .failure(let error):
-                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤", view: strougSelf.view)
-                    print(error.localizedDescription)
-                }
-
-            }
-            
-        }
-        
-    }
+    var viewModel: LoginViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,66 +72,54 @@ class LoginViewController: STBaseViewController {
         signUpButton.setTitleColor(.STDarkGray, for: .normal)
     }
     
-    func checkUserGroup(authUserInfo: UserInfo) {
+    
+    
 
-        FirestoreManager.shared.getUserInfo(uid: authUserInfo.id) { [weak self] result in
-            
-            guard let strougSelf = self else { return }
-            
-            switch result {
-                
-            case .success(let userInfo):
-                    
-                if let userInfo = userInfo, let groups = userInfo.groups, !groups.isEmpty {
-                    let group = GroupInfo(id: groups[0].id,
-                                          name: groups[0].name,
-                                          coverURL: groups[0].coverURL,
-                                          status: nil)
-                    CurrentManager.shared.setCurrentUser(userInfo)
-                    CurrentManager.shared.setCurrentGroup(group)
-                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                    self?.showHomeVC()
-                } else {
-                    FirestoreManager.shared.addNewUser(userInfo: authUserInfo) { result in
-                        switch result {
-                            
-                        case .success(let demoGroup):
-                            var userInfo = authUserInfo
-                            userInfo.groups = [demoGroup]
-                            CurrentManager.shared.setCurrentUser(userInfo)
-                            CurrentManager.shared.setCurrentGroup(demoGroup)
-                            LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                            self?.showHomeVC()
-                        case .failure:
-                            LKProgressHUD.dismiss()
-                            print("error")
-                        }
+    @IBAction func clickLoginButton(_ sender: UIButton) {
+        
+        viewModel?.submit()
+        
+    }
 
-                    }
-                }
-                
-            case .failure(let error):
-                LKProgressHUD.dismiss()
-                print(error)
-            }
-            
-        }
+    @objc func clickAppleSignInButton() {
+        
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        
+        controller.performRequests()
+
+        viewModel?.loginWithApple(viewController: self)
         
     }
     
-    func showHomeVC() {
+    @IBAction func clickOAuthLogin(_ sender: UIButton) {
         
-        if presentingViewController != nil {
-            let presentingVC = presentingViewController
-            dismiss(animated: false) {
-                presentingVC?.dismiss(animated: false)
+        if sender.tag == 1 {
+            
+            viewModel?.loginWithGoogle(viewController: self)
+     
+        } else if sender.tag == 2 {
+            
+            AuthManager.shared.facebookSignIn(viewController: self) { [weak self] result in
+                            
+                switch result {
+                case .success(let userInfo):
+                    self?.viewModel?.isRegisteredUser(authUserInfo: userInfo)
+                    //self?.showMessageHandler?(.success, "登入成功")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    //self?.showMessageHandler?(.failure, "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤")
+                }
+
             }
-        } else {
-            let nextVC = UIStoryboard.main.instantiateInitialViewController()!
-            nextVC.modalPresentationStyle = .fullScreen
-            present(nextVC, animated: true, completion: nil)
+            
         }
-        
     }
 
 }
@@ -230,7 +140,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                                 phone: nil, photoURL: "",
                                 groups: nil)
 
-        checkUserGroup(authUserInfo: userInfo)
+        viewModel?.isRegisteredUser(authUserInfo: userInfo)
     }
 }
 

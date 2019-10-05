@@ -60,10 +60,10 @@ class AuthManager: NSObject {
         }
     }
     
-    func facebookSignIn(viewContorller: UIViewController, completion: @escaping (Result<UserInfo, Error>) -> Void) {
+    func facebookSignIn(viewController: UIViewController, completion: @escaping (Result<UserInfo, Error>) -> Void) {
         let fbLoginManager = LoginManager()
 
-        fbLoginManager.logIn(permissions: ["public_profile", "email"], from: viewContorller) { (result, error) in
+        fbLoginManager.logIn(permissions: ["public_profile", "email"], from: viewController) { (result, error) in
         
             if error != nil {
                 completion(Result.failure(AuthManagerError.loginFailed))
@@ -106,10 +106,10 @@ class AuthManager: NSObject {
 
     }
     
-    func googleSignIn(viewContorller: LoginViewController,
+    func googleSignIn(viewController: LoginViewController,
                       completion: @escaping ((Result<UserInfo, Error>) -> Void)) {
         
-        GIDSignIn.sharedInstance().uiDelegate = viewContorller
+        GIDSignIn.sharedInstance().uiDelegate = viewController
         GIDSignIn.sharedInstance()?.signIn()
         
         googleSignInHandler = completion

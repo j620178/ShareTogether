@@ -21,7 +21,16 @@ class LKProgressHUD {
     }()
     
     var view: UIView {
-        return AppDelegate.shared.window!.rootViewController!.view
+        guard let appDelegate = UIApplication.shared.delegate,
+            let window = appDelegate.window,
+            let realWindow = window,
+            let rootVC = realWindow.rootViewController,
+            let view = rootVC.view
+        else {
+            fatalError()
+        }
+                
+        return view
     }
 
     static func show(type: Result<String, Error>) {

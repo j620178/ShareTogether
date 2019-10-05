@@ -89,6 +89,10 @@
 		74AEC8FE231FC5E9003A6F01 /* TextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74AEC8FC231FC5E8003A6F01 /* TextFieldTableViewCell.xib */; };
 		74AEC9012320837C003A6F01 /* CheckBoxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AEC8FF2320837C003A6F01 /* CheckBoxTableViewCell.swift */; };
 		74AEC9022320837C003A6F01 /* CheckBoxTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74AEC9002320837C003A6F01 /* CheckBoxTableViewCell.xib */; };
+		74B0A87C23475FB40003C5FF /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B0A87B23475FB40003C5FF /* AppCoordinator.swift */; };
+		74B0A87E234766380003C5FF /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B0A87D234766380003C5FF /* LoginCoordinator.swift */; };
+		74B0A880234773E30003C5FF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B0A87F234773E30003C5FF /* LoginViewModel.swift */; };
+		74B0A882234837BF0003C5FF /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B0A881234837BF0003C5FF /* HomeCoordinator.swift */; };
 		74B5C4C7231DE46B00EB916D /* NewGroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4C5231DE46B00EB916D /* NewGroupCollectionViewCell.swift */; };
 		74B5C4C8231DE46B00EB916D /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4C6231DE46B00EB916D /* GroupCollectionViewCell.swift */; };
 		74B5C4CD231DE47B00EB916D /* AddExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */; };
@@ -211,6 +215,10 @@
 		74AEC8FC231FC5E8003A6F01 /* TextFieldTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		74AEC8FF2320837C003A6F01 /* CheckBoxTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxTableViewCell.swift; sourceTree = "<group>"; };
 		74AEC9002320837C003A6F01 /* CheckBoxTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckBoxTableViewCell.xib; sourceTree = "<group>"; };
+		74B0A87B23475FB40003C5FF /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		74B0A87D234766380003C5FF /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
+		74B0A87F234773E30003C5FF /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		74B0A881234837BF0003C5FF /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		74B5C4C5231DE46B00EB916D /* NewGroupCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		74B5C4C6231DE46B00EB916D /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		74B5C4C9231DE47B00EB916D /* AddExpenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddExpenseViewController.swift; sourceTree = "<group>"; };
@@ -302,9 +310,9 @@
 				74960EA623150834006BF12C /* Home.storyboard */,
 				743F4E61232F3FA3009BA6BA /* Menu.storyboard */,
 				748A84F52319216B00EE00A0 /* Expense.storyboard */,
-				747AB9042324D38C00007A32 /* Login.storyboard */,
 				742468BD2338422D00528202 /* Search.storyboard */,
 				74B5C4E7231DED8400EB916D /* Activity.storyboard */,
+				747AB9042324D38C00007A32 /* Login.storyboard */,
 				74960EAB23150838006BF12C /* LaunchScreen.storyboard */,
 			);
 			path = Storyboard;
@@ -324,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				742E5F4C23302CF8001EDF54 /* Storyboard */,
+				74B5C4BE231DE37700EB916D /* Controller */,
 				74B5C4C3231DE3E200EB916D /* Home */,
 				744F51F7234188810098A323 /* Search */,
 				74B5C4ED231E5C8700EB916D /* AddExpense */,
@@ -411,6 +420,7 @@
 				743F4E5E232F2FDB009BA6BA /* Home */,
 				7495BEA523416ACC00CA946D /* Group */,
 				749573962337D442003997BD /* ActivityViewModel.swift */,
+				74B0A87F234773E30003C5FF /* LoginViewModel.swift */,
 				74B9AE0E2338BA1F0029A8BE /* SearchViewModel.swift */,
 			);
 			path = ViewModel;
@@ -446,18 +456,18 @@
 		74960EA123150834006BF12C /* ShareTogether */ = {
 			isa = PBXGroup;
 			children = (
-				74B9AE0D2338A6EC0029A8BE /* ShareTogether.entitlements */,
-				74297248234321D500A25084 /* GoogleService-Info.plist */,
-				74960EA223150834006BF12C /* AppDelegate.swift */,
-				74D611D1231D006700A301E9 /* ThridPratyWrapper */,
+				74D611D1231D006700A301E9 /* ThirdPartyWrapper */,
 				744BBFA623162ADB00434D7A /* Extension */,
+				74B0A87A23475F780003C5FF /* Coordinator */,
 				745CACC523169FB80055A60C /* Model */,
 				7492067A2317DDAB0049357B /* ViewModel */,
-				74B5C4BE231DE37700EB916D /* Controller */,
 				744BBF9E2315F73100434D7A /* View */,
 				74960EA923150838006BF12C /* Assets.xcassets */,
+				74960EA223150834006BF12C /* AppDelegate.swift */,
 				74960EAE23150838006BF12C /* Info.plist */,
 				740D02B82344409000202F02 /* PrivateInfo.plist */,
+				74B9AE0D2338A6EC0029A8BE /* ShareTogether.entitlements */,
+				74297248234321D500A25084 /* GoogleService-Info.plist */,
 			);
 			path = ShareTogether;
 			sourceTree = "<group>";
@@ -473,6 +483,16 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		74B0A87A23475F780003C5FF /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				74B0A87B23475FB40003C5FF /* AppCoordinator.swift */,
+				74B0A87D234766380003C5FF /* LoginCoordinator.swift */,
+				74B0A881234837BF0003C5FF /* HomeCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		74B5C4BE231DE37700EB916D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,7 +504,8 @@
 				74D0051E233237C00079D68E /* Setting */,
 				744C9C332328F9AD00661252 /* Login */,
 			);
-			path = Controller;
+			name = Controller;
+			path = ../Controller;
 			sourceTree = "<group>";
 		};
 		74B5C4C0231DE3A100EB916D /* Common */ = {
@@ -607,14 +628,14 @@
 			path = Group;
 			sourceTree = "<group>";
 		};
-		74D611D1231D006700A301E9 /* ThridPratyWrapper */ = {
+		74D611D1231D006700A301E9 /* ThirdPartyWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				74D611D2231D008D00A301E9 /* SwiftIconFont.swift */,
 				747AE9A6232E3C50007D855B /* Kingfisher.swift */,
+				74D611D2231D008D00A301E9 /* SwiftIconFont.swift */,
 				74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */,
 			);
-			path = ThridPratyWrapper;
+			path = ThirdPartyWrapper;
 			sourceTree = "<group>";
 		};
 		C85C2E27063BF58370E2CD36 /* Frameworks */ = {
@@ -827,6 +848,7 @@
 				74082B6023402CC100565434 /* PayDateController.swift in Sources */,
 				74B9AE0F2338BA1F0029A8BE /* SearchViewModel.swift in Sources */,
 				747AB9072324DFED00007A32 /* LoginViewController.swift in Sources */,
+				74B0A880234773E30003C5FF /* LoginViewModel.swift in Sources */,
 				744F51FE234193960098A323 /* ExpenseSplitTableViewCell.swift in Sources */,
 				747AB90B2324F38A00007A32 /* SignUpViewController.swift in Sources */,
 				745CACCA231784DF0055A60C /* String+Extension.swift in Sources */,
@@ -834,6 +856,7 @@
 				74AEC8FD231FC5E9003A6F01 /* TextFieldTableViewCell.swift in Sources */,
 				740D02BB2344544C00202F02 /* PushNotificationProvider.swift in Sources */,
 				74641F432320FB3A0059B265 /* NotebookTableViewCell.swift in Sources */,
+				74B0A87E234766380003C5FF /* LoginCoordinator.swift in Sources */,
 				74B5C4EC231E044800EB916D /* STBaseViewController.swift in Sources */,
 				74B5C4DF231DE48800EB916D /* StatisticsTableViewCell.swift in Sources */,
 				74A1A0DF232B8675007C717A /* NoteViewController.swift in Sources */,
@@ -863,6 +886,8 @@
 				74B5C4CF231DE47B00EB916D /* HomeViewController.swift in Sources */,
 				745CC9942322863500426D1A /* UIView+Extension.swift in Sources */,
 				74D968522341C3EE008A7F3D /* ExpenseDetailViewController.swift in Sources */,
+				74B0A87C23475FB40003C5FF /* AppCoordinator.swift in Sources */,
+				74B0A882234837BF0003C5FF /* HomeCoordinator.swift in Sources */,
 				7455837523265D2E008C1690 /* SplitTextFieldTableViewCell.swift in Sources */,
 				74D968552342765D008A7F3D /* AddNoteTableViewCell.swift in Sources */,
 				744BBFA823162B1900434D7A /* UIColor+Extension.swift in Sources */,

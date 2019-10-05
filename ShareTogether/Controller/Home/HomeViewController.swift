@@ -8,20 +8,22 @@
 
 import UIKit
 
+private enum InfoType: String {
+    case expense = "交易紀錄"
+    case statistics = "金額統計"
+    case result = "結算結果"
+    case notebook = "記事本"
+}
+
 class HomeViewController: STBaseViewController {
     
     override var isHideNavigationBar: Bool {
         return true
     }
     
-    enum InfoType: String {
-        case expense = "交易紀錄"
-        case statistics = "金額統計"
-        case result = "結算結果"
-        case notebook = "記事本"
-    }
+    var viewModel: HomeViewModel?
     
-    let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
+    private let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
     
     var expenseTableViewController: ExpenseViewController?
     
@@ -30,10 +32,6 @@ class HomeViewController: STBaseViewController {
     var resultTableViewController: ResultViewController?
     
     var notebookTableViewController: NoteViewController?
-    
-    var viewModel: HomeViewModel = {
-        return HomeViewModel()
-    }()
     
     @IBOutlet weak var bannerView: UIView!
     
@@ -59,6 +57,45 @@ class HomeViewController: STBaseViewController {
     
     @IBOutlet weak var infoScrollView: UIScrollView!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        bannerView.addShadow()
+        bannerView.backgroundColor = .STTintColor
+        
+        infoScrollView.delegate = self
+        
+        infoTypeSelectionView.dataSource = self
+        infoTypeSelectionView.delegate = self
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateCurrentGroup),
+                                               name: NSNotification.Name(rawValue: "CurrentGroup"),
+                                               object: nil)
+
+        updateCurrentGroup()
+            
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let expenseVC = segue.destination as? ExpenseViewController {
+            expenseVC.delegate = self
+            expenseVC.viewModel = viewModel
+            expenseTableViewController = expenseVC
+        } else if let statisticsVC = segue.destination as? StatisticsViewController {
+            statisticsVC.delegate = self
+            statisticsVC.viewModel = viewModel
+            statisticsTableViewController = statisticsVC
+        } else if let resultVC = segue.destination as? ResultViewController {
+            resultVC.delegate = self
+            resultVC.viewModel = viewModel
+            resultTableViewController = resultVC
+        } else if let notebookVC = segue.destination as? NoteViewController {
+            notebookVC.delegate = self
+            notebookTableViewController = notebookVC
+        }
+    }
+    
     @IBAction func clickGroupNameButton(_ sender: UIButton) {
         
         let nextVC = UIStoryboard.group.instantiateInitialViewController()!
@@ -83,72 +120,35 @@ class HomeViewController: STBaseViewController {
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        bannerView.addShadow()
-        bannerView.backgroundColor = .STTintColor
-        
-        infoScrollView.delegate = self
-        
-        infoTypeSelectionView.dataSource = self
-        infoTypeSelectionView.delegate = self
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(upadateCurrentGroup),
-                                               name: NSNotification.Name(rawValue: "CurrentGroup"),
-                                               object: nil)
-
-        upadateCurrentGroup()
-            
-    }
-    
-    @objc func upadateCurrentGroup() {
-        viewModel.fetchData()
+    @objc func updateCurrentGroup() {
+        viewModel?.fetchData()
         groupNameButton.setTitle(CurrentManager.shared.group?.name, for: .normal)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let expenseVC = segue.destination as? ExpenseViewController {
-            expenseVC.delegate = self
-            expenseVC.viewModel = viewModel
-            expenseTableViewController = expenseVC
-        } else if let statisticsVC = segue.destination as? StatisticsViewController {
-            statisticsVC.delegate = self
-            statisticsVC.viewModel = viewModel
-            statisticsTableViewController = statisticsVC
-        } else if let resultVC = segue.destination as? ResultViewController {
-            resultVC.delegate = self
-            resultVC.viewModel = viewModel
-            resultTableViewController = resultVC
-        } else if let notebookVC = segue.destination as? NoteViewController {
-            notebookVC.delegate = self
-            notebookTableViewController = notebookVC
-        }
     }
 
 }
 
 extension HomeViewController: UIScrollViewDelegate {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let screenPage = Int(scrollView.contentOffset.x / UIScreen.main.bounds.width)
         
         if screenPage > infoTypeSelectionView.selectIndex {
+            
             infoTypeSelectionView.switchIndicatorAt(index: screenPage)
+            
         } else if screenPage < infoTypeSelectionView.selectIndex {
+            
             infoTypeSelectionView.switchIndicatorAt(index: screenPage)
+            
         }
         
     }
+    
 }
 
 extension HomeViewController: ScrollSelectionViewDataSource {
+    
     func numberOfItems(scrollSelectionView: ScrollSelectionView) -> Int {
         return infoItems.count
     }
@@ -160,9 +160,13 @@ extension HomeViewController: ScrollSelectionViewDataSource {
 }
 
 extension HomeViewController: ScrollSelectionViewDelegate {
+    
     func scrollSelectionView(scrollSelectionView: ScrollSelectionView, didSelectIndexAt index: Int) {
+        
         let index = infoTypeSelectionView.selectIndex
+        
         infoScrollView.setContentOffset(CGPoint(x: index * Int(UIScreen.main.bounds.width), y: 0), animated: true)
+        
     }
 }
 

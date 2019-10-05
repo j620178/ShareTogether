@@ -6,7 +6,6 @@
 //  Copyright © 2019 littema. All rights reserved.
 //
 
-import Foundation
 import MapKit
 
 class SearchViewModel {

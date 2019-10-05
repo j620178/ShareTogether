@@ -43,21 +43,21 @@ class ActivityViewController: STBaseViewController {
         UIApplication.shared.applicationIconBadgeNumber = 0
         navigationController?.tabBarItem.badgeValue = nil
         
-        viewModel.fectchData()
+        viewModel.fetchData()
         viewModel.reloadTableView = { [weak self] in
             self?.tableView.reloadData()
         }
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(upadateCurrentGroup),
+                                               selector: #selector(updateCurrentGroup),
                                                name: NSNotification.Name(rawValue: "CurrentGroup"),
                                                object: nil)
 
-        upadateCurrentGroup()
+        updateCurrentGroup()
     }
 
-    @objc func upadateCurrentGroup() {
-        viewModel.fectchData()
+    @objc func updateCurrentGroup() {
+        viewModel.fetchData()
     }
 
 }
@@ -83,13 +83,13 @@ extension ActivityViewController: UITableViewDataSource {
             
             guard let activityCell = cell as? ActivityTableViewCell else { return cell }
             
-            activityCell.cellViewModel = viewModel.getViewModelAt(indexPath)
+            activityCell.cellViewModel = viewModel.getViewModelAt(indexPath.row)
             
             activityCell.clickCellHandler = { [weak self] cell in
                 
                 guard let indexPath = tableView.indexPath(for: cell) else { return }
                 
-                self?.viewModel.addGroupButton(indexPath: indexPath)
+                self?.viewModel.clickJoinButtonAt(indexPath.row)
             }
             
             return activityCell
@@ -99,7 +99,7 @@ extension ActivityViewController: UITableViewDataSource {
             
             guard let activityCell = cell as? ActivityInfoTableViewCell else { return cell }
             
-            activityCell.cellViewModel = viewModel.getViewModelAt(indexPath)
+            activityCell.cellViewModel = viewModel.getViewModelAt(indexPath.row)
             
             return activityCell
         }

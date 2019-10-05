@@ -5,7 +5,6 @@
 //  Created by littlema on 2019/9/20.
 //  Copyright © 2019 littema. All rights reserved.
 //
-
 import Foundation
 
 class HomeViewModel: NSObject {
@@ -36,9 +35,9 @@ class HomeViewModel: NSObject {
         return titleOfSections[section]
     }
     
-    func getExpense(at indexPath: IndexPath) -> Expense? {
+    func getExpense(section: Int, row: Int) -> Expense? {
         
-        let id = cellViewModels[indexPath.section][indexPath.row].id
+        let id = cellViewModels[section][row].id
         
         var result: Expense?
         
@@ -52,8 +51,8 @@ class HomeViewModel: NSObject {
         return result
     }
     
-    func getExpenseCellViewModel(at indexPath: IndexPath) -> HomeExpenseCellViewModel {
-        return cellViewModels[indexPath.section][indexPath.row]
+    func getExpenseCellViewModel(section: Int, row: Int) -> HomeExpenseCellViewModel {
+        return cellViewModels[section][row]
     }
     
     func createExpenseCellViewModel(expense: Expense) -> HomeExpenseCellViewModel {

@@ -66,7 +66,7 @@ extension ExpenseViewController: UITableViewDataSource {
 
         guard let expenseCell = cell as? ExpenseTableViewCell else { return cell }
 
-        expenseCell.viewModel = viewModel.getExpenseCellViewModel(at: indexPath)
+        expenseCell.viewModel = viewModel.getExpenseCellViewModel(section: indexPath.section, row: indexPath.row)
 
         return expenseCell
     }
@@ -105,7 +105,7 @@ extension ExpenseViewController: UITableViewDelegate {
             as? ExpenseDetailViewController
         else { return }
         
-        nextVC.expense = viewModel.getExpense(at: indexPath)
+        nextVC.expense = viewModel.getExpense(section: indexPath.section, row: indexPath.row)
         
         show(nextVC, sender: nil)
         

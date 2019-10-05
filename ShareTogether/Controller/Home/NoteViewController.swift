@@ -33,17 +33,17 @@ class NoteViewController: STBaseViewController {
         }
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(upadateCurrentGroup),
+                                               selector: #selector(updateCurrentGroup),
                                                name: NSNotification.Name(rawValue: "CurrentGroup"),
                                                object: nil)
         
-        upadateCurrentGroup()
+        updateCurrentGroup()
         
     }
     
-    @objc func upadateCurrentGroup() {
+    @objc func updateCurrentGroup() {
         
-        viewModel.fectchData()
+        viewModel.fetchData()
     }
 
 }

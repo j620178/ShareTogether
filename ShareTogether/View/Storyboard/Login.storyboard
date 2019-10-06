@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eXs-Nc-Wh4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GzT-d5-4m3">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
@@ -10,7 +10,7 @@
         <!--Login View Controller-->
         <scene sceneID="Ckz-CH-RDN">
             <objects>
-                <viewController id="GzT-d5-4m3" customClass="LoginViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="GzT-d5-4m3" customClass="LoginViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Aod-B6-S7F">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -57,7 +57,7 @@
                                 </constraints>
                                 <state key="normal" title="Google 登入"/>
                                 <connections>
-                                    <action selector="clickOAuthLogin:" destination="GzT-d5-4m3" eventType="touchUpInside" id="SvQ-2n-hrV"/>
+                                    <action selector="clickOAuthLoginButton:" destination="GzT-d5-4m3" eventType="touchUpInside" id="SvQ-2n-hrV"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="或" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BI2-he-9yr">
@@ -77,7 +77,7 @@
                                 </constraints>
                                 <state key="normal" title="Facebook 登入"/>
                                 <connections>
-                                    <action selector="clickOAuthLogin:" destination="GzT-d5-4m3" eventType="touchUpInside" id="O4n-2F-S5L"/>
+                                    <action selector="clickOAuthLoginButton:" destination="GzT-d5-4m3" eventType="touchUpInside" id="O4n-2F-S5L"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnw-2i-443">
@@ -91,7 +91,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="註冊帳號"/>
                                 <connections>
-                                    <segue destination="kZm-92-HPF" kind="show" id="T54-qH-Vg5"/>
+                                    <action selector="clickSignUpButton:" destination="GzT-d5-4m3" eventType="touchUpInside" id="sG3-eX-PTD"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14q-N0-7tQ" customClass="ASAuthorizationAppleIDButton">
@@ -156,13 +156,13 @@
         <!--Sign Up View Controller-->
         <scene sceneID="nZd-Bl-ZI2">
             <objects>
-                <viewController id="kZm-92-HPF" customClass="SignUpViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpViewController" id="kZm-92-HPF" customClass="SignUpViewController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="56t-I5-WGH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入使用者名稱" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NoY-au-O0w">
-                                <rect key="frame" x="32" y="84" width="256" height="45"/>
+                                <rect key="frame" x="32" y="40" width="256" height="45"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="Fmb-yj-0V2"/>
@@ -171,7 +171,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6qk-Vk-Uv5">
-                                <rect key="frame" x="32" y="149" width="256" height="45"/>
+                                <rect key="frame" x="32" y="105" width="256" height="45"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="aSH-Tg-c3X"/>
@@ -180,7 +180,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入密碼" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W5O-8A-TvE">
-                                <rect key="frame" x="32" y="214" width="256" height="45"/>
+                                <rect key="frame" x="32" y="170" width="256" height="45"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="o3K-vz-ag3"/>
@@ -189,7 +189,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pi8-Tr-x3B">
-                                <rect key="frame" x="32" y="279" width="256" height="45"/>
+                                <rect key="frame" x="32" y="235" width="256" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="ZAz-GW-P9N"/>
                                 </constraints>
@@ -199,17 +199,17 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="為保障會員之權益，請於使用本服務或註冊成為會員前，詳細下方隱私權政策內容，當您註冊本服務時，即表示您已閱讀、瞭解並同意接受內容" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8YN-JR-s4o">
-                                <rect key="frame" x="16" y="334" width="288" height="43"/>
+                                <rect key="frame" x="16" y="290" width="288" height="43"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbc-sT-pm8">
-                                <rect key="frame" x="121.5" y="387" width="77" height="30"/>
+                                <rect key="frame" x="121.5" y="343" width="77" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="隱私權政策"/>
                                 <connections>
-                                    <action selector="praviteInfo:" destination="kZm-92-HPF" eventType="touchUpInside" id="q0F-aq-lRr"/>
+                                    <action selector="privateInfo:" destination="kZm-92-HPF" eventType="touchUpInside" id="q0F-aq-lRr"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -244,25 +244,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVZ-5A-deW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1761" y="-48"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Xnr-d2-IPM">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eXs-Nc-Wh4" customClass="STNavigationController" customModule="ShareTogether" customModuleProvider="target" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qvB-gS-F44">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="GzT-d5-4m3" kind="relationship" relationship="rootViewController" id="V2T-Ae-VCF"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9hp-rJ-vgB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="26.086956521739133" y="-48.214285714285715"/>
+            <point key="canvasLocation" x="1918" y="-49"/>
         </scene>
     </scenes>
 </document>

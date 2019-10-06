@@ -16,6 +16,16 @@ class STBaseViewController: UIViewController {
         return String(describing: self)
     }
     
+    static func instantiate(name: StoryboardCategory) -> Self {
+        
+        let storyboard = UIStoryboard(name: name.rawValue, bundle: nil)
+        
+        guard let baseVC = storyboard.instantiateViewController(identifier: self.identifier)
+            as? Self else { fatalError() }
+        
+        return baseVC
+    }
+    
     var isHideNavigationBar: Bool {
         
         return false

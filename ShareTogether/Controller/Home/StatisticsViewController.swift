@@ -20,25 +20,23 @@ class StatisticsViewController: UIViewController {
     
     weak var delegate: HomeViewControllerDelegate?
     
-    var viewModel: HomeViewModel!
+    var viewModel: HomeViewModel?
     
     var observation: NSKeyValueObservation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        observation = viewModel.observe(\.cellViewModels, options: [.initial, .new]) { (_, _) in
-            self.tableView.reloadData()
+        observation = viewModel?.observe(\.cellViewModels, options: [.initial, .new]) { [weak self] (_, _) in
+            self?.tableView.reloadData()
         }
-        
     }
-    
 }
 
 extension StatisticsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.numberOfSections == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
+        viewModel?.numberOfSections == 0 ? (tableView.alpha = 0) : (tableView.alpha = 1)
         return 1
     }
     
@@ -47,7 +45,7 @@ extension StatisticsViewController: UITableViewDataSource {
         
         guard let statisticsCell = cell as? StatisticsTableViewCell else { return cell }
         
-        statisticsCell.cellViewModel = viewModel.getStatisticsCellViewModel()
+        statisticsCell.cellViewModel = viewModel?.getStatisticsCellViewModel()
         
         return statisticsCell
     }

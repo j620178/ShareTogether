@@ -9,37 +9,42 @@
 import UIKit
 
 protocol Coordinator: AnyObject {
-    
+        
     func start()
     
 }
 
 class AppCoordinator: Coordinator {
-
+    
+    private var childCoordinators = [Coordinator]()
+    
     var window: UIWindow
     
-    private var coordinators = [Coordinator]()
-    
     init(window: UIWindow) {
+        
         self.window = window
     }
     
     func start() {
         
         if CurrentManager.shared.user != nil {
+            
             showHome()
+            
         } else {
+            
             showLogin()
         }
-        
-    }
-
-    func addCoordinator(coordinator: Coordinator) {
-        coordinators.append(coordinator)
     }
     
-    func removeCoordinator(coordinator: Coordinator) {
-        coordinators = coordinators.filter { $0 !== coordinator }
+    func addChildCoordinator(_ coordinator: Coordinator) {
+        
+        childCoordinators.append(coordinator)
+    }
+    
+    func removeChildCoordinator(_ coordinator: Coordinator) {
+        
+        childCoordinators = childCoordinators.filter { $0 !== coordinator }
     }
     
 }
@@ -47,32 +52,41 @@ class AppCoordinator: Coordinator {
 extension AppCoordinator: LoginCoordinatorDelegate {
     
     func showLogin() {
+        
         let loginCoordinator = LoginCoordinator(window: window)
-        addCoordinator(coordinator: loginCoordinator)
+        
+        addChildCoordinator(loginCoordinator)
+        
         loginCoordinator.delegate = self
+        
         loginCoordinator.start()
     }
     
-    func didFinishBy(coordinator: LoginCoordinator) {
+    func didFinishFrom(_ coordinator: Coordinator) {
         
-        removeCoordinator(coordinator: coordinator)
+        removeChildCoordinator(coordinator)
         
+        showHome()
     }
 
 }
 
-extension AppCoordinator: HomeCoordinatorDelegate {
+extension AppCoordinator: MainTabBarCoordinatorDelegate {
     
     func showHome() {
-        let homeCoordinator = HomeCoordinator(window: window)
-        addCoordinator(coordinator: homeCoordinator)
-        homeCoordinator.delegate = self
-        homeCoordinator.start()
+        
+        let mainTabBarCoordinator = MainTabBarCoordinator(window: window)
+        
+        addChildCoordinator(mainTabBarCoordinator)
+        
+        mainTabBarCoordinator.delegate = self
+        
+        mainTabBarCoordinator.start()
     }
     
-    func didFinishBy(coordinator: HomeCoordinator) {
-        removeCoordinator(coordinator: coordinator)
+    func didFinishFrom(_ coordinator: MainTabBarCoordinator) {
+        
+        removeChildCoordinator(coordinator)
     }
     
-
 }

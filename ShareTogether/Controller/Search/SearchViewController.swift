@@ -13,11 +13,16 @@ class STAnnotation: MKPointAnnotation {
     var identifier: String!
 }
 
+//protocol SearchVCCoordinatorDelegate {
+//}
+
 class SearchViewController: STBaseViewController {
-        
-    let locationManager = CLLocationManager()
+    
+    //weak var coordinator: SearchVCCoordinatorDelegate?
     
     var viewModel = SearchViewModel()
+        
+    let locationManager = CLLocationManager()
         
     @IBOutlet weak var textField: UITextField! {
         didSet {

@@ -9,26 +9,6 @@
 import Foundation
 import UIKit
 
-private enum StoryboardCategory: String {
-
-    case login = "Login"
-    
-    case main = "Main"
-    
-    case home = "Home"
-    
-    case search = "Search"
-    
-    case expense = "Expense"
-    
-    case group = "Group"
-    
-    case activity = "Activity"
-    
-    case menu = "Menu"
-
-}
-
 extension UIStoryboard {
     
     static var main: UIStoryboard { return getStoryboard(name: StoryboardCategory.main.rawValue) }
@@ -45,11 +25,18 @@ extension UIStoryboard {
     
     static var activity: UIStoryboard { return getStoryboard(name: StoryboardCategory.activity.rawValue) }
     
-    static var menu: UIStoryboard { return getStoryboard(name: StoryboardCategory.menu.rawValue) }
+    static var setting: UIStoryboard { return getStoryboard(name: StoryboardCategory.setting.rawValue) }
     
     private static func getStoryboard(name: String) -> UIStoryboard {
         
         return UIStoryboard(name: name, bundle: nil)
     }
 
+}
+
+extension UIEdgeInsets {
+    
+    static var stEdgeInsets: UIEdgeInsets {
+        return UIEdgeInsets(top: 6.0, left: 0.0, bottom: -6.0, right: 0.0)
+    }
 }

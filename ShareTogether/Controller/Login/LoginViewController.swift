@@ -9,9 +9,20 @@
 import UIKit
 import AuthenticationServices
 
+protocol LoginViewCoordinatorDelegate: AnyObject {
+    
+    func didLoginFrom(_ viewController: UIViewController)
+    
+    func showSignUpFrom(_ viewController: UIViewController)
+}
+
 class LoginViewController: STBaseViewController {
     
     override var isHideNavigationBar: Bool { return true }
+    
+    weak var coordinator: LoginViewCoordinatorDelegate?
+        
+    var viewModel: LoginViewModel?
     
     @IBOutlet weak var emailTextField: UITextField!
     
@@ -26,15 +37,13 @@ class LoginViewController: STBaseViewController {
     @IBOutlet weak var signUpButton: UIButton!
     
     @IBOutlet weak var appleSignInButton: ASAuthorizationAppleIDButton!
-    
-    var coordinatorDelegate: LoginCoordinatorDelegate?
-    
-    var viewModel: LoginViewModel?
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupBase()
+        setupView()
+        
+        setupVMBinding()
         
         appleSignInButton.addTarget(self, action: #selector(clickAppleSignInButton), for: .touchUpInside)
     }
@@ -52,7 +61,24 @@ class LoginViewController: STBaseViewController {
         appleSignInButton.cornerRadius = appleSignInButton.frame.height / 4
     }
     
-    func setupBase() {
+    func setupVMBinding() {
+       
+        viewModel?.loadingHandler = { isLoading in
+            
+            switch isLoading {
+                
+            case true:
+                
+                LKProgressHUD.showLoading()
+                
+            case false:
+                
+                LKProgressHUD.dismiss()
+            }
+        }
+    }
+    
+    func setupView() {
         emailTextField.addLeftSpace()
         emailTextField.textColor = .STDarkGray
         passwordTextField.addLeftSpace()
@@ -72,97 +98,116 @@ class LoginViewController: STBaseViewController {
         signUpButton.setTitleColor(.STDarkGray, for: .normal)
     }
     
-    
-    
+    func checkLogin(result: Result<String, LoginError>) {
+        
+        switch result {
+            
+        case .success(let text):
+            
+            LKProgressHUD.showFailure(text: text, view: self.view)
+            
+            coordinator?.didLoginFrom(self)
+            
+        case .failure(let error):
+            
+            switch error {
+  
+            case .empty:
+                
+                LKProgressHUD.showFailure(text: "未完整填寫登入資訊", view: self.view)
+                
+            case .failure:
+                
+                LKProgressHUD.showFailure(text: "登入失敗", view: self.view)
+            }
+        }
+    }
 
     @IBAction func clickLoginButton(_ sender: UIButton) {
         
-        viewModel?.submit()
+        guard let email = emailTextField.text, let password = passwordTextField.text else { return }
+        
+        viewModel?.loginWithEmail(email: email, password: password, completion: { [weak self] result in
+            
+            self?.checkLogin(result: result)
+
+        })
         
     }
 
     @objc func clickAppleSignInButton() {
         
         let provider = ASAuthorizationAppleIDProvider()
+        
         let request = provider.createRequest()
+        
         request.requestedScopes = [.fullName, .email]
         
         let controller = ASAuthorizationController(authorizationRequests: [request])
         
         controller.delegate = self
+        
         controller.presentationContextProvider = self
         
         controller.performRequests()
-
-        viewModel?.loginWithApple(viewController: self)
-        
     }
     
-    @IBAction func clickOAuthLogin(_ sender: UIButton) {
+    @IBAction func clickOAuthLoginButton(_ sender: UIButton) {
         
         if sender.tag == 1 {
             
-            viewModel?.loginWithGoogle(viewController: self)
+            viewModel?.loginWithGoogle(viewController: self, completion: { [weak self] result in
+            
+                self?.checkLogin(result: result)
+                
+            })
      
         } else if sender.tag == 2 {
             
-            AuthManager.shared.facebookSignIn(viewController: self) { [weak self] result in
-                            
-                switch result {
-                case .success(let userInfo):
-                    self?.viewModel?.isRegisteredUser(authUserInfo: userInfo)
-                    //self?.showMessageHandler?(.success, "登入成功")
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    //self?.showMessageHandler?(.failure, "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤")
-                }
-
-            }
+            viewModel?.loginWithFB(viewController: self, completion: { [weak self] result in
+            
+                self?.checkLogin(result: result)
+                
+            })
             
         }
     }
-
+    
+    @IBAction func clickSignUpButton(_ sender: UIButton) {
+        
+        coordinator?.showSignUpFrom(self)
+    }
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
+    
     func authorizationController(controller: ASAuthorizationController,
                                  didCompleteWithAuthorization authorization: ASAuthorization) {
         
-        guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential else {
-            return
-        }
+        guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential
+        else { return }
         
         let credentialUser = CredentialUser(credentials: credentials)
         
         let userInfo = UserInfo(id: credentialUser.id,
                                 name: credentialUser.lastName + credentialUser.firstName,
                                 email: credentialUser.email,
-                                phone: nil, photoURL: "",
+                                phone: nil,
+                                photoURL: nil,
                                 groups: nil)
 
-        viewModel?.isRegisteredUser(authUserInfo: userInfo)
+        viewModel?.checkRegister(authUserInfo: userInfo, completion: { [weak self] result in
+            
+            self?.checkLogin(result: result)
+            
+        })
     }
 }
 
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
 
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        
         return view.window!
     }
-
-}
-
-struct CredentialUser {
-    let id: String
-    let firstName: String
-    let lastName: String
-    let email: String
-    
-    init(credentials: ASAuthorizationAppleIDCredential) {
-        self.id = credentials.user
-        self.firstName = credentials.fullName?.givenName ?? ""
-        self.lastName = credentials.fullName?.familyName ?? ""
-        self.email = credentials.email ?? ""
-    }
-
 }

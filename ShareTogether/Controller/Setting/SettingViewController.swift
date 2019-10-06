@@ -17,7 +17,7 @@ class SettingViewController: STBaseViewController {
     
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var meauViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var settingViewBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -26,26 +26,27 @@ class SettingViewController: STBaseViewController {
         }
     }
     
-    @IBAction func clickCancelButton(_ sender: UIButton) {
-        dismiss(animated: true)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableViewHeightConstraint.constant = CGFloat((itemString.count + 1) * 50)
         
-        meauViewBottomConstraint.constant = -200
+        settingViewBottomConstraint.constant = -200
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.meauViewBottomConstraint.constant = 0
+            self?.settingViewBottomConstraint.constant = 0
             self?.view.layoutIfNeeded()
         }
     }
 
+    
+    @IBAction func clickCancelButton(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
+    
 }
 
 extension SettingViewController: UITableViewDataSource {

@@ -7,154 +7,182 @@
 //
 
 import UIKit
-import AuthenticationServices
 
-enum MessageType {
-    case success
+enum LoginError: Error {
+    case empty
     case failure
-    case loading
 }
 
-
 class LoginViewModel {
+    
+    typealias LoginResult = (Result<String, LoginError>) -> Void
+    
+    var isLoading: Bool = false {
+         didSet {
+             loadingHandler?(isLoading)
+         }
+    }
+         
+    var loadingHandler: ((Bool) -> Void)?
+    
+    func loginWithEmail(email: String,
+                        password: String,
+                        completion: @escaping LoginResult) {
         
-    weak var coordinatorDelegate: LoginCoordinatorDelegate?
-    
-    var showMessageHandler: ((MessageType, String) -> Void)?
-    
-    var loadingHandler: (() -> Void)?
-    
-    var isLoading = false
-    
-    var email: String = ""
-    
-    var password: String = ""
-    
-    func submit() {
+        guard email != "" || password != "" else {
+            
+            completion(Result.failure(.empty))
+            
+            return
+        }
         
-        if email == "" || password == "" {
-            showMessageHandler?(.failure, "請輸入完整資訊")
-        } else {
-            
-            isLoading = true
-            
-            AuthManager.shared.emailSignIn(email: email,
-                                           password: password) { [weak self] result in
-                                                
-                                            switch result {
-                                                    
-                                            case .success(let userInfo):
-                                                self?.isRegisteredUser(authUserInfo: userInfo)
-                                                self?.showMessageHandler?(.success, "登入成功")
-                                            case .failure(let error):
-                                                self?.showMessageHandler?(.failure, "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤")
-                                            }
-                
-            }
+        isLoading = true
+        
+        AuthManager.shared
+            .emailSignIn(email: email,
+                         password: password) { [weak self] result in
+                            
+                            switch result {
+                            
+                            case .success(let userInfo):
+                                
+                                self?.checkRegister(authUserInfo: userInfo, completion: completion)
+                                
+                            case .failure:
+                                
+                                self?.isLoading = false
+                                
+                                completion(Result.failure(.failure))
+                                
+                            }
             
         }
         
     }
     
-    func loginWithApple(viewController: UIViewController) {
+    func loginWithFB(viewController: LoginViewController,
+                     completion: @escaping LoginResult) {
         
-
+        AuthManager.shared.facebookSignIn(viewController: viewController) { [weak self] result in
+                        
+            switch result {
+                
+            case .success(let userInfo):
+                
+                self?.checkRegister(authUserInfo: userInfo, completion: completion)
+                
+            case .failure:
+                
+                self?.isLoading = false
+                
+                completion(Result.failure(.failure))
+                
+            }
+        }
         
     }
     
-    func loginWithFB() {
-        
-
-            
-    }
-    
-    func loginWithGoogle(viewController: LoginViewController) {
+    func loginWithGoogle(viewController: LoginViewController,
+                         completion: @escaping LoginResult) {
     
         AuthManager.shared.googleSignIn(viewController: viewController) { [weak self] result in
                         
             switch result {
+                
             case .success(let userInfo):
-                self?.isRegisteredUser(authUserInfo: userInfo)
-                self?.showMessageHandler?(.success, "登入成功")
-            case .failure(let error):
-                self?.showMessageHandler?(.failure, "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤")
+                
+                self?.checkRegister(authUserInfo: userInfo, completion: completion)
+                
+            case .failure:
+                
+                self?.isLoading = false
+                
+                completion(Result.failure(.failure))
+                
             }
         }
         
     }
     
-//    func showHomeVC() {
-//
-//        if presentingViewController != nil {
-//            let presentingVC = presentingViewController
-//            dismiss(animated: false) {
-//                presentingVC?.dismiss(animated: false)
-//            }
-//        } else {
-//            let nextVC = UIStoryboard.main.instantiateInitialViewController()!
-//            nextVC.modalPresentationStyle = .fullScreen
-//            present(nextVC, animated: true, completion: nil)
-//        }
-//
-//    }
-    
-    func isRegisteredUser(authUserInfo: UserInfo) {
+    func checkRegister(authUserInfo: UserInfo,
+                       completion: @escaping LoginResult) {
 
         FirestoreManager.shared.getUserInfo(uid: authUserInfo.id) { [weak self] result in
                     
             switch result {
                 
             case .success(let userInfo):
-                
+                                
                 if let realUserInfo = userInfo {
-                    self?.signInOfRegisteredUser(userInfo: realUserInfo)
+                    
+                    self?.signInWithRegisteredUser(userInfo: realUserInfo, completion: completion)
+                    
                 } else {
-                    self?.signInOfNewUser(userInfo: authUserInfo)
+                    
+                    self?.signInWithNewUser(userInfo: authUserInfo, completion: completion)
+                    
                 }
+            
+            case .failure:
                 
-            case .failure(let error):
+                self?.isLoading = false
                 
-                print(error)
+                completion(Result.failure(.failure))
             }
             
         }
         
     }
     
-    func signInOfNewUser(userInfo: UserInfo) {
+    func signInWithNewUser(userInfo: UserInfo,
+                           completion: @escaping LoginResult) {
         
         FirestoreManager.shared.addNewUser(userInfo: userInfo) { [weak self] result in
+            
+            self?.isLoading = false
+                        
             switch result {
                 
             case .success(let demoGroup):
+                
                 var userInfo = userInfo
+                
                 userInfo.groups = [demoGroup]
+                
                 CurrentManager.shared.setCurrentUser(userInfo)
+                
                 CurrentManager.shared.setCurrentGroup(demoGroup)
-                self?.showMessageHandler?(.success, "登入成功")
-                //self?.showHomeVC()
-            case .failure:
-                LKProgressHUD.dismiss()
-                print("error")
-            }
+                
+                completion(Result.success("歡迎加入 ShareTogether !"))
 
+            case .failure:
+                                
+                completion(Result.failure(.failure))
+                
+            }
+            
         }
     
     }
     
-    func signInOfRegisteredUser(userInfo: UserInfo) {
+    func signInWithRegisteredUser(userInfo: UserInfo,
+                                  completion: @escaping LoginResult) {
+        
+        isLoading = false
          
-         if let groups = userInfo.groups, !groups.isEmpty {
-             let group = GroupInfo(id: groups[0].id,
-                                   name: groups[0].name,
-                                   coverURL: groups[0].coverURL,
-                                   status: nil)
-             CurrentManager.shared.setCurrentUser(userInfo)
-             CurrentManager.shared.setCurrentGroup(group)
-             showMessageHandler?(.success, "登入成功")
-             //showHomeVC()
- 
-        }
+        guard let groups = userInfo.groups, let firstGroup = groups.first else { return }
+        
+        let group = GroupInfo(id: firstGroup.id,
+                              name: firstGroup.name,
+                              coverURL: firstGroup.coverURL,
+                              status: nil)
+            
+        CurrentManager.shared.setCurrentUser(userInfo)
+        
+        CurrentManager.shared.setCurrentGroup(group)
+        
+        completion(Result.success("歡迎您回來！"))
+                
     }
         
 }

@@ -66,7 +66,7 @@ class LKProgressHUD {
 
     }
     
-    static func showSuccess(text: String = "Success", view: UIView? = shared.view) {
+    static func showSuccess(text: String? = "Success", view: UIView? = shared.view) {
         
         guard let view = view else { return }
 
@@ -79,7 +79,7 @@ class LKProgressHUD {
             return
         }
 
-        shared.hud.textLabel.text = text
+        shared.hud.textLabel.text = text ?? "Success"
 
         shared.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
 
@@ -88,7 +88,7 @@ class LKProgressHUD {
         shared.hud.dismiss(afterDelay: 1.5)
     }
 
-    static func showFailure(text: String = "Failure", view: UIView? = shared.view) {
+    static func showFailure(text: String? = "Failure", view: UIView? = shared.view) {
         
         guard let view = view else { return }
 
@@ -101,31 +101,13 @@ class LKProgressHUD {
             return
         }
 
-        shared.hud.textLabel.text = text
+        shared.hud.textLabel.text = text ?? "Failure"
 
         shared.hud.indicatorView = JGProgressHUDErrorIndicatorView()
 
         shared.hud.show(in: view)
 
         shared.hud.dismiss(afterDelay: 1.5)
-    }
-
-    static func show(view: UIView = shared.view) {
-
-        if !Thread.isMainThread {
-
-            DispatchQueue.main.async {
-                show()
-            }
-
-            return
-        }
-
-        shared.hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
-
-        shared.hud.textLabel.text = "Loading"
-
-        shared.hud.show(in: view)
     }
 
     static func dismiss() {

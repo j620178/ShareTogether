@@ -14,7 +14,7 @@ class ResultViewController: UIViewController {
         return CurrentManager.shared.availableMembersWithoutSelf
     }
     
-    var viewModel: HomeViewModel!
+    var viewModel: HomeViewModel?
     
     weak var delegate: HomeViewControllerDelegate?
     
@@ -31,13 +31,11 @@ class ResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        observation = viewModel.observe(\.cellViewModels, options: [.initial, .new]) { [weak self] (_, _) in
-            self?.viewModel.createResultInfo()
+        observation = viewModel?.observe(\.cellViewModels, options: [.initial, .new]) { [weak self] (_, _) in
+            self?.viewModel?.createResultInfo()
             self?.tableView.reloadData()
         }
-        
     }
-
 }
 
 extension ResultViewController: UITableViewDataSource {
@@ -55,7 +53,7 @@ extension ResultViewController: UITableViewDataSource {
         
         guard let resultCell = cell as? ResultTableViewCell,
             let currentUserInfo = CurrentManager.shared.user,
-            let amount = viewModel.getResultInfo(uid: availableMembers[indexPath.row].id)
+            let amount = viewModel?.getResultInfo(uid: availableMembers[indexPath.row].id)
         else { return cell }
         
         resultCell.setupContent(leftUserImageURL: availableMembers[indexPath.row].photoURL,

@@ -272,7 +272,7 @@ class AddExpenseViewController: STBaseViewController {
             return
         }
         
-        LKProgressHUD.show(view: self.view)
+        LKProgressHUD.showLoading(view: self.view)
         
         var expense = Expense(type: amountTypeController.selectIndex,
                               desc: expenseController.expenseInfo[1],

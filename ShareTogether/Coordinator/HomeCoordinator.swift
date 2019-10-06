@@ -2,41 +2,88 @@
 //  HomeCoordinator.swift
 //  ShareTogether
 //
-//  Created by littlema on 2019/10/5.
+//  Created by littlema on 2019/10/6.
 //  Copyright © 2019 littema. All rights reserved.
 //
 
 import UIKit
 
 protocol HomeCoordinatorDelegate: AnyObject {
-    func didFinishBy(coordinator: HomeCoordinator)
+    
+    func didFinishFrom(_ coordinator: Coordinator)
 }
 
-class HomeCoordinator: Coordinator {
+class HomeCoordinator: NSObject, Coordinator {
+    
+    private var childCoordinators = [Coordinator]()
+    
+    var navigationController = STNavigationController()
     
     weak var delegate: HomeCoordinatorDelegate?
     
     let window: UIWindow
     
-    init(window: UIWindow) {
+    let tabBarController: UITabBarController
+    
+    init(window: UIWindow, tabBarController: UITabBarController) {
+        
         self.window = window
+        
+        self.tabBarController = tabBarController
     }
     
     func start() {
         
-        if let tabbarController = UIStoryboard.main.instantiateInitialViewController()
-            as? STTabBarController {
-            
-            tabbarController.loadViewIfNeeded()
-            
-            guard let navController = tabbarController.viewControllers?[0] as? STNavigationController,
-                let homeVC = navController.viewControllers[0] as? HomeViewController else { return }
-            
-            homeVC.viewModel = HomeViewModel()
-             
-            window.rootViewController = tabbarController
-        }
- 
+        let navController = STNavigationController()
+        
+        let homeVC = HomeViewController.instantiate(name: .home)
+        
+        homeVC.viewModel = HomeViewModel()
+        
+        homeVC.coordinator = self
+        
+        navController.viewControllers.append(homeVC)
+        
+        navController.tabBarItem = UITabBarItem(title: nil,
+                                                image: .home,
+                                                selectedImage: .home)
+                
+        navController.tabBarItem.imageInsets = .stEdgeInsets
+        
+        tabBarController.viewControllers = [navController]
     }
     
+    func addChildCoordinator(_ coordinator: Coordinator) {
+        
+        childCoordinators.append(coordinator)
+    }
+    
+    func removeChildCoordinator(_ coordinator: Coordinator) {
+        
+        childCoordinators = childCoordinators.filter { $0 !== coordinator }
+    }
+    
+}
+
+extension HomeCoordinator: HomeVCCoordinatorDelegate {
+    
+    func showGroupListFrom(_ viewController: STBaseViewController) {
+        
+        let groupListVC = GroupListViewController.instantiate(name: .group)
+        
+        window.rootViewController?.present(groupListVC, animated: true, completion: nil)
+    }
+    
+    func showEditGroup(_ viewController: STBaseViewController) {
+        
+        let navigationController = STNavigationController()
+
+        let nextVC = GroupViewController.instantiate(name: .group)
+
+        nextVC.showType = .edit
+
+        navigationController.viewControllers = [nextVC]
+
+        window.rootViewController?.present(navigationController, animated: true, completion: nil)
+    }
 }

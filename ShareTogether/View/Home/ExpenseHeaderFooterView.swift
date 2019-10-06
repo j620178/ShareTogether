@@ -50,12 +50,16 @@ class ExpenseFooterView: UITableViewHeaderFooterView {
         view.backgroundColor = .white
         
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        view.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor).isActive = true
-        view.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor).isActive = true
-        view.addCornerRadius(cornerRadius: 10, maskedCorners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-        view.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor).isActive = true
         
+        NSLayoutConstraint.activate([
+            view.heightAnchor.constraint(equalToConstant: 5),
+            view.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            view.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            view.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor)
+        ])
+
+        view.addCornerRadius(cornerRadius: 10,
+                             maskedCorners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
     }
 
     required init?(coder aDecoder: NSCoder) {

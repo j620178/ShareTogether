@@ -18,7 +18,7 @@ class StatisticsViewController: UIViewController {
         }
     }
     
-    weak var delegate: HomeViewControllerDelegate?
+    weak var delegate: HomeVCDelegate?
     
     var viewModel: HomeViewModel?
     

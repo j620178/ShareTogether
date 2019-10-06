@@ -26,6 +26,17 @@ class STBaseViewController: UIViewController {
         return baseVC
     }
     
+    func addChild(childController: UIViewController, to view: UIView) {
+        
+        self.addChild(childController)
+        
+        childController.view.frame = view.bounds
+        
+        view.addSubview(childController.view)
+        
+        childController.didMove(toParent: self)
+    }
+    
     var isHideNavigationBar: Bool {
         
         return false

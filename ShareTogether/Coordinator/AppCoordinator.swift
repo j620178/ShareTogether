@@ -79,7 +79,7 @@ extension AppCoordinator: MainTabBarCoordinatorDelegate {
         
         addChildCoordinator(mainTabBarCoordinator)
         
-        mainTabBarCoordinator.delegate = self
+        mainTabBarCoordinator.coordinator = self
         
         mainTabBarCoordinator.start()
     }
@@ -87,6 +87,8 @@ extension AppCoordinator: MainTabBarCoordinatorDelegate {
     func didFinishFrom(_ coordinator: MainTabBarCoordinator) {
         
         removeChildCoordinator(coordinator)
+        
+        showLogin()
     }
     
 }

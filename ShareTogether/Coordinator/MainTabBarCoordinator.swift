@@ -7,17 +7,18 @@
 //
 
 import UIKit
+import SafariServices
 
 protocol MainTabBarCoordinatorDelegate: AnyObject {
     
     func didFinishFrom(_ coordinator: MainTabBarCoordinator)
 }
 
-class MainTabBarCoordinator: Coordinator {
+class MainTabBarCoordinator: NSObject, Coordinator {
     
     private var childCoordinators = [Coordinator]()
     
-    weak var delegate: MainTabBarCoordinatorDelegate?
+    weak var coordinator: MainTabBarCoordinatorDelegate?
     
     let window: UIWindow
     
@@ -136,9 +137,50 @@ extension MainTabBarCoordinator: STTabBarCoordinatorDelegate {
         
         let settingVC = SettingViewController.instantiate(name: .setting)
         
+        settingVC.coordinator = self
+        
         settingVC.modalPresentationStyle = .overFullScreen
         
         window.rootViewController?.present(settingVC, animated: false, completion: nil)
     }
 }
 
+extension MainTabBarCoordinator: SettingVCCoordinatorDelegate {
+    
+    func showPrivateInfofrom(_ viewController: STBaseViewController) {
+
+        guard let url = URL(string: "https://www.privacypolicies.com/privacy/view/e9b6b5e82a15d74909eff1e0d8234312")
+        else { return }
+
+        let safariVC = SFSafariViewController(url: url)
+
+        safariVC.delegate = self
+
+        viewController.present(safariVC, animated: true, completion: nil)
+    }
+    
+    func didLogoutFrom(_ viewController: STBaseViewController) {
+        
+        AuthManager.shared.signOut()
+        
+        CurrentManager.shared.removeCurrentUser()
+        
+        CurrentManager.shared.removeCurrentGroup()
+        
+        coordinator?.didFinishFrom(self)
+        
+    }
+    
+    func didCancel(_ viewController: STBaseViewController) {
+        
+        viewController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MainTabBarCoordinator: SFSafariViewControllerDelegate {
+
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+
+        controller.dismiss(animated: true, completion: nil)
+    }
+}

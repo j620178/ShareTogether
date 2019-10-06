@@ -17,7 +17,7 @@ class HomeCoordinator: NSObject, Coordinator {
     
     private var childCoordinators = [Coordinator]()
     
-    var navigationController = STNavigationController()
+    let navController = STNavigationController()
     
     weak var delegate: HomeCoordinatorDelegate?
     
@@ -33,8 +33,6 @@ class HomeCoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        
-        let navController = STNavigationController()
         
         let homeVC = HomeViewController.instantiate(name: .home)
         
@@ -74,7 +72,7 @@ extension HomeCoordinator: HomeVCCoordinatorDelegate {
         window.rootViewController?.present(groupListVC, animated: true, completion: nil)
     }
     
-    func showEditGroup(_ viewController: STBaseViewController) {
+    func showEditGroupFrom(_ viewController: STBaseViewController) {
         
         let navigationController = STNavigationController()
 
@@ -85,5 +83,23 @@ extension HomeCoordinator: HomeVCCoordinatorDelegate {
         navigationController.viewControllers = [nextVC]
 
         window.rootViewController?.present(navigationController, animated: true, completion: nil)
+    }
+}
+
+extension HomeCoordinator: ExpenseVCCoordinatorDelegate {
+    
+    func showDetailExpenseFrom(_ viewController: STBaseViewController, expense: Expense) {
+
+        let nextVC = ExpenseDetailViewController.instantiate(name: .home)
+
+        nextVC.expense = expense
+
+        navController.pushViewController(nextVC, animated: true)
+    }
+}
+
+extension HomeCoordinator: NoteVCCoordinatorDelegate {
+    
+    func addNoteFrom(_ viewController: STBaseViewController) {
     }
 }

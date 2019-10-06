@@ -8,21 +8,21 @@
 
 import UIKit
 
-protocol HomeViewControllerDelegate: AnyObject {
+protocol HomeVCDelegate: AnyObject {
 
     func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat, contentSize: CGSize)
 }
 
 protocol ExpenseVCCoordinatorDelegate: AnyObject {
     
-    func showDetailExpenseFrom(_ viewController: STBaseViewController)
+    func showDetailExpenseFrom(_ viewController: STBaseViewController, expense: Expense)
 }
 
 class ExpenseViewController: STBaseViewController {
 
     weak var coordinator: ExpenseVCCoordinatorDelegate?
     
-    weak var delegate: HomeViewControllerDelegate?
+    weak var delegate: HomeVCDelegate?
     
     var viewModel: HomeViewModel?
     
@@ -117,10 +117,10 @@ extension ExpenseViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let nextVC = ExpenseDetailViewController.instantiate(name: .expense)
+        guard let expense = viewModel?.getExpense(section: indexPath.section, row: indexPath.row)
         
-        nextVC.expense = viewModel?.getExpense(section: indexPath.section, row: indexPath.row)
+        else { return }
         
-        show(nextVC, sender: nil)
+        coordinator?.showDetailExpenseFrom(self, expense: expense)
     }
 }

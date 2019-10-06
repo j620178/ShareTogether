@@ -16,7 +16,7 @@ class ResultViewController: UIViewController {
     
     var viewModel: HomeViewModel?
     
-    weak var delegate: HomeViewControllerDelegate?
+    weak var delegate: HomeVCDelegate?
     
     var observation: NSKeyValueObservation!
     

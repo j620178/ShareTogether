@@ -9,7 +9,13 @@
 import UIKit
 import IQKeyboardManagerSwift
 
+protocol NoteVCCoordinatorDelegate: AnyObject {
+    func addNoteFrom(_ viewController: STBaseViewController)
+}
+
 class NoteViewController: STBaseViewController {
+    
+    weak var coordinator: NoteVCCoordinatorDelegate?
     
     let viewModel = NoteViewModel()
     
@@ -23,7 +29,7 @@ class NoteViewController: STBaseViewController {
         }
     }
     
-    weak var delegate: HomeViewControllerDelegate?
+    weak var delegate: HomeVCDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()

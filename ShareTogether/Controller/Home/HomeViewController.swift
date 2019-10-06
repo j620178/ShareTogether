@@ -82,6 +82,8 @@ class HomeViewController: STBaseViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if let expenseVC = segue.destination as? ExpenseViewController {
+
+            expenseVC.coordinator = coordinator as? HomeCoordinator
             
             expenseVC.delegate = self
             
@@ -100,6 +102,8 @@ class HomeViewController: STBaseViewController {
             resultVC.viewModel = viewModel
             
         } else if let notebookVC = segue.destination as? NoteViewController {
+            
+            notebookVC.coordinator = coordinator as? HomeCoordinator
             
             notebookVC.delegate = self
         }
@@ -165,7 +169,7 @@ extension HomeViewController: ScrollSelectionViewDelegate {
     }
 }
 
-extension HomeViewController: HomeViewControllerDelegate {
+extension HomeViewController: HomeVCDelegate {
     
     func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat, contentSize: CGSize) {
         

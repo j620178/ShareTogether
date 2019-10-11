@@ -122,15 +122,20 @@ extension MainTabBarCoordinator: STTabBarCoordinatorDelegate {
     
     func showAddExpenseFrom(_ tabBarController: STTabBarController) {
         
-        let navController = STNavigationController()
-
-        let addExpenseVC = AddExpenseViewController.instantiate(name: .expense)
+        let coordinator = AddExpenseCoordinator(window: window)
         
-        navController.viewControllers.append(addExpenseVC)
+        addChildCoordinator(coordinator)
         
-        navController.modalPresentationStyle = .overFullScreen
-        
-        window.rootViewController?.present(navController, animated: true, completion: nil)
+        coordinator.start()
+//        let navController = STNavigationController()
+//
+//        let addExpenseVC = AddExpenseViewController.instantiate(name: .expense)
+//        
+//        navController.viewControllers.append(addExpenseVC)
+//        
+//        navController.modalPresentationStyle = .overFullScreen
+//        
+//        window.rootViewController?.present(navController, animated: true, completion: nil)
     }
     
     func showSettingFrom(_ tabBarController: STTabBarController) {
@@ -147,7 +152,7 @@ extension MainTabBarCoordinator: STTabBarCoordinatorDelegate {
 
 extension MainTabBarCoordinator: SettingVCCoordinatorDelegate {
     
-    func showPrivateInfofrom(_ viewController: STBaseViewController) {
+    func showPrivateInfoFrom(_ viewController: STBaseViewController) {
 
         guard let url = URL(string: "https://www.privacypolicies.com/privacy/view/e9b6b5e82a15d74909eff1e0d8234312")
         else { return }
@@ -163,15 +168,11 @@ extension MainTabBarCoordinator: SettingVCCoordinatorDelegate {
         
         AuthManager.shared.signOut()
         
-        CurrentManager.shared.removeCurrentUser()
-        
-        CurrentManager.shared.removeCurrentGroup()
-        
         coordinator?.didFinishFrom(self)
         
     }
     
-    func didCancel(_ viewController: STBaseViewController) {
+    func didCancelFrom(_ viewController: STBaseViewController) {
         
         viewController.dismiss(animated: true, completion: nil)
     }

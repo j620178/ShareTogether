@@ -44,7 +44,7 @@ class HomeExpenseViewModel: NSObject {
             for vmSection in cellViewModels.indices {
                 let lastSection = vmSection
                 let lastRow = cellViewModels[vmSection].count - 1
-                if section == lastSection , row == lastRow {
+                if section == lastSection, row == lastRow {
                     return cellViewModels[section][row]
                 }
             }

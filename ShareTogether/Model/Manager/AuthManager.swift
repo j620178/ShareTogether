@@ -11,6 +11,7 @@ import Firebase
 import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
+import AuthenticationServices
 
 enum AuthManagerError: Error {
     case loginFailed
@@ -22,7 +23,11 @@ class AuthManager: NSObject {
     
     static var shared = AuthManager()
     
-    var googleSignInHandler: ((Result<UserInfo, Error>) -> Void)?
+    var googleSignInHandler: CoordinatorResult?
+    
+    var appleSignInHandler: CoordinatorResult?
+    
+    var appleSigInWindow: UIWindow?
 
     func createNewUser(email: String, password: String, completion: @escaping (String?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
@@ -60,7 +65,8 @@ class AuthManager: NSObject {
         }
     }
     
-    func facebookSignIn(viewController: UIViewController, completion: @escaping (Result<UserInfo, Error>) -> Void) {
+    func facebookSignIn(viewController: UIViewController, completion: @escaping CoordinatorResult) {
+        
         let fbLoginManager = LoginManager()
 
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: viewController) { (result, error) in
@@ -106,25 +112,62 @@ class AuthManager: NSObject {
 
     }
     
-    func googleSignIn(viewController: LoginViewController,
-                      completion: @escaping ((Result<UserInfo, Error>) -> Void)) {
+    func googleSignIn(viewController: UIViewController,
+                      completion: @escaping CoordinatorResult) {
         
         GIDSignIn.sharedInstance().uiDelegate = viewController
+        
         GIDSignIn.sharedInstance()?.signIn()
         
         googleSignInHandler = completion
     }
-
-    func signOut() {
-        let firebaseAuth = Auth.auth()
-        do {
-            print ("signOut")
-            try firebaseAuth.signOut()
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
+    
+    func appleSignIn(viewController: UIViewController,
+                     completion: @escaping CoordinatorResult) {
+        
+        let provider = ASAuthorizationAppleIDProvider()
+         
+        let request = provider.createRequest()
+         
+        request.requestedScopes = [.fullName, .email]
+         
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+         
+        controller.delegate = self
+         
+        controller.presentationContextProvider = self
+         
+        controller.performRequests()
+        
+        appleSigInWindow = viewController.view.window
+        
+        appleSignInHandler = completion
     }
     
+    private func test() {
+        
+    }
+
+    func signOut() {
+        
+        let firebaseAuth = Auth.auth()
+        
+        do {
+
+            try firebaseAuth.signOut()
+            
+            CurrentManager.shared.removeCurrentUser()
+            
+            CurrentManager.shared.removeCurrentGroup()
+            
+            print ("signOut")
+            
+        } catch let signOutError as NSError {
+            
+            print ("Error signing out: %@", signOutError)
+            
+        }
+    }
 }
 
 extension AuthManager: GIDSignInDelegate {
@@ -169,4 +212,34 @@ extension AuthManager: GIDSignInDelegate {
     
 }
 
-extension LoginViewController: GIDSignInUIDelegate { }
+
+extension AuthManager: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
+        
+        guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential
+        else { return }
+        
+        let credentialUser = CredentialUser(credentials: credentials)
+        
+        let userInfo = UserInfo(id: credentialUser.id,
+                                name: credentialUser.lastName + credentialUser.firstName,
+                                email: credentialUser.email,
+                                phone: nil,
+                                photoURL: nil,
+                                groups: nil)
+
+        appleSignInHandler?(Result.success(userInfo))
+    }
+}
+
+extension AuthManager: ASAuthorizationControllerPresentationContextProviding {
+
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        
+        return appleSigInWindow ?? UIWindow()
+    }
+}
+
+extension UIViewController: GIDSignInUIDelegate { }

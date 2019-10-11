@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GiphyUISDK
 
 protocol HomeCoordinatorDelegate: AnyObject {
     
@@ -35,7 +36,7 @@ class HomeCoordinator: NSObject, Coordinator {
     func start() {
         
         let homeVC = HomeViewController.instantiate(name: .home)
-        
+                        
         homeVC.viewModel = HomeViewModel()
         
         homeVC.coordinator = self
@@ -60,29 +61,26 @@ class HomeCoordinator: NSObject, Coordinator {
         
         childCoordinators = childCoordinators.filter { $0 !== coordinator }
     }
-    
 }
 
 extension HomeCoordinator: HomeVCCoordinatorDelegate {
     
     func showGroupListFrom(_ viewController: STBaseViewController) {
         
-        let groupListVC = GroupListViewController.instantiate(name: .group)
+        let groupCoordinator = GroupCoordinator(window: window, type: .add)
         
-        window.rootViewController?.present(groupListVC, animated: true, completion: nil)
+        addChildCoordinator(groupCoordinator)
+        
+        groupCoordinator.start()
     }
     
     func showEditGroupFrom(_ viewController: STBaseViewController) {
         
-        let navigationController = STNavigationController()
-
-        let nextVC = GroupViewController.instantiate(name: .group)
-
-        nextVC.showType = .edit
-
-        navigationController.viewControllers = [nextVC]
-
-        window.rootViewController?.present(navigationController, animated: true, completion: nil)
+        let groupCoordinator = GroupCoordinator(window: window, type: .edit)
+        
+        addChildCoordinator(groupCoordinator)
+        
+        groupCoordinator.start()
     }
 }
 
@@ -100,6 +98,60 @@ extension HomeCoordinator: ExpenseVCCoordinatorDelegate {
 
 extension HomeCoordinator: NoteVCCoordinatorDelegate {
     
+    func showNoteDetailFrom(_ viewController: STBaseViewController, note: Note) {
+        
+        let noteDetailVC = NoteDetailViewController.instantiate(name: .home)
+        
+        noteDetailVC.note = note
+        
+        noteDetailVC.coordinator = self
+        
+        noteDetailVC.viewModel = NoteDetailViewModel()
+        
+        navController.pushViewController(noteDetailVC, animated: true)
+    }
+    
     func addNoteFrom(_ viewController: STBaseViewController) {
+        
+        guard !CurrentManager.shared.isDemoGroup() else {
+            LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: viewController.view)
+            return
+        }
+        
+        let nextVC = AddNoteViewController.instantiate(name: .home)
+        
+        viewController.present(nextVC, animated: true, completion: nil)
+    }
+}
+
+extension HomeCoordinator: NoteDetailVCCoordinatorDelegate {
+    
+    func showGiphyViewControllerFrom(_ viewController: STBaseViewController) {
+
+        let giphyVC = GiphyViewController()
+
+        giphyVC.delegate = viewController as? NoteDetailViewController
+
+        giphyVC.layout = .carousel
+        
+        viewController.present(giphyVC, animated: true, completion: nil)
+    }
+    
+    func showDeleteAlertControllerFrom(_ viewController: STBaseViewController,
+                                       noteID: String,
+                                       noteCommentID: String) {
+        
+        let alertVC = UIAlertController.deleteAlert { _ in
+    
+            FirestoreManager.shared.deleteNoteComment(noteID: noteID,
+                                                      noteCommentID: noteCommentID)
+        }
+        
+        viewController.present(alertVC, animated: true, completion: nil)
+    }
+
+    func dismissGiphyViewControllerFrom(_ viewController: STBaseViewController) {
+        
+        viewController.dismiss(animated: true, completion: nil)
     }
 }

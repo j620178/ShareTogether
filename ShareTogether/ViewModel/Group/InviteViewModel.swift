@@ -20,7 +20,7 @@ class InviteViewModel {
         didSet {
             if let userInfo = userInfo {
                 
-                if ShowType(rawValue: type) == .new {
+                if GroupType(rawValue: type) == .add {
                     delegate?.updateView(text: userInfo.name,
                                         imageURL: userInfo.photoURL,
                                         isButtonHidden: false,

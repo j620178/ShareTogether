@@ -21,6 +21,7 @@
 		74297249234321D500A25084 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74297248234321D500A25084 /* GoogleService-Info.plist */; };
 		742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F4F23306373001EDF54 /* MemberStatusType.swift */; };
 		742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */; };
+		7431F536234F29E8008C2F66 /* NoteDeatilViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7431F535234F29E7008C2F66 /* NoteDeatilViewModel.swift */; };
 		74368318233F7C050049C1BE /* Timestamp+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74368317233F7C050049C1BE /* Timestamp+Extension.swift */; };
 		7436831A233F7C420049C1BE /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74368319233F7C420049C1BE /* Double+Extension.swift */; };
 		743F4E62232F3FA3009BA6BA /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 743F4E61232F3FA3009BA6BA /* Setting.storyboard */; };
@@ -127,6 +128,10 @@
 		74D968522341C3EE008A7F3D /* ExpenseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D968512341C3EE008A7F3D /* ExpenseDetailViewController.swift */; };
 		74D968552342765D008A7F3D /* AddNoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D968532342765D008A7F3D /* AddNoteTableViewCell.swift */; };
 		74D968562342765D008A7F3D /* AddNoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74D968542342765D008A7F3D /* AddNoteTableViewCell.xib */; };
+		74EC010723506A82008C0131 /* AddExpenseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EC010623506A82008C0131 /* AddExpenseCoordinator.swift */; };
+		74F20D2A234FD9B500808E9F /* GroupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F20D29234FD9B500808E9F /* GroupCoordinator.swift */; };
+		74F20D2C234FE1E800808E9F /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F20D2B234FE1E800808E9F /* GroupViewModel.swift */; };
+		74F20D2F23505C6200808E9F /* UIBarButtonItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F20D2E23505C6200808E9F /* UIBarButtonItem+Extension.swift */; };
 		74F92B952338CF7000FD7DE2 /* JGProgressHUDWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */; };
 		74F92B9923396C3F00FD7DE2 /* EmptyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F92B9823396C3F00FD7DE2 /* EmptyInfoView.swift */; };
 		EDC6CC7D8B7BE0C2AC75B3D9 /* Pods_ShareTogether.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E018E2029FD73E0459A7E1 /* Pods_ShareTogether.framework */; };
@@ -149,6 +154,7 @@
 		74297248234321D500A25084 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		742E5F4F23306373001EDF54 /* MemberStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStatusType.swift; sourceTree = "<group>"; };
 		742E5F542331B5D5001EDF54 /* ExpenseHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseHeaderFooterView.swift; sourceTree = "<group>"; };
+		7431F535234F29E7008C2F66 /* NoteDeatilViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDeatilViewModel.swift; sourceTree = "<group>"; };
 		74368317233F7C050049C1BE /* Timestamp+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Timestamp+Extension.swift"; sourceTree = "<group>"; };
 		74368319233F7C420049C1BE /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		743F4E61232F3FA3009BA6BA /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
@@ -258,6 +264,10 @@
 		74D968512341C3EE008A7F3D /* ExpenseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailViewController.swift; sourceTree = "<group>"; };
 		74D968532342765D008A7F3D /* AddNoteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteTableViewCell.swift; sourceTree = "<group>"; };
 		74D968542342765D008A7F3D /* AddNoteTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNoteTableViewCell.xib; sourceTree = "<group>"; };
+		74EC010623506A82008C0131 /* AddExpenseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseCoordinator.swift; sourceTree = "<group>"; };
+		74F20D29234FD9B500808E9F /* GroupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCoordinator.swift; sourceTree = "<group>"; };
+		74F20D2B234FE1E800808E9F /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
+		74F20D2E23505C6200808E9F /* UIBarButtonItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extension.swift"; sourceTree = "<group>"; };
 		74F92B942338CF6F00FD7DE2 /* JGProgressHUDWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JGProgressHUDWrapper.swift; sourceTree = "<group>"; };
 		74F92B9823396C3F00FD7DE2 /* EmptyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyInfoView.swift; sourceTree = "<group>"; };
 		E0E018E2029FD73E0459A7E1 /* Pods_ShareTogether.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareTogether.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -332,6 +342,7 @@
 				747B6EDB2334CE76000FE48B /* HomeViewModel.swift */,
 				745CACC323169E530055A60C /* ExpenseViewModel.swift */,
 				745CACDD2317C9D60055A60C /* NoteViewModel.swift */,
+				7431F535234F29E7008C2F66 /* NoteDeatilViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -362,11 +373,12 @@
 				744232BD233CB26E00139C7C /* UIImage+Extension.swift */,
 				747AB9082324EC7500007A32 /* UITexField+Extension.swift */,
 				748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */,
+				74F20D2E23505C6200808E9F /* UIBarButtonItem+Extension.swift */,
 				74A1A0E4232D8C76007C717A /* Date+Extension.swift */,
 				74368319233F7C420049C1BE /* Double+Extension.swift */,
 				745CACC9231784DF0055A60C /* String+Extension.swift */,
-				74368317233F7C050049C1BE /* Timestamp+Extension.swift */,
 				74B0A888234980880003C5FF /* StoryboardCategory.swift */,
+				74368317233F7C050049C1BE /* Timestamp+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -441,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				741E2B95232E361700350F42 /* GroupListViewModel.swift */,
+				74F20D2B234FE1E800808E9F /* GroupViewModel.swift */,
 				743F4E65232F923D009BA6BA /* InviteViewModel.swift */,
 			);
 			path = Group;
@@ -500,6 +513,8 @@
 				74B0A87B23475FB40003C5FF /* AppCoordinator.swift */,
 				74B0A881234837BF0003C5FF /* MainTabBarCoordinator.swift */,
 				74B0A88C234A343E0003C5FF /* HomeCoordinator.swift */,
+				74F20D29234FD9B500808E9F /* GroupCoordinator.swift */,
+				74EC010623506A82008C0131 /* AddExpenseCoordinator.swift */,
 				74B0A87D234766380003C5FF /* LoginCoordinator.swift */,
 			);
 			path = Coordinator;
@@ -874,6 +889,7 @@
 				74B5C4DF231DE48800EB916D /* StatisticsTableViewCell.swift in Sources */,
 				74A1A0DF232B8675007C717A /* NoteViewController.swift in Sources */,
 				74A1A0E3232CD5F8007C717A /* CurrentManager.swift in Sources */,
+				74F20D2C234FE1E800808E9F /* GroupViewModel.swift in Sources */,
 				74641F3B232096B00059B265 /* SplitTableViewCell.swift in Sources */,
 				741E2B96232E361700350F42 /* GroupListViewModel.swift in Sources */,
 				74BAC51B233F1B2A00644CB2 /* NoteGiphyTableViewCell.swift in Sources */,
@@ -892,7 +908,9 @@
 				74B0A88D234A343E0003C5FF /* HomeCoordinator.swift in Sources */,
 				74082B5F23402CC100565434 /* ExpenseController.swift in Sources */,
 				74B5C4DA231DE48800EB916D /* ExpenseTableViewCell.swift in Sources */,
+				74F20D2F23505C6200808E9F /* UIBarButtonItem+Extension.swift in Sources */,
 				74A1A0E1232B8F6E007C717A /* FirestoreManager.swift in Sources */,
+				7431F536234F29E8008C2F66 /* NoteDeatilViewModel.swift in Sources */,
 				743F4E66232F923D009BA6BA /* InviteViewModel.swift in Sources */,
 				74525B0C231C9B2500670D6E /* UICollectionView+Extension.swift in Sources */,
 				74B5C4EF231E5CB600EB916D /* CategoryCollectionViewCell.swift in Sources */,
@@ -924,6 +942,7 @@
 				74AEC8F9231FAFF0003A6F01 /* SelectionTableViewCell.swift in Sources */,
 				74A1A0DD232B8535007C717A /* ResultViewController.swift in Sources */,
 				74B0A88723485EBF0003C5FF /* SignUpViewModel.swift in Sources */,
+				74EC010723506A82008C0131 /* AddExpenseCoordinator.swift in Sources */,
 				742E5F5023306373001EDF54 /* MemberStatusType.swift in Sources */,
 				747AE9A7232E3C50007D855B /* Kingfisher.swift in Sources */,
 				74B5C4F5231E7E1800EB916D /* TabView.swift in Sources */,
@@ -936,6 +955,7 @@
 				74F92B952338CF7000FD7DE2 /* JGProgressHUDWrapper.swift in Sources */,
 				74BA2AE12325D58A0010799E /* CalculatorViewController.swift in Sources */,
 				745CC9862321164E00426D1A /* Direction.swift in Sources */,
+				74F20D2A234FD9B500808E9F /* GroupCoordinator.swift in Sources */,
 				744F51FA234188B50098A323 /* ExpenseInfoTableViewCell.swift in Sources */,
 				745CC983232106C200426D1A /* ActivityTableViewCell.swift in Sources */,
 				742E5F552331B5D5001EDF54 /* ExpenseHeaderFooterView.swift in Sources */,

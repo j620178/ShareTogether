@@ -19,6 +19,7 @@ private struct FCMConstant {
     static let badge = "badge"
     static let data = "data"
     static let expenseID = "expenseID"
+    static let fcmKey = "FCMKey"
 }
 
 enum PushNotification: RestAPIRequest {
@@ -42,7 +43,7 @@ enum PushNotification: RestAPIRequest {
             guard let path = Bundle.main.path(forResource: FCMConstant.privateInfo, ofType: FCMConstant.plist),
                 let dict = NSDictionary(contentsOfFile: path),
                 let body = dict as? [String: String],
-                let key = body["FCMKey"]
+                let key = body[FCMConstant.fcmKey]
             else {
                 fatalError()
             }

@@ -8,6 +8,15 @@
 
 import UIKit
 
+struct MemberCellViewModel {
+    
+    let userImageURL: String?
+    
+    let userName: String
+    
+    let userDetail: String
+}
+
 class MemberTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userImageView: UIImageView!
@@ -17,6 +26,18 @@ class MemberTableViewCell: UITableViewCell {
     @IBOutlet weak var detailLabel: UILabel!
     
     @IBOutlet weak var indicator: UIImageView!
+    
+    var viewModel: MemberCellViewModel? {
+        didSet {
+            guard let viewModel = viewModel else { return }
+            
+            userImageView.setUrlImage(viewModel.userImageURL)
+            
+            userNameLabel.text = viewModel.userName
+            
+            detailLabel.text = viewModel.userDetail
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

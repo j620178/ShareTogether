@@ -12,13 +12,22 @@ import AuthenticationServices
 protocol LoginViewCoordinatorDelegate: AnyObject {
     
     func didLoginFrom(_ viewController: UIViewController)
+        
+    func showGoogleSignInFrom(_ viewController: UIViewController,
+                              completion: @escaping CoordinatorResult)
+    
+    func showFacebookSignInFrom(_ viewController: UIViewController,
+                                completion: @escaping CoordinatorResult)
+    
+    func showAppleSignInFrom(_ viewController: UIViewController,
+                             completion: @escaping CoordinatorResult)
     
     func showSignUpFrom(_ viewController: UIViewController)
 }
 
 class LoginViewController: STBaseViewController {
     
-    override var isHideNavigationBar: Bool { return true }
+    //override var isHideNavigationBar: Bool { return true }
     
     weak var coordinator: LoginViewCoordinatorDelegate?
         
@@ -98,6 +107,22 @@ class LoginViewController: STBaseViewController {
         signUpButton.setTitleColor(.STDarkGray, for: .normal)
     }
     
+    func checkRegister(result: Result<UserInfo, Error>) {
+        
+        switch result {
+            
+        case .success(let authUserInfo):
+
+            self.viewModel?.checkRegister(authUserInfo: authUserInfo,
+                                          completion: { [weak self] result in
+                                            self?.checkLogin(result: result)
+            })
+
+        case .failure:
+            print("2")
+        }
+    }
+    
     func checkLogin(result: Result<String, LoginError>) {
         
         switch result {
@@ -132,44 +157,32 @@ class LoginViewController: STBaseViewController {
             self?.checkLogin(result: result)
 
         })
-        
     }
 
     @objc func clickAppleSignInButton() {
         
-        let provider = ASAuthorizationAppleIDProvider()
-        
-        let request = provider.createRequest()
-        
-        request.requestedScopes = [.fullName, .email]
-        
-        let controller = ASAuthorizationController(authorizationRequests: [request])
-        
-        controller.delegate = self
-        
-        controller.presentationContextProvider = self
-        
-        controller.performRequests()
+         coordinator?.showAppleSignInFrom(self, completion: { [weak self] result in
+            
+            self?.checkRegister(result: result)
+         })
     }
     
     @IBAction func clickOAuthLoginButton(_ sender: UIButton) {
         
         if sender.tag == 1 {
             
-            viewModel?.loginWithGoogle(viewController: self, completion: { [weak self] result in
-            
-                self?.checkLogin(result: result)
+            coordinator?.showGoogleSignInFrom(self, completion: { [weak self] result in
+
+               self?.checkRegister(result: result)
                 
             })
      
         } else if sender.tag == 2 {
             
-            viewModel?.loginWithFB(viewController: self, completion: { [weak self] result in
-            
-                self?.checkLogin(result: result)
-                
+            coordinator?.showFacebookSignInFrom(self, completion: { [weak self] result in
+
+                self?.checkRegister(result: result)
             })
-            
         }
     }
     

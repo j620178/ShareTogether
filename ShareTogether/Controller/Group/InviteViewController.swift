@@ -12,7 +12,7 @@ class InviteViewController: STBaseViewController {
     
     let viewModel = InviteViewModel()
     
-    var showType = ShowType.new
+    var type = GroupType.add
     
     @IBOutlet weak var textField: UITextField! {
         didSet {
@@ -33,9 +33,9 @@ class InviteViewController: STBaseViewController {
 
     @IBAction func clickInviteButton(_ sender: UIButton) {
         
-        switch showType {
+        switch type {
 
-        case .new:
+        case .add:
             LKProgressHUD.showSuccess(text: "加入成功", view: self.view)
             viewModel.addInviteMembers()
         case .edit:
@@ -66,28 +66,31 @@ class InviteViewController: STBaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if showType == .new, self.isMovingFromParent {
-            for viewController in navigationController!.viewControllers {
-                if let previousVC = viewController as? GroupViewController {
-                    //previousVC.members += viewModel.getInviteMembers()
-                    for inviteMember in viewModel.getInviteMembers() {
-                        let result = previousVC.members.contains { memberInfo -> Bool in
-                            return memberInfo.id == inviteMember.id
-                        }
-                        
-                        if !result {
-                            previousVC.members.append(inviteMember)
-                        }
-                    }
-        
-                }
-            }
-        }
-
+//        if type == .add, self.isMovingFromParent {
+//
+//            for viewController in navigationController!.viewControllers {
+//
+//                if let previousVC = viewController as? GroupViewController {
+//
+//                    for inviteMember in viewModel.getInviteMembers() {
+//
+//                        let result = previousVC.members.contains { memberInfo -> Bool in
+//                            
+//                            return memberInfo.id == inviteMember.id
+//                        }
+//
+//                        if !result {
+//
+//                            previousVC.members.append(inviteMember)
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
     
     func switchShowType() {
-        if showType == .edit {
+        if type == .edit {
             inviteButton.setTitle("送出邀請", for: .normal)
         } else {
             inviteButton.setTitle("加入邀請名單", for: .normal)
@@ -102,7 +105,7 @@ extension InviteViewController: UITextFieldDelegate {
         
         textField.resignFirstResponder()
         
-        viewModel.searchUser(type: showType.rawValue, email: textField.text, phone: nil)
+        viewModel.searchUser(type: type.rawValue, email: textField.text, phone: nil)
         
         return true
     }

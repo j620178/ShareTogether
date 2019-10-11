@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GiphyKey</key>
+	<string>XSl7ujy13Z2ukhWYipP96Y9PJ5YCWAQS</string>
 	<key>FCMKey</key>
 	<string>key=AAAAFSlfY1Y:APA91bElmc8djROmNi5iBcAUdTcOZ7-LeyE6zD2RlDFXp0qTabqWJ3GYwruXTxvt47iiHEr81M3huelTUY25JnlvCd62TFoQnnnAXPDWhZKCqRBCTroayeQIL9cfJkdoCFaWX1T6I8MB</string>
 </dict>

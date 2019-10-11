@@ -9,9 +9,13 @@
 import UIKit
 
 private enum InfoType: String {
+    
     case expense = "交易紀錄"
+    
     case statistics = "金額統計"
+    
     case result = "結算結果"
+    
     case notebook = "記事本"
 }
 
@@ -20,7 +24,6 @@ protocol HomeVCCoordinatorDelegate: AnyObject {
     func showGroupListFrom(_ viewController: STBaseViewController)
     
     func showEditGroupFrom(_ viewController: STBaseViewController)
-    
 }
 
 class HomeViewController: STBaseViewController {

@@ -100,7 +100,7 @@ class SignUpViewController: STBaseViewController {
             let email = emailTextField.text,
             let password = passwordTextField.text
         else { return }
-
+        
         viewModel?.signUp(userName: userName,
                           email: email,
                           password: password,

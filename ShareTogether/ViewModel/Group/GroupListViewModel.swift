@@ -62,4 +62,12 @@ class GroupListViewModel {
         }
     }
     
+    func setCurrentGroup(index: Int) {
+        
+        let userGroup = getUserGroup(at: index)
+        
+        let groupInfo = GroupInfo(id: userGroup.id, name: userGroup.name, coverURL: userGroup.coverURL, status: nil)
+        
+        CurrentManager.shared.setCurrentGroup(groupInfo)
+    }
 }

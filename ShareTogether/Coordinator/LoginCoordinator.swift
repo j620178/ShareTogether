@@ -14,11 +14,13 @@ protocol LoginCoordinatorDelegate: AnyObject {
     func didFinishFrom(_ coordinator: Coordinator)
 }
 
+typealias CoordinatorResult = (Result<UserInfo, Error>) -> Void
+
 class LoginCoordinator: NSObject, Coordinator {
     
     private var childCoordinators = [Coordinator]()
     
-    var navigationController = STNavigationController()
+    var navigationController: STNavigationController!
     
     weak var delegate: LoginCoordinatorDelegate?
     
@@ -38,7 +40,7 @@ class LoginCoordinator: NSObject, Coordinator {
         
         loginVC.coordinator = self
         
-        navigationController.viewControllers.append(loginVC)
+        navigationController = STNavigationController(rootViewController: loginVC)
         
         window.rootViewController = navigationController
     }
@@ -57,27 +59,44 @@ class LoginCoordinator: NSObject, Coordinator {
 
 extension LoginCoordinator: LoginViewCoordinatorDelegate {
     
+    func showGoogleSignInFrom(_ viewController: UIViewController,
+                              completion: @escaping CoordinatorResult) {
+        
+        AuthManager.shared.googleSignIn(viewController: viewController, completion: completion)
+    }
+    
+    func showAppleSignInFrom(_ viewController: UIViewController,
+                             completion: @escaping CoordinatorResult) {
+        
+        AuthManager.shared.appleSignIn(viewController: viewController, completion: completion)        
+    }
+    
+    func showFacebookSignInFrom(_ viewController: UIViewController,
+                                completion: @escaping CoordinatorResult) {
+        
+        AuthManager.shared.facebookSignIn(viewController: viewController, completion: completion)
+    }
+
     func didLoginFrom(_ viewController: UIViewController) {
         
         delegate?.didFinishFrom(self)
     }
     
-    func didSignUpFrom(_ viewController: UIViewController) {
+    func showSignUpFrom(_ viewController: UIViewController) {
         
         let signUpVC = SignUpViewController.instantiate(name: .login)
 
         signUpVC.viewModel = SignUpViewModel()
 
         signUpVC.coordinator = self
-
-        navigationController.pushViewController(signUpVC, animated: true)
+        
+        viewController.present(signUpVC, animated: true, completion: nil)        
     }
-
 }
 
 extension LoginCoordinator: SignUpViewCoordinatorDelegate {
     
-    func showSignUpFrom(_ viewController: UIViewController) {
+    func didSignUpFrom(_ viewController: UIViewController) {
         
         navigationController.popViewController(animated: true)
     }

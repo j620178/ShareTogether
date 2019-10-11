@@ -10,7 +10,10 @@ import UIKit
 import IQKeyboardManagerSwift
 
 protocol NoteVCCoordinatorDelegate: AnyObject {
+    
     func addNoteFrom(_ viewController: STBaseViewController)
+    
+    func showNoteDetailFrom(_ viewController: STBaseViewController, note: Note)
 }
 
 class NoteViewController: STBaseViewController {
@@ -35,6 +38,7 @@ class NoteViewController: STBaseViewController {
         super.viewDidLoad()
         
         viewModel.reloadTableViewHandler = { [weak self] in
+            
             self?.tableView.reloadData()
         }
         
@@ -51,19 +55,23 @@ class NoteViewController: STBaseViewController {
         
         viewModel.fetchData()
     }
-
 }
 
 extension NoteViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if section == 0 {
+            
             return 1
+            
         } else {
+            
             return viewModel.notebookCellViewModel.count
         }
     }
@@ -102,6 +110,7 @@ extension NoteViewController: UITableViewDataSource {
                     let alertVC = UIAlertController.deleteAlert { _ in
                                         
                         FirestoreManager.shared.deleteNote(noteID: note.id)
+                        
                     }
                     
                     self?.present(alertVC, animated: true, completion: nil)
@@ -109,15 +118,14 @@ extension NoteViewController: UITableViewDataSource {
                 }
                 
             } else {
+                
                 notebookCell.moreButton.alpha = 0
+                
             }
             
             return notebookCell
-            
         }
-         
     }
-    
 }
 
 extension NoteViewController: UITableViewDelegate {
@@ -128,13 +136,15 @@ extension NoteViewController: UITableViewDelegate {
         forRowAt indexPath: IndexPath) {
         
         cell.alpha = 0
+        
         UIView.animate(withDuration: 0.5) {
+            
             cell.alpha = 1
         }
-        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         delegate?.tableViewDidScroll(viewController: self,
                                      offsetY: scrollView.contentOffset.y,
                                      contentSize: scrollView.contentSize)
@@ -144,26 +154,11 @@ extension NoteViewController: UITableViewDelegate {
         
         if indexPath.section == 0 {
             
-            guard !CurrentManager.shared.isDemoGroup() else {
-                LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
-                return
-            }
-            
-            let nextVC = UIStoryboard.home.instantiateViewController(identifier: "AddNoteNavigationController")
-            
-            present(nextVC, animated: true, completion: nil)
+            coordinator?.addNoteFrom(self)
             
         } else {
             
-            guard let nextVC = UIStoryboard.home.instantiateViewController(identifier: NoteDetailViewController.identifier)
-                as? NoteDetailViewController else { return }
-            
-            nextVC.note = viewModel.getNote(index: indexPath.row)
-
-            show(nextVC, sender: nil)
-            
+            coordinator?.showNoteDetailFrom(self, note: viewModel.getNote(index: indexPath.row))
         }
-
     }
-    
 }

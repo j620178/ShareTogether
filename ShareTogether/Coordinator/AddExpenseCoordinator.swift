@@ -39,6 +39,4 @@ class AddExpenseCoordinator: NSObject, Coordinator {
 
         window.rootViewController?.present(navigationController, animated: true, completion: nil)
     }
-    
-    
 }

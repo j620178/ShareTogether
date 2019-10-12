@@ -129,6 +129,8 @@
 		74D968552342765D008A7F3D /* AddNoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D968532342765D008A7F3D /* AddNoteTableViewCell.swift */; };
 		74D968562342765D008A7F3D /* AddNoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74D968542342765D008A7F3D /* AddNoteTableViewCell.xib */; };
 		74EC010723506A82008C0131 /* AddExpenseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EC010623506A82008C0131 /* AddExpenseCoordinator.swift */; };
+		74EC010A23508C53008C0131 /* AddExpenseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EC010923508C53008C0131 /* AddExpenseViewModel.swift */; };
+		74EC010E235091E3008C0131 /* CLLocationManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EC010D235091E2008C0131 /* CLLocationManager+Extension.swift */; };
 		74F20D2A234FD9B500808E9F /* GroupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F20D29234FD9B500808E9F /* GroupCoordinator.swift */; };
 		74F20D2C234FE1E800808E9F /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F20D2B234FE1E800808E9F /* GroupViewModel.swift */; };
 		74F20D2F23505C6200808E9F /* UIBarButtonItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F20D2E23505C6200808E9F /* UIBarButtonItem+Extension.swift */; };
@@ -265,6 +267,8 @@
 		74D968532342765D008A7F3D /* AddNoteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteTableViewCell.swift; sourceTree = "<group>"; };
 		74D968542342765D008A7F3D /* AddNoteTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNoteTableViewCell.xib; sourceTree = "<group>"; };
 		74EC010623506A82008C0131 /* AddExpenseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseCoordinator.swift; sourceTree = "<group>"; };
+		74EC010923508C53008C0131 /* AddExpenseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseViewModel.swift; sourceTree = "<group>"; };
+		74EC010D235091E2008C0131 /* CLLocationManager+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Extension.swift"; sourceTree = "<group>"; };
 		74F20D29234FD9B500808E9F /* GroupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCoordinator.swift; sourceTree = "<group>"; };
 		74F20D2B234FE1E800808E9F /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		74F20D2E23505C6200808E9F /* UIBarButtonItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extension.swift"; sourceTree = "<group>"; };
@@ -374,6 +378,7 @@
 				747AB9082324EC7500007A32 /* UITexField+Extension.swift */,
 				748A84F72319244000EE00A0 /* UIStoryboard+Extension.swift */,
 				74F20D2E23505C6200808E9F /* UIBarButtonItem+Extension.swift */,
+				74EC010D235091E2008C0131 /* CLLocationManager+Extension.swift */,
 				74A1A0E4232D8C76007C717A /* Date+Extension.swift */,
 				74368319233F7C420049C1BE /* Double+Extension.swift */,
 				745CACC9231784DF0055A60C /* String+Extension.swift */,
@@ -442,6 +447,7 @@
 				743F4E5E232F2FDB009BA6BA /* Home */,
 				7495BEA523416ACC00CA946D /* Group */,
 				749573962337D442003997BD /* ActivityViewModel.swift */,
+				74EC010923508C53008C0131 /* AddExpenseViewModel.swift */,
 				74B9AE0E2338BA1F0029A8BE /* SearchViewModel.swift */,
 				74B0A87F234773E30003C5FF /* LoginViewModel.swift */,
 				74B0A88623485EBF0003C5FF /* SignUpViewModel.swift */,
@@ -964,9 +970,11 @@
 				743F4E64232F4317009BA6BA /* StorageManager.swift in Sources */,
 				745CC989232146F700426D1A /* MemberTableViewCell.swift in Sources */,
 				745CACDE2317C9D60055A60C /* NoteViewModel.swift in Sources */,
+				74EC010A23508C53008C0131 /* AddExpenseViewModel.swift in Sources */,
 				74B5C4DD231DE48800EB916D /* ResultTableViewCell.swift in Sources */,
 				74B0A88B234991CE0003C5FF /* CredentialUser.swift in Sources */,
 				74B5C4F1231E7BB400EB916D /* STNavigationController.swift in Sources */,
+				74EC010E235091E3008C0131 /* CLLocationManager+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,11 +34,13 @@ class InviteViewModel {
                     }
                     
                     if isContainMember {
+                        
                         delegate?.updateView(text: userInfo.name,
                                                    imageURL: userInfo.photoURL,
                                                    isButtonHidden: false,
                                                    isEnable: false)
                     } else {
+                        
                         delegate?.updateView(text: userInfo.name,
                                                    imageURL: userInfo.photoURL,
                                                    isButtonHidden: false,
@@ -48,6 +50,7 @@ class InviteViewModel {
                 }
                 
             } else {
+                
                 delegate?.updateView(text: "查無使用者，請重新輸入", imageURL: nil, isButtonHidden: true, isEnable: false)
             }
         }
@@ -61,9 +64,12 @@ class InviteViewModel {
             switch result {
                 
             case .success(let userInfo):
+                
                 self?.userInfo = userInfo
+                
                 self?.type = type
             case .failure(let error):
+                
                 print(error)
             }
         }
@@ -72,8 +78,8 @@ class InviteViewModel {
     func addInviteMembers() {
         
         guard let userInfo = userInfo else { return }
-        inviteMemberData.append(MemberInfo(userInfo: userInfo, status: 1))
         
+        inviteMemberData.append(MemberInfo(userInfo: userInfo, status: 1))
     }
     
     func inviteMember() {
@@ -83,11 +89,10 @@ class InviteViewModel {
         let memberInfo = MemberInfo(userInfo: userInfo, status: MemberStatusType.inviting.rawValue)
         
         FirestoreManager.shared.addMember(memberInfo: memberInfo)
-        
     }
     
     func getInviteMembers() -> [MemberInfo] {
+        
         return inviteMemberData
     }
-    
 }

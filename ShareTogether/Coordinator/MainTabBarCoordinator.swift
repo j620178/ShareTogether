@@ -127,15 +127,6 @@ extension MainTabBarCoordinator: STTabBarCoordinatorDelegate {
         addChildCoordinator(coordinator)
         
         coordinator.start()
-//        let navController = STNavigationController()
-//
-//        let addExpenseVC = AddExpenseViewController.instantiate(name: .expense)
-//        
-//        navController.viewControllers.append(addExpenseVC)
-//        
-//        navController.modalPresentationStyle = .overFullScreen
-//        
-//        window.rootViewController?.present(navController, animated: true, completion: nil)
     }
     
     func showSettingFrom(_ tabBarController: STTabBarController) {

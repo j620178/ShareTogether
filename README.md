@@ -26,6 +26,7 @@
 於 ViewDidLoad 呼叫 `setupVMBinding` 設定 ViewModel Closure
 ``` swift
 class HomeViewController: UIViewController {
+    ...
     func setupVMBinding() {
     
         viewModel.reloadTableViewHandler = { [weak self] in
@@ -33,7 +34,7 @@ class HomeViewController: UIViewController {
             self?.tableView.reloadData()
         }
        
-        viewModel?.loadingHandler = { isLoading in
+        viewModel.loadingHandler = { isLoading in
             
             switch isLoading {
                 
@@ -47,6 +48,7 @@ class HomeViewController: UIViewController {
             }
         }
     }
+    ...
 }
     
 ```
@@ -71,6 +73,10 @@ class HomeExpenseViewModel {
     var updateLoadingHandler: (() -> Void)?
     ...
 ```
+
+
+---
+
 
 * 建立 Controller 物件減輕 ViewController 中 TableView 使用多種不同 Cell 使 ViewController 龐大問題
 

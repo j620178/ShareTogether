@@ -7,9 +7,19 @@
 //
 
 import UIKit
-import SafariServices
 
-class SignUpViewController: UIViewController {
+protocol SignUpViewCoordinatorDelegate: AnyObject {
+    
+    func didSignUpFrom(_ viewController: UIViewController)
+    
+    func showPrivateInfoWithFrom(_ viewController: UIViewController)
+}
+
+class SignUpViewController: STBaseViewController {
+    
+    weak var coordinator: SignUpViewCoordinatorDelegate?
+    
+    var viewModel: SignUpViewModel?
     
     @IBOutlet weak var userNameTextField: UITextField!
     
@@ -19,83 +29,106 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var signUpButton: UIButton!
     
-    @IBAction func praviteInfo(_ sender: UIButton) {
-        
-        let url = URL(string: "https://www.privacypolicies.com/privacy/view/e9b6b5e82a15d74909eff1e0d8234312")
-        let safariVC = SFSafariViewController(url: url!)
-        safariVC.delegate = self
-        self.show(safariVC, sender: nil)
-        
-    }
-    
-    @IBAction func clickSignUpButton(_ sender: UIButton) {
-        if userNameTextField.text == "" ||
-            emailTextField.text == "" ||
-            passwordTextField.text == "" {
-            LKProgressHUD.showFailure(text: "請輸入完整資訊", view: self.view)
-        } else {
-            LKProgressHUD.showLoading(view: self.view)
-            
-            guard let userName = userNameTextField.text, let email = emailTextField.text else { return }
-            
-            AuthManager.shared.createNewUser(email: emailTextField.text!,
-                                             password: passwordTextField.text!) { uid in
-                                                FirestoreManager.shared.addNewUser(userInfo: UserInfo(id: uid,
-                                                                                                      name: userName,
-                                                                                                      email: email,
-                                                                                                      phone: nil,
-                                                                                                      photoURL: "",
-                                                                                                      groups: nil)) { result in
-                                                    switch result {
-                                                        
-                                                    case .success:
-                                                        LKProgressHUD.dismiss()
-                                                        self.navigationController?.popViewController(animated: true)
-                                                    case .failure:
-                                                        print("錯誤LKProgressHUD")
-                                                    }
-                                                }
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        setupView()
         
-        title = "註冊帳號資訊"
-        
-        userNameTextField.addLeftSpace()
-        emailTextField.addLeftSpace()
-        passwordTextField.addLeftSpace()
-        
-        userNameTextField.textColor = .STDarkGray
-        emailTextField.textColor = .STDarkGray
-        passwordTextField.textColor = .STDarkGray
-        
-        signUpButton.backgroundColor = .STTintColor
-        signUpButton.setTitleColor(.white, for: .normal)
+        setupVMBinding()
         
         userNameTextField.becomeFirstResponder()
-        
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         userNameTextField.layer.cornerRadius = emailTextField.frame.height / 4
+        
         emailTextField.layer.cornerRadius = passwordTextField.frame.height / 4
+        
         passwordTextField.layer.cornerRadius = passwordTextField.frame.height / 4
         
         signUpButton.layer.cornerRadius = signUpButton.frame.height / 4
-        
-    }
-
-}
-
-extension SignUpViewController: SFSafariViewControllerDelegate {
-
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        controller.dismiss(animated: true, completion: nil)
     }
     
+    func setupView() {
+        
+        title = "註冊帳號資訊"
+
+        userNameTextField.addLeftSpace()
+        
+        emailTextField.addLeftSpace()
+        
+        passwordTextField.addLeftSpace()
+
+        userNameTextField.textColor = .STDarkGray
+        
+        emailTextField.textColor = .STDarkGray
+        
+        passwordTextField.textColor = .STDarkGray
+
+        signUpButton.backgroundColor = .STTintColor
+        
+        signUpButton.setTitleColor(.white, for: .normal)
+    }
+    
+     func setupVMBinding() {
+       
+        viewModel?.loadingHandler = { isLoading in
+            
+            switch isLoading {
+                
+            case true:
+                
+                LKProgressHUD.showLoading()
+                
+            case false:
+                
+                LKProgressHUD.dismiss()
+            }
+        }
+    }
+    
+    @IBAction func privateInfo(_ sender: UIButton) {
+        
+        coordinator?.showPrivateInfoWithFrom(self)
+    }
+    
+    @IBAction func clickSignUpButton(_ sender: UIButton) {
+        
+        guard let userName = userNameTextField.text,
+            let email = emailTextField.text,
+            let password = passwordTextField.text
+        else { return }
+        
+        viewModel?.signUp(userName: userName,
+                          email: email,
+                          password: password,
+                          completion: { [weak self] result in
+                            
+                            guard let strongSelf = self else { return }
+                            
+                            switch result {
+                                
+                            case .success(let text):
+                                
+                                LKProgressHUD.showSuccess(text: text, view: strongSelf.view)
+                                
+                                strongSelf.coordinator?.didSignUpFrom(strongSelf)
+                                
+                            case .failure(let error):
+                                
+                                switch error {
+
+                                case .empty:
+                                  
+                                    LKProgressHUD.showFailure(text: "未完整填寫註冊資訊", view: strongSelf.view)
+                                  
+                                case .failure:
+                                  
+                                    LKProgressHUD.showFailure(text: "註冊失敗", view: strongSelf.view)
+                                }
+                            }
+        })
+    }
 }

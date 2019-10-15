@@ -8,7 +8,6 @@
 
 import Foundation
 import FirebaseFirestore
-import MapKit
 
 struct UserInfo: Codable {
     var id: String!
@@ -41,32 +40,6 @@ struct MemberInfo: Codable {
         self.email = userInfo.email
         self.photoURL = userInfo.photoURL
         self.status = status
-    }
-}
-
-struct Expense: Codable {
-    var id: String!
-    let type: Int
-    let desc: String
-    let userID: String
-    let amount: Double
-    let payerInfo: AmountInfo
-    let splitInfo: AmountInfo
-    let position: GeoPoint
-    let time: Timestamp
-    
-    init(type: Int, desc: String, userID: String, amount: Double,
-         payerInfo: AmountInfo, splitInfo: AmountInfo, location: CLLocationCoordinate2D, time: Date) {
-        
-        self.userID = userID
-        self.type = type
-        self.amount = amount
-        self.desc = desc
-        self.payerInfo = payerInfo
-        self.splitInfo = splitInfo
-        self.position = GeoPoint(latitude: location.latitude, longitude: location.longitude)
-        self.time = Timestamp(date: time)
-        
     }
 }
 

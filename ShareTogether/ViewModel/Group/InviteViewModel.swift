@@ -6,66 +6,57 @@
 //  Copyright © 2019 littema. All rights reserved.
 //
 
-import Foundation
-
-protocol InviteViewModelDelegete: AnyObject {
-    func updateView(text: String, imageURL: String?, isButtonHidden: Bool, isEnable: Bool)
-}
-
 class InviteViewModel {
     
     var inviteMemberData = [MemberInfo]()
     
-    var type = 0
-    
-    var userInfo: UserInfo? {
+    var result: (type: Int, userInfo: UserInfo?)? {
         didSet {
-            if let userInfo = userInfo {
+            guard let userInfo = result?.userInfo, let type = result?.type else {
                 
-                if ShowType(rawValue: type) == .new {
-                    delegate?.updateView(text: userInfo.name,
-                                        imageURL: userInfo.photoURL,
-                                        isButtonHidden: false,
-                                        isEnable: true)
-                } else {
-                    
-                    let members = CurrentManager.shared.availableMembers
-                    
-                    let isContainMember = members.contains { memberInfo -> Bool in
-                        memberInfo.id == userInfo.id
-                    }
-                    
-                    if isContainMember {
-                        delegate?.updateView(text: userInfo.name,
-                                                   imageURL: userInfo.photoURL,
-                                                   isButtonHidden: false,
-                                                   isEnable: false)
-                    } else {
-                        delegate?.updateView(text: userInfo.name,
-                                                   imageURL: userInfo.photoURL,
-                                                   isButtonHidden: false,
-                                                   isEnable: true)
-                    }
-                    
+                updateButtonStatus?("查無使用者，請重新輸入", nil, false, true)
+                
+                return
+            }
+                
+            if GroupType(rawValue: type) == .add {
+                
+                updateButtonStatus?(userInfo.name, userInfo.photoURL, false, true)
+
+            } else {
+                
+                let members = CurrentManager.shared.availableMembers
+                
+                let isContainMember = members.contains {
+                    $0.id == userInfo.id &&
+                    $0.status != MemberStatusType.quit.rawValue
                 }
                 
-            } else {
-                delegate?.updateView(text: "查無使用者，請重新輸入", imageURL: nil, isButtonHidden: true, isEnable: false)
+                if isContainMember {
+                    
+                    updateButtonStatus?(userInfo.name, userInfo.photoURL, false, false)
+
+                } else {
+                    
+                    updateButtonStatus?(userInfo.name, userInfo.photoURL, false, true)
+                }
             }
         }
     }
     
-    weak var delegate: InviteViewModelDelegete?
-    
+    var updateButtonStatus: ((String, String?, Bool, Bool) -> Void)?
+        
     func searchUser(type: Int, email: String?, phone: String?) {
         
         FirestoreManager.shared.searchUser(email: email, phone: phone) { [weak self] result in
             switch result {
                 
             case .success(let userInfo):
-                self?.userInfo = userInfo
-                self?.type = type
+                
+                self?.result = (type: type, userInfo: userInfo)
+                
             case .failure(let error):
+                
                 print(error)
             }
         }
@@ -73,23 +64,22 @@ class InviteViewModel {
     
     func addInviteMembers() {
         
-        guard let userInfo = userInfo else { return }
-        inviteMemberData.append(MemberInfo(userInfo: userInfo, status: 1))
+        guard let userInfo = result?.userInfo else { return }
         
+        inviteMemberData.append(MemberInfo(userInfo: userInfo, status: 1))
     }
     
     func inviteMember() {
         
-        guard let userInfo = userInfo else { return }
+        guard let userInfo = result?.userInfo else { return }
         
         let memberInfo = MemberInfo(userInfo: userInfo, status: MemberStatusType.inviting.rawValue)
         
         FirestoreManager.shared.addMember(memberInfo: memberInfo)
-        
     }
     
     func getInviteMembers() -> [MemberInfo] {
+        
         return inviteMemberData
     }
-    
 }

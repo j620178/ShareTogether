@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct NoteDetaiCellViewModel {
+struct NoteDetailCellViewModel {
     let userImageURL: String?
     let userName: String
     let content: String
@@ -25,7 +25,7 @@ class NoteDetailTableViewCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     
-    var viewModel: NoteDetaiCellViewModel? {
+    var viewModel: NoteDetailCellViewModel? {
         didSet {
             guard let viewModel = viewModel else { return }
             userImageView.setUrlImage(viewModel.userImageURL ?? "")

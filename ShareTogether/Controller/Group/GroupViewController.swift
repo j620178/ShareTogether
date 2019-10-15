@@ -8,34 +8,31 @@
 
 import UIKit
 
-enum ShowType: Int {
-    case new = 0
+enum GroupType: Int {
+    case add = 0
     case edit
+}
+
+protocol GroupVCCoordinatorDelegate: AnyObject {
+    
+    func didFinishEditGroupFrom(_ viewController: STBaseViewController)
+    
+    func didFinishAddGroupFrom(_ viewController: STBaseViewController)
+    
+    func showInviteViewControllerFrom(_ viewController: STBaseViewController, type: GroupType)
+        
+    func dismissAddGroupFrom(_ viewController: STBaseViewController)
+    
+    func dismissEditGroupFrom(_ viewController: STBaseViewController)
 }
 
 class GroupViewController: STBaseViewController {
     
-    var showType = ShowType.new
+    weak var coordinator: GroupVCCoordinatorDelegate?
     
-    var members = [MemberInfo]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var viewModel: GroupViewModel?
     
-    var availableMembers: [MemberInfo] {
-        var availableMembers = [MemberInfo]()
-        
-        for member in members {
-            if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
-                MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
-            } else {
-                availableMembers.append(member)
-            }
-        }
-        
-        return availableMembers
-    }
+    var type = GroupType.add
     
     var lastVelocityYSign = 0
     
@@ -63,43 +60,6 @@ class GroupViewController: STBaseViewController {
             tableView.registerWithNib(identifier: MemberTableViewCell.identifier)
         }
     }
-    
-    @IBAction func clickAddMemberButton(_ sender: UIButton) {
-        if showType == .edit {
-            
-            guard !CurrentManager.shared.isDemoGroup() else {
-                LKProgressHUD.showFailure(text: "範例群組無法新增成員，請建立新群組", view: self.view)
-                return
-            }
-            
-            guard let nextVC = UIStoryboard.group.instantiateViewController(identifier: InviteViewController.identifier)
-                as? InviteViewController
-            else { return }
-            
-            nextVC.showType = .edit
-            navigationController?.pushViewController(nextVC, animated: true)
-            
-        } else if showType == .new {
-            
-            guard let nextVC = UIStoryboard.group.instantiateViewController(identifier: InviteViewController.identifier)
-                as? InviteViewController
-            else { return }
-            
-            navigationController?.pushViewController(nextVC, animated: true)
-
-        }
-    }
-    
-    @IBAction func clickSetCoverButton(_ sender: UIButton) {
-        let picker: UIImagePickerController = UIImagePickerController()
-        
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
-            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            picker.allowsEditing = true
-            picker.delegate = self
-            self.present(picker, animated: true, completion: nil)
-        }
-    }
 
     var currentOffset: CGFloat = 0
     
@@ -108,7 +68,16 @@ class GroupViewController: STBaseViewController {
         
         setupUI()
         
+        setupVMBinding()
+        
         switchShowType()
+
+        if type == .edit {
+
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(update),
+                                                   name: NSNotification.Name(rawValue: "CurrentGroup"),object: nil)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -116,7 +85,7 @@ class GroupViewController: STBaseViewController {
         
         setCoverButton.layer.cornerRadius = setCoverButton.frame.height / 2
     }
-    
+
     func setupUI() {
         addMemberButton.setImage(.getIcon(code: "md-person-add", color: .STTintColor, size: 30), for: .normal)
 
@@ -129,65 +98,92 @@ class GroupViewController: STBaseViewController {
         textField.addLeftSpace()
     }
     
+    func setupVMBinding() {
+        
+        viewModel?.reloadDataHandler = { [weak self] in
+            
+            self?.tableView.reloadData()
+        }
+    }
+    
     func switchLayout(direction: Direction) {
+        
         if direction == .up {
+            
             UIView.animate(withDuration: 0.5) { [weak self] in
+                
                 self?.bannerViewConstraint.constant = 360
+                
                 self?.textField.alpha = 1
+                
                 self?.setCoverButton.alpha = 1
+                
                 self?.title = ""
+                
                 self?.view.layoutIfNeeded()
+                
             }
+            
         } else if direction == .down {
+            
             textField.resignFirstResponder()
             
             UIView.animate(withDuration: 0.5) { [weak self] in
+                
                 self?.bannerViewConstraint.constant = 180
+                
                 self?.textField.alpha = 0
+                
                 self?.setCoverButton.alpha = 0
+                
                 self?.title = self?.textField.text
+                
                 self?.view.layoutIfNeeded()
             }
         }
     }
     
     func switchShowType() {
-        switch showType {
+        
+        switch type {
             
-        case .new:
+        case .add:
+            
             textField.isUserInteractionEnabled = true
+            
             textField.becomeFirstResponder()
             
             let leftButton = UIButton(type: .custom)
+            
             leftButton.addTarget(self, action: #selector(closeSelf(_:)), for: .touchUpInside)
+            
             navigationItem.leftBarButtonItem = .customItem(button: leftButton, code: "ios-arrow-round-back")
             
             let rightButton = UIButton(type: .custom)
+            
             rightButton.addTarget(self, action: #selector(addGroup(_:)), for: .touchUpInside)
+            
             navigationItem.rightBarButtonItem = .customItem(button: rightButton, code: "ios-add")
             
-            members = [MemberInfo(userInfo: CurrentManager.shared.user!, status: 0)]
+            viewModel?.initMember(type: type)
             
         case .edit:
+            
             textField.isUserInteractionEnabled = false
+            
             textField.text = CurrentManager.shared.group?.name
+            
             coverImageView.setUrlImage(CurrentManager.shared.group?.coverURL ?? "")
 
             setCoverButton.isHidden = true
             
             let button = UIButton(type: .custom)
+            
             button.addTarget(self, action: #selector(closeSelf(_:)), for: .touchUpInside)
+            
             navigationItem.leftBarButtonItem = .customItem(button: button, code: "ios-close")
             
-            FirestoreManager.shared.getMembers { [weak self] result in
-                switch result {
-                    
-                case .success(let members):
-                    self?.members = members
-                case .failure(let error):
-                    print(error)
-                }
-            }
+            viewModel?.initMember(type: type)
         }
     }
     
@@ -223,29 +219,32 @@ class GroupViewController: STBaseViewController {
             }
             
             controller.addAction(action)
+            
             let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            
             controller.addAction(cancelAction)
+            
             strongSelf.present(controller, animated: true, completion: nil)
-
         }
-        
     }
     
     @objc func closeSelf(_ sender: UIButton) {
         
-        switch showType {
+        switch type {
    
-        case .new:
-            navigationController?.popViewController(animated: true)
+        case .add:
+            
+            coordinator?.dismissAddGroupFrom(self)
+            
         case .edit:
-            dismiss(animated: true, completion: nil)
+            
+            coordinator?.dismissEditGroupFrom(self)
         }
-        
     }
 
     @objc func addGroup(_ sender: UIButton) {
                 
-        guard let text = textField.text, text != "", coverImageView.image != nil
+        guard let text = textField.text, text != "", let coverImage = coverImageView.image
         else {
             LKProgressHUD.showFailure(text: "請點選相機圖示上傳群組相片", view: self.view)
             return
@@ -253,40 +252,71 @@ class GroupViewController: STBaseViewController {
         
         LKProgressHUD.showLoading(view: self.view)
         
-        StorageManager.shared.uploadImage(image: coverImageView.image!) { [weak self] urlString in
+        viewModel?.addGroup(coverImage: coverImage, text: text, completion: { [weak self] result in
+            
+            LKProgressHUD.dismiss()
             
             guard let strongSelf = self else { return }
             
-            let groupInfo = GroupInfo(id: nil, name: text, coverURL: urlString, status: nil)
+            switch result {
 
-            FirestoreManager.shared.addGroup(groupInfo: groupInfo, members: strongSelf.members, completion: { result in
-                switch result {
-                case .success:
-                    strongSelf.navigationController?.popViewController(animated: true)
-                case .failure(let error):
-                    print(error)
-                }
-                LKProgressHUD.dismiss()
-            })
-            
+            case .success:
+                
+                strongSelf.coordinator?.didFinishAddGroupFrom(strongSelf)
+
+            case .failure(let error):
+
+                print(error)
+            }
+        })
+    }
+    
+    @IBAction func clickAddMemberButton(_ sender: UIButton) {
+        
+        guard !CurrentManager.shared.isDemoGroup() else {
+            LKProgressHUD.showFailure(text: "範例群組無法新增成員，請建立新群組", view: self.view)
+            return
         }
         
+        coordinator?.showInviteViewControllerFrom(self, type: type)
+    }
+    
+    @IBAction func clickSetCoverButton(_ sender: UIButton) {
+        
+        let picker: UIImagePickerController = UIImagePickerController()
+        
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
+            
+            picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+            
+            picker.allowsEditing = true
+            
+            picker.delegate = self
+            
+            self.present(picker, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func update() {
+        viewModel?.initMember(type: type)
     }
     
     @objc func gestureAction(_ sender: UITapGestureRecognizer) {
+        
         switchLayout(direction: .up)
     }
     
     @objc func gestureDownAction(_ sender: UISwipeGestureRecognizer) {
+        
         switchLayout(direction: .down)
     }
-    
 }
 
 extension GroupViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return availableMembers.count
+        
+        return viewModel?.cellViewModels.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -295,33 +325,34 @@ extension GroupViewController: UITableViewDataSource {
         
         guard let memberCell = cell as? MemberTableViewCell else { return cell}
         
-        memberCell.userImageView.setUrlImage(availableMembers[indexPath.row].photoURL)
-        
-        memberCell.userNameLabel.text = availableMembers[indexPath.row].name
-        
-        memberCell.detailLabel.text = MemberStatusType(rawValue: availableMembers[indexPath.row].status)?.getString
+        memberCell.viewModel = viewModel?.getCellViewModel(index: indexPath.row)
         
         return memberCell
-        
     }
-        
 }
 
 extension GroupViewController: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         let currentVelocityY =  scrollView.panGestureRecognizer.velocity(in: scrollView.superview).y
+        
         let currentVelocityYSign = Int(currentVelocityY).signum()
+        
         if currentVelocityYSign != lastVelocityYSign,
+            
             currentVelocityYSign != 0 {
+        
             lastVelocityYSign = currentVelocityYSign
         }
         
         if lastVelocityYSign < 0 {
+            
             switchLayout(direction: .down)
         }
         
         if scrollView.contentOffset.y < -50 {
+            
             switchLayout(direction: .up)
         }
     }
@@ -330,19 +361,24 @@ extension GroupViewController: UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if showType == .edit {
+        if type == .edit {
             
             guard !CurrentManager.shared.isDemoGroup() else {
+                
                 LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
+                
                 return
             }
             
-            guard showType == .edit else { return }
+            guard type == .edit, viewModel != nil else { return }
             
-            if availableMembers[indexPath.row].id == CurrentManager.shared.user?.id {
-                presentAlertController(text: "退出", member: availableMembers[indexPath.row])
+            if viewModel?.availableMembers[indexPath.row].id == CurrentManager.shared.user?.id {
+                
+                presentAlertController(text: "退出", member: viewModel!.availableMembers[indexPath.row])
+                
             } else {
-                presentAlertController(text: "刪除", member: availableMembers[indexPath.row])
+                
+                presentAlertController(text: "刪除", member: viewModel!.availableMembers[indexPath.row])
             }
         }
 
@@ -356,26 +392,14 @@ extension GroupViewController: UIImagePickerControllerDelegate, UINavigationCont
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
         picker.dismiss(animated: true, completion: nil)
-        guard let image = info[.originalImage] as? UIImage else { return }
-        self.coverImageView.image = image.resizeImage(targetSize: CGSize(width: 1024, height: 768))
         
+        guard let image = info[.originalImage] as? UIImage else { return }
+        
+        self.coverImageView.image = image.resizeImage(targetSize: CGSize(width: 1024, height: 768))
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
         picker.dismiss(animated: true, completion: nil)
     }
-    
-}
-
-extension UIBarButtonItem {
-    
-    static func customItem(button: UIButton, code: String) -> UIBarButtonItem {
-        button.setImage(.getIcon(code: code, color: .STDarkGray, size: 40), for: .normal)
-        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.layer.cornerRadius = 20
-        button.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        
-        return UIBarButtonItem(customView: button)
-    }
-
 }

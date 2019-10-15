@@ -16,6 +16,27 @@ class STBaseViewController: UIViewController {
         return String(describing: self)
     }
     
+    static func instantiate(name: StoryboardCategory) -> Self {
+        
+        let storyboard = UIStoryboard(name: name.rawValue, bundle: nil)
+        
+        guard let baseVC = storyboard.instantiateViewController(identifier: self.identifier)
+            as? Self else { fatalError() }
+        
+        return baseVC
+    }
+    
+    func addChild(childController: UIViewController, to view: UIView) {
+        
+        self.addChild(childController)
+        
+        childController.view.frame = view.bounds
+        
+        view.addSubview(childController.view)
+        
+        childController.didMove(toParent: self)
+    }
+    
     var isHideNavigationBar: Bool {
         
         return false

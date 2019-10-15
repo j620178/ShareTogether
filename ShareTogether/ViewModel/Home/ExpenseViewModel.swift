@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 
 class HomeExpenseViewModel: NSObject {
     
@@ -37,20 +36,28 @@ class HomeExpenseViewModel: NSObject {
         return titleOfSections[section]
     }
     
-    func getCellViewModel(at indexPath: IndexPath) -> HomeExpenseCellViewModel {
+    func getCellViewModel(section: Int, row: Int) -> HomeExpenseCellViewModel {
         
-        if indexPath.row == 0 {
-            return cellViewModels[indexPath.section][indexPath.row]
+        if row == 0 {
+            
+            return cellViewModels[section][row]
+            
         } else {
-            for section in cellViewModels.indices {
-                let lastIndexPath = IndexPath(row: cellViewModels[section].count - 1, section: section)
-                if indexPath == lastIndexPath {
-                    return cellViewModels[indexPath.section][indexPath.row]
+            
+            for vmSection in cellViewModels.indices {
+                
+                let lastSection = vmSection
+                
+                let lastRow = cellViewModels[vmSection].count - 1
+                
+                if section == lastSection, row == lastRow {
+                    
+                    return cellViewModels[section][row]
                 }
             }
         }
         
-        return cellViewModels[indexPath.section][indexPath.row]
+        return cellViewModels[section][row]
     }
     
     func createCellViewModels(expense: Expense) -> HomeExpenseCellViewModel {
@@ -66,15 +73,21 @@ class HomeExpenseViewModel: NSObject {
     func fectchData() {
         
         FirestoreManager.shared.getExpenses { [weak self] result in
+            
             switch result {
                 
             case .success(let expenses):
                 
                 if expenses.isEmpty {
+                    
                     self?.expenses = [Expense]()
+                    
                     self?.cellViewModels = [[HomeExpenseCellViewModel]]()
+                    
                 } else {
+                    
                     self?.expenses = expenses
+                    
                     self?.processData()
                 }
 
@@ -82,7 +95,6 @@ class HomeExpenseViewModel: NSObject {
                 print(error)
             }
         }
-        
     }
     
     func processData() {
@@ -100,21 +112,25 @@ class HomeExpenseViewModel: NSObject {
         for expense in expenses {
             
             if titleOfSections[index] == expense.time.toSimpleFormat {
+                
                 viewModelsSection.append(createCellViewModels(expense: expense))
+                
             } else {
+                
                 viewModels.append(viewModelsSection)
+                
                 titleOfSections.append(expense.time.toSimpleFormat)
+                
                 viewModelsSection = [HomeExpenseCellViewModel]()
+                
                 viewModelsSection.append(createCellViewModels(expense: expense))
+                
                 index += 1
             }
-            
         }
         
         viewModels.append(viewModelsSection)
         
         self.cellViewModels = viewModels
-        
     }
-    
 }

@@ -14,10 +14,10 @@ class STAnnotation: MKPointAnnotation {
 }
 
 class SearchViewController: STBaseViewController {
-        
-    let locationManager = CLLocationManager()
     
     var viewModel = SearchViewModel()
+        
+    let locationManager = CLLocationManager()
         
     @IBOutlet weak var textField: UITextField! {
         didSet {

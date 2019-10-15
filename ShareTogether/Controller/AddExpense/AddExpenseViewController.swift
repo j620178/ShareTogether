@@ -10,8 +10,17 @@ import UIKit
 import AVFoundation
 import MapKit
 
-protocol AddExpenseItem: UITableViewDelegate, UITableViewDataSource {
+protocol AddExpenseItem: UITableViewDelegate, UITableViewDataSource {}
+
+protocol AddExpenseVCCoordinatorDelegate: AnyObject {
     
+    func didFinishAddExpense(_ viewController: STBaseViewController)
+    
+    func showCalculatorViewController(_ viewController: STBaseViewController,
+                                      amount: Double,
+                                      splitInfo: AmountInfo?)
+    
+    func dismiss(_ viewController: STBaseViewController)
 }
 
 class AddExpenseViewController: STBaseViewController {
@@ -20,6 +29,10 @@ class AddExpenseViewController: STBaseViewController {
         return true
     }
     
+    weak var coordinator: AddExpenseVCCoordinatorDelegate?
+    
+    var viewModel: AddExpenseViewModel?
+        
     let titleString = ["類型", "消費", "付款", "分帳", "日期"]
     
     let locationManager = CLLocationManager()
@@ -79,27 +92,36 @@ class AddExpenseViewController: STBaseViewController {
         setupBase()
         
         expenseController.delegate = self
+        
         payerController.delegate = self
+        
         splitController.delegate = self
         
         if let expense = expense {
+            
             amountTypeController.selectIndex = expense.type
+            
             expenseController.expenseInfo[0] = "\(expense.amount)"
+            
             expenseController.expenseInfo[1] = "\(expense.desc)"
+            
             payerController.payInfo = expense.payerInfo
+            
             splitController.splitInfo = expense.splitInfo
+            
             payDateController.selectDate = expense.time.dateValue()
         }
 
         payDateController.initDayOfWeek()
                 
         setupMap()
-
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
         addButton.layer.cornerRadius = addButton.frame.height / 2
+        
         cancelButton.layer.cornerRadius = cancelButton.frame.height / 2
     }
     
@@ -108,36 +130,11 @@ class AddExpenseViewController: STBaseViewController {
         
         if expense == nil {
             
-            if CLLocationManager.authorizationStatus()
-                == .notDetermined {
-
-                locationManager.requestWhenInUseAuthorization()
-
-                locationManager.startUpdatingLocation()
-
-            } else if CLLocationManager.authorizationStatus()
-                == .denied {
-
-                let alertController = UIAlertController(
-                    title: "定位權限已關閉",
-                    message:
-                    "如要變更權限，請至 設定 > 隱私權 > 定位服務 開啟",
-                    preferredStyle: .alert)
-                let okAction = UIAlertAction(
-                    title: "確認", style: .default, handler: nil)
-                alertController.addAction(okAction)
-                self.present(
-                    alertController,
-                    animated: true, completion: nil)
-
-            } else if CLLocationManager.authorizationStatus()
-                == .authorizedWhenInUse {
-
-                locationManager.startUpdatingLocation()
+            if let alertController = locationManager.checkAuthorizationStatus() {
+                
+                present(alertController, animated: true, completion: nil)
             }
-            
         }
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -157,7 +154,6 @@ class AddExpenseViewController: STBaseViewController {
         containerView.addCornerAndShadow(cornerRadius: 10, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
         
         mapHeightConstraint.constant = UIScreen.main.bounds.height - 430
-    
     }
     
     func setupMap() {
@@ -191,7 +187,6 @@ class AddExpenseViewController: STBaseViewController {
             
             mapView.userTrackingMode = .follow
         }
-        
     }
     
     func switchMapHeight(direction: Direction) {
@@ -227,7 +222,6 @@ class AddExpenseViewController: STBaseViewController {
                 self?.mapHeightConstraint.constant = UIScreen.main.bounds.height - 430
                 
                 self?.view.layoutIfNeeded()
-                
             }
         }
     }
@@ -237,14 +231,12 @@ class AddExpenseViewController: STBaseViewController {
         if sender.direction == .up {
             
             switchMapHeight(direction: .up)
-            
         }
-    
     }
     
     @IBAction func clickCancelButton(_ sender: UIButton) {
 
-        dismiss(animated: true, completion: nil)
+        coordinator?.dismiss(self)
     }
     
     @IBAction func clickAddButton(_ sender: UIButton) {
@@ -256,7 +248,6 @@ class AddExpenseViewController: STBaseViewController {
             LKProgressHUD.showFailure(text: "範例群組無法新增資料，請建立新群組", view: self.view)
             
             return
-            
         }
         
         guard let uid = CurrentManager.shared.user?.id,
@@ -272,7 +263,7 @@ class AddExpenseViewController: STBaseViewController {
             return
         }
         
-        LKProgressHUD.show(view: self.view)
+        LKProgressHUD.showLoading(view: self.view)
         
         var expense = Expense(type: amountTypeController.selectIndex,
                               desc: expenseController.expenseInfo[1],
@@ -283,68 +274,17 @@ class AddExpenseViewController: STBaseViewController {
                               location: mapView.centerCoordinate,
                               time: date)
         
-        if self.expense != nil {
+        if self.expense == nil {
             
-            expense.id = self.expense!.id
-            
-            FirestoreManager.shared.upadteExpense(expense: expense) { [weak self] result in
-                
-                switch result {
-
-                case .success:
-                    
-                    for member in CurrentManager.shared.availableMembersWithoutSelf {
-                        
-                        FirestoreManager.shared.addActivity(type: .editExpense, targetMember: member, expense: expense)
-                        
-                    }
-                    
-                    LKProgressHUD.dismiss()
-                    
-                    self?.dismiss(animated: true, completion: nil)
-                    
-                    if let previousVC = self?.navigationController?.presentingViewController
-                        as? STNavigationController {
-                        
-                        previousVC.popViewController(animated: true)
-                        
-                    }
-                    
-                case .failure(let error):
-                    
-                    LKProgressHUD.showFailure(text: error.localizedDescription)
-                    
-                }
-            }
+            viewModel?.addExpense(expense: expense)
             
         } else {
             
-            FirestoreManager.shared.addExpense(expense: expense) { [weak self] result in
-                
-                switch result {
-
-                case .success:
-                    
-                    for member in CurrentManager.shared.availableMembersWithoutSelf {
-                        
-                        FirestoreManager.shared.addActivity(type: .addExpense, targetMember: member, expense: expense)
-                        
-                    }
-                    
-                    LKProgressHUD.dismiss()
-                    
-                    self?.dismiss(animated: true, completion: nil)
-                    
-                case .failure(let error):
-                    
-                    LKProgressHUD.showFailure(text: error.localizedDescription)
-                }
-            }
+            expense.id = self.expense!.id
             
+            viewModel?.updateExpense(expense: expense)
         }
-
     }
-    
 }
 
 extension AddExpenseViewController: UITableViewDataSource {
@@ -387,11 +327,7 @@ extension AddExpenseViewController: UITableViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        if scrollView.contentOffset.y <= -75 {
-
-            switchMapHeight(direction: .down)
-            
-        }
+        scrollView.contentOffset.y <= -75 ? switchMapHeight(direction: .down) : nil
         
         let currentVelocityY =  scrollView.panGestureRecognizer.velocity(in: scrollView.superview).y
         
@@ -399,22 +335,20 @@ extension AddExpenseViewController: UITableViewDelegate {
         
         if currentVelocityYSign != lastVelocityYSign,
             currentVelocityYSign != 0 {
+            
             lastVelocityYSign = currentVelocityYSign
         }
         
         if lastVelocityYSign < 0 {
             
             switchMapHeight(direction: .up)
-            
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         items[indexPath.section].tableView?(tableView, didSelectRowAt: indexPath)
-        
     }
-    
 }
 
 extension AddExpenseViewController: CLLocationManagerDelegate {
@@ -424,9 +358,7 @@ extension AddExpenseViewController: CLLocationManagerDelegate {
         let currentLocation = locations[0] as CLLocation
         
         annotation.coordinate = currentLocation.coordinate
-        
     }
-    
 }
 
 extension AddExpenseViewController: MKMapViewDelegate {
@@ -434,9 +366,7 @@ extension AddExpenseViewController: MKMapViewDelegate {
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         
         annotation.coordinate = mapView.centerCoordinate
-        
     }
-    
 }
 
 extension AddExpenseViewController: ExpenseTextFieldDelegate {
@@ -444,9 +374,7 @@ extension AddExpenseViewController: ExpenseTextFieldDelegate {
     func keyboardBeginEditing(controller: ExpenseController) {
         
         switchMapHeight(direction: .up)
-        
     }
-
 }
 
 extension AddExpenseViewController: PayerControllerDelegate {
@@ -489,9 +417,7 @@ extension AddExpenseViewController: PayerControllerDelegate {
         controller.addAction(cancelAction)
         
         present(controller, animated: true, completion: nil)
-        
     }
-
 }
 
 extension AddExpenseViewController: SplitControllerDelegate {
@@ -500,28 +426,13 @@ extension AddExpenseViewController: SplitControllerDelegate {
         
         if let amount = Double(expenseController.expenseInfo[0]) {
             
-            guard let nextVC = storyboard?.instantiateViewController(withIdentifier: CalculatorViewController.identifier),
-                let calculatorVC = nextVC as? CalculatorViewController
-            else { return }
-            
-            calculatorVC.amount = amount
-            
-            calculatorVC.splitInfo = splitController.splitInfo
-            
-            calculatorVC.passCalculateDateHandler = { [weak self] spliteInfo in
-                
-                self?.splitController.splitInfo = spliteInfo
-                
-            }
-            
-            show(calculatorVC, sender: nil)
-            
+            coordinator?.showCalculatorViewController(self,
+                                                      amount: amount,
+                                                      splitInfo: splitController.splitInfo)
+        
         } else {
             
             LKProgressHUD.showFailure(text: "分帳前請先填妥消費金額", view: self.view)
-            
         }
-
     }
-    
 }

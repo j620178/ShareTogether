@@ -19,72 +19,39 @@ import SafariServices
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    // swiftlint:disable force_cast
-    static let shared = UIApplication.shared.delegate as! AppDelegate
-    // swiftlint:enable force_cast
 
     var window: UIWindow?
+    
+    var appCoordinator: AppCoordinator!
 
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        IQKeyboardManager.shared.enable = true
+        setupThirdParty()
         
-        FirebaseApp.configure()
+        setupPushNotification(application: application)
         
-        Firestore.firestore()
-        
-        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
-        
-        GIDSignIn.sharedInstance().delegate = AuthManager.shared
-        
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().delegate = self
-            Messaging.messaging().delegate = self
-
-            // 在程式一啟動即詢問使用者是否接受圖文(alert)、聲音(sound)、數字(badge)三種類型的通知
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge],
-                                                                    completionHandler: { granted, error in
-                    if granted {
-                        print("允許...")
-                    } else {
-                        print("不允許...")
-                    }
-                })
-        } else {
-            let settings: UIUserNotificationSettings =
-            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-        }
-            
-        application.registerForRemoteNotifications()
+        loadDefaultData()
                     
-        self.window = UIWindow.init(frame: UIScreen.main.bounds)
+        window = UIWindow.init(frame: UIScreen.main.bounds)
         
-        self.window?.makeKeyAndVisible()
+        appCoordinator = AppCoordinator(window: window!)
         
-        self.window!.tintColor = .STTintColor
+        window?.makeKeyAndVisible()
         
-        self.window!.overrideUserInterfaceStyle = .light
+        window!.tintColor = .STTintColor
         
-        if let data = UserDefaults.standard.value(forKey: DefaultConstant.user) as? Data,
-            let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
-            CurrentManager.shared.setCurrentUser(userInfo)
-        }
-        //refator
-        if let data = UserDefaults.standard.value(forKey: DefaultConstant.group) as? Data,
-            let groupInfo = try? JSONDecoder().decode(GroupInfo.self, from: data) {
-            CurrentManager.shared.setCurrentGroup(groupInfo)
-        }
+        window!.overrideUserInterfaceStyle = .light
         
-        if CurrentManager.shared.user != nil {
-            self.window?.rootViewController = UIStoryboard.main.instantiateInitialViewController()!
-        } else {
-            self.window?.rootViewController = UIStoryboard.login.instantiateInitialViewController()!
-        }
-    
+        appCoordinator.start()
+        
+//        if CurrentManager.shared.user != nil {
+//            self.window?.rootViewController = UIStoryboard.main.instantiateInitialViewController()!
+//        } else {
+//            self.window?.rootViewController = UIStoryboard.login.instantiateInitialViewController()!
+//        }
+//
         return true
     }
 
@@ -112,6 +79,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate {
+    
+    func setupThirdParty() {
+        IQKeyboardManager.shared.enable = true
+        
+        FirebaseApp.configure()
+        
+        Firestore.firestore()
+        
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        
+        GIDSignIn.sharedInstance().delegate = AuthManager.shared
+    }
+    
+    func setupPushNotification(application: UIApplication) {
+        
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self
+            Messaging.messaging().delegate = self
+
+            // 在程式一啟動即詢問使用者是否接受圖文(alert)、聲音(sound)、數字(badge)三種類型的通知
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge],
+                                                                    completionHandler: { granted, error in
+                    if granted {
+                        print("允許...")
+                    } else {
+                        print("不允許...")
+                    }
+                })
+        } else {
+            let settings: UIUserNotificationSettings =
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+    }
+    
+    func loadDefaultData() {
+        //refactor
+        if let data = UserDefaults.standard.value(forKey: DefaultConstant.user) as? Data,
+            let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
+            
+            CurrentManager.shared.setCurrentUser(userInfo)
+        }
+
+        if let data = UserDefaults.standard.value(forKey: DefaultConstant.group) as? Data,
+            let groupInfo = try? JSONDecoder().decode(GroupInfo.self, from: data) {
+            
+            CurrentManager.shared.setCurrentGroup(groupInfo)
+        }
+    }
     
     func showExpenseDetail(expenseID: String) {
         

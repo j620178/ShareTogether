@@ -8,14 +8,21 @@
 
 import UIKit
 
+protocol GroupListVCCoordinatorDelegate: AnyObject {
+    
+    func showGroupViewControllerFrom(_ viewController: STBaseViewController)
+    
+    func dismissGroupListViewControllerFrom(_ viewController: STBaseViewController)
+}
+
 class GroupListViewController: STBaseViewController {
     
-    var viewModel = GroupListViewModel()
+    override var isHideNavigationBar: Bool { return true }
     
-    override var isHideNavigationBar: Bool {
-        return true
-    }
-        
+    weak var coordinator: GroupListVCCoordinatorDelegate?
+    
+    var viewModel: GroupListViewModel?
+            
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.dataSource = self
@@ -25,7 +32,6 @@ class GroupListViewController: STBaseViewController {
             flowLayout.minimumInteritemSpacing = 10
             flowLayout.minimumLineSpacing = 10
             collectionView.collectionViewLayout = flowLayout
-            
             collectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }
     }
@@ -45,26 +51,34 @@ class GroupListViewController: STBaseViewController {
             backButton.layer.cornerRadius = 10
         }
     }
-    
-    @IBAction func clickBackButton(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.reloadDataHandler = { [weak self] in
+        viewModel?.reloadDataHandler = { [weak self] in
+            
             self?.collectionView.reloadData()
         }
-        viewModel.fetchDate()
+        
+        viewModel?.fetchDate()
     }
-
+    
+    @IBAction func clickAddGroupButton(_ sender: UIButton) {
+        
+        coordinator?.showGroupViewControllerFrom(self)
+    }
+    
+    @IBAction func clickBackButton(_ sender: UIButton) {
+        
+        coordinator?.dismissGroupListViewControllerFrom(self)
+    }
 }
 
 extension GroupListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfCells
+        
+        return viewModel?.numberOfCells ?? 0
     }
     
     func collectionView(
@@ -76,19 +90,18 @@ extension GroupListViewController: UICollectionViewDataSource {
         
         guard let groupCell = cell as? GroupCollectionViewCell else { return cell }
         
-        groupCell.cellViewModel = viewModel.getCellViewModel(at: indexPath.row)
+        groupCell.cellViewModel = viewModel?.getCellViewModel(at: indexPath.row)
         
         return groupCell
     }
-    
 }
 
 extension GroupListViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let userGroup = viewModel.getUserGroup(at: indexPath.row)
-        let groupInfo = GroupInfo(id: userGroup.id, name: userGroup.name, coverURL: userGroup.coverURL, status: nil)
-        CurrentManager.shared.setCurrentGroup(groupInfo)
         
-        dismiss(animated: true, completion: nil)
+        viewModel?.setCurrentGroup(index: indexPath.row)
+        
+        coordinator?.dismissGroupListViewControllerFrom(self)
     }
 }

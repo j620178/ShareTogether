@@ -8,32 +8,33 @@
 
 import UIKit
 
+private enum InfoType: String {
+    
+    case expense = "交易紀錄"
+    
+    case statistics = "金額統計"
+    
+    case result = "結算結果"
+    
+    case notebook = "記事本"
+}
+
+protocol HomeVCCoordinatorDelegate: AnyObject {
+    
+    func showGroupListFrom(_ viewController: STBaseViewController)
+    
+    func showEditGroupFrom(_ viewController: STBaseViewController)
+}
+
 class HomeViewController: STBaseViewController {
     
-    override var isHideNavigationBar: Bool {
-        return true
-    }
+    override var isHideNavigationBar: Bool { return true }
     
-    enum InfoType: String {
-        case expense = "交易紀錄"
-        case statistics = "金額統計"
-        case result = "結算結果"
-        case notebook = "記事本"
-    }
+    weak var coordinator: HomeVCCoordinatorDelegate?
     
-    let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
-    
-    var expenseTableViewController: ExpenseViewController?
-    
-    var statisticsTableViewController: StatisticsViewController?
-    
-    var resultTableViewController: ResultViewController?
-    
-    var notebookTableViewController: NoteViewController?
-    
-    var viewModel: HomeViewModel = {
-        return HomeViewModel()
-    }()
+    var viewModel: HomeViewModel?
+
+    private let infoItems: [InfoType] = [.expense, .statistics, .result, .notebook]
     
     @IBOutlet weak var bannerView: UIView!
     
@@ -45,8 +46,8 @@ class HomeViewController: STBaseViewController {
         didSet {
             groupNameButton.setImage(
                 .getIcon(code: "ios-arrow-down", color: .white, size: 22),
-                for: .normal
-            )
+                for: .normal)
+            
             groupNameButton.setTitleColor(.white, for: .normal)
         }
     }
@@ -59,130 +60,160 @@ class HomeViewController: STBaseViewController {
     
     @IBOutlet weak var infoScrollView: UIScrollView!
     
-    @IBAction func clickGroupNameButton(_ sender: UIButton) {
-        
-        let nextVC = UIStoryboard.group.instantiateInitialViewController()!
-        present(nextVC, animated: true, completion: nil)
-        
-    }
-    
-    @IBAction func clickEditGroupButton(_ sender: UIButton) {
-                
-        let navigationController = STNavigationController()
-        
-        guard let nextVC = UIStoryboard.group.instantiateViewController(
-            withIdentifier: GroupViewController.identifier)
-            as? GroupViewController
-        else { return }
-        
-        nextVC.showType = .edit
-        
-        navigationController.viewControllers = [nextVC]
-        
-        present(navigationController, animated: true, completion: nil)
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         bannerView.addShadow()
+        
         bannerView.backgroundColor = .STTintColor
         
         infoScrollView.delegate = self
         
         infoTypeSelectionView.dataSource = self
+        
         infoTypeSelectionView.delegate = self
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(upadateCurrentGroup),
+                                               selector: #selector(updateCurrentGroup),
                                                name: NSNotification.Name(rawValue: "CurrentGroup"),
                                                object: nil)
 
-        upadateCurrentGroup()
+        updateCurrentGroup()
+        
+        setupVMBinding()
             
     }
     
-    @objc func upadateCurrentGroup() {
-        viewModel.fetchData()
-        groupNameButton.setTitle(CurrentManager.shared.group?.name, for: .normal)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if let expenseVC = segue.destination as? ExpenseViewController {
+
+            expenseVC.coordinator = coordinator as? HomeCoordinator
+            
             expenseVC.delegate = self
+            
             expenseVC.viewModel = viewModel
-            expenseTableViewController = expenseVC
+            
         } else if let statisticsVC = segue.destination as? StatisticsViewController {
+            
             statisticsVC.delegate = self
+            
             statisticsVC.viewModel = viewModel
-            statisticsTableViewController = statisticsVC
+            
         } else if let resultVC = segue.destination as? ResultViewController {
+            
             resultVC.delegate = self
+            
             resultVC.viewModel = viewModel
-            resultTableViewController = resultVC
+            
         } else if let notebookVC = segue.destination as? NoteViewController {
+            
+            notebookVC.coordinator = coordinator as? HomeCoordinator
+            
             notebookVC.delegate = self
-            notebookTableViewController = notebookVC
         }
     }
-
+    
+    func setupVMBinding() {
+       
+        viewModel?.loadingHandler = { isLoading in
+            
+            switch isLoading {
+                
+            case true:
+                
+                LKProgressHUD.showLoading(view: self.view)
+                
+            case false:
+                
+                LKProgressHUD.dismiss()
+            }
+        }
+    }
+    
+    @IBAction func clickGroupNameButton(_ sender: UIButton) {
+        
+        coordinator?.showGroupListFrom(self)
+    }
+    
+    @IBAction func clickEditGroupButton(_ sender: UIButton) {
+                
+        coordinator?.showEditGroupFrom(self)
+    }
+    
+    @objc func updateCurrentGroup() {
+        
+        viewModel?.fetchData()
+        
+        groupNameButton.setTitle(CurrentManager.shared.group?.name, for: .normal)
+    }
 }
 
 extension HomeViewController: UIScrollViewDelegate {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let screenPage = Int(scrollView.contentOffset.x / UIScreen.main.bounds.width)
         
         if screenPage > infoTypeSelectionView.selectIndex {
+            
             infoTypeSelectionView.switchIndicatorAt(index: screenPage)
+            
         } else if screenPage < infoTypeSelectionView.selectIndex {
+            
             infoTypeSelectionView.switchIndicatorAt(index: screenPage)
         }
-        
     }
 }
 
 extension HomeViewController: ScrollSelectionViewDataSource {
+    
     func numberOfItems(scrollSelectionView: ScrollSelectionView) -> Int {
+        
         return infoItems.count
     }
     
     func titleForItem(scrollSelectionView: ScrollSelectionView, index: Int) -> String {
+        
         return infoItems[index].rawValue
     }
-    
 }
 
 extension HomeViewController: ScrollSelectionViewDelegate {
+    
     func scrollSelectionView(scrollSelectionView: ScrollSelectionView, didSelectIndexAt index: Int) {
+        
         let index = infoTypeSelectionView.selectIndex
-        infoScrollView.setContentOffset(CGPoint(x: index * Int(UIScreen.main.bounds.width), y: 0), animated: true)
+        
+        let xPos = index * Int(UIScreen.main.bounds.width)
+        
+        infoScrollView.setContentOffset(CGPoint(x: xPos, y: 0), animated: true)
     }
 }
 
-extension HomeViewController: HomeViewControllerDelegate {
+extension HomeViewController: HomeVCDelegate {
     
     func tableViewDidScroll(viewController: UIViewController, offsetY: CGFloat, contentSize: CGSize) {
         
         if contentSize.height > UIScreen.main.bounds.height - 120 {
+            
             let offset = min(max(offsetY, 0), 65)
         
             groupNameButton.alpha = 1 - (offset / 65)
+            
             editGroupButton.alpha = 1 - (offset / 65)
+            
             bannerTopConstraint.constant = 20 - offset
+            
             view.layoutIfNeeded()
+            
         } else {
+            
             groupNameButton.alpha = 1
+            
             editGroupButton.alpha = 1
+            
             bannerTopConstraint.constant = 20
         }
-    
     }
-
 }

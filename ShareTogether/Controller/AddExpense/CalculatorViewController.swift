@@ -8,44 +8,14 @@
 
 import UIKit
 
-struct AmountInfo: Codable {
+protocol CalculatorVCCoordinatorDelegate: AnyObject {
     
-    var type: Int
-    
-    var amountDesc: [AmountDesc]
-    
-    func getAmount(amount: Double, index: Int) -> Double {
-        if self.type == 0 {
-            return amount / Double(amountDesc.count)
-        } else if self.type == 1 {
-            if let value = amountDesc[index].value {
-                return amount * value / 100
-            } else {
-                return 0
-            }
-        } else {
-            if let value = amountDesc[index].value {
-                return value
-            } else {
-                return 0
-            }
-        }
-    }
-    
-    func getPayer() -> String? {
-        for aAmountDesc in amountDesc where aAmountDesc.value != nil {
-            return aAmountDesc.member.id
-        }
-        return nil
-    }
-}
-
-struct AmountDesc: Codable {
-    let member: MemberInfo
-    var value: Double?
+    func didFinishCalculateFrom(_ viewController: STBaseViewController, splitInfo: AmountInfo)
 }
 
 class CalculatorViewController: STBaseViewController {
+    
+    var coordinator: CalculatorVCCoordinatorDelegate?
     
     let selectionViewTitle = ["均分", "比例", "指定金額"]
         
@@ -53,8 +23,6 @@ class CalculatorViewController: STBaseViewController {
     
     var splitInfo: AmountInfo?
     
-    var passCalculateDateHandler: ((AmountInfo) -> Void)?
-
     @IBOutlet weak var selectionView: SelectionView! {
         didSet {
             selectionView.dataSource = self
@@ -74,7 +42,7 @@ class CalculatorViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        title = "分帳方式選擇"
+        title = "選擇分帳方式"
         
         let barItem = UIBarButtonItem(title: "完成", style: .plain, target: self, action: #selector(saveDate(_:)))
             
@@ -93,14 +61,11 @@ class CalculatorViewController: STBaseViewController {
         
         if isSaveAvailable(splitInfo: splitInfo) {
             
-            passCalculateDateHandler?(splitInfo)
-            
-            navigationController?.popViewController(animated: true)
+            coordinator?.didFinishCalculateFrom(self, splitInfo: splitInfo)
             
         } else {
             
             LKProgressHUD.showFailure(text: "輸入數值異常", view: self.view)
-            
         }
     }
     
@@ -133,7 +98,6 @@ class CalculatorViewController: STBaseViewController {
         
         return true
     }
-    
 }
 
 extension CalculatorViewController: UITableViewDataSource {
@@ -141,7 +105,6 @@ extension CalculatorViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return splitInfo?.amountDesc.count ?? 0
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -186,6 +149,7 @@ extension CalculatorViewController: UITableViewDataSource {
             return textFieldCell
             
         } else {
+            
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: SplitTextFieldTableViewCell.identifier,
                 for: indexPath)
@@ -202,93 +166,103 @@ extension CalculatorViewController: UITableViewDataSource {
         
             return textFieldCell
         }
-    
     }
-
 }
 
 extension CalculatorViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         splitInfo?.amountDesc[indexPath.row].value = 1
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
         splitInfo?.amountDesc[indexPath.row].value = nil
     }
-    
 }
 
 extension CalculatorViewController: SelectionViewDataSource {
     
     func titleOfRowAt(selectionView: SelectionView, index: Int) -> String {
+        
         return selectionViewTitle[index]
     }
     
     func numberOfSelectionButtons(selectionView: SelectionView) -> Int {
+        
         return selectionViewTitle.count
     }
     
     func indicatorColorOfSelectionButtons(selectionView: SelectionView) -> UIColor {
+        
         return .STTintColor
     }
     
     func titleColorOfSelectionButtons(selectionView: SelectionView, index: Int) -> UIColor {
+        
         return .STTintColor
     }
     
     func backgroundColorOfSelectionButtons(selectionView: SelectionView, index: Int) -> UIColor {
+        
         return .white
     }
     
     func fontOfSelectionButtons(selectionView: SelectionView, index: Int) -> UIFont {
+        
         return .systemFont(ofSize: 15, weight: .bold)
     }
-    
 }
 
 extension CalculatorViewController: SelectionViewDelegate {
     
     func didSelectButton(selectionView: SelectionView, index: Int) {
         
-        guard let splitInfo = splitInfo, let type = SplitType(rawValue: index)  else { return }
+        guard let splitInfo = splitInfo, let type = SplitType(rawValue: index) else { return }
         
         self.splitInfo?.type = type.rawValue
         
         for index in splitInfo.amountDesc.indices {
+            
             if type == .average {
+                
                 self.splitInfo?.amountDesc[index].value = 1
+                
             } else {
+                
                 self.splitInfo?.amountDesc[index].value = nil
+                
             }
         }
         
         tableView.reloadData()
-        
     }
-    
 }
 
 extension CalculatorViewController: SplitTextFieldCellDelegate {
     
     func splitTextFieldTableViewCell(cell: SplitTextFieldTableViewCell, didChangeText: String) {
+        
         guard let indexPath = tableView.indexPath(for: cell) else { return }
                 
         splitInfo?.amountDesc[indexPath.row].value = Double(didChangeText) 
     }
-    
 }
 
 extension CalculatorViewController: CheckBoxTableViewCellDelegate {
     
     func checkBoxTableViewCell(cell: CheckBoxTableViewCell, isSelectedDidChange: Bool) {
+        
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
         if isSelectedDidChange {
+            
             splitInfo?.amountDesc[indexPath.row].value = 1
+            
         } else {
+            
             splitInfo?.amountDesc[indexPath.row].value = nil
-
         }
     }
 }

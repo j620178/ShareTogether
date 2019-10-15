@@ -7,11 +7,21 @@
 //
 
 import UIKit
+import GoogleSignIn
 import AuthenticationServices
 
-class LoginViewController: STBaseViewController {
+protocol LoginViewCoordinatorDelegate: AnyObject {
     
-    override var isHideNavigationBar: Bool { return true }
+    func didLoginFrom(_ viewController: UIViewController)
+    
+    func showSignUpFrom(_ viewController: UIViewController)
+}
+
+class LoginViewController: STBaseViewController {
+        
+    weak var coordinator: LoginViewCoordinatorDelegate?
+        
+    var viewModel: LoginViewModel
     
     @IBOutlet weak var emailTextField: UITextField!
     
@@ -27,92 +37,21 @@ class LoginViewController: STBaseViewController {
     
     @IBOutlet weak var appleSignInButton: ASAuthorizationAppleIDButton!
     
-    @IBAction func clickLoginButton(_ sender: UIButton) {
-        
-        if emailTextField.text == "" || passwordTextField.text == "" {
-            LKProgressHUD.showFailure(text: "請輸入完整資訊", view: self.view)
-        } else {
-            
-            LKProgressHUD.showLoading(view: self.view)
-            
-            AuthManager.shared.emailSignIn(email: emailTextField.text!,
-                                            password: passwordTextField.text!) { [weak self] result in
-                                                
-                                                guard let strougSelf = self else { return }
-                                                
-                                                switch result {
-                                                    
-                                                case .success(let userInfo):
-                                                    self?.checkUserGroup(authUserInfo: userInfo)
-                                                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                                                case .failure(let error):
-                                                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤",
-                                                                              view: strougSelf.view)
-                                                    print(error.localizedDescription)
-                                                }
-                
-            }
-            
-        }
-        
-    }
-
-    @objc func clickAppleSignInButton() {
-        let provider = ASAuthorizationAppleIDProvider()
-        let request = provider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        
-        let controller = ASAuthorizationController(authorizationRequests: [request])
-        
-        controller.delegate = self
-        controller.presentationContextProvider = self
-        
-        controller.performRequests()
+    init?(coder: NSCoder, viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        super.init(coder: coder)
     }
     
-    @IBAction func clickOAuthLogin(_ sender: UIButton) {
-        
-        if sender.tag == 1 {
-            
-            AuthManager.shared.googleSignIn(viewContorller: self) { [weak self] result in
-                
-                guard let strougSelf = self else { return }
-                
-                switch result {
-                case .success(let userInfo):
-                    self?.checkUserGroup(authUserInfo: userInfo)
-                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                case .failure(let error):
-                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤", view: strougSelf.view)
-                    print(error.localizedDescription)
-                }
-            }
-            
-        } else if sender.tag == 2 {
-            
-            AuthManager.shared.facebookSignIn(viewContorller: self) { [weak self] result in
-                
-                guard let strougSelf = self else { return }
-                
-                switch result {
-                case .success(let userInfo):
-                    self?.checkUserGroup(authUserInfo: userInfo)
-                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                case .failure(let error):
-                    LKProgressHUD.showFailure(text: "登入失敗！請確認是否已申請帳號或輸入帳密是否錯誤", view: strougSelf.view)
-                    print(error.localizedDescription)
-                }
-
-            }
-            
-        }
-        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupBase()
+        setupView()
+        
+        setupVMBinding()
         
         appleSignInButton.addTarget(self, action: #selector(clickAppleSignInButton), for: .touchUpInside)
     }
@@ -122,7 +61,7 @@ class LoginViewController: STBaseViewController {
         
         emailTextField.layer.cornerRadius = emailTextField.frame.height / 4
         passwordTextField.layer.cornerRadius = passwordTextField.frame.height / 4
-        
+    
         loginButton.layer.cornerRadius = loginButton.frame.height / 4
         googleLoginButton.layer.cornerRadius = googleLoginButton.frame.height / 4
         facebookLoginButton.layer.cornerRadius = facebookLoginButton.frame.height / 4
@@ -130,7 +69,24 @@ class LoginViewController: STBaseViewController {
         appleSignInButton.cornerRadius = appleSignInButton.frame.height / 4
     }
     
-    func setupBase() {
+    func setupVMBinding() {
+       
+        viewModel.loadingHandler = { isLoading in
+            
+            switch isLoading {
+                
+            case true:
+                
+                LKProgressHUD.showLoading(view: self.view)
+                
+            case false:
+                
+                LKProgressHUD.dismiss()
+            }
+        }
+    }
+    
+    func setupView() {
         emailTextField.addLeftSpace()
         emailTextField.textColor = .STDarkGray
         passwordTextField.addLeftSpace()
@@ -150,109 +106,105 @@ class LoginViewController: STBaseViewController {
         signUpButton.setTitleColor(.STDarkGray, for: .normal)
     }
     
-    func checkUserGroup(authUserInfo: UserInfo) {
-
-        FirestoreManager.shared.getUserInfo(uid: authUserInfo.id) { [weak self] result in
-            
-            guard let strougSelf = self else { return }
-            
-            switch result {
-                
-            case .success(let userInfo):
-                    
-                if let userInfo = userInfo, let groups = userInfo.groups, !groups.isEmpty {
-                    let group = GroupInfo(id: groups[0].id,
-                                          name: groups[0].name,
-                                          coverURL: groups[0].coverURL,
-                                          status: nil)
-                    CurrentManager.shared.setCurrentUser(userInfo)
-                    CurrentManager.shared.setCurrentGroup(group)
-                    LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                    self?.showHomeVC()
-                } else {
-                    FirestoreManager.shared.addNewUser(userInfo: authUserInfo) { result in
-                        switch result {
-                            
-                        case .success(let demoGroup):
-                            var userInfo = authUserInfo
-                            userInfo.groups = [demoGroup]
-                            CurrentManager.shared.setCurrentUser(userInfo)
-                            CurrentManager.shared.setCurrentGroup(demoGroup)
-                            LKProgressHUD.showSuccess(text: "登入成功", view: strougSelf.view)
-                            self?.showHomeVC()
-                        case .failure:
-                            LKProgressHUD.dismiss()
-                            print("error")
-                        }
-
-                    }
-                }
-                
-            case .failure(let error):
-                LKProgressHUD.dismiss()
-                print(error)
-            }
-            
-        }
+    func showLoginResult(result: Result<String, LoginError>) {
         
+        switch result {
+            
+        case .success(let text):
+            
+            LKProgressHUD.showSuccess(text: text, view: self.view)
+            
+            coordinator?.didLoginFrom(self)
+            
+        case .failure(let error):
+            
+            switch error {
+  
+            case .empty:
+                
+                LKProgressHUD.showFailure(text: "未完整填寫登入資訊", view: self.view)
+                
+            case .failure:
+                
+                LKProgressHUD.showFailure(text: "登入失敗", view: self.view)
+            }
+        }
+    }
+
+    @IBAction func clickLoginButton(_ sender: UIButton) {
+        
+        guard let email = emailTextField.text, let password = passwordTextField.text else { return }
+        
+        viewModel.loginWithEmail(email: email, password: password, completion: { [weak self] result in
+            
+            self?.showLoginResult(result: result)
+
+        })
+    }
+
+    @objc func clickAppleSignInButton() {
+        
+        viewModel.loginWithApple(viewController: self, completion: { [weak self] result in
+             
+            self?.showLoginResult(result: result)
+        })
     }
     
-    func showHomeVC() {
+    @IBAction func clickOAuthLoginButton(_ sender: UIButton) {
         
-        if presentingViewController != nil {
-            let presentingVC = presentingViewController
-            dismiss(animated: false) {
-                presentingVC?.dismiss(animated: false)
-            }
-        } else {
-            let nextVC = UIStoryboard.main.instantiateInitialViewController()!
-            nextVC.modalPresentationStyle = .fullScreen
-            present(nextVC, animated: true, completion: nil)
+        if sender.tag == 1 {
+            
+            GIDSignIn.sharedInstance()?.presentingViewController = self
+                        
+            viewModel.loginWithGoogle(viewController: self, completion: { [weak self] result in
+                
+                self?.showLoginResult(result: result)
+            })
+        
+        } else if sender.tag == 2 {
+            
+            viewModel.loginWithFacebook(viewController: self, completion: { [weak self] result in
+                
+                self?.showLoginResult(result: result)
+            })
         }
-        
     }
-
+    
+    @IBAction func clickSignUpButton(_ sender: UIButton) {
+        
+        coordinator?.showSignUpFrom(self)
+    }
 }
 
 extension LoginViewController: ASAuthorizationControllerDelegate {
+    
     func authorizationController(controller: ASAuthorizationController,
                                  didCompleteWithAuthorization authorization: ASAuthorization) {
         
-        guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential else {
-            return
-        }
+        guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential
+        else { return }
         
         let credentialUser = CredentialUser(credentials: credentials)
         
         let userInfo = UserInfo(id: credentialUser.id,
                                 name: credentialUser.lastName + credentialUser.firstName,
                                 email: credentialUser.email,
-                                phone: nil, photoURL: "",
+                                phone: nil,
+                                photoURL: nil,
                                 groups: nil)
 
-        checkUserGroup(authUserInfo: userInfo)
+        viewModel.checkRegister(authUserInfo: userInfo, completion: { [weak self] result in
+            
+            self?.showLoginResult(result: result)
+            
+        })
     }
 }
 
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
 
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        
         return view.window!
     }
-
-}
-
-struct CredentialUser {
-    let id: String
-    let firstName: String
-    let lastName: String
-    let email: String
-    
-    init(credentials: ASAuthorizationAppleIDCredential) {
-        self.id = credentials.user
-        self.firstName = credentials.fullName?.givenName ?? ""
-        self.lastName = credentials.fullName?.familyName ?? ""
-        self.email = credentials.email ?? ""
-    }
-
 }

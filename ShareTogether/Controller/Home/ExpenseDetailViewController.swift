@@ -8,7 +8,14 @@
 
 import UIKit
 
+protocol ExpenseDetailVCCoordinatorDelegate {
+    
+    func showExpenseViewControllerFrom(_ viewController: STBaseViewController, expense: Expense?)
+}
+
 class ExpenseDetailViewController: STBaseViewController {
+    
+    var coordinator: ExpenseDetailVCCoordinatorDelegate?
     
     var expense: Expense?
 
@@ -33,42 +40,52 @@ class ExpenseDetailViewController: STBaseViewController {
     @objc func editExpense() {
         
         if isEditAvailable() {
-            guard let nextVC = UIStoryboard.expense.instantiateInitialViewController() as? STNavigationController,
-                let addExpenseVC = nextVC.viewControllers[0] as? AddExpenseViewController else { return }
-
-            addExpenseVC.expense = expense
-
-            nextVC.modalPresentationStyle = .overCurrentContext
-
-            self.present(nextVC, animated: true, completion: nil)
+            
+//            guard let nextVC = UIStoryboard.expense.instantiateInitialViewController() as? STNavigationController,
+//                let addExpenseVC = nextVC.viewControllers[0] as? AddExpenseViewController else { return }
+//
+//            addExpenseVC.expense = expense
+//
+//            nextVC.modalPresentationStyle = .overCurrentContext
+//
+//            self.present(nextVC, animated: true, completion: nil)
+            
+            coordinator?.showExpenseViewControllerFrom(self, expense: expense)
+            
         } else {
-            LKProgressHUD.showFailure(text: "本筆消費包含已退出成員，無法修改。請將其加回，即可進行修改。", view: self.view)
+            
+            LKProgressHUD.showFailure(text: "本筆消費包含已退出成員，無法修改。請將其加回，即可進行修改。",
+                                      view: self.view)
         }
-        
     }
     
     func isEditAvailable() -> Bool {
         
         guard let expense = expense,
-            let payerUid = expense.payerInfo.amountDesc.first?.member.id else { return false }
+            let payerUid = expense.payerInfo.amountDesc.first?.member.id
+        else { return false }
         
         let availableMembers = CurrentManager.shared.availableMembers
         
         let payerResult = availableMembers.filter { member -> Bool in
+            
             payerUid == member.id
         }
         
         if payerResult.isEmpty {
+            
             return false
         }
 
         for spliter in expense.splitInfo.amountDesc {
             
             let spliterResult = availableMembers.filter { member -> Bool in
+                
                 spliter.member.id == member.id
             }
             
             if spliterResult.isEmpty {
+                
                 return false
             }
         }
@@ -82,15 +99,13 @@ class ExpenseDetailViewController: STBaseViewController {
 extension ExpenseDetailViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         return 2
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else {
-            return expense?.splitInfo.amountDesc.count ?? 0
-        }
+        
+        return section == 0 ? 1 : (expense?.splitInfo.amountDesc.count ?? 0)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -116,7 +131,9 @@ extension ExpenseDetailViewController: UITableViewDataSource {
             expenseInfoCell.viewModel = cellViewModel
 
             return expenseInfoCell
+            
         } else {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseSplitTableViewCell.identifier,
                                                      for: indexPath)
 

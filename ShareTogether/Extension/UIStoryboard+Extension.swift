@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-private enum StoryboardCategory: String {
+enum StoryboardCategory: String {
 
     case login = "Login"
     
@@ -25,8 +25,7 @@ private enum StoryboardCategory: String {
     
     case activity = "Activity"
     
-    case menu = "Menu"
-
+    case setting = "Setting"
 }
 
 extension UIStoryboard {
@@ -45,11 +44,18 @@ extension UIStoryboard {
     
     static var activity: UIStoryboard { return getStoryboard(name: StoryboardCategory.activity.rawValue) }
     
-    static var menu: UIStoryboard { return getStoryboard(name: StoryboardCategory.menu.rawValue) }
+    static var setting: UIStoryboard { return getStoryboard(name: StoryboardCategory.setting.rawValue) }
     
     private static func getStoryboard(name: String) -> UIStoryboard {
         
         return UIStoryboard(name: name, bundle: nil)
     }
+}
 
+extension UIEdgeInsets {
+    
+    static var stEdgeInsets: UIEdgeInsets {
+        
+        return UIEdgeInsets(top: 6.0, left: 0.0, bottom: -6.0, right: 0.0)
+    }
 }

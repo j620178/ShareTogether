@@ -19,100 +19,83 @@ private enum Tab {
     case activity
     
     case setting
-    
-    func controller() -> UIViewController {
-        
-        var controller: UIViewController
-        
-        switch self {
-            
-        case .home: controller = UIStoryboard.home.instantiateInitialViewController()!
-            
-        case .search: controller = UIStoryboard.search.instantiateInitialViewController()!
 
-        case .expense: controller = UIStoryboard.expense.instantiateInitialViewController()!
-            
-        case .activity: controller = UIStoryboard.activity.instantiateInitialViewController()!
-            
-        case .setting: controller = UIStoryboard.menu.instantiateInitialViewController()!
-            
-        }
-        
-        controller.tabBarItem = tabBarItem()
-        
-        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 6.0, left: 0.0, bottom: -6.0, right: 0.0)
-        
-        return controller
-    }
+}
+
+protocol STTabBarCoordinatorDelegate: AnyObject {
     
-    func tabBarItem() -> UITabBarItem {
-        
-        switch self {
-            
-        case .home:
-            let item = UITabBarItem(
-                title: nil,
-                image: .home,
-                selectedImage: .home
-            )
-            item.image?.withRenderingMode(.alwaysOriginal)
-            return item
-            
-        case .search:
-            return UITabBarItem(
-                title: nil,
-                image: .search,
-                selectedImage: .search
-            )
-        
-        case .expense:
-            return UITabBarItem(
-                title: nil,
-                image: .add,
-                selectedImage: .add
-            )
-            
-        case .activity:
-            return UITabBarItem(
-                title: nil,
-                image: .notification,
-                selectedImage: .notification
-            )
+    func setupHomeFrom(_ tabBarController: STTabBarController)
     
-        case .setting:
-            return UITabBarItem(
-                title: nil,
-                image: .setting,
-                selectedImage: .setting
-            )
-        }
-        
-    }
+    func setupSearchExpenseFrom(_ tabBarController: STTabBarController)
+    
+    func setupAddExpenseFrom(_ tabBarController: STTabBarController)
+    
+    func setupActivityFrom(_ tabBarController: STTabBarController)
+    
+    func setupSettingFrom(_ tabBarController: STTabBarController)
+    
+    func showAddExpenseFrom(_ tabBarController: STTabBarController)
+    
+    func showSettingFrom(_ tabBarController: STTabBarController)
 }
 
 class STTabBarController: UITabBarController {
+    
+    weak var coordinator: STTabBarCoordinatorDelegate?
     
     private let tabs: [Tab] = [.home, .search, .expense, .activity, .setting]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.delegate = self
+        
+        setupView()
+        
+        setupVC()
+                
+        setBadge()
+    }
+    
+    func setupView() {
+        
         UITabBar.appearance().shadowImage = UIImage()
+        
         UITabBar.appearance().backgroundImage = UIImage()
+        
         UITabBar.appearance().backgroundColor = UIColor.white
         
-        //TuPu
         let lineView = UIView(frame: CGRect(x: 0, y: -1, width: UIScreen.main.bounds.width, height: 1))
-        lineView.backgroundColor = UIColor.backgroundLightGray
-        tabBar.addSubview(lineView)
         
-        delegate = self
-
-        viewControllers = tabs.map({ $0.controller() })
+        lineView.backgroundColor = UIColor.backgroundLightGray
+        
+        tabBar.addSubview(lineView)
         
         tabBar.tintColor = .STDarkGray
 
         tabBar.unselectedItemTintColor = UIColor.black.withAlphaComponent(0.25)
+    }
+    
+    func setupVC() {
+        
+        for tab in tabs {
+            
+            switch tab {
+                
+            case .home: coordinator?.setupHomeFrom(self)
+                
+            case .search: coordinator?.setupSearchExpenseFrom(self)
+
+            case .expense: coordinator?.setupAddExpenseFrom(self)
+                
+            case .activity: coordinator?.setupActivityFrom(self)
+                
+            case .setting: coordinator?.setupSettingFrom(self)
+            }
+        }
+    }
+    
+    func setBadge() {
         
         FirestoreManager.shared.getActivityBadge { [weak self] result in
             
@@ -129,44 +112,34 @@ class STTabBarController: UITabBarController {
                     self?.viewControllers?[3].tabBarItem.badgeValue = "\(count)"
                     
                 }
+                
             case .failure(let error):
                 
                 print(error)
-                
             }
         }
-        
     }
-    
 }
 
 extension STTabBarController: UITabBarControllerDelegate {
+    
     func tabBarController(
         _ tabBarController: UITabBarController,
         shouldSelect viewController: UIViewController) -> Bool {
         
-        if viewController.isKind(of: STNavigationController.self),
-            viewController.children[0] is AddExpenseViewController {
-            let nextVC = UIStoryboard.expense.instantiateInitialViewController()!
-            nextVC.modalPresentationStyle = .overFullScreen
-            self.present(nextVC, animated: true, completion: nil)
+        if viewController.isKind(of: AddExpenseViewController.self) {
+            
+            coordinator?.showAddExpenseFrom(self)
             
             return false
             
         } else if viewController.isKind(of: SettingViewController.self) {
             
-            guard let nextVC = UIStoryboard.menu.instantiateInitialViewController()!
-                as? SettingViewController
-            else { return false }
-            
-            nextVC.modalPresentationStyle = .overFullScreen
-            
-            self.present(nextVC, animated: false, completion: nil)
+            coordinator?.showSettingFrom(self)
             
             return false
         }
         
         return true
-        
     }
 }

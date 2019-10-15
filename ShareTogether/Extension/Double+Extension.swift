@@ -17,21 +17,28 @@ extension Double {
         formatter.numberStyle = .currency
         
         if (self - Double(Int(self))) == 0 {
+            
             formatter.minimumFractionDigits = 0
+            
             return formatter.string(from: NSNumber(value: Int(self)))!
+            
         } else {
+            
             formatter.minimumFractionDigits = 1
+            
             return formatter.string(from: NSNumber(value: self))!
         }
-                
     }
     
     var toText: String {
+        
         if (self - Double(Int(self))) == 0 {
+            
             return String(Int(self))
+            
         } else {
+            
             return String(self)
         }
     }
-
 }

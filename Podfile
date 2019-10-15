@@ -23,4 +23,14 @@ target 'ShareTogether' do
   pod 'Giphy'
   pod 'Fabric', '~> 1.10.2'
   pod 'Crashlytics', '~> 3.13.4'
+
+  target 'NoteViewModelTests' do
+    inherit! :search_paths
+    pod 'Firebase/Core'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Storage'
+    pod 'Firebase/Firestore'
+    pod 'Firebase/Messaging'
+  end
+
 end

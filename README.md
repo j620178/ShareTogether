@@ -21,17 +21,67 @@
     - 新增消費通知 
 
 ### Key Rewards
-* 減輕 ViewController 中 TableView 各 Section 使用不同 cell
+* Used Data Bainding by Closure in MVVM
+
+於 ViewDidLoad 呼叫 `setupVMBinding` 設定 ViewModel Closure
+``` swift
+class HomeViewController: UIViewController {
+    func setupVMBinding() {
+    
+        viewModel.reloadTableViewHandler = { [weak self] in
+            
+            self?.tableView.reloadData()
+        }
+       
+        viewModel?.loadingHandler = { isLoading in
+            
+            switch isLoading {
+                
+            case true:
+                
+                LKProgressHUD.showLoading(view: self.view)
+                
+            case false:
+                
+                LKProgressHUD.dismiss()
+            }
+        }
+    }
+}
+    
+```
+使用 Closure 當 ViewModel 狀態改變時
+``` swift
+class HomeExpenseViewModel {
+    ...
+    private var cellViewModels = [[HomeExpenseCellViewModel]]() {
+        didSet {
+            reloadTableViewHandler?()
+        }
+    }
+    
+    var isLoading = false {
+        didSet {
+            updateLoadingHandler?(isLoading)
+        }
+    }
+   
+    var reloadTableViewHandler: (() -> Void)?
+    
+    var updateLoadingHandler: (() -> Void)?
+    ...
+```
+
+* 建立 Controller 物件減輕 ViewController 中 TableView 使用多種不同 Cell 使 ViewController 龐大問題
 
 建立 `AddExpenseItem` protocol，並其 conform `UITableViewDelegate` `UITableViewDataSource`
-```
+``` swift
 protocol AddExpenseItem: UITableViewDelegate, UITableViewDataSource {}
 ```
-
 主要的 `AddExpenseViewController` 中建立四個子 controller，並分別注入 TableView，分別負責該 Section 內容。並建立一個 `items` 陣列將四個 controller 放在其中 
-```
+``` swift
 class AddExpenseViewController: UIViewController {
-        ⋮
+    ...
     var tableView: UITableView
         
     var amountTypeController = AmountTypeController(tableView: tableView)
@@ -49,31 +99,34 @@ class AddExpenseViewController: UIViewController {
                                    payerController,
                                    splitController,
                                    payDateController]
-        ⋮
+    ...
 }
 ```
 
 由 conform `AddExpenseItem` 的 controller 負責實作 `numberOfRowsInSection`
-```
+
+``` swift
 class AmountTypeController: AddExpenseItem {
-    
+    ...
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: SelectionTableViewCell.identifier, for: indexPath)
       
         return selectionCell
     }
+    ...
 }
 ```
 
 最後 `AddExpenseViewController` 在實作 TableView 的 cell 的時候即可達到簡化 ViewController 的效果
-```
+``` swift
 extension AddExpenseViewController: UITableViewDataSource {
-
+    ...
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return items[section].tableView(tableView, numberOfRowsInSection: section)
     }
+    ...
 }
 ```
 

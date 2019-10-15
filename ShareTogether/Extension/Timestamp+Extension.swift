@@ -12,7 +12,9 @@ import FirebaseFirestore
 extension Timestamp {
     
     var toNowFormat: String {
+        
         let date = self.dateValue()
+        
         let now = Date()
         
         let components = Calendar.current.dateComponents([.day, .minute, .hour],

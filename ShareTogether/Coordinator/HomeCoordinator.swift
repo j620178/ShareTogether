@@ -155,3 +155,15 @@ extension HomeCoordinator: NoteDetailVCCoordinatorDelegate {
         viewController.dismiss(animated: true, completion: nil)
     }
 }
+
+extension HomeCoordinator: ExpenseDetailVCCoordinatorDelegate {
+    
+    func showExpenseViewControllerFrom(_ viewController: STBaseViewController, expense: Expense?) {
+        
+        let coordinator = AddExpenseCoordinator(window: window, expense: expense)
+        
+        addChildCoordinator(coordinator)
+        
+        coordinator.start()
+    }
+}

@@ -79,6 +79,8 @@ class HomeViewController: STBaseViewController {
                                                object: nil)
 
         updateCurrentGroup()
+        
+        setupVMBinding()
             
     }
     
@@ -109,6 +111,23 @@ class HomeViewController: STBaseViewController {
             notebookVC.coordinator = coordinator as? HomeCoordinator
             
             notebookVC.delegate = self
+        }
+    }
+    
+    func setupVMBinding() {
+       
+        viewModel?.loadingHandler = { isLoading in
+            
+            switch isLoading {
+                
+            case true:
+                
+                LKProgressHUD.showLoading(view: self.view)
+                
+            case false:
+                
+                LKProgressHUD.dismiss()
+            }
         }
     }
     

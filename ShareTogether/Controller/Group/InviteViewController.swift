@@ -8,9 +8,16 @@
 
 import UIKit
 
+protocol InviteVCCoordinatorDelegate: AnyObject {
+    
+    func didFinishInviteFrom(_ viewController: STBaseViewController, members: [MemberInfo]?)
+}
+
 class InviteViewController: STBaseViewController {
     
-    let viewModel = InviteViewModel()
+    weak var coordinator: InviteVCCoordinatorDelegate?
+    
+    var viewModel: InviteViewModel?
     
     var type = GroupType.add
     
@@ -31,27 +38,12 @@ class InviteViewController: STBaseViewController {
         }
     }
 
-    @IBAction func clickInviteButton(_ sender: UIButton) {
-        
-        switch type {
-
-        case .add:
-            LKProgressHUD.showSuccess(text: "加入成功", view: self.view)
-            viewModel.addInviteMembers()
-        case .edit:
-            LKProgressHUD.showSuccess(text: "邀請成功", view: self.view)
-            viewModel.inviteMember()
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        switchShowType()
+                
+        setupMVBinding()
         
         textField.becomeFirstResponder()
-        
-        viewModel.delegate = self
             
         navigationController?.navigationBar.titleTextAttributes =
             [NSAttributedString.Key.foregroundColor: UIColor.STDarkGray]
@@ -61,42 +53,73 @@ class InviteViewController: STBaseViewController {
         super.viewDidLayoutSubviews()
         
         inviteButton.layer.cornerRadius = inviteButton.frame.height / 2
+        
+        userImageView.layer.cornerRadius = userImageView.frame.height / 2
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-//        if type == .add, self.isMovingFromParent {
-//
-//            for viewController in navigationController!.viewControllers {
-//
-//                if let previousVC = viewController as? GroupViewController {
-//
-//                    for inviteMember in viewModel.getInviteMembers() {
-//
-//                        let result = previousVC.members.contains { memberInfo -> Bool in
-//                            
-//                            return memberInfo.id == inviteMember.id
-//                        }
-//
-//                        if !result {
-//
-//                            previousVC.members.append(inviteMember)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-    }
-    
-    func switchShowType() {
-        if type == .edit {
-            inviteButton.setTitle("送出邀請", for: .normal)
-        } else {
-            inviteButton.setTitle("加入邀請名單", for: .normal)
+        if type == .add {
+            
+            coordinator?.didFinishInviteFrom(self, members: viewModel?.inviteMemberData)
         }
     }
     
+    func setupMVBinding() {
+        
+        viewModel?.updateButtonStatus = { [weak self] (text, imageURL, isHidden, isEnabled) in
+            
+            self?.userNameLabel.text = text
+            
+            if let imageURL = imageURL {
+                
+                self?.userImageView.setUrlImage(imageURL)
+                
+                self?.userImageView.isHidden = false
+                
+                self?.userNameLabel.textColor = .STDarkGray
+                
+            } else {
+                
+                self?.userImageView.isHidden = true
+                
+                self?.userNameLabel.textColor = .lightGray
+                
+            }
+            
+            self?.inviteButton.isHidden = isHidden
+            
+            self?.inviteButton.isEnabled = isEnabled
+            
+            if isEnabled {
+                
+                self?.inviteButton.setTitle(self?.type == .add ? "加入邀請清單" : "發送邀請", for: .normal)
+                
+            } else {
+                
+                self?.inviteButton.setTitle("已在群組名單", for: .normal)
+            }
+        }
+    }
+
+    @IBAction func clickInviteButton(_ sender: UIButton) {
+        
+        switch type {
+
+        case .add:
+            
+            LKProgressHUD.showSuccess(text: "加入成功", view: self.view)
+            
+            viewModel?.addInviteMembers()
+            
+        case .edit:
+            
+            LKProgressHUD.showSuccess(text: "邀請成功", view: self.view)
+            
+            viewModel?.inviteMember()
+        }
+    }
 }
 
 extension InviteViewController: UITextFieldDelegate {
@@ -105,38 +128,8 @@ extension InviteViewController: UITextFieldDelegate {
         
         textField.resignFirstResponder()
         
-        viewModel.searchUser(type: type.rawValue, email: textField.text, phone: nil)
+        viewModel?.searchUser(type: type.rawValue, email: textField.text, phone: nil)
         
         return true
     }
-    
-}
-
-extension InviteViewController: InviteViewModelDelegete {
-    
-    func updateView(text: String, imageURL: String?, isButtonHidden: Bool, isEnable: Bool = true) {
-        
-        userNameLabel.text = text
-        
-        if let imageURL = imageURL {
-            userImageView.setUrlImage(imageURL)
-            userImageView.layer.cornerRadius = userImageView.frame.height / 2
-            userImageView.isHidden = false
-            userNameLabel.textColor = .STDarkGray
-        } else {
-            userImageView.isHidden = true
-            userNameLabel.textColor = .lightGray
-        }
-        
-        if isEnable {
-            inviteButton.setTitle("送出邀請", for: .normal)
-        } else {
-            inviteButton.setTitle("已加入群組", for: .normal)
-        }
-        
-        inviteButton.isHidden = isButtonHidden
-        inviteButton.isEnabled = isEnable
-        
-    }
-
 }

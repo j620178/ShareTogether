@@ -12,37 +12,26 @@ class AddExpenseViewModel {
     
     func addExpense(expense: Expense) {
             
-            FirestoreManager.shared.updateExpense(expense: expense) { [weak self] result in
-                
-                switch result {
+        FirestoreManager.shared.upadteExpense(expense: expense) { [weak self] result in
+            
+            switch result {
 
-                case .success:
+            case .success:
+                
+                for member in CurrentManager.shared.availableMembersWithoutSelf {
                     
-                    for member in CurrentManager.shared.availableMembersWithoutSelf {
-                        
-                        FirestoreManager.shared.addActivity(type: .editExpense, targetMember: member, expense: expense)
-                        
-                    }
-                    
-                    LKProgressHUD.dismiss()
-                    
-//                    self?.dismiss(animated: true, completion: nil)
-//
-//                    if let previousVC = self?.navigationController?.presentingViewController
-//                        as? STNavigationController {
-//
-//                        previousVC.popViewController(animated: true)
-//
-//                    }
-                    
-                case .failure(let error):
-                    
-                    LKProgressHUD.showFailure(text: error.localizedDescription)
+                    FirestoreManager.shared.addActivity(type: .editExpense, targetMember: member, expense: expense)
                     
                 }
+                
+                LKProgressHUD.dismiss()
+                
+            case .failure(let error):
+                
+                LKProgressHUD.showFailure(text: error.localizedDescription)
+                
             }
-            
-
+        }
     }
     
     func updateExpense(expense: Expense) {

@@ -19,13 +19,15 @@ enum AuthManagerError: Error {
     case getAccessTokenFailed
 }
 
+typealias UserInfoResult = (Result<UserInfo, Error>) -> Void
+
 class AuthManager: NSObject {
     
     static var shared = AuthManager()
     
-    var googleSignInHandler: CoordinatorResult?
+    var googleSignInHandler: UserInfoResult?
     
-    var appleSignInHandler: CoordinatorResult?
+    var appleSignInHandler: UserInfoResult?
     
     var appleSigInWindow: UIWindow?
 
@@ -65,7 +67,7 @@ class AuthManager: NSObject {
         }
     }
     
-    func facebookSignIn(viewController: UIViewController, completion: @escaping CoordinatorResult) {
+    func facebookSignIn(viewController: UIViewController, completion: @escaping UserInfoResult) {
         
         let fbLoginManager = LoginManager()
 
@@ -112,10 +114,10 @@ class AuthManager: NSObject {
 
     }
     
-    func googleSignIn(viewController: UIViewController,
-                      completion: @escaping CoordinatorResult) {
+    func googleSignIn(viewController: LoginViewController,
+                      completion: @escaping UserInfoResult) {
         
-        GIDSignIn.sharedInstance().uiDelegate = viewController
+        GIDSignIn.sharedInstance()?.delegate = self
         
         GIDSignIn.sharedInstance()?.signIn()
         
@@ -123,7 +125,7 @@ class AuthManager: NSObject {
     }
     
     func appleSignIn(viewController: UIViewController,
-                     completion: @escaping CoordinatorResult) {
+                     completion: @escaping UserInfoResult) {
         
         let provider = ASAuthorizationAppleIDProvider()
          
@@ -142,10 +144,6 @@ class AuthManager: NSObject {
         appleSigInWindow = viewController.view.window
         
         appleSignInHandler = completion
-    }
-    
-    private func test() {
-        
     }
 
     func signOut() {
@@ -169,7 +167,6 @@ class AuthManager: NSObject {
         }
     }
 }
-
 extension AuthManager: GIDSignInDelegate {
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -212,7 +209,6 @@ extension AuthManager: GIDSignInDelegate {
     
 }
 
-
 extension AuthManager: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController,
@@ -242,4 +238,29 @@ extension AuthManager: ASAuthorizationControllerPresentationContextProviding {
     }
 }
 
-extension UIViewController: GIDSignInUIDelegate { }
+//extension AuthManager: GIDSignInDelegate {
+//
+//    public func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+//
+//        var photoURL: String?
+//
+//        if user.profile.hasImage, let urlString = user.profile.imageURL(withDimension: 300) {
+//            photoURL = "\(urlString)"
+//        }
+//
+//        let userInfo = UserInfo(id: user.userID,
+//                                name: user.profile.name,
+//                                email: user.profile.email,
+//                                phone: nil,
+//                                photoURL: photoURL,
+//                                groups: nil)
+//
+//        googleSignInHandler?()
+//
+////        viewModel?.checkRegister(authUserInfo: userInfo, completion: { [weak self] result in
+////
+////            self?.checkLogin(result: result)
+////
+////        })
+//    }
+//}

@@ -9,6 +9,25 @@
 import Foundation
 import UIKit
 
+enum StoryboardCategory: String {
+
+    case login = "Login"
+    
+    case main = "Main"
+    
+    case home = "Home"
+    
+    case search = "Search"
+    
+    case expense = "Expense"
+    
+    case group = "Group"
+    
+    case activity = "Activity"
+    
+    case setting = "Setting"
+}
+
 extension UIStoryboard {
     
     static var main: UIStoryboard { return getStoryboard(name: StoryboardCategory.main.rawValue) }
@@ -31,12 +50,12 @@ extension UIStoryboard {
         
         return UIStoryboard(name: name, bundle: nil)
     }
-
 }
 
 extension UIEdgeInsets {
     
     static var stEdgeInsets: UIEdgeInsets {
+        
         return UIEdgeInsets(top: 6.0, left: 0.0, bottom: -6.0, right: 0.0)
     }
 }

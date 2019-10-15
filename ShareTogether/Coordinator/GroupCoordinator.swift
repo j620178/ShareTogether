@@ -47,15 +47,23 @@ class GroupCoordinator: NSObject, Coordinator {
             
             navigationController.viewControllers.append(groupListVC)
             
+            navigationController.modalPresentationStyle = .overFullScreen
+            
             window.rootViewController?.present(navigationController, animated: true, completion: nil)
             
         case .edit:
             
             let groupVC = GroupViewController.instantiate(name: .group)
-    
+            
+            groupVC.coordinator = self
+            
+            groupVC.viewModel = GroupViewModel()
+            
             groupVC.type = .edit
     
             navigationController.viewControllers.append(groupVC)
+            
+            navigationController.modalPresentationStyle = .overFullScreen
                 
             window.rootViewController?.present(navigationController, animated: true, completion: nil)
         }
@@ -103,31 +111,24 @@ extension GroupCoordinator: GroupVCCoordinatorDelegate {
     
     func didFinishAddGroupFrom(_ viewController: STBaseViewController) {
         
-        delegate?.didFinishFrom(self)
+        navigationController.popViewController(animated: true)
     }
     
     func showInviteViewControllerFrom(_ viewController: STBaseViewController, type: GroupType) {
         
-        if type == .edit {
-
-            let inviteVC = InviteViewController.instantiate(name: .group)
-
-            inviteVC.type = .edit
-
-            navigationController.pushViewController(inviteVC, animated: true)
-
-        } else if type == .add {
-
-            let inviteVC = InviteViewController.instantiate(name: .group)
-
-            navigationController.pushViewController(inviteVC, animated: true)
-        }
+        let inviteVC = InviteViewController.instantiate(name: .group)
+        
+        inviteVC.coordinator = self
+        
+        inviteVC.viewModel = InviteViewModel()
+        
+        inviteVC.type = type
+        
+        navigationController.pushViewController(inviteVC, animated: true)
     }
     
     func dismissAddGroupFrom(_ viewController: STBaseViewController) {
-        
-        //viewController.dismiss(animated: true, completion: nil)
-        
+                
         navigationController.popViewController(animated: true)
         
         delegate?.didFinishFrom(self)
@@ -138,5 +139,32 @@ extension GroupCoordinator: GroupVCCoordinatorDelegate {
         viewController.dismiss(animated: true, completion: nil)
         
         delegate?.didFinishFrom(self)
+    }
+}
+
+extension GroupCoordinator: InviteVCCoordinatorDelegate {
+    
+    func didFinishInviteFrom(_ viewController: STBaseViewController, members: [MemberInfo]?) {
+        
+        guard let members = members else { return }
+        
+        for viewController in navigationController.viewControllers {
+
+            if let previousVC = viewController as? GroupViewController {
+
+                for inviteMember in members {
+
+                    let result = previousVC.viewModel?.members.contains { memberInfo -> Bool in
+
+                        return memberInfo.id == inviteMember.id
+                    }
+
+                    if let realResult = result, !realResult {
+                        
+                        previousVC.viewModel?.members.append(inviteMember)
+                    }
+                }
+            }
+        }
     }
 }

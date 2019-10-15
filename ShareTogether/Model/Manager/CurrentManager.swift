@@ -22,16 +22,24 @@ class CurrentManager {
     var user: UserInfo?
     
     func setCurrentUser(_ userInfo: UserInfo) {
+        
         print(userInfo)
+        
         if userInfo.id != user?.id {
+            
             var tempUserInfo = userInfo
+            
             tempUserInfo.fcmToken = fcmToken
+            
             user = tempUserInfo
+            
             if let data = try? JSONEncoder().encode(tempUserInfo) {
+                
                 UserDefaults.standard.set(data, forKey: DefaultConstant.user)
             }
             
             if let fcmToken = fcmToken {
+                
                 FirestoreManager.shared.updateFCMToken(token: fcmToken)
             }
         }
@@ -60,46 +68,31 @@ class CurrentManager {
                                                     userInfo: nil)
                 case .failure(let error):
                     print(error.localizedDescription)
-                    //LKProgressHUD.showFailure(text: error.localizedDescription)
                 }
             }
-
         }
-
     }
 
     var members = [MemberInfo]()
     
     var availableMembers: [MemberInfo] {
-        var availableMembers = [MemberInfo]()
-        
-        for member in members {
-            if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
-                MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
-            } else {
-                availableMembers.append(member)
-            }
+    
+        return members.filter {
+            MemberStatusType.init(rawValue: $0.status) == MemberStatusType.builder ||
+            MemberStatusType.init(rawValue: $0.status) == MemberStatusType.joined ||
+            MemberStatusType.init(rawValue: $0.status) == MemberStatusType.archive
         }
-        
-        return availableMembers
     }
     
     var availableMembersWithoutSelf: [MemberInfo] {
-        var availableMembers = [MemberInfo]()
-        
-        for member in members {
-            if MemberStatusType.init(rawValue: member.status) == MemberStatusType.quit ||
-                MemberStatusType.init(rawValue: member.status) == MemberStatusType.archive {
-            } else if member.id != CurrentManager.shared.user?.id {
-                availableMembers.append(member)
-            }
-        }
-        
-        return availableMembers
+    
+        return availableMembers.filter { $0.id != CurrentManager.shared.user?.id }
     }
     
     func getMemberInfo(uid: String) -> MemberInfo? {
+        
         for member in members where member.id == uid {
+            
             return member
         }
         
@@ -107,17 +100,22 @@ class CurrentManager {
     }
     
     func sortMembers(members: inout [MemberInfo]) {
+        
         guard let user = CurrentManager.shared.user else { return }
         
         for index in members.indices where members[index].id == user.id {
+            
             let temp = members.remove(at: index)
+            
             members.insert(temp, at: 0)
         }
     }
     
     var fcmToken: String? {
         didSet {
+            
             guard let fcmToken = fcmToken else { return }
+            
             FirestoreManager.shared.updateFCMToken(token: fcmToken)
         }
     }
@@ -126,22 +124,22 @@ class CurrentManager {
         let demoGroupID = Bundle.main.object(forInfoDictionaryKey: "DemoGroupID") as? String
 
         if demoGroupID == CurrentManager.shared.group?.id {
+            
             return true
+            
         } else {
+            
             return false
         }
     }
 
     func removeCurrentGroup() {
 
-      UserDefaults.standard.removeObject(forKey: DefaultConstant.group)
-
+        UserDefaults.standard.removeObject(forKey: DefaultConstant.group)
     }
 
     func removeCurrentUser() {
 
-      UserDefaults.standard.removeObject(forKey: DefaultConstant.user)
-
+        UserDefaults.standard.removeObject(forKey: DefaultConstant.user)
     }
-
 }

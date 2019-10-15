@@ -68,7 +68,16 @@ class GroupViewController: STBaseViewController {
         
         setupUI()
         
+        setupVMBinding()
+        
         switchShowType()
+
+        if type == .edit {
+
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(update),
+                                                   name: NSNotification.Name(rawValue: "CurrentGroup"),object: nil)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -76,7 +85,7 @@ class GroupViewController: STBaseViewController {
         
         setCoverButton.layer.cornerRadius = setCoverButton.frame.height / 2
     }
-    
+
     func setupUI() {
         addMemberButton.setImage(.getIcon(code: "md-person-add", color: .STTintColor, size: 30), for: .normal)
 
@@ -87,6 +96,14 @@ class GroupViewController: STBaseViewController {
         textField.layer.cornerRadius = 10.0
         textField.clipsToBounds = true
         textField.addLeftSpace()
+    }
+    
+    func setupVMBinding() {
+        
+        viewModel?.reloadDataHandler = { [weak self] in
+            
+            self?.tableView.reloadData()
+        }
     }
     
     func switchLayout(direction: Direction) {
@@ -127,6 +144,7 @@ class GroupViewController: STBaseViewController {
     }
     
     func switchShowType() {
+        
         switch type {
             
         case .add:
@@ -147,7 +165,7 @@ class GroupViewController: STBaseViewController {
             
             navigationItem.rightBarButtonItem = .customItem(button: rightButton, code: "ios-add")
             
-            //members = [MemberInfo(userInfo: CurrentManager.shared.user!, status: 0)]
+            viewModel?.initMember(type: type)
             
         case .edit:
             
@@ -165,18 +183,7 @@ class GroupViewController: STBaseViewController {
             
             navigationItem.leftBarButtonItem = .customItem(button: button, code: "ios-close")
             
-//            FirestoreManager.shared.getMembers { [weak self] result in
-//                switch result {
-//
-//                case .success(let members):
-//
-//                    self?.members = members
-//
-//                case .failure(let error):
-//
-//                    print(error)
-//                }
-//            }
+            viewModel?.initMember(type: type)
         }
     }
     
@@ -228,12 +235,10 @@ class GroupViewController: STBaseViewController {
         case .add:
             
             coordinator?.dismissAddGroupFrom(self)
-            //navigationController?.popViewController(animated: true)
             
         case .edit:
             
             coordinator?.dismissEditGroupFrom(self)
-            //dismiss(animated: true, completion: nil)
         }
     }
 
@@ -292,6 +297,10 @@ class GroupViewController: STBaseViewController {
         }
     }
     
+    @objc func update() {
+        viewModel?.initMember(type: type)
+    }
+    
     @objc func gestureAction(_ sender: UITapGestureRecognizer) {
         
         switchLayout(direction: .up)
@@ -307,7 +316,7 @@ extension GroupViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return viewModel?.availableMembers.count ?? 0
+        return viewModel?.cellViewModels.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

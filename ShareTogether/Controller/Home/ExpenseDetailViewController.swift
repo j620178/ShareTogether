@@ -8,7 +8,14 @@
 
 import UIKit
 
+protocol ExpenseDetailVCCoordinatorDelegate {
+    
+    func showExpenseViewControllerFrom(_ viewController: STBaseViewController, expense: Expense?)
+}
+
 class ExpenseDetailViewController: STBaseViewController {
+    
+    var coordinator: ExpenseDetailVCCoordinatorDelegate?
     
     var expense: Expense?
 
@@ -34,14 +41,16 @@ class ExpenseDetailViewController: STBaseViewController {
         
         if isEditAvailable() {
             
-            guard let nextVC = UIStoryboard.expense.instantiateInitialViewController() as? STNavigationController,
-                let addExpenseVC = nextVC.viewControllers[0] as? AddExpenseViewController else { return }
-
-            addExpenseVC.expense = expense
-
-            nextVC.modalPresentationStyle = .overCurrentContext
-
-            self.present(nextVC, animated: true, completion: nil)
+//            guard let nextVC = UIStoryboard.expense.instantiateInitialViewController() as? STNavigationController,
+//                let addExpenseVC = nextVC.viewControllers[0] as? AddExpenseViewController else { return }
+//
+//            addExpenseVC.expense = expense
+//
+//            nextVC.modalPresentationStyle = .overCurrentContext
+//
+//            self.present(nextVC, animated: true, completion: nil)
+            
+            coordinator?.showExpenseViewControllerFrom(self, expense: expense)
             
         } else {
             

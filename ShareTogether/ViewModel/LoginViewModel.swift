@@ -9,13 +9,15 @@
 import UIKit
 
 enum LoginError: Error {
+    
     case empty
+    
     case failure
 }
 
+typealias LoginResult = (Result<String, LoginError>) -> Void
+
 class LoginViewModel {
-    
-    typealias LoginResult = (Result<String, LoginError>) -> Void
     
     var isLoading: Bool = false {
          didSet {
@@ -60,8 +62,8 @@ class LoginViewModel {
         
     }
     
-    func loginWithFB(viewController: LoginViewController,
-                     completion: @escaping LoginResult) {
+    func loginWithFacebook(viewController: LoginViewController,
+                           completion: @escaping LoginResult) {
         
         AuthManager.shared.facebookSignIn(viewController: viewController) { [weak self] result in
                         
@@ -88,6 +90,28 @@ class LoginViewModel {
         AuthManager.shared.googleSignIn(viewController: viewController) { [weak self] result in
                         
             switch result {
+
+            case .success(let userInfo):
+
+                self?.checkRegister(authUserInfo: userInfo, completion: completion)
+
+            case .failure:
+
+                self?.isLoading = false
+
+                completion(Result.failure(.failure))
+
+            }
+        }
+        
+    }
+    
+    func loginWithApple(viewController: LoginViewController,
+                        completion: @escaping LoginResult) {
+    
+        AuthManager.shared.appleSignIn(viewController: viewController) { [weak self] result in
+                        
+            switch result {
                 
             case .success(let userInfo):
                 
@@ -106,6 +130,8 @@ class LoginViewModel {
     
     func checkRegister(authUserInfo: UserInfo,
                        completion: @escaping LoginResult) {
+        
+        isLoading = true
 
         FirestoreManager.shared.getUserInfo(uid: authUserInfo.id) { [weak self] result in
                     
@@ -153,16 +179,14 @@ class LoginViewModel {
                 
                 CurrentManager.shared.setCurrentGroup(demoGroup)
                 
-                completion(Result.success("歡迎加入 ShareTogether !"))
+                completion(Result.success("歡迎加入 ShareTogether!"))
 
             case .failure:
                                 
                 completion(Result.failure(.failure))
                 
             }
-            
         }
-    
     }
     
     func signInWithRegisteredUser(userInfo: UserInfo,
@@ -181,8 +205,6 @@ class LoginViewModel {
         
         CurrentManager.shared.setCurrentGroup(group)
         
-        completion(Result.success("歡迎您回來！"))
-                
+        completion(Result.success("歡迎您回來!"))
     }
-        
 }

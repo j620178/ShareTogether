@@ -7,31 +7,21 @@
 //
 
 import UIKit
+import GoogleSignIn
 import AuthenticationServices
 
 protocol LoginViewCoordinatorDelegate: AnyObject {
     
     func didLoginFrom(_ viewController: UIViewController)
-        
-    func showGoogleSignInFrom(_ viewController: UIViewController,
-                              completion: @escaping CoordinatorResult)
-    
-    func showFacebookSignInFrom(_ viewController: UIViewController,
-                                completion: @escaping CoordinatorResult)
-    
-    func showAppleSignInFrom(_ viewController: UIViewController,
-                             completion: @escaping CoordinatorResult)
     
     func showSignUpFrom(_ viewController: UIViewController)
 }
 
 class LoginViewController: STBaseViewController {
-    
-    //override var isHideNavigationBar: Bool { return true }
-    
+        
     weak var coordinator: LoginViewCoordinatorDelegate?
         
-    var viewModel: LoginViewModel?
+    var viewModel: LoginViewModel
     
     @IBOutlet weak var emailTextField: UITextField!
     
@@ -46,7 +36,16 @@ class LoginViewController: STBaseViewController {
     @IBOutlet weak var signUpButton: UIButton!
     
     @IBOutlet weak var appleSignInButton: ASAuthorizationAppleIDButton!
-        
+    
+    init?(coder: NSCoder, viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,7 +61,7 @@ class LoginViewController: STBaseViewController {
         
         emailTextField.layer.cornerRadius = emailTextField.frame.height / 4
         passwordTextField.layer.cornerRadius = passwordTextField.frame.height / 4
-        
+    
         loginButton.layer.cornerRadius = loginButton.frame.height / 4
         googleLoginButton.layer.cornerRadius = googleLoginButton.frame.height / 4
         facebookLoginButton.layer.cornerRadius = facebookLoginButton.frame.height / 4
@@ -72,13 +71,13 @@ class LoginViewController: STBaseViewController {
     
     func setupVMBinding() {
        
-        viewModel?.loadingHandler = { isLoading in
+        viewModel.loadingHandler = { isLoading in
             
             switch isLoading {
                 
             case true:
                 
-                LKProgressHUD.showLoading()
+                LKProgressHUD.showLoading(view: self.view)
                 
             case false:
                 
@@ -107,29 +106,13 @@ class LoginViewController: STBaseViewController {
         signUpButton.setTitleColor(.STDarkGray, for: .normal)
     }
     
-    func checkRegister(result: Result<UserInfo, Error>) {
-        
-        switch result {
-            
-        case .success(let authUserInfo):
-
-            self.viewModel?.checkRegister(authUserInfo: authUserInfo,
-                                          completion: { [weak self] result in
-                                            self?.checkLogin(result: result)
-            })
-
-        case .failure:
-            print("2")
-        }
-    }
-    
-    func checkLogin(result: Result<String, LoginError>) {
+    func showLoginResult(result: Result<String, LoginError>) {
         
         switch result {
             
         case .success(let text):
             
-            LKProgressHUD.showFailure(text: text, view: self.view)
+            LKProgressHUD.showSuccess(text: text, view: self.view)
             
             coordinator?.didLoginFrom(self)
             
@@ -152,36 +135,37 @@ class LoginViewController: STBaseViewController {
         
         guard let email = emailTextField.text, let password = passwordTextField.text else { return }
         
-        viewModel?.loginWithEmail(email: email, password: password, completion: { [weak self] result in
+        viewModel.loginWithEmail(email: email, password: password, completion: { [weak self] result in
             
-            self?.checkLogin(result: result)
+            self?.showLoginResult(result: result)
 
         })
     }
 
     @objc func clickAppleSignInButton() {
         
-         coordinator?.showAppleSignInFrom(self, completion: { [weak self] result in
-            
-            self?.checkRegister(result: result)
-         })
+        viewModel.loginWithApple(viewController: self, completion: { [weak self] result in
+             
+            self?.showLoginResult(result: result)
+        })
     }
     
     @IBAction func clickOAuthLoginButton(_ sender: UIButton) {
         
         if sender.tag == 1 {
             
-            coordinator?.showGoogleSignInFrom(self, completion: { [weak self] result in
-
-               self?.checkRegister(result: result)
+            GIDSignIn.sharedInstance()?.presentingViewController = self
+                        
+            viewModel.loginWithGoogle(viewController: self, completion: { [weak self] result in
                 
+                self?.showLoginResult(result: result)
             })
-     
+        
         } else if sender.tag == 2 {
             
-            coordinator?.showFacebookSignInFrom(self, completion: { [weak self] result in
-
-                self?.checkRegister(result: result)
+            viewModel.loginWithFacebook(viewController: self, completion: { [weak self] result in
+                
+                self?.showLoginResult(result: result)
             })
         }
     }
@@ -209,9 +193,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                                 photoURL: nil,
                                 groups: nil)
 
-        viewModel?.checkRegister(authUserInfo: userInfo, completion: { [weak self] result in
+        viewModel.checkRegister(authUserInfo: userInfo, completion: { [weak self] result in
             
-            self?.checkLogin(result: result)
+            self?.showLoginResult(result: result)
             
         })
     }

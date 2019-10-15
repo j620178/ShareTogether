@@ -14,8 +14,6 @@ protocol LoginCoordinatorDelegate: AnyObject {
     func didFinishFrom(_ coordinator: Coordinator)
 }
 
-typealias CoordinatorResult = (Result<UserInfo, Error>) -> Void
-
 class LoginCoordinator: NSObject, Coordinator {
     
     private var childCoordinators = [Coordinator]()
@@ -33,11 +31,12 @@ class LoginCoordinator: NSObject, Coordinator {
     
     func start() {
         
-        guard let loginVC = UIStoryboard.login.instantiateInitialViewController()
-            as? LoginViewController else { return }
-                
-        loginVC.viewModel = LoginViewModel()
-        
+        let loginVC = UIStoryboard.login.instantiateViewController(
+            identifier: LoginViewController.identifier,
+            creator: { coder in
+            return LoginViewController(coder: coder, viewModel: LoginViewModel())
+        })
+                        
         loginVC.coordinator = self
         
         navigationController = STNavigationController(rootViewController: loginVC)
@@ -54,29 +53,10 @@ class LoginCoordinator: NSObject, Coordinator {
         
         childCoordinators = childCoordinators.filter { $0 !== coordinator }
     }
-    
 }
 
 extension LoginCoordinator: LoginViewCoordinatorDelegate {
     
-    func showGoogleSignInFrom(_ viewController: UIViewController,
-                              completion: @escaping CoordinatorResult) {
-        
-        AuthManager.shared.googleSignIn(viewController: viewController, completion: completion)
-    }
-    
-    func showAppleSignInFrom(_ viewController: UIViewController,
-                             completion: @escaping CoordinatorResult) {
-        
-        AuthManager.shared.appleSignIn(viewController: viewController, completion: completion)        
-    }
-    
-    func showFacebookSignInFrom(_ viewController: UIViewController,
-                                completion: @escaping CoordinatorResult) {
-        
-        AuthManager.shared.facebookSignIn(viewController: viewController, completion: completion)
-    }
-
     func didLoginFrom(_ viewController: UIViewController) {
         
         delegate?.didFinishFrom(self)
@@ -103,7 +83,8 @@ extension LoginCoordinator: SignUpViewCoordinatorDelegate {
     
     func showPrivateInfoWithFrom(_ viewController: UIViewController) {
         
-        guard let url = URL(string: "https://www.privacypolicies.com/privacy/view/e9b6b5e82a15d74909eff1e0d8234312")
+        guard let urlString = Bundle.main.object(forInfoDictionaryKey: "PrivacyURL") as? String,
+            let url = URL(string: urlString)
         else { return }
 
         let safariVC = SFSafariViewController(url: url)
@@ -112,7 +93,6 @@ extension LoginCoordinator: SignUpViewCoordinatorDelegate {
 
         navigationController.present(safariVC, animated: true, completion: nil)
     }
-
 }
 
 extension LoginCoordinator: SFSafariViewControllerDelegate {

@@ -11,7 +11,6 @@ import UIKit
 protocol Coordinator: AnyObject {
         
     func start()
-    
 }
 
 class AppCoordinator: Coordinator {
@@ -46,7 +45,6 @@ class AppCoordinator: Coordinator {
         
         childCoordinators = childCoordinators.filter { $0 !== coordinator }
     }
-    
 }
 
 extension AppCoordinator: LoginCoordinatorDelegate {
@@ -68,7 +66,6 @@ extension AppCoordinator: LoginCoordinatorDelegate {
         
         showHome()
     }
-
 }
 
 extension AppCoordinator: MainTabBarCoordinatorDelegate {
@@ -90,5 +87,4 @@ extension AppCoordinator: MainTabBarCoordinatorDelegate {
         
         showLogin()
     }
-    
 }

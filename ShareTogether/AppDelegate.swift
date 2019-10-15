@@ -114,18 +114,19 @@ extension AppDelegate {
         }
         
         application.registerForRemoteNotifications()
-        
     }
     
     func loadDefaultData() {
         //refactor
         if let data = UserDefaults.standard.value(forKey: DefaultConstant.user) as? Data,
             let userInfo = try? JSONDecoder().decode(UserInfo.self, from: data) {
+            
             CurrentManager.shared.setCurrentUser(userInfo)
         }
 
         if let data = UserDefaults.standard.value(forKey: DefaultConstant.group) as? Data,
             let groupInfo = try? JSONDecoder().decode(GroupInfo.self, from: data) {
+            
             CurrentManager.shared.setCurrentGroup(groupInfo)
         }
     }

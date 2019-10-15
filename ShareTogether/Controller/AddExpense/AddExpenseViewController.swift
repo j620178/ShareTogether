@@ -15,6 +15,11 @@ protocol AddExpenseItem: UITableViewDelegate, UITableViewDataSource {}
 protocol AddExpenseVCCoordinatorDelegate: AnyObject {
     
     func didFinishAddExpense(_ viewController: STBaseViewController)
+    
+    func showCalculatorViewController(_ viewController: STBaseViewController,
+                                      amount: Double,
+                                      splitInfo: AmountInfo?)
+    
     func dismiss(_ viewController: STBaseViewController)
 }
 
@@ -231,7 +236,7 @@ class AddExpenseViewController: STBaseViewController {
     
     @IBAction func clickCancelButton(_ sender: UIButton) {
 
-        dismiss(animated: true, completion: nil)
+        coordinator?.dismiss(self)
     }
     
     @IBAction func clickAddButton(_ sender: UIButton) {
@@ -421,20 +426,10 @@ extension AddExpenseViewController: SplitControllerDelegate {
         
         if let amount = Double(expenseController.expenseInfo[0]) {
             
-            let calculatorVC = CalculatorViewController.instantiate(name: .expense)
-            
-            calculatorVC.amount = amount
-            
-            calculatorVC.splitInfo = splitController.splitInfo
-            
-            calculatorVC.passCalculateDateHandler = { [weak self] spliteInfo in
-                
-                self?.splitController.splitInfo = spliteInfo
-                
-            }
-            
-            show(calculatorVC, sender: nil)
-            
+            coordinator?.showCalculatorViewController(self,
+                                                      amount: amount,
+                                                      splitInfo: splitController.splitInfo)
+        
         } else {
             
             LKProgressHUD.showFailure(text: "分帳前請先填妥消費金額", view: self.view)

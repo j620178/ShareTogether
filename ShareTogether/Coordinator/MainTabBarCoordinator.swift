@@ -65,8 +65,6 @@ extension MainTabBarCoordinator: STTabBarCoordinatorDelegate {
         let searchVC = SearchViewController.instantiate(name: .search)
          
         searchVC.viewModel = SearchViewModel()
-         
-        //searchVC.coordinator = self
                   
         searchVC.tabBarItem = UITabBarItem(title: nil,
                                            image: .search,
@@ -122,7 +120,7 @@ extension MainTabBarCoordinator: STTabBarCoordinatorDelegate {
     
     func showAddExpenseFrom(_ tabBarController: STTabBarController) {
         
-        let coordinator = AddExpenseCoordinator(window: window)
+        let coordinator = AddExpenseCoordinator(window: window, expense: nil)
         
         addChildCoordinator(coordinator)
         

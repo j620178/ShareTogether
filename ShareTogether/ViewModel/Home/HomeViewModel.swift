@@ -15,13 +15,19 @@ class HomeViewModel: NSObject {
     
     var resultInfo = [String: Double]()
     
+    var isLoading: Bool = false {
+         didSet {
+             loadingHandler?(isLoading)
+         }
+    }
+    
     private var titleOfSections = [String]()
     
     var reloadTableViewHandler: (() -> Void)?
     
     var showAlertHandler: (() -> Void)?
     
-    var updateLoadingStatusHandler: (() -> Void)?
+    var loadingHandler: ((Bool) -> Void)?
     
     var numberOfSections: Int {
         return cellViewModels.count
@@ -70,6 +76,8 @@ class HomeViewModel: NSObject {
     
     func fetchData() {
         
+        isLoading = true
+        
         FirestoreManager.shared.getExpenses { [weak self] result in
             switch result {
                 
@@ -82,6 +90,7 @@ class HomeViewModel: NSObject {
                 }
                 self?.processData()
                 self?.createResultInfo()
+                self?.isLoading = false
 
             case .failure(let error):
                 print(error)
@@ -128,10 +137,11 @@ class HomeViewModel: NSObject {
     
     func getStatisticsCellViewModel() -> StatisticsCellViewModel {
         
-        //    //群組：總消費, 平均消費, 消費筆數
-        //個人：總消費, 借出, 借入, 已收到 已支付
-        
-        var viewModel = StatisticsCellViewModel(total: 0, count: 0, selfPay: 0, selfLend: 0, selfBorrow: 0)
+        var viewModel = StatisticsCellViewModel(total: 0,
+                                                count: 0,
+                                                selfPay: 0,
+                                                selfLend: 0,
+                                                selfBorrow: 0)
         
         viewModel.count = expenses.count
         
@@ -159,22 +169,26 @@ class HomeViewModel: NSObject {
             if first.member.id == selfID {
             
                 if SplitType(rawValue: expense.splitInfo.type) == SplitType.average {
+                    
                     let pay = expense.amount / Double(expense.splitInfo.amountDesc.filter({$0.value != nil}).count)
+                    
                     viewModel.selfLend += (expense.amount - pay)
                     
                 } else if SplitType(rawValue: expense.splitInfo.type) == SplitType.percentage {
+                    
                     guard let value = expense.splitInfo.amountDesc.filter({ $0.member.id == selfID}).first?.value
                     else { return viewModel}
+                    
                     viewModel.selfLend += (expense.amount - (expense.amount * value / 100))
                     
                 } else if SplitType(rawValue: expense.splitInfo.type) == SplitType.amount {
+                    
                     guard let value = expense.splitInfo.amountDesc.filter({ $0.member.id == selfID}).first?.value
                     else { return viewModel}
+                    
                     viewModel.selfLend += value
                 }
-                
             }
-                
         }
         
         for expense in expenses {
@@ -252,11 +266,10 @@ class HomeViewModel: NSObject {
         }
         
         resultInfo = result
-        
     }
     
     func getResultInfo(uid: String) -> Double? {
+        
         return resultInfo[uid]
     }
-    
 }

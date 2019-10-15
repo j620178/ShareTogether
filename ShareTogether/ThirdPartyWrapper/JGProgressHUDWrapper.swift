@@ -61,6 +61,8 @@ class LKProgressHUD {
         }
         
         shared.hud.textLabel.text = text
+        
+        shared.hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
 
         shared.hud.show(in: view)
 

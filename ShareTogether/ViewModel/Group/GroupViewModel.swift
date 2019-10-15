@@ -15,13 +15,19 @@ class GroupViewModel {
     
     var members = [MemberInfo]() {
         didSet {
-            reloadDataHandler?()
+            processData(members: members)
         }
     }
-    
+
     var availableMembers: [MemberInfo] {
     
         return CurrentManager.shared.availableMembers
+    }
+    
+    var cellViewModels = [MemberCellViewModel]() {
+        didSet {
+            reloadDataHandler?()
+        }
     }
     
     func addGroup(coverImage: UIImage, text: String,
@@ -43,15 +49,39 @@ class GroupViewModel {
     }
     
     func getCellViewModel(index: Int) -> MemberCellViewModel? {
-        
-        guard let memberStatus = MemberStatusType(rawValue: availableMembers[index].status)?.getString
-        else { return nil}
-        
-        let cellViewModel = MemberCellViewModel(userImageURL: availableMembers[index].photoURL,
-                                                userName: availableMembers[index].name,
-                                                userDetail: memberStatus)
-        
-        return cellViewModel
+    
+        return cellViewModels[index]
     }
     
+    func initMember(type: GroupType) {
+        
+        switch type {
+
+        case .add:
+            members = [MemberInfo(userInfo: CurrentManager.shared.user!, status: 0)]
+            processData(members: members)
+            
+        case .edit:
+            processData(members: availableMembers)
+        }
+    }
+    
+    func processData(members: [MemberInfo]) {
+        
+        var cellViewModels = [MemberCellViewModel]()
+        
+        for member in members {
+            
+            guard let memberStatus = MemberStatusType(rawValue: member.status)?.getString
+            else { return }
+            
+            let cellViewModel = MemberCellViewModel(userImageURL: member.photoURL,
+                                                    userName: member.name,
+                                                    userDetail: memberStatus)
+            cellViewModels.append(cellViewModel)
+            
+        }
+        
+        self.cellViewModels = cellViewModels
+    }
 }

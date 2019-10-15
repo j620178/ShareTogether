@@ -13,12 +13,7 @@ class STAnnotation: MKPointAnnotation {
     var identifier: String!
 }
 
-//protocol SearchVCCoordinatorDelegate {
-//}
-
 class SearchViewController: STBaseViewController {
-    
-    //weak var coordinator: SearchVCCoordinatorDelegate?
     
     var viewModel = SearchViewModel()
         

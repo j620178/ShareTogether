@@ -20,7 +20,7 @@
     - 群組邀請
     - 新增消費通知 
 
-### Key Rewards
+### Key Skills Gained
 * Used Data Bainding by Closure in MVVM
 
 於 ViewDidLoad 呼叫 `setupVMBinding` 設定 ViewModel Closure

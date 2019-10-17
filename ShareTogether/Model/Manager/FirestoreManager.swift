@@ -14,7 +14,7 @@ import MapKit
 extension GeoPoint: GeoPointType {}
 extension Timestamp: TimestampType {}
 
-enum FirestoreError: Error {
+enum FirestoreError: String, Error {
     case decodeFailed
     case getPlistFailed
     case insertFailed
@@ -43,7 +43,17 @@ struct Collection {
     
 }
 
-class FirestoreManager {
+protocol FirestoreManagerProtocol {
+//    func addNewUser(userInfo: UserInfo, completion: @escaping (Result<GroupInfo, Error>) -> Void)
+//    func getUserInfo(uid: String?, completion: @escaping (Result<UserInfo?, Error>) -> Void)
+//    func getUserGroups(uid: String?, completion: @escaping ([GroupInfo]) -> Void)
+//    func getExpense(groupID: String?, expenseID: String, completion: @escaping (Result<Expense?, Error>) -> Void)
+//    func getMembers(groupID: String?, completion: @escaping (Result<[MemberInfo], Error>) -> Void)
+    func getNotes(groupID: String?, completion: @escaping (Result<[Note], FirestoreError>) -> Void)
+//    func getNoteComment(groupID: String?, noteID: String, completion: @escaping (Result<[NoteComment], Error>) -> Void)
+}
+
+class FirestoreManager: FirestoreManagerProtocol {
     
     static let shared = FirestoreManager()
     
@@ -557,7 +567,7 @@ class FirestoreManager {
     }
     
     func getNotes(groupID: String? = CurrentManager.shared.group?.id,
-                  completion: @escaping (Result<[Note], Error>) -> Void) {
+                  completion: @escaping (Result<[Note], FirestoreError>) -> Void) {
         
         guard let groupID = groupID else { return }
         
@@ -582,7 +592,7 @@ class FirestoreManager {
                 
             for index in notes.indices {
 
-                self.getNoteComment(noteID: notes[index].id) { result in
+                self.getNoteComment(groupID: groupID, noteID: notes[index].id) { result in
                     switch result {
 
                     case .success(let noteComments):
@@ -597,7 +607,7 @@ class FirestoreManager {
                 }
             }
                 
-            completion(Result.success(notes))
+            //completion(Result.success(notes))
                 
         }
         

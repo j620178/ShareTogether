@@ -40,11 +40,11 @@ class AmountTypeController: NSObject, AddExpenseItem {
     
 }
 
-extension AmountTypeController: UITableViewDelegate {
+extension AmountTypeController {
     
 }
 
-extension AmountTypeController: UITableViewDataSource {
+extension AmountTypeController {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1

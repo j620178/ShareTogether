@@ -37,10 +37,7 @@ class NoteViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.reloadTableViewHandler = { [weak self] in
-            
-            self?.tableView.reloadData()
-        }
+        setupMVBinding()
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateCurrentGroup),
@@ -48,12 +45,24 @@ class NoteViewController: STBaseViewController {
                                                object: nil)
         
         updateCurrentGroup()
+    }
+    
+    func setupMVBinding() {
         
+        viewModel.showAlertHandler = { [weak self] in
+            if let alertString = self?.viewModel.alertString {
+                LKProgressHUD.showFailure(text: alertString, view: self?.view)
+            }
+        }
+        
+        viewModel.reloadTableViewHandler = { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
     
     @objc func updateCurrentGroup() {
         
-        viewModel.fetchData()
+        viewModel.fetchData(groupID: CurrentManager.shared.group?.id ?? "")
     }
 }
 

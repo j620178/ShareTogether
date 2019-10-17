@@ -11,14 +11,14 @@ import XCTest
 
 class NoteViewModelTests: XCTestCase {
     
-    var noteViewModel: NoteViewModel!
+    var sut: NoteViewModel!
     
-    var sut: URLSession!
+    var mockFirestoreManager: MockFirestoreManager!
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        noteViewModel = NoteViewModel()
-        sut = URLSession(configuration: .default)
+        mockFirestoreManager = MockFirestoreManager()
+        sut = NoteViewModel(manager: mockFirestoreManager)
     }
 
     override func tearDown() {
@@ -27,31 +27,74 @@ class NoteViewModelTests: XCTestCase {
         super.tearDown()
     }
     
-    func testFetchData() {
-        
-        let url = URL(string: "https://itunes.apple.com/search?media=music&entity=song&term=abba")
-        // 1
-        let promise = expectation(description: "Status code: 200")
+    func test_fetchData_success() {
+        // Given
+        mockFirestoreManager.completeNotes = [Note]()
 
-        // when
-        let dataTask = sut.dataTask(with: url!) { data, response, error in
-          // then
-          if let error = error {
-            XCTFail("Error: \(error.localizedDescription)")
-            return
-          } else if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-            if statusCode == 200 {
-              // 2
-              promise.fulfill()
-            } else {
-              XCTFail("Status code: \(statusCode)")
-            }
-          }
-        }
-        dataTask.resume()
-        // 3
-        wait(for: [promise], timeout: 5)
-
+        // When
+        sut.fetchData(groupID: "r2faZu22KX4ZbG7Fv86A")
+    
+        // Assert
+        XCTAssert(mockFirestoreManager.isisFetchNotesCalled)
     }
     
+    func test_fetchData_fail() {
+        // Given
+        let error = FirestoreError.decodeFailed
+
+        // When
+        sut.fetchData(groupID: "r2faZu22KX4ZbG7Fv86A")
+        
+        mockFirestoreManager.fetchFail(error: .decodeFailed)
+            
+        // Assert
+        XCTAssertEqual(sut.alertString, error.rawValue)
+    }
+    
+}
+
+class MockFirestoreManager: FirestoreManagerProtocol {
+    
+    func getNotes(groupID: String?, completion: @escaping (Result<[Note], FirestoreError>) -> Void) {
+        isisFetchNotesCalled = true
+        completeClosure = completion
+    }
+    
+    var isisFetchNotesCalled = false
+    
+    var completeNotes: [Note] = [Note]()
+    
+    var completeClosure: ((Result<[Note], FirestoreError>) -> Void)!
+    
+    func fetchSuccess() {
+        
+        completeClosure(Result.success(completeNotes))
+    }
+    
+    func fetchFail(error: FirestoreError) {
+        completeClosure(Result.failure(error))
+    }
+    
+}
+
+class StubGenerator {
+    func stubNotes() -> [Note] {
+        var notes = [Note]()
+        notes.append(Note(id: nil,
+                          content: "Ker1",
+                          auctorID: "test",
+                          comments: nil,
+                          time: Date()))
+        notes.append(Note(id: nil,
+                          content: "Ker2",
+                          auctorID: "test",
+                          comments: nil,
+                          time: Date()))
+        notes.append(Note(id: nil,
+                          content: "Ker3",
+                          auctorID: "test",
+                          comments: nil,
+                          time: Date()))
+        return notes
+    }
 }

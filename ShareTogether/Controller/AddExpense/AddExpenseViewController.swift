@@ -25,9 +25,7 @@ protocol AddExpenseVCCoordinatorDelegate: AnyObject {
 
 class AddExpenseViewController: STBaseViewController {
     
-    override var isHideNavigationBar: Bool {
-        return true
-    }
+    override var isHideNavigationBar: Bool { return true }
     
     weak var coordinator: AddExpenseVCCoordinatorDelegate?
     

@@ -12,6 +12,8 @@ class NoteViewModel: NSObject {
     
     private var notes = [Note]()
     
+    let manager: FirestoreManagerProtocol
+    
     var notebookCellViewModel = [NotebookCellViewModel]() {
         didSet {
             reloadTableViewHandler?()
@@ -20,21 +22,33 @@ class NoteViewModel: NSObject {
     
     var reloadTableViewHandler: (() -> Void)?
     
-    func fetchData() {
+    var showAlertHandler: (() -> Void)?
+    
+    var alertString: String? {
+        didSet {
+            showAlertHandler?()
+        }
+    }
+    
+    init(manager: FirestoreManagerProtocol = FirestoreManager.shared) {
+        self.manager = manager
+    }
+    
+    func fetchData(groupID: String) {
         
-        FirestoreManager.shared.getNotes { [weak self] result in
-            
+        manager.getNotes(groupID: groupID) { [weak self] result in
+
             switch result {
-                
+
             case .success(let notes):
-                
+
                 self?.notes = notes
-                
+
                 self?.processData()
-                
+
             case .failure(let error):
                 
-                LKProgressHUD.showFailure(text: error.localizedDescription)
+                self?.alertString = error.rawValue
             }
         }
     }
@@ -54,7 +68,6 @@ class NoteViewModel: NSObject {
                                                   time: note.time.toNowFormat)
             
             notebookCellViewModel.append(viewModel)
-            
         }
         
         self.notebookCellViewModel = notebookCellViewModel

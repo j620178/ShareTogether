@@ -2,7 +2,7 @@
 
 一款與好友出遊時便利的線上分帳 App，並提供記事本、留言、推播通知等便利功能
 
-[<img src="https://github.com/nick1ee/Shalk/raw/master/screenshot/DownloadAppStoreBadge.png" width="160">](https://apps.apple.com/tw/app/sharetogether/id1481312982)
+[<img src="https://raw.githubusercontent.com/j620178/ShareTogether/develop/Resource/app-store.png" width="120">](https://apps.apple.com/tw/app/sharetogether/id1481312982)
 
 ### Features
 * 群組管理
@@ -19,6 +19,30 @@
 * 活動紀錄
     - 群組邀請
     - 新增消費通知 
+
+### Screenshots
+* 群組可提供消費紀錄、金額統計、結算結果與筆記本四種資訊，並可透過橫滑切換不同呈現內容
+
+<img src="https://raw.githubusercontent.com/j620178/ShareTogether/develop/Resource/Screenshots01.png" height="320">
+
+* 點選群組名稱，可新增群組並邀請成員，或透過名稱右側功能鍵，編輯既有群組成員
+<img src="https://raw.githubusercontent.com/j620178/ShareTogether/develop/Resource/Screenshots02.png" height="320">
+
+* 可透過滑動調整顯示完整消費資訊與快速消費資訊內容
+
+<img src="https://raw.githubusercontent.com/j620178/ShareTogether/develop/Resource/Screenshots03.png" height="320">
+
+* 當群組內其他使用者新增消費或有其他使用者邀請加入群組時，活動紀錄將顯示未讀訊息數量，點擊分頁後未讀取訊息具有背景色
+
+<img src="https://raw.githubusercontent.com/j620178/ShareTogether/develop/Resource/Screenshots04.png" height="320">
+
+* 地圖可呈現該群組消費記錄，並可透過搜尋關鍵字尋找消費說明，並點擊消費時顯示詳細內容
+
+<img src="https://raw.githubusercontent.com/j620178/ShareTogether/develop/Resource/Screenshots05.png" height="320">
+
+* 筆記本頁可點選後留言，支援文字或 GIF 貼圖
+
+<img src="https://raw.githubusercontent.com/j620178/ShareTogether/develop/Resource/Screenshots06.png" height="320">
 
 ### Key Skills Gained
 * Used Data Bainding by Closure in MVVM
